@@ -11,10 +11,13 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Text(
-            'Hello World!',
-            style: TextStyle(fontSize: 31),
+        body: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Center(
+            child: Text(
+              'Hello World!',
+              style: TextStyle(fontSize: 31),
+            ),
           ),
         ),
       ),
