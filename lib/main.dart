@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:tobeto/screens/login_page.dart';
 import 'package:tobeto/widgets/navigation_bar_widget.dart';
 import 'package:tobeto/firebase_options.dart';
+import 'screens/login_register_screen/extract_login.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized;
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -21,16 +22,10 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Center(
-            child: Text(
-              'Hello World!',
-              style: TextStyle(fontSize: 31),
-            ),
-          ),
-        ),
+        body: LoginPage(),
       ),
     );
   }
 }
+
+//TODO: validator bakılcak
