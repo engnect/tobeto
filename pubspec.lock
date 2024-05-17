@@ -81,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
+  curved_navigation_bar:
+    dependency: "direct main"
+    description:
+      name: curved_navigation_bar
+      sha256: ea6412d00c5d83501bbf1cf9d1ac2ff11a20fbaf910c103c95ace7de82910334
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -192,6 +200,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  glowy_borders:
+    dependency: "direct main"
+    description:
+      name: glowy_borders
+      sha256: a0ace5b193047deab00ed2646065b0ef91bf1efef5b3579851bcc6bc7e0748b4
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   http:
     dependency: transitive
     description:
@@ -272,6 +288,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  page_transition:
+    dependency: "direct main"
+    description:
+      name: page_transition
+      sha256: dee976b1f23de9bbef5cd512fe567e9f6278caee11f5eaca9a2115c19dc49ef6
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   path:
     dependency: transitive
     description:
