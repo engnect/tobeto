@@ -26,10 +26,10 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+
   assets:
     - assets/images/
     - assets/fonts/
-
   fonts:
     - family: Poppins
       fonts:
@@ -43,3 +43,4 @@ flutter_assets:
   filename: assets.dart
   field_prefix:
   class_name: Assets
+
