@@ -17,6 +17,10 @@ dependencies:
   page_transition: ^2.1.0
   flutter:
     sdk: flutter
+  intl: ^0.19.0
+  file_picker: ^8.0.3
+  image_picker: ^1.1.1
+  intl_phone_field2: ^3.3.4
 
 dev_dependencies:
   flutter_test:
@@ -26,10 +30,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-
   assets:
     - assets/images/
     - assets/fonts/
+    - assets/files/
+
   fonts:
     - family: Poppins
       fonts:
@@ -43,4 +48,3 @@ flutter_assets:
   filename: assets.dart
   field_prefix:
   class_name: Assets
-
