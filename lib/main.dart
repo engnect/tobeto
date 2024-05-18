@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:tobeto/armaganwidgets/profil_page.dart';
 import 'package:tobeto/firebase_options.dart';
 import 'package:tobeto/screens/home_page/extract_home_page.dart';
 
@@ -20,10 +21,8 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Homepage(),
+        body: ProfilePage(),
       ),
     );
   }
 }
-
-//TODO: validator bakılcak
