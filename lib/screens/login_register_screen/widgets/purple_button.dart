@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 class TBTPurpleButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
-  const TBTPurpleButton({
-    super.key,
-    required this.buttonText,
-    required this.onPressed,
-  });
+  final double? width;
+  const TBTPurpleButton(
+      {super.key,
+      required this.buttonText,
+      required this.onPressed,
+      this.width});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
+      width: width ?? double.infinity,
       child: ElevatedButton(
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(

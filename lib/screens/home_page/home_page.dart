@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/screens/home_page/widgets/purple_card.dart';
-
+import 'package:tobeto/screens/home_page/widgets/extract_home_widgets.dart';
 import '../../constants/assets.dart';
 
 class Homepage extends StatefulWidget {
