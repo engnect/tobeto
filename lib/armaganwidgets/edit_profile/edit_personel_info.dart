@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field2/intl_phone_field.dart';
 import 'package:tobeto/constants/assets.dart';
+import 'package:tobeto/screens/login_register_screen/extract_login.dart';
 
 class PersonalInfoPage extends StatefulWidget {
   const PersonalInfoPage({super.key});
@@ -145,38 +146,21 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                 ),
               ),
 
-              Text('Ad', style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextFormField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Ad',
-                    contentPadding: EdgeInsets.all(8),
-                    border: InputBorder.none,
-                  ),
-                ),
+
+              TBTInputField(
+                hintText: 'Ad',
+                controller: _nameController,
+                onSaved: (p0) {},
+                keyboardType: TextInputType.name,
               ),
-              const SizedBox(height: 16),
-              Text('Soyad', style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Soyad',
-                    contentPadding: EdgeInsets.all(8),
-                    border: InputBorder.none,
-                  ),
-                ),
+              TBTInputField(
+                hintText: 'Soyad',
+                controller: _surnameController,
+                onSaved: (p0) {},
+                keyboardType: TextInputType.name,
               ),
+
               const SizedBox(height: 16),
               // Telefon numarası alanı
               Padding(
@@ -436,21 +420,16 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               const SizedBox(height: 16),
               Text('Hakkımda', style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextFormField(
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  decoration: const InputDecoration(
-                    labelText: 'Hakkımda',
-                    contentPadding: EdgeInsets.all(40),
-                    border: InputBorder.none,
-                  ),
-                ),
+
+              TBTInputField(
+                hintText: 'Hakkımda',
+                controller: _dateController,
+                onSaved: (p0) {},
+                keyboardType: TextInputType.multiline,
+                minLines: 3,
+                maxLines: 3,
               ),
+
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
@@ -474,6 +453,11 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
               ),
+
+              TBTPurpleButton(
+                buttonText: 'Kaydet',
+                onPressed: () {},
+              )
             ],
           ),
         ),
