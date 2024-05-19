@@ -1,12 +1,12 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:tobeto/constants/utilities.dart';
 
 class CertificatesPage extends StatefulWidget {
   const CertificatesPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _CertificatesPageState createState() => _CertificatesPageState();
+  State<CertificatesPage> createState() => _CertificatesPageState();
 }
 
 class _CertificatesPageState extends State<CertificatesPage> {
