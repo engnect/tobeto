@@ -23,7 +23,11 @@ class TBTPurpleButton extends StatelessWidget {
         onPressed: onPressed,
         child: Text(
           buttonText,
-          style: const TextStyle(color: Colors.white),
+          style: const TextStyle(
+              color: Colors.white,
+              fontFamily: "Poppins",
+              fontWeight: FontWeight.bold,
+              fontSize: 15),
         ),
       ),
     );

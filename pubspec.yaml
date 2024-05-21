@@ -21,6 +21,8 @@ dependencies:
   file_picker: ^8.0.3
   image_picker: ^1.1.1
   intl_phone_field2: ^3.3.4
+  gradient_borders: ^1.0.0
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
