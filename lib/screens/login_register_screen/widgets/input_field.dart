@@ -6,6 +6,10 @@ class TBTInputField extends StatefulWidget {
   final TextEditingController controller;
   final Function(String?) onSaved;
   final TextInputType? keyboardType;
+  final bool? readOnly;
+  final int? maxLines;
+  final int? minLines;
+
   const TBTInputField({
     super.key,
     required this.hintText,
@@ -13,6 +17,9 @@ class TBTInputField extends StatefulWidget {
     required this.controller,
     required this.onSaved,
     required this.keyboardType,
+    this.readOnly,
+    this.maxLines,
+    this.minLines,
   });
 
   @override
@@ -27,6 +34,10 @@ class _TBTInputFieldState extends State<TBTInputField> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextField(
+        maxLines: widget.maxLines,
+        minLines: widget.minLines,
+
+        readOnly: widget.readOnly ?? false,
         keyboardType: widget.keyboardType,
         controller: widget.controller,
         decoration: InputDecoration(
