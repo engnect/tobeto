@@ -7,6 +7,7 @@ import 'package:tobeto/screens/main_home_page/widgets/main_home_page_card.dart';
 import 'package:tobeto/screens/main_home_page/widgets/main_home_page_gif_card.dart';
 import 'package:tobeto/screens/main_home_page/widgets/main_home_page_text.dart';
 import 'package:tobeto/screens/main_home_page/widgets/student_comment.dart';
+import 'package:tobeto/widgets/tbt_drawer_widget.dart';
 import '../../constants/assets.dart';
 import 'widgets/carousel_card.dart';
 
@@ -28,65 +29,14 @@ class _MainHomePageState extends State<MainHomePage> {
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
         appBar: AppBar(
+          centerTitle: true,
           title: Image.asset(
             Assets.imagesTobetoLogo,
             width: 200,
           ),
           backgroundColor: Colors.white, // geçiçi özellik
         ),
-        drawer: FractionallySizedBox(
-          widthFactor: 0.70, //Açılan ekranın genişliğini  ayarlamak için
-          child: Drawer(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              children: [
-                SizedBox(
-                  height: 75,
-                  child: DrawerHeader(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset(
-                          Assets.imagesTobetoLogo,
-                          width: 150,
-                        ),
-                        GestureDetector(
-                          child: const Icon(Icons.close),
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.home),
-                  title: const Text("Biz Kimiz?"),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  title: const Text("Neler Sunuyoruz?"),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: const Text("Eğitimlerimiz"),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: const Text("Tobeto'da Neler Oluyor?"),
-                  onTap: () {},
-                ),
-                ListTile(
-                  title: const Text("İletişim"),
-                  onTap: () {},
-                ),
-              ],
-            ),
-          ),
-        ),
+        drawer: const TbtDrawer(),
         body: SingleChildScrollView(
           child: Column(
             children: [
