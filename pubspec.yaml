@@ -23,6 +23,8 @@ dependencies:
   intl_phone_field2: ^3.3.4
   gradient_borders: ^1.0.0
   carousel_slider: ^4.2.1
+  chewie: ^1.8.1
+  video_player: ^2.8.6
 
 dev_dependencies:
   flutter_test:
@@ -36,6 +38,7 @@ flutter:
     - assets/images/
     - assets/fonts/
     - assets/files/
+    - assets/videos/
 
   fonts:
     - family: Poppins
