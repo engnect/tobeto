@@ -79,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                             isObscure: true,
                             keyboardType: TextInputType.multiline,
                             onSaved: (p0) {},
+                            maxLines: 1,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
