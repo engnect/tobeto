@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/screens/about_us_page/about_us_page.dart';
+import 'package:tobeto/screens/communication_page/communication_page.dart';
+import 'package:tobeto/screens/for_person_page/for_person_page.dart';
+import 'package:tobeto/screens/for_sector_page/for_sector_page.dart';
+import 'package:tobeto/screens/login_register_screen/extract_login.dart';
 import 'package:tobeto/screens/login_register_screen/widgets/purple_button.dart';
+import 'package:tobeto/screens/main_home_page/main_home_page.dart';
 import '../constants/assets.dart';
 
 class TbtDrawer extends StatelessWidget {
@@ -21,9 +27,18 @@ class TbtDrawer extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset(
-                      Assets.imagesTobetoLogo,
-                      width: 150,
+                    GestureDetector(
+                      child: Image.asset(
+                        Assets.imagesTobetoLogo,
+                        width: 150,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => const MainHomePage(),
+                          ),
+                        );
+                      },
                     ),
                     GestureDetector(
                       child: const Icon(Icons.close),
@@ -41,7 +56,13 @@ class TbtDrawer extends StatelessWidget {
                 "Biz Kimiz?",
                 style: TextStyle(fontFamily: "Poppins"),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const AboutUsPage(),
+                  ),
+                );
+              },
             ),
             CustomExpansionTile(
               title: const Text(
@@ -55,7 +76,13 @@ class TbtDrawer extends StatelessWidget {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 35),
                     title: TBTPurpleButton(
                       buttonText: "Bireyler için",
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => const ForPersonPage(),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -63,7 +90,13 @@ class TbtDrawer extends StatelessWidget {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 35),
                   title: TBTPurpleButton(
                     buttonText: "Kurumlar için",
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const ForSectorPage(),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],
@@ -128,7 +161,13 @@ class TbtDrawer extends StatelessWidget {
                 "İletişim",
                 style: TextStyle(fontFamily: "Poppins"),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const CommunicationPage(),
+                  ),
+                );
+              },
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 30),
@@ -138,7 +177,13 @@ class TbtDrawer extends StatelessWidget {
                     Colors.black,
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const LoginPage(),
+                    ),
+                  );
+                },
                 child: const Text(
                   "Giriş yap",
                   style: TextStyle(

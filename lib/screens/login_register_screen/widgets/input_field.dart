@@ -61,11 +61,32 @@ class _TBTInputFieldState extends State<TBTInputField> {
                     )
               : null,
           hintText: widget.hintText,
-          border: const OutlineInputBorder(),
-          focusedBorder: const OutlineInputBorder(),
+          border: const OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Color.fromRGBO(138, 138, 138, 0.4),
+            ),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+            borderSide: BorderSide(
+              color: Color.fromRGBO(153, 51, 255, 0.4),
+              width: 4,
+            ),
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+            borderSide: BorderSide(
+              color: Color.fromRGBO(112, 112, 112, 0.459),
+            ),
+          ),
         ),
         autocorrect: false,
         obscureText: showPassword,
+
         // onSaved: onSaved,
       ),
     );
