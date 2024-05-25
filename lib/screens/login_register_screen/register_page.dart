@@ -91,6 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             onSaved: (p0) {},
                             keyboardType: TextInputType.multiline,
                             isObscure: true,
+                            maxLines: 1,
                           ),
                           TBTInputField(
                             hintText: 'Şifre Tekrar Giriniz',
@@ -98,6 +99,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             onSaved: (p0) {},
                             keyboardType: TextInputType.multiline,
                             isObscure: true,
+                            maxLines: 1,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
