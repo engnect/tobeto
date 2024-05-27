@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print, unused_field
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -22,13 +20,15 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _aboutmeController = TextEditingController();
+  final TextEditingController _streetController = TextEditingController();
+
   File? _image;
   DateTime? _selectedDate;
   final TextEditingController _emailController = TextEditingController();
   String? _selectedGender;
   String? _selectedMilitaryStatus;
   String? _selectedDisabilityStatus;
-  final TextEditingController _githubController = TextEditingController();
   String? _selectedCountry;
   final List<String> _countries = [
     'Türkiye',
@@ -37,10 +37,12 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     'Fransa',
     'İngiltere'
   ];
-  String? _selectedCity;
-  List<String> _cities = [];
-  List<String> _districts = [];
-  String? _selectedDistricts;
+  String? _selectedCityId;
+  String? _selectedCityName;
+  List<Map<String, String>> _cities = [];
+  Map<String, List<Map<String, String>>> _cityDistrictMap = {};
+  String? _selectedDistrictId;
+  String? _selectedDistrictName;
 
   Future<void> _getImageFromGallery() async {
     final imagePicker = ImagePicker();
@@ -53,7 +55,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     });
   }
 
-  // Tarih seçiciyi açma fonksiyonu
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -76,16 +77,31 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     _loadDistrictData();
   }
 
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _surnameController.dispose();
+    _phoneController.dispose();
+    _dateController.dispose();
+    _aboutmeController.dispose();
+    _streetController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
+
   Future<void> _loadCityData() async {
     try {
       final String response =
           await rootBundle.loadString(Assets.filesCitiesJson);
-      print(response);
-
       final List<dynamic> data = json.decode(response);
 
       setState(() {
-        _cities = data.map((item) => item['name'].toString()).toList();
+        _cities = data
+            .map((item) =>
+                {"id": item["id"].toString(), "name": item["name"].toString()})// şehir idsi ve ismi
+            .toList(); //her bir şehir için map oluşturuyoruz ve bu mapler bir listeye ekleniyor
+        _cities.sort((a, b) =>
+            a["name"]!.compareTo(b["name"]!)); // alfabetik sıralama  yapıyorum
       });
     } catch (e) {
       print('Şehir verileri yüklenirken bir hata oluştu: $e');
@@ -96,20 +112,52 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     try {
       final String response =
           await rootBundle.loadString(Assets.filesDistrictJson);
-
       final List<dynamic> data = json.decode(response);
 
       setState(() {
-        _districts = data.map((item) => item['name'].toString()).toList();
+        _cityDistrictMap = {}; // şehir ve ilçe boş olarak oluşturuyoruz
+        for (var item in data) {
+          String cityId = item["il_id"].toString(); //ilçenin ait oldugu şehrin idsi alınır
+          if (_cityDistrictMap.containsKey(cityId)) { // eğer bu şehir daha önce eklendiyse ilçe şehrin ilçe listesine eklenir
+            _cityDistrictMap[cityId]?.add(
+                {"id": item["id"].toString(), "name": item["name"].toString()}); // ilçe idsi ve ismi
+          } else { // eğer ilk defa ekleniyorsa
+            _cityDistrictMap[cityId] = [ // şehrin ilçe listesi olusturulurs
+              {"id": item["id"].toString(), "name": item["name"].toString()}
+            ];   
+          }
+        }
+        _cityDistrictMap.forEach((cityId, districts) {districts.sort((a,b) => a["name"]!.compareTo(b["name"]!));});
       });
     } catch (e) {
       print('İlçe verileri yüklenirken bir hata oluştu: $e');
     }
   }
 
+  void _onCitySelected(String? newCityId) {
+    setState(() {
+      _selectedCityId = newCityId;
+      _selectedCityName =
+          _cities.firstWhere((city) => city["id"] == newCityId)["name"];
+      _selectedDistrictId = null;
+      _selectedDistrictName = null;
+    });
+  }
+
+  void _onDistrictSelected(String? newDistrictId) {
+    setState(() {
+      _selectedDistrictId = newDistrictId;
+      _selectedDistrictName = (_cityDistrictMap[_selectedCityId!] ?? [])
+          .firstWhere((district) => district["id"] == newDistrictId)["name"];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Kullanıcı Profili'),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -132,7 +180,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                             _image!,
                             width: 120,
                             height: 120,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,
                           ),
                         )
                       : Center(
@@ -140,38 +188,31 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                             Assets.imagesDefaultAvatar,
                             width: 120,
                             height: 120,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.contain,    
                           ),
                         ),
                 ),
               ),
-
               const SizedBox(height: 8),
-
               TBTInputField(
                 hintText: 'Ad',
                 controller: _nameController,
                 onSaved: (p0) {},
                 keyboardType: TextInputType.name,
               ),
+              const SizedBox(height: 16),
               TBTInputField(
                 hintText: 'Soyad',
                 controller: _surnameController,
                 onSaved: (p0) {},
                 keyboardType: TextInputType.name,
               ),
-
               const SizedBox(height: 16),
-              // Telefon numarası alanı
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Telefon Numaranız',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
                     const SizedBox(height: 8),
                     IntlPhoneField(
                       decoration: const InputDecoration(
@@ -186,8 +227,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   ],
                 ),
               ),
-
-              // Doğum tarihi seçici alanı
               TextFormField(
                 controller: TextEditingController(
                   text: _selectedDate != null
@@ -203,261 +242,221 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   ),
                   suffixIcon: const Icon(Icons.calendar_today),
                 ),
-                readOnly: true, //manuel girişi engelledim
+                readOnly: true,
                 onTap: () {
                   _selectDate(context);
                 },
               ),
-
               const SizedBox(height: 16),
-              // E-posta giriş alanı
-              Text('E-posta', style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'E-posta',
-                    contentPadding: EdgeInsets.all(8),
-                    border: InputBorder.none,
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                ),
-              ),
-
-              const SizedBox(height: 16),
-              // Cinsiyet seçici alanı
-              Text('Cinsiyet', style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              DropdownButtonFormField<String>(
-                value: _selectedGender,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedGender = newValue;
-                  });
-                },
-                items: <String>['Erkek', 'Kız', 'Belirtmek istemiyorum']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Cinsiyet Seçiniz',
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-              ),
-
-              //aSKERLİK
-              const SizedBox(height: 16),
-              Text('Askerlik Durumu',
-                  style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              DropdownButtonFormField<String>(
-                value: _selectedMilitaryStatus,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedMilitaryStatus = newValue;
-                  });
-                },
-                items: <String>['Yaptı', 'Muaf', 'Tecilli']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Askerlik Durumu Seçiniz',
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text('Engellilik Durumu',
-                  style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              DropdownButtonFormField<String>(
-                value: _selectedDisabilityStatus,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedDisabilityStatus = newValue;
-                  });
-                },
-                items: <String>['Var', 'Yok']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Engellilik Durumunu Seçiniz',
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-              ),
-              const SizedBox(height: 16),
-              // GitHub adresi giriş alanı
-              Text('GitHub Adresi',
-                  style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'GitHub Adresi',
-                    contentPadding: EdgeInsets.all(8),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 16),
-              Text('Ülke', style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              DropdownButtonFormField<String>(
-                value: _selectedCountry,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedCountry = newValue;
-                  });
-                },
-                items:
-                    _countries.map<DropdownMenuItem<String>>((String country) {
-                  return DropdownMenuItem<String>(
-                    value: country,
-                    child: Text(country),
-                  );
-                }).toList(),
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Ülke Seçiniz',
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text('İl', style: Theme.of(context).textTheme.titleMedium),
-              DropdownButtonFormField<String>(
-                value: _selectedCity,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedCity = newValue;
-                  });
-                },
-                items: _cities.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'İl Seçiniz',
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-              ),
-
-              const SizedBox(height: 16),
-              Text('İlçe', style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: DropdownButtonFormField<String>(
-                  decoration: const InputDecoration(
-                    labelText: 'İlçe',
-                    contentPadding: EdgeInsets.all(8),
-                    border: InputBorder.none,
-                  ),
-                  items: _districts.map((String district) {
-                    return DropdownMenuItem<String>(
-                      value: district,
-                      child: Text(district),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {});
-                  },
-                ),
-              ),
-
-              const SizedBox(height: 16),
-              Text('Mahalle/Sokak',
-                  style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextFormField(
-                  maxLines: null, // Birden fazla satır girilebilmesini sağlıyo
-                  keyboardType: TextInputType
-                      .multiline, // Birden fazla satır girebilmesi için gerekli olan klavye türü
-                  decoration: const InputDecoration(
-                    labelText: 'Mahalle/Sokak',
-                    contentPadding: EdgeInsets.all(40),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text('Hakkımda', style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-
               TBTInputField(
-                hintText: 'Hakkımda',
-                controller: _dateController,
+                  hintText: "E-posta",
+                  controller: _emailController,
+                  onSaved: (p0) {},
+                  keyboardType: TextInputType.emailAddress),
+              const SizedBox(height: 24),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedGender,
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuEntry<String>>[
+                      const PopupMenuItem<String>(
+                        value: 'Erkek',
+                        child: Text('Erkek'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Kız',
+                        child: Text('Kız'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Belirtmek istemiyorum',
+                        child: Text('Belirtmek istemiyorum'),
+                      ),
+                    ];
+                  },
+                  onSelected: (String? newValue) {
+                    setState(() {
+                      _selectedGender = newValue;
+                    });
+                  },
+                  child: ListTile(
+                    title: Text(_selectedGender ?? 'Cinsiyet Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedMilitaryStatus,
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuEntry<String>>[
+                      const PopupMenuItem<String>(
+                        value: 'Yaptı',
+                        child: Text('Yaptı'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Muaf',
+                        child: Text('Muaf'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Tecilli',
+                        child: Text('Tecilli'),
+                      ),
+                    ];
+                  },
+                  onSelected: (String? newValue) {
+                    setState(() {
+                      _selectedMilitaryStatus = newValue;
+                    });
+                  },
+                  child: ListTile(
+                    title: Text(
+                        _selectedMilitaryStatus ?? 'Askerlik Durumu Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedDisabilityStatus,
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuEntry<String>>[
+                      const PopupMenuItem<String>(
+                        value: 'Var',
+                        child: Text('Var'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Yok',
+                        child: Text('Yok'),
+                      ),
+                    ];
+                  },
+                  onSelected: (String? newValue) {
+                    setState(() {
+                      _selectedDisabilityStatus = newValue;
+                    });
+                  },
+                  child: ListTile(
+                    title: Text(_selectedDisabilityStatus ??
+                        'Engellilik Durumunu Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedCountry,
+                  itemBuilder: (BuildContext context) {
+                    return _countries.map((String country) {
+                      return PopupMenuItem<String>(
+                        value: country,
+                        child: Text(country),
+                      );
+                    }).toList();
+                  },
+                  onSelected: (String? newValue) {
+                    setState(() {
+                      _selectedCountry = newValue;
+                    });
+                  },
+                  child: ListTile(
+                    title: Text(_selectedCountry ?? 'Ülke Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedCityId,
+                  itemBuilder: (BuildContext context) {
+                    return _cities.map((city) {
+                      return PopupMenuItem<String>(
+                        value: city["id"]!,
+                        child: Text(city["name"]!),
+                      );
+                    }).toList();
+                  },
+                  onSelected: _onCitySelected,
+                  child: ListTile(
+                    title: Text(_selectedCityName ?? 'İl Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: _selectedCityId != null
+                    ? PopupMenuButton<String>(
+                        initialValue: _selectedDistrictId,
+                        itemBuilder: (BuildContext context) {
+                          return (_cityDistrictMap[_selectedCityId!] ?? [])
+                              .map((district) {
+                            return PopupMenuItem<String>(
+                              value: district["id"]!,
+                              child: Text(district["name"]!),
+                            );
+                          }).toList();
+                        },
+                        onSelected: _onDistrictSelected,
+                        child: ListTile(
+                          title: Text(_selectedDistrictName ?? 'İlçe Seçiniz'),
+                          trailing: const Icon(Icons.arrow_drop_down),
+                        ),
+                      )
+                    : const ListTile(
+                        title: Text('Önce bir il seçiniz'),
+                      ),
+              ),
+              const SizedBox(height: 16),
+              TBTInputField(
+                hintText: 'Mahalle/Sokak',
+                controller: _streetController,
                 onSaved: (p0) {},
                 keyboardType: TextInputType.multiline,
                 minLines: 3,
                 maxLines: 3,
               ),
-
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  // PersonalInfo personalInfo = PersonalInfo(
-                  //   name: _nameController.text,
-                  //   surname: _surnameController.text,
-                  //   phoneNumber: _phoneController.text,
-                  //   email: _emailController.text,
-                  //   gender: _selectedGender,
-                  //   militaryStatus: _selectedMilitaryStatus,
-                  //   disabilityStatus: _selectedDisabilityStatus,
-                  //   github: _githubController.text,
-                  //   country: _selectedCountry,
-                  //   city: _selectedCity,
-                  // );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
-                ),
-                child: const Text("Kaydet",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              TBTInputField(
+                hintText: 'Hakkımda',
+                controller: _aboutmeController,
+                onSaved: (p0) {},
+                keyboardType: TextInputType.multiline,
+                minLines: 3,
+                maxLines: 3,
               ),
-
+              const SizedBox(height: 16),
               TBTPurpleButton(
                 buttonText: 'Kaydet',
                 onPressed: () {},
-              )
+              ),
             ],
           ),
         ),

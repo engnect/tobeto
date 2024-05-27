@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tobeto/screens/login_register_screen/extract_login.dart';
 
 class EducationPage extends StatefulWidget {
   const EducationPage({super.key});
@@ -15,6 +16,8 @@ class _EducationPageState extends State<EducationPage> {
   DateTime? _selectedStartDate;
   DateTime? _selectedEndDate;
   bool _isCurrentlyStudied = false;
+
+  final List<Map<String, dynamic>> _educations = [];
 
   @override
   void dispose() {
@@ -53,77 +56,93 @@ class _EducationPageState extends State<EducationPage> {
     }
   }
 
+  void _addEducation() {
+    setState(() {
+      _educations.add({
+        'university': _universityController.text,
+        'department': _departmentController.text,
+        'educationLevel': _selectedEducationLevel,
+        'startDate': _selectedStartDate,
+        'endDate': _isCurrentlyStudied ? null : _selectedEndDate,
+        'currentlyStudied': _isCurrentlyStudied,
+      });
+
+      _universityController.clear();
+      _departmentController.clear();
+      _selectedEducationLevel = null;
+      _selectedStartDate = null;
+      _selectedEndDate = null;
+      _isCurrentlyStudied = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Eğitim Bilgileri'),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Eğitim Durumu',
-                  style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              DropdownButtonFormField<String>(
-                value: _selectedEducationLevel,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedEducationLevel = newValue;
-                  });
-                },
-                items: <String>[
-                  'Lisans',
-                  'Ön Lisans',
-                  'Yüksek Lisans',
-                  'Doktora'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Seçiniz',
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text('Üniversite',
-                  style: Theme.of(context).textTheme.titleMedium),
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                child: TextFormField(
-                  controller: _universityController,
-                  decoration: const InputDecoration(
-                    labelText: 'Kampüs 365',
-                    contentPadding: EdgeInsets.all(4),
-                    border: InputBorder.none,
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedEducationLevel,
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuEntry<String>>[
+                      const PopupMenuItem<String>(
+                        value: 'Lisans',
+                        child: Text('Lisans'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Ön Lisans',
+                        child: Text('Ön Lisans'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Yüksek Lisans',
+                        child: Text('Yüksek Lisans'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Doktora',
+                        child: Text('Doktora'),
+                      ),
+                    ];
+                  },
+                  onSelected: (String? newValue) {
+                    setState(() {
+                      _selectedEducationLevel = newValue;
+                    });
+                  },
+                  child: ListTile(
+                    title: Text(
+                        _selectedEducationLevel ?? 'Eğitim Seviyesi Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              Text('Bölüm', style: Theme.of(context).textTheme.titleMedium),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextFormField(
-                  controller: _departmentController,
-                  decoration: const InputDecoration(
-                    labelText: 'Yazılım',
-                    contentPadding: EdgeInsets.all(4),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
+
+              const SizedBox(height: 24),
+              
+              TBTInputField(
+                hintText: "Üniversite", 
+                controller: _universityController, 
+                onSaved: (p0) {},
+                keyboardType: TextInputType.name),
+
+              const SizedBox(height: 24),
+           TBTInputField(
+            hintText: "Bölüm", 
+            controller: _departmentController, 
+            onSaved: (p0) {}, 
+            keyboardType: TextInputType.name),
+              const SizedBox(height: 24),
 
               //başlangıç tarihi
               TextFormField(
@@ -192,14 +211,39 @@ class _EducationPageState extends State<EducationPage> {
                   ),
                 ],
               ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
-                ),
-                child: const Text("Kaydet",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
+             TBTPurpleButton(
+                buttonText: 'Kaydet',
+                onPressed: _addEducation,
+              ),
+              const SizedBox(height: 24),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: _educations.length,
+                itemBuilder: (context, index) {
+                  final education = _educations[index];
+                  return Card(
+                    child: ListTile(
+                      title: Text(education['university']),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(education['department']),
+                          Text(education['educationLevel']),
+                          Text(
+                            'Başlangıç: ${DateFormat('dd/MM/yyyy').format(education['startDate'])}',
+                          ),
+                          if (education['currentlyStudied'])
+                            const Text('Devam ediyor')
+                          else if (education['endDate'] != null)
+                            Text(
+                              'Bitiş: ${DateFormat('dd/MM/yyyy').format(education['endDate'])}',
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),

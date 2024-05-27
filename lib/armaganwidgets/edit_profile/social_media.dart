@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/screens/login_register_screen/extract_login.dart';
 
 class SocialMediaPage extends StatefulWidget {
   const SocialMediaPage({super.key});
@@ -21,66 +22,74 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Sosyal Medya'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            DropdownButtonFormField<String>(
-              value: _selectedSocialMedia,
-              onChanged: (newValue) {
-                setState(() {
-                  _selectedSocialMedia = newValue;
-                });
-              },
-              items: <String>[
-                'Instagram',
-                'Twitter',
-                'LınkedIn',
-                'Dribble',
-                'Behance',
-                'Diğer',
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              decoration: const InputDecoration(
-                labelText: 'Sosyal Medya Hesabı Seçiniz',
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0), 
-              ),
-            ),
-            const SizedBox(height: 16),
-            
-            const SizedBox(height: 8),
             Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(8),
               ),
-              child: TextFormField(
-                controller: _linkController,
-                decoration: const InputDecoration(
-                  labelText: 'https://',
-                  contentPadding: EdgeInsets.all(8), 
-                  border: InputBorder.none,
+              child: PopupMenuButton<String>(
+                initialValue: _selectedSocialMedia,
+                itemBuilder: (BuildContext context) {
+                  return <PopupMenuEntry<String>>[
+                    const PopupMenuItem<String>(
+                      value: 'Instagram',
+                      child: Text('Instagram'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'Twitter',
+                      child: Text('Twitter'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'LinkedIn',
+                      child: Text('LinkedIn'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'Dribble',
+                      child: Text('Dribble'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'Behance',
+                      child: Text('Behance'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'Diğer',
+                      child: Text('Diğer'),
+                    ),
+                  ];
+                },
+                onSelected: (String? newValue) {
+                  setState(() {
+                    _selectedSocialMedia = newValue;
+                  });
+                },
+                child: ListTile(
+                  title: Text(
+                    _selectedSocialMedia ?? 'Sosyal Medya Hesabı Seçiniz',
+                  ),
+                  trailing: const Icon(Icons.arrow_drop_down),
                 ),
               ),
             ),
+            const SizedBox(height: 24),
+            TBTInputField(
+              hintText: "https://", 
+              controller: _linkController, 
+              onSaved: (p0) {}, 
+              keyboardType: TextInputType.url),
+
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
-                ),
-                child: const Text("Kaydet",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-            ),
+           TBTPurpleButton(
+                buttonText: 'Kaydet',
+                onPressed: () {},
+              )
           ],
         ),
       ),

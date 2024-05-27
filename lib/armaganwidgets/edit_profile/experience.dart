@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tobeto/screens/login_register_screen/widgets/extract_login_widgets.dart';
+import 'package:tobeto/screens/login_register_screen/widgets/purple_button.dart';
 
 class ExperiencePage extends StatefulWidget {
   const ExperiencePage({super.key});
@@ -11,6 +13,10 @@ class ExperiencePage extends StatefulWidget {
 class _ExperiencePageState extends State<ExperiencePage> {
   final TextEditingController _companyController = TextEditingController();
   final TextEditingController _positionController = TextEditingController();
+  final TextEditingController _sectorController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _jobdescrbController = TextEditingController();
+
   String? _selectedExperienceType;
   // String? _selectedSector;
   //String? _selectedCity;
@@ -22,6 +28,10 @@ class _ExperiencePageState extends State<ExperiencePage> {
   void dispose() {
     _companyController.dispose();
     _positionController.dispose();
+    _sectorController.dispose();
+    _cityController.dispose();
+    _jobdescrbController.dispose();
+
     super.dispose();
   }
 
@@ -58,99 +68,82 @@ class _ExperiencePageState extends State<ExperiencePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Tecrübe Bilgileri'),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Kurum Adı', style: Theme.of(context).textTheme.titleMedium),
+              //KURUM
+             TBTInputField(hintText: "Kurum Adı",
+              controller: _companyController,
+               onSaved: (p0) {},
+                keyboardType: TextInputType.name), 
+
+
+              const SizedBox(height: 24),
+              //POZİSYON
+              TBTInputField(hintText: "Pozisyon",
+               controller: _positionController, 
+               onSaved: (p0) {}, 
+                keyboardType: TextInputType.name),
+              const SizedBox(height: 24),
+
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Kampüs 365',
-                    contentPadding: EdgeInsets.all(4),
-                    border: InputBorder.none,
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedExperienceType,
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuEntry<String>>[
+                      const PopupMenuItem<String>(
+                        value: 'Staj',
+                        child: Text('Staj'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Gönüllü Çalışma',
+                        child: Text('Gönüllü Çalışma'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Profesyonel Çalışma',
+                        child: Text('Profesyonel Çalışma'),
+                      ),
+                    ];
+                  },
+                  onSelected: (String? newValue) {
+                    setState(() {
+                      _selectedExperienceType = newValue;
+                    });
+                  },
+                  child: ListTile(
+                    title:
+                        Text(_selectedExperienceType ?? 'Deneyim Türü Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
-              Text('Pozisyon', style: Theme.of(context).textTheme.titleMedium),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Front-End Developer',
-                    contentPadding: EdgeInsets.all(4),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text('Deneyim Türü',
-                  style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              DropdownButtonFormField<String>(
-                value: _selectedExperienceType,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedExperienceType = newValue;
-                  });
-                },
-                items: <String>[
-                  'Staj',
-                  'Gönüllü Çalışma',
-                  'Profesyonel Çalışma'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Seçiniz',
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text('Sektör', style: Theme.of(context).textTheme.titleMedium),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Sektör',
-                    contentPadding: EdgeInsets.all(4),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Text('Şehir', style: Theme.of(context).textTheme.titleMedium),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Şehir',
-                    contentPadding: EdgeInsets.all(4),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
+
+              const SizedBox(height: 24),
+              
+              TBTInputField(
+                hintText: "Sektör", 
+                controller: _sectorController,
+                onSaved: (p0) {}, 
+                keyboardType: TextInputType.name),
+
+              const SizedBox(height: 24),
+              
+              TBTInputField(
+                hintText: "Şehir", 
+                controller:  _cityController, 
+                onSaved: (p0) {}, 
+                keyboardType: TextInputType.name),
+
               const SizedBox(height: 16),
               TextFormField(
                 controller: TextEditingController(
@@ -219,33 +212,18 @@ class _ExperiencePageState extends State<ExperiencePage> {
                 ],
               ),
               const SizedBox(height: 16),
-              Text('iş Açıklaması',
-                  style: Theme.of(context).textTheme.titleMedium),
+             TBTInputField(hintText: "İş Açıklaması", 
+             controller: _jobdescrbController,
+              onSaved: (p0) {}, 
+               keyboardType: TextInputType.multiline, 
+               maxLines: 3, 
+               minLines: 3),
               const SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextFormField(
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(40),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              ElevatedButton(
+
+              TBTPurpleButton(
+                buttonText: 'Kaydet',
                 onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
-                ),
-                child: const Text("Kaydet",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
-              ),
+              )
             ],
           ),
         ),
