@@ -9,6 +9,7 @@ class TBTInputField extends StatefulWidget {
   final bool? readOnly;
   final int? maxLines;
   final int? minLines;
+  final EdgeInsets? padding;
 
   const TBTInputField({
     super.key,
@@ -20,6 +21,7 @@ class TBTInputField extends StatefulWidget {
     this.readOnly,
     this.maxLines,
     this.minLines,
+    this.padding
   });
 
   @override
