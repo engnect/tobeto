@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:tobeto/armaganwidgets/profil_page.dart';
+// import 'package:tobeto/armaganwidgets/profil_page.dart';
 import 'package:tobeto/firebase_options.dart';
-
+import 'package:tobeto/screens/communication_page/communication_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +21,7 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: ProfilePage(),
+        body: CommunicationPage(),
       ),
     );
   }

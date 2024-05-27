@@ -4,6 +4,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:tobeto/constants/assets.dart';
 import 'package:tobeto/screens/login_register_screen/register_page.dart';
 import 'package:tobeto/screens/login_register_screen/widgets/extract_login_widgets.dart';
+import 'package:tobeto/widgets/tbt_drawer_widget.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,9 +21,19 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Image.asset(
+          Assets.imagesTobetoLogo,
+          width: 200,
+        ),
+        backgroundColor: Colors.white,
+      ),
+      drawer: const TbtDrawer(),
       body: SingleChildScrollView(
         child: SizedBox(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height - kToolbarHeight - 50,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -68,6 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                             isObscure: true,
                             keyboardType: TextInputType.multiline,
                             onSaved: (p0) {},
+                            maxLines: 1,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
