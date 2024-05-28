@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:tobeto/data/course_fake_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:tobeto/screens/course_page/widgets/course_video.dart';
 import 'package:tobeto/screens/course_page/widgets/course_video_card.dart';
 import 'package:video_player/video_player.dart';
@@ -31,14 +30,18 @@ class _CoursePageState extends State<CoursePage> {
                   showDialog(
                     context: context,
                     builder: (context) => Platform.isIOS
-                        ? const CupertinoAlertDialog(
+                        ? CupertinoAlertDialog(
                             actions: [
                               CupertinoDialogAction(
-                                child: Text('Kapat'),
+                                child: TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Kapat')),
                               )
                             ],
-                            title: Text('Ders Hakkında'),
-                            content: Text(
+                            title: const Text('Ders Hakkında'),
+                            content: const Text(
                                 'Başlangıç \${course.startDate}\nBitiş \${course.endDate}\nTahmini Süre \${course.estimatedTime}\nÜretici Firma \${course.company}'),
                           )
                         : AlertDialog(
