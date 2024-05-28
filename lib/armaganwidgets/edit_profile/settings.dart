@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/screens/login_register_screen/widgets/purple_button.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -28,13 +29,14 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(appBar: AppBar(
+        title: const Text('Ayarlar'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Eski Şifre', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             _buildTextFieldWithBorder(
               controller: _oldPasswordController,
@@ -47,7 +49,6 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             const SizedBox(height: 16),
-            Text('Yeni Şifre', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
             _buildTextFieldWithBorder(
               controller: _newPasswordController,
@@ -59,10 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 });
               }
             ),
-            const SizedBox(height: 16),
-            Text('Yeni Şifre Tekrar',
-                style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 8),
+            const SizedBox(height: 24),
             _buildTextFieldWithBorder(
               controller: _confirmNewPasswordController,
               labelText: 'Yeni Şifre Tekrar',
@@ -74,15 +72,10 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
+            TBTPurpleButton(
+                buttonText: 'Kaydet',
+                onPressed: () {},
               ),
-              child: const Text("Şifreyi Değiştir",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold)),
-            ),
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () {},

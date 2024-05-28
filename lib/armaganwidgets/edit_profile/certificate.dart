@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:tobeto/screens/login_register_screen/widgets/extract_login_widgets.dart';
 // import 'package:tobeto/constants/utilities.dart';
 
 class CertificatesPage extends StatefulWidget {
@@ -10,8 +11,8 @@ class CertificatesPage extends StatefulWidget {
 }
 
 class _CertificatesPageState extends State<CertificatesPage> {
-  final TextEditingController _certificateNameController =
-      TextEditingController();
+  final TextEditingController _certificateNameController =TextEditingController();
+      
   DateTime? _selectedYear;
   String? _filePath;
 
@@ -24,28 +25,23 @@ class _CertificatesPageState extends State<CertificatesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Sertifikalar'),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Sertifika Adı',
-                style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: TextFormField(
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.all(8),
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
+           TBTInputField(
+            hintText: "Sertifika Adı", 
+            controller: _certificateNameController, 
+            onSaved: (p0) {}, 
+            keyboardType: TextInputType.name),
             const SizedBox(height: 16),
             const SizedBox(height: 16),
+
             TextFormField(
               controller: TextEditingController(
                 text: _selectedYear != null ? '${_selectedYear!.year}' : '',
@@ -81,17 +77,10 @@ class _CertificatesPageState extends State<CertificatesPage> {
             const SizedBox(height: 8),
             _filePath != null ? Text('Seçilen Dosya: $_filePath') : Container(),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // sertifkia kaydetme
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
-              ),
-              child: const Text("Kaydet",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold)),
-            ),
+            TBTPurpleButton(
+                buttonText: 'Kaydet',
+                onPressed: () {},
+              )
           ],
         ),
       ),

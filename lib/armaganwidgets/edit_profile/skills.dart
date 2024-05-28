@@ -29,16 +29,15 @@ class _SkillsPageState extends State<SkillsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Yetenekler'),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                'Yetenek Ekle',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
               const SizedBox(height: 8),
               Row(
                 children: [
@@ -63,12 +62,7 @@ class _SkillsPageState extends State<SkillsPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-              const Text(
-                'Mevcut Yetkinlik',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 24),
               Wrap(
                 spacing: 8,
                 children: _selectedSkills
