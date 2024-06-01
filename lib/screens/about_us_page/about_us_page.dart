@@ -4,6 +4,7 @@ import 'package:tobeto/screens/about_us_page/widgets/about_us_image_card.dart';
 import 'package:tobeto/screens/about_us_page/widgets/about_us_page_ekip_card.dart';
 import 'package:tobeto/screens/about_us_page/widgets/about_us_video_card.dart';
 import 'package:tobeto/widgets/tbt_drawer_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../constants/assets.dart';
 
@@ -139,13 +140,21 @@ class _AboutUsPageState extends State<AboutUsPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: Image.asset(Assets.imageFacebook)),
+                          height: 100,
+                          width: 100,
+                          child: GestureDetector(
+                            child: Image.asset(Assets.imageFacebook),
+                            onTap: () => _launchUrl(
+                                'https://www.facebook.com/tobetoplatform'),
+                          ),
+                        ),
                         SizedBox(
                             height: 100,
                             width: 100,
-                            child: Image.asset(Assets.imageX)),
+                            child: GestureDetector(
+                                onTap: () => _launchUrl(
+                                    'https://twitter.com/tobeto_platform'),
+                                child: Image.asset(Assets.imageX))),
                       ],
                     ),
                     Row(
@@ -154,11 +163,17 @@ class _AboutUsPageState extends State<AboutUsPage> {
                         SizedBox(
                             height: 100,
                             width: 100,
-                            child: Image.asset(Assets.imageLinkedin)),
+                            child: GestureDetector(
+                                onTap: () => _launchUrl(
+                                    'https://www.linkedin.com/company/tobeto/'),
+                                child: Image.asset(Assets.imageLinkedin))),
                         SizedBox(
                             height: 100,
                             width: 100,
-                            child: Image.asset(Assets.imageInstagram)),
+                            child: GestureDetector(
+                                onTap: () => _launchUrl(
+                                    'https://www.instagram.com/tobeto_official/'),
+                                child: Image.asset(Assets.imageInstagram))),
                       ],
                     )
                   ],
@@ -169,5 +184,11 @@ class _AboutUsPageState extends State<AboutUsPage> {
         ),
       ),
     );
+  }
+}
+
+Future<void> _launchUrl(a) async {
+  if (!await launchUrl(Uri.parse(a), mode: LaunchMode.externalApplication)) {
+    throw Exception('Could not launch');
   }
 }

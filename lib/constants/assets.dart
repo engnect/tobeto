@@ -38,4 +38,9 @@ class Assets {
   static const String yazilimKalite = "assets/images/yazılımKalite.png";
   static const String proje = "assets/images/proje.png";
   static const String ai = "assets/images/ai.png";
+  static const String tobetoekip = "assets/images/tobetoekip.jpg";
+  static const String lansman = "assets/images/lansman.jpg";
+  static const String istanbulkodluyor = "assets/images/istanbulkodluyor.jpg";
+  static const String ilkbulusma = "assets/images/ilkbulusma.jpg";
+  static const String bogazicilansman = "assets/images/bogazicilansman.jpg";
 }
