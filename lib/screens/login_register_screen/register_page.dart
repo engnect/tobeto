@@ -3,6 +3,7 @@ import 'package:glowy_borders/glowy_borders.dart';
 import 'package:tobeto/constants/assets.dart';
 import 'package:tobeto/screens/login_register_screen/widgets/input_field.dart';
 import 'package:tobeto/screens/login_register_screen/widgets/purple_button.dart';
+import 'package:tobeto/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/widgets/tbt_drawer_widget.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -18,6 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  final controller = ScrollController();
 
   final _formKey = GlobalKey<FormState>();
   @override
@@ -25,16 +27,10 @@ class _RegisterPageState extends State<RegisterPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-        appBar: AppBar(
-          centerTitle: true,
-          title: Image.asset(
-            Assets.imagesTobetoLogo,
-            width: 200,
-          ),
-          backgroundColor: Colors.white,
-        ),
+        appBar: TbtAppBar(controller: controller),
         drawer: const TbtDrawer(),
         body: SingleChildScrollView(
+          controller: controller,
           child: Column(
             children: [
               AnimatedGradientBorder(

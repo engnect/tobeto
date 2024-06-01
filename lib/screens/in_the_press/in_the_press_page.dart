@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/constants/assets.dart';
 import 'package:tobeto/screens/in_the_press/widgets/in_the_press_card.dart';
+import 'package:tobeto/widgets/tbt_app_bar_widget.dart';
+import 'package:tobeto/widgets/tbt_drawer_widget.dart';
 
-class InThePressPage extends StatelessWidget {
+class InThePressPage extends StatefulWidget {
   const InThePressPage({super.key});
 
+  @override
+  State<InThePressPage> createState() => _InThePressPageState();
+}
+
+final controller = ScrollController();
+
+class _InThePressPageState extends State<InThePressPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromRGBO(247, 242, 242, 1),
+        appBar: TbtAppBar(controller: controller),
+        drawer: const TbtDrawer(),
+        backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
         body: SingleChildScrollView(
+          controller: controller,
           child: Column(
             children: [
               const Padding(

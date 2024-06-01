@@ -7,6 +7,7 @@ import 'package:tobeto/screens/main_home_page/widgets/main_home_page_card.dart';
 import 'package:tobeto/screens/main_home_page/widgets/main_home_page_gif_card.dart';
 import 'package:tobeto/screens/main_home_page/widgets/main_home_page_text.dart';
 import 'package:tobeto/screens/main_home_page/widgets/student_comment.dart';
+import 'package:tobeto/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/widgets/tbt_drawer_widget.dart';
 import '../../constants/assets.dart';
 import 'widgets/carousel_card.dart';
@@ -20,6 +21,8 @@ class MainHomePage extends StatefulWidget {
   State<MainHomePage> createState() => _MainHomePageState();
 }
 
+final controller = ScrollController();
+
 class _MainHomePageState extends State<MainHomePage> {
   final CarouselController _controller = CarouselController();
   AvatarModel _selected = data[0];
@@ -28,16 +31,10 @@ class _MainHomePageState extends State<MainHomePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-        appBar: AppBar(
-          centerTitle: true,
-          title: Image.asset(
-            Assets.imagesTobetoLogo,
-            width: 200,
-          ),
-          backgroundColor: Colors.white, // geçiçi özellik
-        ),
+        appBar: TbtAppBar(controller: controller),
         drawer: const TbtDrawer(),
         body: SingleChildScrollView(
+          controller: controller,
           child: Column(
             children: [
               Container(

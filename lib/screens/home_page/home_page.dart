@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/screens/home_page/widgets/extract_home_widgets.dart';
+import 'package:tobeto/widgets/tbt_app_bar_widget.dart';
 import '../../constants/assets.dart';
 
 class Homepage extends StatefulWidget {
@@ -9,21 +10,18 @@ class Homepage extends StatefulWidget {
   State<Homepage> createState() => _HomepageState();
 }
 
+final controller = ScrollController();
+
 class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3, // Toplam sekme sayısı
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Image.asset(
-            Assets.imagesTobetoLogo,
-            width: 200,
-          ),
-        ),
+        appBar: TbtAppBar(controller: controller),
         backgroundColor: const Color.fromARGB(255, 235, 235, 235),
         body: SingleChildScrollView(
+          controller: controller,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Column(
