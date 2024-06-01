@@ -3,6 +3,7 @@ import 'package:tobeto/screens/about_us_page/widgets/abous_us_page_carousel.dart
 import 'package:tobeto/screens/about_us_page/widgets/about_us_image_card.dart';
 import 'package:tobeto/screens/about_us_page/widgets/about_us_page_ekip_card.dart';
 import 'package:tobeto/screens/about_us_page/widgets/about_us_video_card.dart';
+import 'package:tobeto/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/widgets/tbt_drawer_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,22 +16,18 @@ class AboutUsPage extends StatefulWidget {
   State<AboutUsPage> createState() => _AboutUsPageState();
 }
 
+final controller = ScrollController();
+
 class _AboutUsPageState extends State<AboutUsPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 235, 235, 235),
-        appBar: AppBar(
-          centerTitle: true,
-          title: Image.asset(
-            Assets.imagesTobetoLogo,
-            width: 200,
-          ),
-          backgroundColor: Colors.white, // geçiçi özellik
-        ),
+        appBar: TbtAppBar(controller: controller),
         drawer: const TbtDrawer(),
         body: SingleChildScrollView(
+          controller: controller,
           child: Column(
             children: [
               const AboutUsVideoCard(),

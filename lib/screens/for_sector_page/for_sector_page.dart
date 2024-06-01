@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:tobeto/screens/for_sector_page/widgets/for_sector_card.dart';
 import 'package:tobeto/screens/login_register_screen/widgets/purple_button.dart';
+import 'package:tobeto/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/widgets/tbt_drawer_widget.dart';
 
 import '../../constants/assets.dart';
@@ -13,22 +14,18 @@ class ForSectorPage extends StatefulWidget {
   State<ForSectorPage> createState() => _ForSectorPageState();
 }
 
+final controller = ScrollController();
+
 class _ForSectorPageState extends State<ForSectorPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-        appBar: AppBar(
-          centerTitle: true,
-          title: Image.asset(
-            Assets.imagesTobetoLogo,
-            width: 200,
-          ),
-          backgroundColor: Colors.white,
-        ),
+        appBar: TbtAppBar(controller: controller),
         drawer: const TbtDrawer(),
         body: SingleChildScrollView(
+          controller: controller,
           child: Column(
             children: [
               Padding(
