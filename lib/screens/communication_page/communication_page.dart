@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tobeto/screens/communication_page/widgets/communication_info.dart';
 import 'package:tobeto/screens/login_register_screen/extract_login.dart';
+import 'package:tobeto/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/widgets/tbt_drawer_widget.dart';
-
-import '../../constants/assets.dart';
 
 class CommunicationPage extends StatefulWidget {
   const CommunicationPage({super.key});
@@ -12,6 +10,8 @@ class CommunicationPage extends StatefulWidget {
   @override
   State<CommunicationPage> createState() => _CommunicationPageState();
 }
+
+final controller = ScrollController();
 
 class _CommunicationPageState extends State<CommunicationPage> {
   final _formKey = GlobalKey<FormState>();
@@ -24,16 +24,10 @@ class _CommunicationPageState extends State<CommunicationPage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-        appBar: AppBar(
-          centerTitle: true,
-          title: Image.asset(
-            Assets.imagesTobetoLogo,
-            width: 200,
-          ),
-          backgroundColor: Colors.white,
-        ),
+        appBar: TbtAppBar(controller: controller),
         drawer: const TbtDrawer(),
         body: SingleChildScrollView(
+          controller: controller,
           child: Column(
             children: [
               Container(

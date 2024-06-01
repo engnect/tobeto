@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:tobeto/firebase_options.dart';
 import 'package:tobeto/screens/about_us_page/about_us_page.dart';
 import 'package:tobeto/screens/communication_page/communication_page.dart';
+
 import 'package:tobeto/screens/course_page/course_page.dart';
+
+import 'package:tobeto/screens/in_the_press/in_the_press_page.dart';
+import 'package:tobeto/screens/in_the_press/widgets/in_the_press_card.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
