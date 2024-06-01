@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 
 class CourseVideoCard extends StatelessWidget {
   final Map<String, String> course;
+  final VoidCallback onTap;
   const CourseVideoCard({
     required this.course,
+    required this.onTap,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        print('Tıkladığın derse ${course['CourseName']}');
-      },
-      child: Container(
+      onTap: onTap,
+      child: SizedBox(
         width: double.infinity,
         child: Card(
           margin: const EdgeInsets.all(10),
@@ -28,7 +28,7 @@ class CourseVideoCard extends StatelessWidget {
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text('Instructor: ${course['CourseInstructor']}'),
               ],
             ),

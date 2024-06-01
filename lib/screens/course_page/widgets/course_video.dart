@@ -7,10 +7,14 @@ import 'package:video_player/video_player.dart';
 
 class CourseVideo extends StatefulWidget {
   const CourseVideo(
-      {super.key, required this.dataSourceType, required this.videoUrl});
+      {super.key,
+      required this.dataSourceType,
+      required this.videoUrl,
+      required this.onFullScreenToggle});
 
   final DataSourceType dataSourceType;
   final String videoUrl;
+  final Function(bool isFullScreen) onFullScreenToggle;
 
   @override
   State<CourseVideo> createState() => _CourseVideoState();
@@ -34,11 +38,7 @@ class _CourseVideoState extends State<CourseVideo> {
         // ..addListener(_updateMaxWatchedDuration);
         break;
       case DataSourceType.network:
-        _videoPlayerController =
-            VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
-              ..initialize().then((_) {
-                setState(() {});
-              });
+        videoUpdateNetwork();
 
         // ..addListener(_updateMaxWatchedDuration);
         break;
@@ -58,11 +58,17 @@ class _CourseVideoState extends State<CourseVideo> {
         showControls: false,
         autoPlay: false);
 
-    _listener() {
-      setState(() {});
-    }
+    _listener() {}
 
     _videoPlayerController.addListener(_listener);
+  }
+
+  void videoUpdateNetwork() {
+    _videoPlayerController =
+        VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
+          ..initialize().then((_) {
+            setState(() {});
+          });
   }
 
   @override
@@ -86,6 +92,7 @@ class _CourseVideoState extends State<CourseVideo> {
   void _toggleFullScreen() {
     setState(() {
       _isFullScreen = !_isFullScreen;
+      widget.onFullScreenToggle(_isFullScreen);
       if (_isFullScreen) {
         SystemChrome.setPreferredOrientations([
           DeviceOrientation.landscapeRight,
@@ -107,7 +114,8 @@ class _CourseVideoState extends State<CourseVideo> {
     return GestureDetector(
       onTap: _togglePlayPause,
       child: AspectRatio(
-        aspectRatio: 16 / 9,
+        aspectRatio:
+            _isFullScreen ? MediaQuery.of(context).size.aspectRatio : 16 / 9,
         child: Center(
           child: Stack(fit: StackFit.expand, children: [
             Chewie(
@@ -126,22 +134,20 @@ class _CourseVideoState extends State<CourseVideo> {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: _videoPlayerController.value.isInitialized
-                    ? Text(
-                        '${_videoPlayerController.value.position.inMinutes}:${(_videoPlayerController.value.position.inSeconds % 60).toString().padLeft(2, '0')}',
-                        style: const TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      )
-                    : const Text(
-                        '00:00',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
-              ),
+            Positioned(
+              left: 16.0,
+              bottom: 16.0,
+              child: _videoPlayerController.value.isInitialized
+                  ? Text(
+                      '${_videoPlayerController.value.position.inMinutes}:${(_videoPlayerController.value.position.inSeconds % 60).toString().padLeft(2, '0')}',
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )
+                  : const Text(
+                      '00:00',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
             ),
             Positioned(
               bottom: 16.0,
