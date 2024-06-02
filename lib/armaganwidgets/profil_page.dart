@@ -8,6 +8,7 @@ import 'package:tobeto/armaganwidgets/edit_profile/settings.dart';
 import 'package:tobeto/armaganwidgets/edit_profile/skills.dart';
 import 'package:tobeto/armaganwidgets/edit_profile/social_media.dart';
 import 'package:tobeto/constants/assets.dart';
+import 'package:tobeto/widgets/tbt_drawer_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -16,7 +17,8 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStateMixin {
+class _ProfilePageState extends State<ProfilePage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -56,7 +58,9 @@ class _ProfilePageState extends State<ProfilePage> with SingleTickerProviderStat
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const TbtDrawer(),
       appBar: AppBar(
+        centerTitle: true,
         title: GestureDetector(
           onTap: () {},
           child: Image.asset(

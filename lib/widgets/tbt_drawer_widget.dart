@@ -3,8 +3,8 @@ import 'package:tobeto/screens/about_us_page/about_us_page.dart';
 import 'package:tobeto/screens/communication_page/communication_page.dart';
 import 'package:tobeto/screens/for_person_page/for_person_page.dart';
 import 'package:tobeto/screens/for_sector_page/for_sector_page.dart';
+import 'package:tobeto/screens/in_the_press/in_the_press_page.dart';
 import 'package:tobeto/screens/login_register_screen/extract_login.dart';
-import 'package:tobeto/screens/login_register_screen/widgets/purple_button.dart';
 import 'package:tobeto/screens/main_home_page/main_home_page.dart';
 import '../constants/assets.dart';
 
@@ -132,25 +132,27 @@ class TbtDrawer extends StatelessWidget {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     title: TBTPurpleButton(
                       buttonText: "Basında Biz",
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const InThePressPage(),
+                        ));
+                      },
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 50,
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-                    title: TBTPurpleButton(
-                      buttonText: "Takvim",
-                      onPressed: () {},
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: SizedBox(
+                    height: 50,
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                      ),
+                      title: TBTPurpleButton(
+                        buttonText: "Takvim",
+                        onPressed: () {},
+                      ),
                     ),
-                  ),
-                ),
-                ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-                  title: TBTPurpleButton(
-                    buttonText: "İstanbul Kodluyor",
-                    onPressed: () {},
                   ),
                 ),
               ],
