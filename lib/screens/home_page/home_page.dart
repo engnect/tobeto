@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/screens/home_page/widgets/extract_home_widgets.dart';
 import 'package:tobeto/widgets/tbt_app_bar_widget.dart';
+import 'package:tobeto/widgets/tbt_drawer_widget.dart';
 import '../../constants/assets.dart';
 
 class Homepage extends StatefulWidget {
@@ -19,6 +20,7 @@ class _HomepageState extends State<Homepage> {
       length: 3, // Toplam sekme sayısı
       child: Scaffold(
         appBar: TbtAppBar(controller: controller),
+        drawer: const TbtDrawer(),
         backgroundColor: const Color.fromARGB(255, 235, 235, 235),
         body: SingleChildScrollView(
           controller: controller,
