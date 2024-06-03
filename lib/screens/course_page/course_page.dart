@@ -15,7 +15,7 @@ class CoursePage extends StatefulWidget {
 
 class _CoursePageState extends State<CoursePage> {
   String courseVideoUrl =
-      'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4';
+      'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4';
   bool _showAppBar = true;
 
   void _onFullScreenToggle(bool isFullScreen) {
