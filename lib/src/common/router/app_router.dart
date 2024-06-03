@@ -58,11 +58,6 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const ProfileScreen(),
         );
-      case AppRouteNames.abcScreenRoute:
-        return MaterialPageRoute(
-          builder: (_) => const ProfileScreen(),
-        );
-
       // error
       default:
         return MaterialPageRoute(
@@ -85,5 +80,4 @@ class AppRouteNames {
   static const String registerScreenRoute = '/registerScreen';
   static const String inThePressScreenRoute = '/InThePressScreen';
   static const String profileScreenRoute = '/profileScreen';
-  static const String abcScreenRoute = '/profileScreen';
 }
