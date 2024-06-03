@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/router/app_router.dart';
-import 'package:tobeto/src/presentation/screens/about_us/about_us_screen.dart';
-import 'package:tobeto/src/presentation/screens/contact_us/contact_us_screen.dart';
-import 'package:tobeto/src/presentation/screens/for_individuals/for_person_page.dart';
-import 'package:tobeto/src/presentation/screens/for_companies/for_companies_screen.dart';
-import 'package:tobeto/src/presentation/screens/in_the_press/in_the_press_page.dart';
 import 'package:tobeto/src/presentation/screens/auth/extract_login.dart';
-import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
 import '../../common/constants/assets.dart';
 
 class TBTDrawer extends StatelessWidget {
