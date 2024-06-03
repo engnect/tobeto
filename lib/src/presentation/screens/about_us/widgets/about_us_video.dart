@@ -63,41 +63,51 @@ class _TbtVideoState extends State<TbtVideo> {
       onTap: _togglePlayPause,
       child: AspectRatio(
         aspectRatio: 16 / 9,
-        child: Stack(
-          children: [
-            Chewie(
-              controller: _chewieController,
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: VideoProgressIndicator(
-                _videoPlayerController,
-                allowScrubbing: true,
-                colors: const VideoProgressColors(
-                  playedColor: Colors.purple,
-                  backgroundColor: Colors.grey,
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final double containerWidth = constraints.maxWidth;
+            final double containerHeight = constraints.maxHeight;
+            final double iconSize =
+                _videoPlayerController.value.isPlaying ? 25 : 100;
+
+            return Stack(
+              children: [
+                Chewie(
+                  controller: _chewieController,
                 ),
-              ),
-            ),
-            AnimatedPositioned(
-              curve: Curves.linear,
-              duration: const Duration(milliseconds: 800),
-              bottom: _videoPlayerController.value.isPlaying ? 10 : 45,
-              left: _videoPlayerController.value.isPlaying ? 3 : 120,
-              child: GestureDetector(
-                onTap: _togglePlayPause,
-                child: Icon(
-                  size: _videoPlayerController.value.isPlaying ? 25 : 100,
-                  _videoPlayerController.value.isPlaying
-                      ? Icons.pause
-                      : Icons.play_arrow,
-                  color: const Color.fromARGB(255, 155, 39, 176),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: VideoProgressIndicator(
+                    _videoPlayerController,
+                    allowScrubbing: true,
+                    colors: const VideoProgressColors(
+                      playedColor: Colors.purple,
+                      backgroundColor: Colors.grey,
+                    ),
+                  ),
                 ),
-              ),
-            )
-          ],
+                AnimatedPositioned(
+                  curve: Curves.linear,
+                  duration: const Duration(milliseconds: 800),
+                  bottom: _videoPlayerController.value.isPlaying
+                      ? 10
+                      : (containerHeight / 2 - iconSize / 2),
+                  left: _videoPlayerController.value.isPlaying
+                      ? 3
+                      : (containerWidth / 2 - iconSize / 2),
+                  child: Icon(
+                    size: iconSize,
+                    _videoPlayerController.value.isPlaying
+                        ? Icons.pause
+                        : Icons.play_arrow,
+                    color: const Color.fromARGB(255, 155, 39, 176),
+                  ),
+                )
+              ],
+            );
+          },
         ),
       ),
     );
