@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:glowy_borders/glowy_borders.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/presentation/screens/auth/register_page.dart';
@@ -85,6 +87,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               onPressed: () {},
                             ),
                           ),
+                          ElevatedButton(
+                              onPressed: () {
+                                signInWithGoogle();
+                                print("giriş yapa tıklandı");
+                              },
+                              child: const Text("Google İle Giriş")),
                           GestureDetector(
                             onTap: () {},
                             child: const Padding(
@@ -134,4 +142,24 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+}
+
+Future<void> signInWithGoogle() async {
+  print("fonsiyon çalıştı");
+  // Oturum açma sürecini başlat
+  final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+
+  // Süreç içerisinden bilgileri al
+  final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+
+  // Kullanıcı nesnesi oluştur
+  final credential = GoogleAuthProvider.credential(
+      accessToken: gAuth.accessToken, idToken: gAuth.idToken);
+
+  // Kullanıcı girişini sağla
+
+  final UserCredential userCredential =
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+  print("tamamlnadı");
 }
