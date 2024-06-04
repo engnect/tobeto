@@ -145,7 +145,6 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 Future<void> signInWithGoogle() async {
-  print("fonsiyon çalıştı");
   // Oturum açma sürecini başlat
   final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
 
@@ -158,8 +157,7 @@ Future<void> signInWithGoogle() async {
 
   // Kullanıcı girişini sağla
 
+  // ignore: unused_local_variable
   final UserCredential userCredential =
       await FirebaseAuth.instance.signInWithCredential(credential);
-
-  print("tamamlnadı");
 }
