@@ -56,12 +56,13 @@ class CarouselCard extends StatelessWidget {
                 overflow: TextOverflow.fade,
                 content,
                 style: const TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 18,
-                    color: Color.fromARGB(255, 79, 75, 104)),
+                  fontFamily: "Poppins",
+                  fontSize: 18,
+                  color: Color.fromARGB(255, 79, 75, 104),
+                ),
                 textAlign: TextAlign.center,
               ),
-            )
+            ),
           ],
         ),
       ),

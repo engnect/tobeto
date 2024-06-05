@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/auth/widgets/purple_button.dart';
+import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -49,8 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 });
               },
             ),
-            const SizedBox(height: 16),
-            const SizedBox(height: 8),
+            const SizedBox(height: 24),
             _buildTextFieldWithBorder(
                 controller: _newPasswordController,
                 labelText: 'Yeni Şifre',
@@ -82,9 +81,13 @@ class _SettingsPageState extends State<SettingsPage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
               ),
-              child: const Text("Üyeliği Sonlandır",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold)),
+              child: const Text(
+                "Üyeliği Sonlandır",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ],
         ),

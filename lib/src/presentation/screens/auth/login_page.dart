@@ -5,9 +5,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/presentation/screens/auth/register_page.dart';
-import 'package:tobeto/src/presentation/screens/auth/widgets/extract_login_widgets.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
+
+import '../../widgets/input_field.dart';
+import '../../widgets/purple_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -27,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-      appBar: TbtAppBar(controller: controller),
+      appBar: TBTAppBar(controller: controller),
       drawer: const TBTDrawer(),
       body: SingleChildScrollView(
         controller: controller,
@@ -122,11 +124,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     );
                                   },
                                   child: const Text(
-                                    " Kayıt Ol",
+                                    "Kayıt Ol",
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/auth/extract_login.dart';
+import '../../../widgets/input_field.dart';
+import '../../../widgets/purple_button.dart';
 
 class SocialMediaPage extends StatefulWidget {
   const SocialMediaPage({super.key});
@@ -80,15 +81,16 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
             ),
             const SizedBox(height: 24),
             TBTInputField(
-                hintText: "https://",
-                controller: _linkController,
-                onSaved: (p0) {},
-                keyboardType: TextInputType.url),
+              hintText: "https://",
+              controller: _linkController,
+              onSaved: (p0) {},
+              keyboardType: TextInputType.url,
+            ),
             const SizedBox(height: 16),
             TBTPurpleButton(
               buttonText: 'Kaydet',
               onPressed: () {},
-            )
+            ),
           ],
         ),
       ),

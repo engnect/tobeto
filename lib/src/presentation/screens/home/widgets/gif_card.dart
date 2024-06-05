@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
-import 'package:tobeto/src/presentation/screens/auth/extract_login.dart';
 
-class MainHomePageGifCard extends StatelessWidget {
-  const MainHomePageGifCard({
+import '../../../widgets/purple_button.dart';
+
+class HomeScreenGif extends StatelessWidget {
+  const HomeScreenGif({
     super.key,
   });
 
@@ -53,10 +54,11 @@ class MainHomePageGifCard extends StatelessWidget {
                 'Tobeto "İşte Başarı Modeli"mizi Keşfet!',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                    color: Color.fromRGBO(21, 21, 21, 1)),
+                  fontFamily: "Poppins",
+                  fontSize: 28,
+                  fontWeight: FontWeight.w800,
+                  color: Color.fromRGBO(21, 21, 21, 1),
+                ),
               ),
             ),
             const Padding(
@@ -78,7 +80,7 @@ class MainHomePageGifCard extends StatelessWidget {
                 buttonText: "Hemen Başla",
                 onPressed: () {}, // Giriş ekranına yönlendirme yapılacak!
               ),
-            )
+            ),
           ],
         ),
       ),

@@ -18,7 +18,7 @@ class _InThePressScreenState extends State<InThePressScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: TbtAppBar(controller: controller),
+        appBar: TBTAppBar(controller: controller),
         drawer: const TBTDrawer(),
         backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
         body: SingleChildScrollView(

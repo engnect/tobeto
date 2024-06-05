@@ -19,7 +19,7 @@ class _PlatformScreenState extends State<PlatformScreen> {
     return DefaultTabController(
       length: 3, // Toplam sekme sayısı
       child: Scaffold(
-        appBar: TbtAppBar(controller: controller),
+        appBar: TBTAppBar(controller: controller),
         drawer: const TBTDrawer(),
         backgroundColor: const Color.fromARGB(255, 235, 235, 235),
         body: SingleChildScrollView(
@@ -66,9 +66,10 @@ class _PlatformScreenState extends State<PlatformScreen> {
                   "Yeni nesil öğrenme deneyimi ile Tobeto kariyer yolculuğunda senin yanında!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontSize: 18,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w500),
+                    fontSize: 18,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 const SizedBox(height: 20), // Boşluk ekledik
                 Container(
@@ -100,9 +101,10 @@ class _PlatformScreenState extends State<PlatformScreen> {
                                 "Ücretsiz eğitimlerle, \n geleceğin mesleklerinde \n sen  de yerini al.",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: "Poppins",
-                                    fontWeight: FontWeight.w500),
+                                  fontSize: 18,
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                             RichText(

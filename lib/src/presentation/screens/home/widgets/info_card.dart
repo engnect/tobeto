@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
-class MainHomePageCard extends StatelessWidget {
+class TBTInfoCard extends StatelessWidget {
   final String content;
   final String count;
   final Icon icon;
@@ -9,7 +9,7 @@ class MainHomePageCard extends StatelessWidget {
   final int g;
   final int b;
 
-  const MainHomePageCard({
+  const TBTInfoCard({
     super.key,
     required this.content,
     required this.count,
@@ -62,10 +62,11 @@ class MainHomePageCard extends StatelessWidget {
             Text(
               count,
               style: TextStyle(
-                  fontFamily: "Poppins",
-                  fontSize: 70,
-                  fontWeight: FontWeight.w800,
-                  color: Color.fromRGBO(r, g, b, 1)),
+                fontFamily: "Poppins",
+                fontSize: 70,
+                fontWeight: FontWeight.w800,
+                color: Color.fromRGBO(r, g, b, 1),
+              ),
             ),
             Text(
               content,
@@ -75,7 +76,7 @@ class MainHomePageCard extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: Color.fromARGB(255, 101, 95, 95),
               ),
-            )
+            ),
           ],
         ),
       ),

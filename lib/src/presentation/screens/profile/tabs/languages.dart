@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/auth/widgets/purple_button.dart';
+import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
 class LanguagesPage extends StatefulWidget {
   const LanguagesPage({super.key});
@@ -119,7 +119,7 @@ class _LanguagesPageState extends State<LanguagesPage> {
             TBTPurpleButton(
               buttonText: 'Kaydet',
               onPressed: () {},
-            )
+            ),
           ],
         ),
       ),

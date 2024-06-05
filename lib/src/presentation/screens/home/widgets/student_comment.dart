@@ -48,12 +48,13 @@ class _StudentCommentCardState extends State<StudentCommentCard> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
               child: Text(
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                      fontFamily: "Poppins",
-                      color: Color.fromARGB(255, 130, 130, 130),
-                      fontSize: 18),
-                  widget.model.comment),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontFamily: "Poppins",
+                    color: Color.fromARGB(255, 130, 130, 130),
+                    fontSize: 18),
+                widget.model.comment,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 30, 0, 15),
@@ -69,9 +70,10 @@ class _StudentCommentCardState extends State<StudentCommentCard> {
                 widget.model.studentname,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.bold,
-                    fontSize: 26),
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 26,
+                ),
               ),
             ),
             const Padding(
@@ -83,7 +85,7 @@ class _StudentCommentCardState extends State<StudentCommentCard> {
                   fontFamily: "Poppins",
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

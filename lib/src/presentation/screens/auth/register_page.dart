@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:glowy_borders/glowy_borders.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
-import 'package:tobeto/src/presentation/screens/auth/widgets/input_field.dart';
-import 'package:tobeto/src/presentation/screens/auth/widgets/purple_button.dart';
+import 'package:tobeto/src/presentation/widgets/input_field.dart';
+import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 
@@ -27,7 +27,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-        appBar: TbtAppBar(controller: controller),
+        appBar: TBTAppBar(controller: controller),
         drawer: const TBTDrawer(),
         body: SingleChildScrollView(
           controller: controller,
@@ -119,7 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold),
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),

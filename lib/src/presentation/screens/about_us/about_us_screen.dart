@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/presentation/screens/about_us/widgets/abous_us_page_carousel.dart';
 import 'package:tobeto/src/presentation/screens/about_us/widgets/about_us_image_card.dart';
-import 'package:tobeto/src/presentation/screens/about_us/widgets/about_us_page_ekip_card.dart';
+import 'package:tobeto/src/presentation/screens/about_us/widgets/about_us_page_our_team_card.dart';
 import 'package:tobeto/src/presentation/screens/about_us/widgets/about_us_video_card.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
@@ -18,13 +18,19 @@ class AboutUsScreen extends StatefulWidget {
 
 final controller = ScrollController();
 
+Future<void> _launchUrl(a) async {
+  if (!await launchUrl(Uri.parse(a), mode: LaunchMode.externalApplication)) {
+    throw Exception('Could not launch');
+  }
+}
+
 class _AboutUsScreenState extends State<AboutUsScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 235, 235, 235),
-        appBar: TbtAppBar(controller: controller),
+        appBar: TBTAppBar(controller: controller),
         drawer: const TBTDrawer(),
         body: SingleChildScrollView(
           controller: controller,
@@ -55,32 +61,37 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                   "EKİBİMİZ",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w800,
-                      fontSize: 36),
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w800,
+                    fontSize: 36,
+                  ),
                 ),
               ),
-              const EkipCard(
-                photo: Assets.imagesElif,
-                name: "Elif Kılıç",
-                jop: "Kurucu Direktör",
+              const AboutUsOurTeamCard(
+                teamPhoto: Assets.imagesElif,
+                teamName: "Elif Kılıç",
+                teamTitle: "Kurucu Direktör",
               ),
-              const EkipCard(
-                  photo: Assets.imagesKader,
-                  name: "Kader Yavuz",
-                  jop: "Eğitim ve Proje Koordinatörü"),
-              const EkipCard(
-                  photo: Assets.imagesPelin,
-                  name: "Pelin Batır",
-                  jop: "İş Geliştirme Yöneticisi"),
-              const EkipCard(
-                  photo: Assets.imagesGurkan,
-                  name: "Gürkan İlişen",
-                  jop: "Eğitim Teknolojileri ve platform Sorumlusu"),
-              const EkipCard(
-                  photo: Assets.imagesAli,
-                  name: "Ali Seyhan",
-                  jop: "Operasyon Uzman Yardımcısı"),
+              const AboutUsOurTeamCard(
+                teamPhoto: Assets.imagesKader,
+                teamName: "Kader Yavuz",
+                teamTitle: "Eğitim ve Proje Koordinatörü",
+              ),
+              const AboutUsOurTeamCard(
+                teamPhoto: Assets.imagesPelin,
+                teamName: "Pelin Batır",
+                teamTitle: "İş Geliştirme Yöneticisi",
+              ),
+              const AboutUsOurTeamCard(
+                teamPhoto: Assets.imagesGurkan,
+                teamName: "Gürkan İlişen",
+                teamTitle: "Eğitim Teknolojileri ve platform Sorumlusu",
+              ),
+              const AboutUsOurTeamCard(
+                teamPhoto: Assets.imagesAli,
+                teamName: "Ali Seyhan",
+                teamTitle: "Operasyon Uzman Yardımcısı",
+              ),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 margin:
@@ -146,33 +157,39 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                           ),
                         ),
                         SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: GestureDetector(
-                                onTap: () => _launchUrl(
-                                    'https://twitter.com/tobeto_platform'),
-                                child: Image.asset(Assets.imageX))),
+                          height: 100,
+                          width: 100,
+                          child: GestureDetector(
+                            onTap: () => _launchUrl(
+                                'https://twitter.com/tobeto_platform'),
+                            child: Image.asset(Assets.imageX),
+                          ),
+                        ),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: GestureDetector(
-                                onTap: () => _launchUrl(
-                                    'https://www.linkedin.com/company/tobeto/'),
-                                child: Image.asset(Assets.imageLinkedin))),
+                          height: 100,
+                          width: 100,
+                          child: GestureDetector(
+                            onTap: () => _launchUrl(
+                                'https://www.linkedin.com/company/tobeto/'),
+                            child: Image.asset(Assets.imageLinkedin),
+                          ),
+                        ),
                         SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: GestureDetector(
-                                onTap: () => _launchUrl(
-                                    'https://www.instagram.com/tobeto_official/'),
-                                child: Image.asset(Assets.imageInstagram))),
+                          height: 100,
+                          width: 100,
+                          child: GestureDetector(
+                            onTap: () => _launchUrl(
+                                'https://www.instagram.com/tobeto_official/'),
+                            child: Image.asset(Assets.imageInstagram),
+                          ),
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -181,11 +198,5 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
         ),
       ),
     );
-  }
-}
-
-Future<void> _launchUrl(a) async {
-  if (!await launchUrl(Uri.parse(a), mode: LaunchMode.externalApplication)) {
-    throw Exception('Could not launch');
   }
 }

@@ -52,12 +52,12 @@ class AboutUsVideoCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: const TbtVideo(
+                child: const TBTVideo(
                   dataSourceType: DataSourceType.asset,
                   url: Assets.aboutusvideo,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

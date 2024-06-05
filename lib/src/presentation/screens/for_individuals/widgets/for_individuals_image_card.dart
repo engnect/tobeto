@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ForPersonImageCard extends StatelessWidget {
+class ForIndividualsImageCard extends StatelessWidget {
   final String photo;
   final String title;
   final String content;
-  const ForPersonImageCard({
+  const ForIndividualsImageCard({
     super.key,
     required this.photo,
     required this.title,

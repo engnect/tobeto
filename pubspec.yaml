@@ -28,6 +28,7 @@ dependencies:
   url_launcher: ^6.3.0
   scroll_app_bar_2_0_0_custom_fix: ^2.0.3
   google_sign_in: ^6.2.1
+  table_calendar: ^3.1.1
 
 dev_dependencies:
   flutter_test:
