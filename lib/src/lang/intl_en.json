@@ -1,0 +1,19 @@
+{
+  "educationPage": {
+    "title": "Education Information",
+    "universityHint": "University",
+    "departmentHint": "Department",
+    "startDateLabel": "Start Date",
+    "endDateLabel": "End Date",
+    "currentlyStudying": "Currently Studying",
+    "saveButton": "Save",
+    "noEducation": "No education added",
+    "selectEducationLevel": "Select Education Level",
+    "educationLevels": {
+      "Lisans": "Bachelor",
+      "Ön Lisans": "Associate",
+      "Yüksek Lisans": "Master",
+      "Doktora": "Doctorate"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "educationPage": {
+    "title": "Eğitim Bilgileri",
+    "universityHint": "Üniversite",
+    "departmentHint": "Bölüm",
+    "startDateLabel": "Başlangıç Tarihi",
+    "endDateLabel": "Bitiş Tarihi",
+    "currentlyStudying": "Devam ediyorum",
+    "saveButton": "Kaydet",
+    "noEducation": "Eğitim bilgisi eklenmedi",
+    "selectEducationLevel": "Eğitim Seviyesini Seçin",
+    "educationLevels": {
+      "Lisans": "Lisans",
+      "Ön Lisans": "Ön Lisans",
+      "Yüksek Lisans": "Yüksek Lisans",
+      "Doktora": "Doktora"
+    }
+  }
+}
