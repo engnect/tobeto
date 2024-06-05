@@ -44,4 +44,7 @@ class Assets {
   static const String ilkbulusma = "assets/images/ilkbulusma.jpg";
   static const String bogazicilansman = "assets/images/bogazicilansman.jpg";
   static const String error = "assets/images/404.png";
+  static const String pc = "assets/images/pc.png";
+  static const String lesson = "assets/images/lesson1.png";
+  static const String code = "assets/images/code1.png";
 }
