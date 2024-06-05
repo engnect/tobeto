@@ -1,9 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-// import 'package:tobeto/armaganwidgets/profil_page.dart';
 import 'package:tobeto/firebase_options.dart';
 
-import 'package:tobeto/screens/course_page/course_page.dart';
+import 'src/common/router/app_router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,9 +20,12 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: CoursePage(),
-      ),
+      // home: Scaffold(
+      //   body: CourseScreen(),
+      // ),
+
+      onGenerateRoute: AppRouter.generateRoute,
+      initialRoute: AppRouteNames.homeRoute,
     );
   }
 }
