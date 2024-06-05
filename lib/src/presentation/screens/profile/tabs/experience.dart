@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tobeto/src/presentation/screens/auth/widgets/extract_login_widgets.dart';
-import 'package:tobeto/src/presentation/screens/auth/widgets/purple_button.dart';
+
+import '../../../widgets/input_field.dart';
+import '../../../widgets/purple_button.dart';
 
 class ExperiencePage extends StatefulWidget {
   const ExperiencePage({super.key});
@@ -79,18 +80,20 @@ class _ExperiencePageState extends State<ExperiencePage> {
             children: [
               //KURUM
               TBTInputField(
-                  hintText: "Kurum Adı",
-                  controller: _companyController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name),
+                hintText: "Kurum Adı",
+                controller: _companyController,
+                onSaved: (p0) {},
+                keyboardType: TextInputType.name,
+              ),
 
               const SizedBox(height: 24),
               //POZİSYON
               TBTInputField(
-                  hintText: "Pozisyon",
-                  controller: _positionController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name),
+                hintText: "Pozisyon",
+                controller: _positionController,
+                onSaved: (p0) {},
+                keyboardType: TextInputType.name,
+              ),
               const SizedBox(height: 24),
 
               Container(
@@ -132,18 +135,20 @@ class _ExperiencePageState extends State<ExperiencePage> {
               const SizedBox(height: 24),
 
               TBTInputField(
-                  hintText: "Sektör",
-                  controller: _sectorController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name),
+                hintText: "Sektör",
+                controller: _sectorController,
+                onSaved: (p0) {},
+                keyboardType: TextInputType.name,
+              ),
 
               const SizedBox(height: 24),
 
               TBTInputField(
-                  hintText: "Şehir",
-                  controller: _cityController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name),
+                hintText: "Şehir",
+                controller: _cityController,
+                onSaved: (p0) {},
+                keyboardType: TextInputType.name,
+              ),
 
               const SizedBox(height: 16),
               TextFormField(

@@ -75,8 +75,7 @@ class _ProjectsAndAwardsPageState extends State<ProjectsAndAwardsPage> {
                 border: OutlineInputBorder(),
                 suffixIcon: Icon(Icons.calendar_today),
               ),
-              readOnly:
-                  true, 
+              readOnly: true,
               onTap: () {
                 _selectDate(context);
               },
@@ -87,9 +86,13 @@ class _ProjectsAndAwardsPageState extends State<ProjectsAndAwardsPage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
               ),
-              child: const Text("Kaydet",
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold)),
+              child: const Text(
+                "Kaydet",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ],
         ),

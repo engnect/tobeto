@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class Communicationinfo extends StatelessWidget {
+class CommunicationInfo extends StatelessWidget {
   final String headerinfo;
   final String info;
-  const Communicationinfo({
+  const CommunicationInfo({
     super.key,
     required this.headerinfo,
     required this.info,
@@ -28,7 +28,9 @@ class Communicationinfo extends StatelessWidget {
                   child: Text(
                     headerinfo,
                     style: const TextStyle(
-                        fontFamily: "Poppins", fontWeight: FontWeight.bold),
+                      fontFamily: "Poppins",
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -39,11 +41,12 @@ class Communicationinfo extends StatelessWidget {
                   child: Text(
                     info,
                     style: const TextStyle(
-                        fontFamily: "Poppins",
-                        color: Color.fromRGBO(82, 82, 82, 1)),
+                      fontFamily: "Poppins",
+                      color: Color.fromRGBO(82, 82, 82, 1),
+                    ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ],

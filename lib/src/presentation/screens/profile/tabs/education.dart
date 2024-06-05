@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tobeto/src/presentation/screens/auth/extract_login.dart';
+import '../../../widgets/input_field.dart';
+import '../../../widgets/purple_button.dart';
 
 class EducationPage extends StatefulWidget {
   const EducationPage({super.key});

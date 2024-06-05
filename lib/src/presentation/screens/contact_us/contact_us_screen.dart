@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/presentation/screens/contact_us/widgets/communication_info.dart';
-import 'package:tobeto/src/presentation/screens/auth/extract_login.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
+
+import '../../widgets/input_field.dart';
+import '../../widgets/purple_button.dart';
 
 class ContactUsScreen extends StatefulWidget {
   const ContactUsScreen({super.key});
@@ -24,7 +26,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-        appBar: TbtAppBar(controller: controller),
+        appBar: TBTAppBar(controller: controller),
         drawer: const TBTDrawer(),
         body: SingleChildScrollView(
           controller: controller,
@@ -53,9 +55,10 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         child: Text(
                           "İletişime Geçin",
                           style: TextStyle(
-                              fontFamily: "Poppins",
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                            fontFamily: "Poppins",
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -68,27 +71,36 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       ),
                     ),
                     //----------------------------------
-                    const Communicationinfo(
+                    const CommunicationInfo(
                       headerinfo: "Firma Adı:",
                       info: "TOBETO",
                     ),
-                    const Communicationinfo(
+                    const CommunicationInfo(
                       headerinfo: "Firma Unvan:",
                       info:
                           "Avez Elektronik İletişim Eğitim Danışmanlığı Ticaret Anonim Şirketi",
                     ),
-                    const Communicationinfo(
-                        headerinfo: "Vergi Dairesi:", info: "Beykoz"),
-                    const Communicationinfo(
-                        headerinfo: "Vergi No:", info: "1050250859"),
-                    const Communicationinfo(
-                        headerinfo: "Telefon:", info: "(0216) 331 48 00"),
-                    const Communicationinfo(
-                        headerinfo: "E-Posta:", info: "info@tobeto.com"),
-                    const Communicationinfo(
-                        headerinfo: "Adres:",
-                        info:
-                            "	Kavacık, Rüzgarlıbahçe Mah. Çampınarı Sok. No:4 Smart Plaza B Blok Kat:3 34805, Beykoz/İstanbul")
+                    const CommunicationInfo(
+                      headerinfo: "Vergi Dairesi:",
+                      info: "Beykoz",
+                    ),
+                    const CommunicationInfo(
+                      headerinfo: "Vergi No:",
+                      info: "1050250859",
+                    ),
+                    const CommunicationInfo(
+                      headerinfo: "Telefon:",
+                      info: "(0216) 331 48 00",
+                    ),
+                    const CommunicationInfo(
+                      headerinfo: "E-Posta:",
+                      info: "info@tobeto.com",
+                    ),
+                    const CommunicationInfo(
+                      headerinfo: "Adres:",
+                      info:
+                          "	Kavacık, Rüzgarlıbahçe Mah. Çampınarı Sok. No:4 Smart Plaza B Blok Kat:3 34805, Beykoz/İstanbul",
+                    ),
                   ],
                 ),
               ),
@@ -97,8 +109,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                 margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
                 child: Column(
                   children: [
                     Container(
@@ -139,7 +152,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 onSaved: (p0) {},
                                 keyboardType: TextInputType.multiline),
                             TBTInputField(
-                                hintText: "E-Mail",
+                                hintText: "E - Mail",
                                 controller: emailController,
                                 onSaved: (p0) {},
                                 keyboardType: TextInputType.emailAddress),
@@ -158,7 +171,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       width: 200,
                       buttonText: "Gönder",
                       onPressed: () {},
-                    )
+                    ),
                   ],
                 ),
               )

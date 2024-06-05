@@ -1,6 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/auth/widgets/extract_login_widgets.dart';
+import '../../../widgets/input_field.dart';
+import '../../../widgets/purple_button.dart';
 // import 'package:tobeto/constants/utilities.dart';
 
 class CertificatesPage extends StatefulWidget {
@@ -23,6 +24,33 @@ class _CertificatesPageState extends State<CertificatesPage> {
     super.dispose();
   }
 
+  Future<void> _selectYear(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1990),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != _selectedYear) {
+      setState(() {
+        _selectedYear = picked;
+      });
+    }
+  }
+
+  Future<void> _pickPDF() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+
+    if (result != null) {
+      setState(() {
+        _filePath = result.files.single.path!;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,12 +64,12 @@ class _CertificatesPageState extends State<CertificatesPage> {
           children: [
             const SizedBox(height: 8),
             TBTInputField(
-                hintText: "Sertifika Adı",
-                controller: _certificateNameController,
-                onSaved: (p0) {},
-                keyboardType: TextInputType.name),
-            const SizedBox(height: 16),
-            const SizedBox(height: 16),
+              hintText: "Sertifika Adı",
+              controller: _certificateNameController,
+              onSaved: (p0) {},
+              keyboardType: TextInputType.name,
+            ),
+            const SizedBox(height: 32),
             TextFormField(
               controller: TextEditingController(
                 text: _selectedYear != null ? '${_selectedYear!.year}' : '',
@@ -80,37 +108,10 @@ class _CertificatesPageState extends State<CertificatesPage> {
             TBTPurpleButton(
               buttonText: 'Kaydet',
               onPressed: () {},
-            )
+            ),
           ],
         ),
       ),
     );
-  }
-
-  Future<void> _selectYear(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1990),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != _selectedYear) {
-      setState(() {
-        _selectedYear = picked;
-      });
-    }
-  }
-
-  Future<void> _pickPDF() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf'],
-    );
-
-    if (result != null) {
-      setState(() {
-        _filePath = result.files.single.path!;
-      });
-    }
   }
 }

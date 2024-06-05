@@ -6,7 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field2/intl_phone_field.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
-import 'package:tobeto/src/presentation/screens/auth/extract_login.dart';
+import '../../../widgets/input_field.dart';
+import '../../../widgets/purple_button.dart';
 
 class PersonalInfoPage extends StatefulWidget {
   const PersonalInfoPage({super.key});
@@ -250,7 +251,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  suffixIcon: const Icon(Icons.calendar_today),
+                  suffixIcon: const Icon(
+                    Icons.calendar_today,
+                  ),
                 ),
                 readOnly: true,
                 onTap: () {
@@ -259,10 +262,11 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               ),
               const SizedBox(height: 16),
               TBTInputField(
-                  hintText: "E-posta",
-                  controller: _emailController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.emailAddress),
+                hintText: "E-posta",
+                controller: _emailController,
+                onSaved: (p0) {},
+                keyboardType: TextInputType.emailAddress,
+              ),
               const SizedBox(height: 24),
               Container(
                 decoration: BoxDecoration(

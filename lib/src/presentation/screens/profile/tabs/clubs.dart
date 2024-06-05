@@ -27,50 +27,50 @@ class _ClubsPageState extends State<ClubsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-             Text('Kulüp veya Topluluk Adı', style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Örn.Kızılay',
-                    contentPadding:
-                        EdgeInsets.all(8), 
-                    border: InputBorder.none, 
-                  ),
+            Text('Kulüp veya Topluluk Adı',
+                style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 8),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Örn.Kızılay',
+                  contentPadding: EdgeInsets.all(8),
+                  border: InputBorder.none,
                 ),
               ),
-              const SizedBox(height: 16),
-            Text('Ünvan veya Görev', style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 8),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Örn.Proje Yöneticisi',
-                    contentPadding:
-                        EdgeInsets.all(8), 
-                    border: InputBorder.none, 
-                  ),
+            ),
+            const SizedBox(height: 16),
+            Text('Ünvan veya Görev',
+                style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 8),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'Örn.Proje Yöneticisi',
+                  contentPadding: EdgeInsets.all(8),
+                  border: InputBorder.none,
                 ),
               ),
+            ),
             const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                
-              },
-               style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
-                ),
-                child: const Text("Kaydet",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
+              ),
+              child: const Text(
+                "Kaydet",
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),

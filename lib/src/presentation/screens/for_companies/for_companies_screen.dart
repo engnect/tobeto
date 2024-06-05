@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:tobeto/src/presentation/screens/for_companies/widgets/for_sector_card.dart';
-import 'package:tobeto/src/presentation/screens/auth/widgets/purple_button.dart';
+import 'package:tobeto/src/presentation/screens/for_companies/widgets/for_companies_card_content.dart';
+import 'package:tobeto/src/presentation/screens/for_companies/widgets/for_companies_card.dart';
+import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 
@@ -22,7 +23,7 @@ class _ForCompaniesScreenState extends State<ForCompaniesScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-        appBar: TbtAppBar(controller: controller),
+        appBar: TBTAppBar(controller: controller),
         drawer: const TBTDrawer(),
         body: SingleChildScrollView(
           controller: controller,
@@ -69,44 +70,50 @@ class _ForCompaniesScreenState extends State<ForCompaniesScreen> {
                   ),
                 ),
               ),
-              const ForSectorCard(
+              const ForCompaniesCard(
                 header: "Doğru yeteneğe ulaşmak için",
                 content:
                     "Kurumların değişen yetenek ihtiyaçları için istihdama hazır adaylar yetiştirir.",
                 color: Color.fromARGB(255, 97, 4, 190),
                 cardContentList: [
-                  ForSectorCardContent(
-                      header: "DEĞERLENDİRME",
-                      content:
-                          "Değerlendirilmiş ve yetişmiş geniş yetenek havuzuna erişim olanağı ve ölçme, değerlendirme, seçme ve raporlama hizmeti."),
-                  ForSectorCardContent(
-                      header: "BOOTCAMP",
-                      content:
-                          "Değerlendirilmiş ve yetişmiş geniş yetenek havuzuna erişim olanağı ve ölçme, değerlendirme, seçme ve raporlama hizmeti."),
-                  ForSectorCardContent(
-                      header: "EŞLEŞTİRME",
-                      content:
-                          "Esnek, uzaktan, tam zamanlı iş gücü için doğru ve hızlı işe alım.")
+                  ForCompaniesCardContent(
+                    header: "DEĞERLENDİRME",
+                    content:
+                        "Değerlendirilmiş ve yetişmiş geniş yetenek havuzuna erişim olanağı ve ölçme, değerlendirme, seçme ve raporlama hizmeti.",
+                  ),
+                  ForCompaniesCardContent(
+                    header: "BOOTCAMP",
+                    content:
+                        "Değerlendirilmiş ve yetişmiş geniş yetenek havuzuna erişim olanağı ve ölçme, değerlendirme, seçme ve raporlama hizmeti.",
+                  ),
+                  ForCompaniesCardContent(
+                    header: "EŞLEŞTİRME",
+                    content:
+                        "Esnek, uzaktan, tam zamanlı iş gücü için doğru ve hızlı işe alım.",
+                  ),
                 ],
               ),
-              const ForSectorCard(
+              const ForCompaniesCard(
                 header: "Çalışanlarınız için Tobeto",
                 content:
                     "Çalışanların ihtiyaçları doğrultusunda, mevcut becerilerini güncellemelerine veya yeni beceriler kazanmalarına destek olur.",
                 color: Color.fromRGBO(29, 68, 153, 1),
                 cardContentList: [
-                  ForSectorCardContent(
-                      header: "ÖLÇME ARAÇLARI",
-                      content:
-                          "Uzmanlaşmak için yeni beceriler kazanmak (reskill) veya yeni bir role başlamak (upskill) isteyen adaylar için, teknik ve yetkinlik ölçme araçları."),
-                  ForSectorCardContent(
-                      header: "EĞİTİM",
-                      content:
-                          "Yeni uzmanlık becerileri ve yeni bir rol için gerekli yetkinlik kazınımı ihtiyaçlarına bağlı olarak açılan eğitimlere katılım ve kuruma özel sınıf açma olanakları."),
-                  ForSectorCardContent(
-                      header: "GELİŞİM",
-                      content:
-                          "Kurumsal hedefler doğrultusunda mevcut yetenek gücünün gelişimi ve konumlandırılmasına destek.")
+                  ForCompaniesCardContent(
+                    header: "ÖLÇME ARAÇLARI",
+                    content:
+                        "Uzmanlaşmak için yeni beceriler kazanmak (reskill) veya yeni bir role başlamak (upskill) isteyen adaylar için, teknik ve yetkinlik ölçme araçları.",
+                  ),
+                  ForCompaniesCardContent(
+                    header: "EĞİTİM",
+                    content:
+                        "Yeni uzmanlık becerileri ve yeni bir rol için gerekli yetkinlik kazınımı ihtiyaçlarına bağlı olarak açılan eğitimlere katılım ve kuruma özel sınıf açma olanakları.",
+                  ),
+                  ForCompaniesCardContent(
+                    header: "GELİŞİM",
+                    content:
+                        "Kurumsal hedefler doğrultusunda mevcut yetenek gücünün gelişimi ve konumlandırılmasına destek.",
+                  ),
                 ],
               ),
               Container(
@@ -154,7 +161,7 @@ class _ForCompaniesScreenState extends State<ForCompaniesScreen> {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

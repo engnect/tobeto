@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:tobeto/src/data/datasource/avatar_fake_data.dart';
 import 'package:tobeto/src/models/avatar_model.dart';
 import 'package:tobeto/src/presentation/screens/home/widgets/animated_avatar.dart';
-import 'package:tobeto/src/presentation/screens/home/widgets/main_home_page_card.dart';
-import 'package:tobeto/src/presentation/screens/home/widgets/main_home_page_gif_card.dart';
-import 'package:tobeto/src/presentation/screens/home/widgets/main_home_page_text.dart';
+import 'package:tobeto/src/presentation/screens/home/widgets/info_card.dart';
+import 'package:tobeto/src/presentation/screens/home/widgets/gif_card.dart';
+import 'package:tobeto/src/presentation/screens/home/widgets/custom_text.dart';
 import 'package:tobeto/src/presentation/screens/home/widgets/student_comment.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-        appBar: TbtAppBar(controller: controller),
+        appBar: TBTAppBar(controller: controller),
         drawer: const TBTDrawer(),
         body: SingleChildScrollView(
           controller: controller,
@@ -92,17 +92,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             Icons.navigate_next,
                             size: 50,
                           ),
-                        )
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
               const Padding(
                 padding: EdgeInsets.all(20.0),
-                child: TbtText(),
+                child: TBTCustomText(),
               ),
-              const MainHomePageCard(
+              const TBTInfoCard(
                 icon: Icon(Icons.abc),
                 content: "Asenkron Eğitim İçeriği",
                 count: "8,000",
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 b: 137,
                 g: 32,
               ),
-              const MainHomePageCard(
+              const TBTInfoCard(
                 content: "Saat Canlı Ders",
                 count: "1,000",
                 icon: Icon(Icons.access_time),
@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 g: 51,
                 b: 255,
               ),
-              const MainHomePageCard(
+              const TBTInfoCard(
                 content: "Öğrenci",
                 count: "17,600",
                 icon: Icon(Icons.person),
@@ -126,15 +126,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 g: 102,
                 b: 230,
               ),
-              const MainHomePageGifCard(),
+              const HomeScreenGif(),
               const Padding(
                 padding: EdgeInsets.fromLTRB(10, 70, 10, 10),
                 child: Text(
                   "Öğrenci Görüşleri",
                   style: TextStyle(
-                      fontSize: 28,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.bold),
+                    fontSize: 28,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const Padding(

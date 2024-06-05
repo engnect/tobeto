@@ -11,7 +11,14 @@ class SkillsPage extends StatefulWidget {
 class _SkillsPageState extends State<SkillsPage> {
   final TextEditingController _skillController = TextEditingController();
   final List<String> _selectedSkills = [];
-  final List<String> _availableSkills = ['Flutter', 'Dart', 'Firebase', 'Node.js', 'React', 'Python'];
+  final List<String> _availableSkills = [
+    'Flutter',
+    'Dart',
+    'Firebase',
+    'Node.js',
+    'React',
+    'Python'
+  ];
 
   @override
   void dispose() {
@@ -96,22 +103,22 @@ class _SkillsPageState extends State<SkillsPage> {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {
-                  
-                },
-                 style: ElevatedButton.styleFrom(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
                   backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
                 ),
-                child: const Text("Kaydet",
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold)),
+                child: const Text(
+                  "Kaydet",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ],
-            
           ),
         ),
       ),
-      
     );
   }
 }

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:scroll_app_bar_2_0_0_custom_fix/scroll_app_bar.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 
-class TbtAppBar extends StatelessWidget implements PreferredSizeWidget {
+class TBTAppBar extends StatelessWidget implements PreferredSizeWidget {
   final ScrollController controller;
-  const TbtAppBar({
+  const TBTAppBar({
     super.key,
     required this.controller,
   });

@@ -40,46 +40,49 @@ class _CourseScreenState extends State<CourseScreen> {
                 centerTitle: true,
                 actions: [
                   IconButton(
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => Platform.isIOS
-                              ? CupertinoAlertDialog(
-                                  actions: [
-                                    CupertinoDialogAction(
-                                      child: TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: const Text('Kapat')),
-                                    )
-                                  ],
-                                  title: const Text('Ders Hakkında'),
-                                  content: const Text(
-                                      'Başlangıç \${course.startDate}\nBitiş \${course.endDate}\nTahmini Süre \${course.estimatedTime}\nÜretici Firma \${course.company}'),
-                                )
-                              : AlertDialog(
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('Kapat'),
-                                    )
-                                  ],
-                                  title: const Text('Ders Hakkında'),
-                                  content: const Text(
-                                      'Başlangıç \${course.startDate}\nBitiş \${course.endDate}\nTahmini Süre \${course.estimatedTime}\nÜretici Firma \${course.company}'),
-                                  titleTextStyle: const TextStyle(
-                                      fontSize: 36,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                  contentTextStyle: const TextStyle(
-                                      fontSize: 24, color: Colors.black),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => Platform.isIOS
+                            ? CupertinoAlertDialog(
+                                actions: [
+                                  CupertinoDialogAction(
+                                    child: TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('Kapat')),
+                                  )
+                                ],
+                                title: const Text('Ders Hakkında'),
+                                content: const Text(
+                                    'Başlangıç \${course.startDate}\nBitiş \${course.endDate}\nTahmini Süre \${course.estimatedTime}\nÜretici Firma \${course.company}'),
+                              )
+                            : AlertDialog(
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Kapat'),
+                                  ),
+                                ],
+                                title: const Text('Ders Hakkında'),
+                                content: const Text(
+                                    'Başlangıç \${course.startDate}\nBitiş \${course.endDate}\nTahmini Süre \${course.estimatedTime}\nÜretici Firma \${course.company}'),
+                                titleTextStyle: const TextStyle(
+                                    fontSize: 36,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                                contentTextStyle: const TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.black,
                                 ),
-                        );
-                      },
-                      icon: const Icon(Icons.info_outline_rounded))
+                              ),
+                      );
+                    },
+                    icon: const Icon(Icons.info_outline_rounded),
+                  ),
                 ],
               )
             : null,

@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:video_player/video_player.dart';
 
-class TbtVideo extends StatefulWidget {
+class TBTVideo extends StatefulWidget {
   final DataSourceType dataSourceType;
   final String url;
-  const TbtVideo({
+  const TBTVideo({
     super.key,
     required this.dataSourceType,
     required this.url,
   });
 
   @override
-  State<TbtVideo> createState() => _TbtVideoState();
+  State<TBTVideo> createState() => _TBTVideoState();
 }
 
-class _TbtVideoState extends State<TbtVideo> {
+class _TBTVideoState extends State<TBTVideo> {
   late ChewieController _chewieController;
   late VideoPlayerController _videoPlayerController;
 
@@ -104,7 +104,7 @@ class _TbtVideoState extends State<TbtVideo> {
                         : Icons.play_arrow,
                     color: const Color.fromARGB(255, 155, 39, 176),
                   ),
-                )
+                ),
               ],
             );
           },

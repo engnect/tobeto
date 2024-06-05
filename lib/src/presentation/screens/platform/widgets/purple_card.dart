@@ -38,10 +38,11 @@ class TBTPurpleCard extends StatelessWidget {
             child: Text(
               cardText,
               style: const TextStyle(
-                  fontFamily: "Poppins",
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w800),
+                fontFamily: "Poppins",
+                color: Colors.white,
+                fontSize: 28,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
           SizedBox(
@@ -58,14 +59,15 @@ class TBTPurpleCard extends StatelessWidget {
                 child: const Text(
                   "Başla",
                   style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w800,
-                      fontSize: 15),
+                    color: Colors.white,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.w800,
+                    fontSize: 15,
+                  ),
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
