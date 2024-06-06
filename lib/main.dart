@@ -1,8 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tobeto/firebase_options.dart';
+import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
+import 'package:tobeto/src/presentation/screens/onboarding/onboarding_screen.dart';
 
 import 'src/common/router/app_router.dart';
+import 'src/lang/lang.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,9 +26,20 @@ class MainApp extends StatelessWidget {
       // home: Scaffold(
       //   body: CourseScreen(),
       // ),
-
+      // locale: Locale('tr'),
+      // supportedLocales: [
+      //   Locale('en', ''),
+      //   Locale('tr', ''),
+      // ],
+      // localizationsDelegates: [
+      //   AppLocalizations.delegate,
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      //   GlobalCupertinoLocalizations.delegate,
+      // ],
       onGenerateRoute: AppRouter.generateRoute,
-      initialRoute: AppRouteNames.homeRoute,
+      initialRoute: AppRouteNames.onboardingRoute,
+      // home: HomeScreen(),
     );
   }
 }
