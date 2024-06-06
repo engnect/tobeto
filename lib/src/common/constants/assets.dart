@@ -17,11 +17,11 @@ class Assets {
   static const String imagesTbtLogoT = "assets/images/tbtLogoT.png";
   static const String imagesYazilim = "assets/images/yazilim.jpg";
   static const String imagesBilgisayarMuh = "assets/images/bilgisayar.png";
-  static const String imagesElif = "assets/images/elif.jpeg";
-  static const String imagesKader = "assets/images/kader.jpg";
-  static const String imagesAli = "assets/images/al.jpg";
-  static const String imagesPelin = "assets/images/pelin.png";
-  static const String imagesGurkan = "assets/images/gurkan.png";
+  static const String imagesElif = "assets/images/kadro_elif.jpeg";
+  static const String imagesKader = "assets/images/kadro_kader.jpg";
+  static const String imagesAli = "assets/images/kadro_ali.jpg";
+  static const String imagesPelin = "assets/images/kadro_pelin.png";
+  static const String imagesGurkan = "assets/images/kadro_gurkan.png";
   static const String thumbNail = "assets/images/thumbnail.png";
   static const String imageFacebook = "assets/images/facebook.PNG";
   static const String imageInstagram = "assets/images/instagram.PNG";
@@ -43,8 +43,8 @@ class Assets {
   static const String istanbulkodluyor = "assets/images/istanbulkodluyor.jpg";
   static const String ilkbulusma = "assets/images/ilkbulusma.jpg";
   static const String bogazicilansman = "assets/images/bogazicilansman.jpg";
-  static const String error = "assets/images/404.png";
-  static const String pc = "assets/images/pc.png";
-  static const String lesson = "assets/images/lesson1.png";
-  static const String code = "assets/images/code1.png";
+  static const String imageError = "assets/images/404.png";
+  static const String imagePc = "assets/images/pc.png";
+  static const String imageLesson = "assets/images/lesson1.png";
+  static const String imageCode = "assets/images/code1.png";
 }
