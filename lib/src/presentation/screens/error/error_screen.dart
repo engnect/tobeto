@@ -15,7 +15,7 @@ class ErrorScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Image.asset(Assets.error),
+              Image.asset(Assets.imageError),
               const Text(
                 'Oops!..',
                 style: TextStyle(

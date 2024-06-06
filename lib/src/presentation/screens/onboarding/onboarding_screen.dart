@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
-import 'package:tobeto/src/presentation/screens/onboarding_screen/app_styles.dart';
+import 'package:tobeto/src/common/router/app_router.dart';
+import 'package:tobeto/src/presentation/screens/onboarding/app_styles.dart';
+import '../../../common/constants/assets.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});
@@ -25,7 +26,7 @@ class OnBoardingScreen extends StatelessWidget {
           color: AppStyles.primaryColor,
         ),
         onDone: () {
-          gotoHomepage(context);
+          Navigator.of(context).pushReplacementNamed(AppRouteNames.homeRoute);
         },
         pages: [
           PageViewModel(
@@ -33,14 +34,16 @@ class OnBoardingScreen extends StatelessWidget {
             title: "TOBETO'ya Hoş Geldin!",
             body: "Hayalindeki teknoloji kariyerini TOBETO ile başlat",
             image: Image.asset(
-              "assets/images/pc.png",
+              Assets.imagePc,
             ),
           ),
           PageViewModel(
             decoration: AppStyles.pageDecoration,
             title: "TÜRKİYE'DE BİR İLK:SOSYAL ETKİ TAHVİLİ",
             body: '"İstanbul Kodluyor: Yazılım, Eğitim ve İstihdam Projesi"',
-            image: Image.asset("assets/images/code1.png"),
+            image: Image.asset(
+              Assets.imageCode,
+            ),
           ),
           PageViewModel(
             decoration: AppStyles.pageDecoration,
@@ -50,16 +53,11 @@ class OnBoardingScreen extends StatelessWidget {
             image: Image.asset(
               width: 360,
               height: 360,
-              "assets/images/lesson1.png",
+              Assets.imageLesson,
             ),
-          )
+          ),
         ],
       ),
     );
   }
-}
-
-void gotoHomepage(context) {
-  Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => const HomeScreen()));
 }
