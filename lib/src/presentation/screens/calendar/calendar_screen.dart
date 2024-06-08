@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 import '../../../models/calendar_model.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -23,48 +21,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   @override
-  void initState() {
-    fetchEventsFromFirestore().then((events) {
-      setState(() {
-        this.events = events;
-      });
-    });
-    super.initState();
-  }
-
-  Future<List<EventModel>> fetchEventsFromFirestore() async {
-    var querySnapshot =
-        await FirebaseFirestore.instance.collection('events').get();
-    for (var doc in querySnapshot.docs) {
-      events.add(EventModel.fromMap(doc.data()));
-    }
-    return events;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Takvim ekranı'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          DateTime? pickedDate = await showDatePicker(
-              context: context,
-              firstDate: DateTime.now(),
-              lastDate: DateTime.utc(2024, 12, 31));
-
-          EventModel deneme = EventModel(
-            id: 'id',
-            title: 'deneme',
-            description: 'deneme',
-            eventDate: pickedDate!,
-          );
-
-          await FirebaseFirestore.instance
-              .collection('events')
-              .add(deneme.toMap());
-        },
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
