@@ -1,8 +1,9 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/common/constants/utilities.dart';
+import 'package:tobeto/src/presentation/screens/profile/padded_widget';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
-// import 'package:tobeto/constants/utilities.dart';
+ 
 
 class CertificatesPage extends StatefulWidget {
   const CertificatesPage({super.key});
@@ -12,8 +13,8 @@ class CertificatesPage extends StatefulWidget {
 }
 
 class _CertificatesPageState extends State<CertificatesPage> {
-  final TextEditingController _certificateNameController =
-      TextEditingController();
+  final TextEditingController _certificateNameController = TextEditingController();
+      
 
   DateTime? _selectedYear;
   String? _filePath;
@@ -25,12 +26,7 @@ class _CertificatesPageState extends State<CertificatesPage> {
   }
 
   Future<void> _selectYear(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1990),
-      lastDate: DateTime.now(),
-    );
+    final DateTime? picked = await CertificateUtil.selectYear(context, _selectedYear);
     if (picked != null && picked != _selectedYear) {
       setState(() {
         _selectedYear = picked;
@@ -39,14 +35,10 @@ class _CertificatesPageState extends State<CertificatesPage> {
   }
 
   Future<void> _pickPDF() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf'],
-    );
-
-    if (result != null) {
+    final String? path = await CertificateUtil.pickPDF();
+    if (path != null) {
       setState(() {
-        _filePath = result.files.single.path!;
+        _filePath = path;
       });
     }
   }
@@ -62,52 +54,64 @@ class _CertificatesPageState extends State<CertificatesPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 8),
-            TBTInputField(
-              hintText: "Sertifika Adı",
-              controller: _certificateNameController,
-              onSaved: (p0) {},
-              keyboardType: TextInputType.name,
-            ),
-            const SizedBox(height: 32),
-            TextFormField(
-              controller: TextEditingController(
-                text: _selectedYear != null ? '${_selectedYear!.year}' : '',
+            PaddedWidget(
+              padding: 8.0,
+              child: TBTInputField(
+                hintText: "Sertifika Adı",
+                controller: _certificateNameController,
+                onSaved: (p0) {},
+                keyboardType: TextInputType.name,
               ),
-              decoration: const InputDecoration(
-                labelText: 'Alınan Tarih',
-                hintText: 'Yıl Seçin',
-                contentPadding: EdgeInsets.all(8),
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(Icons.calendar_today),
+            ),
+            PaddedWidget(
+              padding: 8.0,
+              child: TextFormField(
+                controller: TextEditingController(
+                  text: _selectedYear != null ? '${_selectedYear!.year}' : '',
+                ),
+                decoration: const InputDecoration(
+                  labelText: 'Alınan Tarih',
+                  hintText: 'Yıl Seçin',
+                  contentPadding: EdgeInsets.all(8),
+                  border: OutlineInputBorder(),
+                  suffixIcon: Icon(Icons.calendar_today),
+                ),
+                readOnly: true,
+                onTap: () {
+                  _selectYear(context);
+                },
               ),
-              readOnly:
-                  true, // Kullanıcının manuel olarak tarih girmesini engellemek için
-              onTap: () {
-                _selectYear(context);
-              },
             ),
-            const SizedBox(height: 16),
-            const Text(
-              'PDF Yükle',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () {
-                _pickPDF();
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.all(8.0),
+            const PaddedWidget(
+              padding: 16.0,
+              child: Text(
+                'PDF Yükle',
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              child: const Text('PDF Yükle'),
             ),
-            const SizedBox(height: 8),
-            _filePath != null ? Text('Seçilen Dosya: $_filePath') : Container(),
-            const SizedBox(height: 16),
-            TBTPurpleButton(
-              buttonText: 'Kaydet',
-              onPressed: () {},
+            PaddedWidget(
+              padding: 8.0,
+              child: ElevatedButton(
+                onPressed: () {
+                  _pickPDF();
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.all(8.0),
+                ),
+                child: const Text('PDF Yükle'),
+              ),
+            ),
+            if (_filePath != null)
+              PaddedWidget(
+                padding: 8.0,
+                child: Text('Seçilen Dosya: $_filePath'),
+              ),
+            PaddedWidget(
+              padding: 8.0,
+              child: TBTPurpleButton(
+                buttonText: 'Kaydet',
+                onPressed: () {},
+              ),
             ),
           ],
         ),
