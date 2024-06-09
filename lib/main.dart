@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:tobeto/firebase_options.dart';
 import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
 import 'package:tobeto/src/presentation/screens/onboarding/onboarding_screen.dart';
-
 import 'src/common/router/app_router.dart';
 // import 'src/lang/lang.dart';
 
@@ -38,10 +37,9 @@ class MainApp extends StatelessWidget {
       //   GlobalCupertinoLocalizations.delegate,
       // ],
       onGenerateRoute: AppRouter.generateRoute,
- 
-      initialRoute: AppRouteNames.onboardingRoute,
-      // home: HomeScreen(),
- 
+      initialRoute: AppRouteNames.platformScreenRoute,
+      // home: PlatformScreen(),
+
     );
   }
 }
