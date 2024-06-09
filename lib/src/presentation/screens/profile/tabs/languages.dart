@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/presentation/screens/profile/padded_widget';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
 class LanguagesPage extends StatefulWidget {
@@ -47,18 +48,19 @@ class _LanguagesPageState extends State<LanguagesPage> {
     'Ana Dil',
   ];
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Yabancı Dil Bilgileri'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Yabancı Dil Bilgileri'),
+    ),
+    body: SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          PaddedWidget(
+            child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(8),
@@ -86,8 +88,10 @@ class _LanguagesPageState extends State<LanguagesPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            Container(
+          ),
+          const SizedBox(height: 16),
+          PaddedWidget(
+            child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(8),
@@ -115,14 +119,15 @@ class _LanguagesPageState extends State<LanguagesPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
-            TBTPurpleButton(
-              buttonText: 'Kaydet',
-              onPressed: () {},
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 16),
+          TBTPurpleButton(
+            buttonText: 'Kaydet',
+            onPressed: () {},
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 }

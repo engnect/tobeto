@@ -5,7 +5,7 @@ import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
 import 'package:tobeto/src/presentation/screens/onboarding/onboarding_screen.dart';
 
 import 'src/common/router/app_router.dart';
-import 'src/lang/lang.dart';
+// import 'src/lang/lang.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,8 +38,10 @@ class MainApp extends StatelessWidget {
       //   GlobalCupertinoLocalizations.delegate,
       // ],
       onGenerateRoute: AppRouter.generateRoute,
+ 
       initialRoute: AppRouteNames.onboardingRoute,
       // home: HomeScreen(),
+ 
     );
   }
 }

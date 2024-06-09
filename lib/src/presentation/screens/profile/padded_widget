@@ -1,0 +1,23 @@
+import 'package:flutter/material.dart';
+
+class PaddedWidget extends StatelessWidget {
+  final Widget child;
+  final double padding;
+ 
+
+  const PaddedWidget({
+    required this.child,
+    this.padding = 8.0,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(padding),
+      child: Container(   
+        child: child,
+      ),
+    );
+  }
+}

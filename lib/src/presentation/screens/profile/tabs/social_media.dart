@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/presentation/screens/profile/padded_widget';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
 
@@ -20,18 +21,19 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sosyal Medya'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Sosyal Medya'),
+    ),
+    body: SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          PaddedWidget(
+            child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(8),
@@ -79,21 +81,23 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
-            TBTInputField(
+          ),
+          PaddedWidget(
+            child: TBTInputField(
               hintText: "https://",
               controller: _linkController,
               onSaved: (p0) {},
               keyboardType: TextInputType.url,
             ),
-            const SizedBox(height: 16),
-            TBTPurpleButton(
-              buttonText: 'Kaydet',
-              onPressed: () {},
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 16),
+          TBTPurpleButton(
+            buttonText: 'Kaydet',
+            onPressed: () {},
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 }

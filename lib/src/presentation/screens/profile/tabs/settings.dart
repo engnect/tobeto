@@ -29,6 +29,33 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget buildTextFieldWithBorder({
+      required TextEditingController controller,
+      required String labelText,
+      required bool obscureText,
+      required VoidCallback toggleObscureText,
+    }) {
+      return Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: TextField(
+          controller: controller,
+          obscureText: obscureText,
+          decoration: InputDecoration(
+            labelText: labelText,
+            contentPadding: const EdgeInsets.all(8),
+            border: InputBorder.none,
+            suffixIcon: IconButton(
+              icon: Icon(obscureText ? Icons.visibility_off : Icons.visibility),
+              onPressed: toggleObscureText,
+            ),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ayarlar'),
@@ -39,7 +66,7 @@ class _SettingsPageState extends State<SettingsPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 8),
-            _buildTextFieldWithBorder(
+            buildTextFieldWithBorder(
               controller: _oldPasswordController,
               labelText: 'Eski Şifre',
               obscureText: _obscureOldPassword,
@@ -50,7 +77,7 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             const SizedBox(height: 24),
-            _buildTextFieldWithBorder(
+            buildTextFieldWithBorder(
                 controller: _newPasswordController,
                 labelText: 'Yeni Şifre',
                 obscureText: _obscureNewPassword,
@@ -60,7 +87,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   });
                 }),
             const SizedBox(height: 24),
-            _buildTextFieldWithBorder(
+            buildTextFieldWithBorder(
               controller: _confirmNewPasswordController,
               labelText: 'Yeni Şifre Tekrar',
               obscureText: _obscureConfirmNewPassword,
@@ -90,33 +117,6 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextFieldWithBorder({
-    required TextEditingController controller,
-    required String labelText,
-    required bool obscureText,
-    required VoidCallback toggleObscureText,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: TextField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          labelText: labelText,
-          contentPadding: const EdgeInsets.all(8),
-          border: InputBorder.none,
-          suffixIcon: IconButton(
-            icon: Icon(obscureText ? Icons.visibility_off : Icons.visibility),
-            onPressed: toggleObscureText,
-          ),
         ),
       ),
     );
