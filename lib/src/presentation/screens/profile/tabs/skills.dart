@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/presentation/screens/profile/padded_widget';
 
 class SkillsPage extends StatefulWidget {
   const SkillsPage({super.key});
@@ -34,19 +35,19 @@ class _SkillsPageState extends State<SkillsPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Yetenekler'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 8),
-              Row(
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Yetenekler'),
+    ),
+    body: SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            PaddedWidget(
+              child: Row(
                 children: [
                   Expanded(
                     child: TextField(
@@ -69,8 +70,10 @@ class _SkillsPageState extends State<SkillsPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
-              Wrap(
+            ),
+            const SizedBox(height: 24),
+            PaddedWidget(
+              child: Wrap(
                 spacing: 8,
                 children: _selectedSkills
                     .map(
@@ -85,8 +88,10 @@ class _SkillsPageState extends State<SkillsPage> {
                     )
                     .toList(),
               ),
-              const SizedBox(height: 16),
-              DropdownButtonFormField<String>(
+            ),
+            const SizedBox(height: 16),
+            PaddedWidget(
+              child: DropdownButtonFormField<String>(
                 value: null,
                 hint: const Text('Mevcut yetkinlik Seç'),
                 items: _availableSkills.map((String skill) {
@@ -101,24 +106,25 @@ class _SkillsPageState extends State<SkillsPage> {
                   }
                 },
               ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
-                ),
-                child: const Text(
-                  "Kaydet",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
+              ),
+              child: const Text(
+                "Kaydet",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }

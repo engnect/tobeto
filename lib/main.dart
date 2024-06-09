@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tobeto/firebase_options.dart';
+import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
+import 'package:tobeto/src/presentation/screens/onboarding/onboarding_screen.dart';
 import 'src/common/router/app_router.dart';
 // import 'src/lang/lang.dart';
 
@@ -37,6 +39,7 @@ class MainApp extends StatelessWidget {
       onGenerateRoute: AppRouter.generateRoute,
       initialRoute: AppRouteNames.platformScreenRoute,
       // home: PlatformScreen(),
+
     );
   }
 }

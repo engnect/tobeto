@@ -11,6 +11,7 @@ import 'package:tobeto/src/presentation/screens/for_companies/for_companies_scre
 import 'package:tobeto/src/presentation/screens/for_individuals/for_individuals_page.dart';
 import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
 import 'package:tobeto/src/presentation/screens/in_the_press/in_the_press_screen.dart';
+import 'package:tobeto/src/presentation/screens/onboarding/onboarding_screen.dart';
 import 'package:tobeto/src/presentation/screens/platform/extract_home_page.dart';
 import 'package:tobeto/src/presentation/screens/profile/profile_screen.dart';
 
@@ -20,6 +21,10 @@ class AppRouter {
       case AppRouteNames.homeRoute:
         return MaterialPageRoute(
           builder: (_) => const HomeScreen(),
+        );
+      case AppRouteNames.onboardingRoute:
+        return MaterialPageRoute(
+          builder: (_) => const OnBoardingScreen(),
         );
       case AppRouteNames.aboutUsScreenRoute:
         return MaterialPageRoute(
@@ -84,6 +89,7 @@ class AppRouter {
 
 class AppRouteNames {
   static const String homeRoute = '/';
+  static const String onboardingRoute = 'onboardingScreen';
   static const String aboutUsScreenRoute = '/aboutUsScreen';
   static const String contactUsScreenRoute = '/contactUsScreen';
 //TODO: kurs ekranına bakılcak!
