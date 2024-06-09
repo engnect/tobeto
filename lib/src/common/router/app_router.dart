@@ -4,6 +4,8 @@ import 'package:tobeto/src/presentation/screens/auth/extract_login.dart';
 import 'package:tobeto/src/presentation/screens/calendar/calendar_screen.dart';
 import 'package:tobeto/src/presentation/screens/contact_us/contact_us_screen.dart';
 import 'package:tobeto/src/presentation/screens/course/course_screen.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/screens/in_the_press_admin/in_the_press_add_edit.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_add_edit.dart';
 import 'package:tobeto/src/presentation/screens/error/error_screen.dart';
 import 'package:tobeto/src/presentation/screens/for_companies/for_companies_screen.dart';
 import 'package:tobeto/src/presentation/screens/for_individuals/for_individuals_page.dart';
@@ -63,6 +65,14 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const CalendarScreen(),
         );
+      case AppRouteNames.staffAddEditScreenRoute:
+        return MaterialPageRoute(
+          builder: (_) => const StaffAddEdit(),
+        );
+      case AppRouteNames.inThePressAddEditScreenRoute:
+        return MaterialPageRoute(
+          builder: (_) => const InThePressAddEdit(),
+        );
       // error
       default:
         return MaterialPageRoute(
@@ -86,4 +96,6 @@ class AppRouteNames {
   static const String inThePressScreenRoute = '/InThePressScreen';
   static const String profileScreenRoute = '/profileScreen';
   static const String calendarScreenRoute = '/calendarScreen';
+  static const String staffAddEditScreenRoute = '/staffAddEditScreen';
+  static const String inThePressAddEditScreenRoute = '/inThePressAddEditScreen';
 }

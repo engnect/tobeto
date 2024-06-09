@@ -1,9 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tobeto/firebase_options.dart';
-
 import 'src/common/router/app_router.dart';
-import 'src/lang/lang.dart';
+// import 'src/lang/lang.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +35,8 @@ class MainApp extends StatelessWidget {
       //   GlobalCupertinoLocalizations.delegate,
       // ],
       onGenerateRoute: AppRouter.generateRoute,
-      initialRoute: AppRouteNames.homeRoute,
+      initialRoute: AppRouteNames.platformScreenRoute,
+      // home: PlatformScreen(),
     );
   }
 }
