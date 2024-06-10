@@ -39,7 +39,7 @@ class CalendarRepository {
     String result = '';
 
     try {
-      await _events.doc(eventModel.id).delete();
+      await _events.doc(eventModel.id).set(eventModel);
       result = 'success';
     } catch (error) {
       result = error.toString();
