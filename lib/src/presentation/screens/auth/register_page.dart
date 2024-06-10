@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:glowy_borders/glowy_borders.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
+import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
@@ -101,7 +102,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: TBTPurpleButton(
                               buttonText: 'Kayıt Ol',
-                              onPressed: () {},
+                              onPressed: () async {
+                                await AuthRepository().registerUser(
+                                  userName: nameController.text,
+                                  userSurname: surnameController.text,
+                                  userEmail: emailController.text,
+                                  userPassword: passwordController.text,
+                                );
+                              },
                             ),
                           ),
                           Padding(

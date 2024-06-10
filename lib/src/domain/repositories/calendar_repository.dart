@@ -7,7 +7,7 @@ class CalendarRepository {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   CollectionReference get _events =>
-      _firebaseFirestore.collection(FirebaseConstants.events);
+      _firebaseFirestore.collection(FirebaseConstants.eventsCollection);
 
   Future<List<EventModel>> fetchEventsFromFirestore() async {
     List<EventModel> events = [];
