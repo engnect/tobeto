@@ -36,7 +36,7 @@ class TBTEndDrawer extends StatelessWidget {
                         style: TextStyle(
                             color: Color.fromRGBO(126, 35, 218, 1),
                             fontFamily: "Poppins",
-                            fontSize: 24,
+                            fontSize: 12,
                             fontWeight: FontWeight.w900),
                       ),
                     )
@@ -81,9 +81,9 @@ class TBTEndDrawer extends StatelessWidget {
                   title: TBTPurpleButton(
                     buttonText: "Blog",
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const BlogPageAdmin(),
-                      ));
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //   builder: (context) => const BlogPageAdmin(),
+                      // ));
                     },
                   ),
                 ),

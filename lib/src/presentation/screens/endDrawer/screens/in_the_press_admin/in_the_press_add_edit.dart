@@ -1,6 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tobeto/src/domain/repositories/auth_repository.dart';
+import 'package:tobeto/src/domain/repositories/blog_repository.dart';
+import 'package:tobeto/src/models/blog_model.dart';
+import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
@@ -12,6 +16,19 @@ class InThePressAddEdit extends StatefulWidget {
 }
 
 class _InThePressAddEditState extends State<InThePressAddEdit> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController contentController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  XFile? selectedImage;
+  bool selected = false;
+  late UserModel userModel;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
   void _pickImage() async {
     final imagePicker = ImagePicker();
     XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
@@ -26,12 +43,11 @@ class _InThePressAddEditState extends State<InThePressAddEdit> {
     }
   }
 
+  void getCurrentUser() async {
+    userModel = await AuthRepository().getCurrentUser();
+  }
+
   //kamera mı ? galeri mi ? ekle!!!
-  TextEditingController titleController = TextEditingController();
-  TextEditingController contentController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-  XFile? selectedImage;
-  bool selected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,27 +83,29 @@ class _InThePressAddEditState extends State<InThePressAddEdit> {
                         _pickImage();
                       },
                       child: Padding(
-                          padding: const EdgeInsets.only(bottom: 50, top: 30),
-                          child: AspectRatio(
-                            aspectRatio: 1,
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    color: const Color.fromRGBO(
-                                        150, 150, 150, 0.2),
-                                    image: selected
-                                        ? DecorationImage(
-                                            image: FileImage(
-                                              File(selectedImage!.path),
-                                            ),
-                                          )
-                                        : null),
-                                child: selected
-                                    ? null
-                                    : const Icon(
-                                        Icons.camera_alt,
-                                        size: 50,
-                                      )),
-                          )),
+                        padding: const EdgeInsets.only(bottom: 50, top: 30),
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color.fromRGBO(150, 150, 150, 0.2),
+                              image: selected
+                                  ? DecorationImage(
+                                      image: FileImage(
+                                        File(selectedImage!.path),
+                                      ),
+                                    )
+                                  : null,
+                            ),
+                            child: selected
+                                ? null
+                                : const Icon(
+                                    Icons.camera_alt,
+                                    size: 50,
+                                  ),
+                          ),
+                        ),
+                      ),
                     ),
                     TBTInputField(
                         hintText: "Başlık",
@@ -104,12 +122,26 @@ class _InThePressAddEditState extends State<InThePressAddEdit> {
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: TBTPurpleButton(
                         buttonText: "Kaydet",
-                        onPressed: () {},
+                        onPressed: () async {
+                          BlogModel blogModel = BlogModel(
+                            blogId: '1',
+                            userId: userModel.userId,
+                            userFullName:
+                                '${userModel.userName} ${userModel.userSurname}',
+                            blogCreatedAt: DateTime.now(),
+                            blogTitle: titleController.text,
+                            blogContent: contentController.text,
+                            blogImageUrl:
+                                'https://images.unsplash.com/photo-1718011087751-e82f1792aa32?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHx8',
+                          );
+
+                          await BlogRepository().addBlog(blogModel: blogModel);
+                        },
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/common/router/app_router.dart';
+import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_fake_data.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_model.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
@@ -66,90 +69,130 @@ class _StaffPageState extends State<StaffPage> {
                     height: MediaQuery.of(context).size.height -
                         kToolbarHeight -
                         200,
-                    child: ListView.builder(
-                      itemCount: data.length,
-                      itemBuilder: (context, index) {
-                        return Slidable(
-                          key: ValueKey(index),
-                          endActionPane: ActionPane(
-                            extentRatio: 0.6,
-                            motion: const DrawerMotion(),
-                            children: [
-                              SlidableAction(
-                                onPressed: (context) {
-                                  print("Sile tıklandı");
-                                },
-                                backgroundColor: const Color(0xFFFE4A49),
-                                foregroundColor: Colors.white,
-                                icon: Icons.delete,
-                                label: 'Sil',
-                              ),
-                              SlidableAction(
-                                onPressed: (context) {
-                                  print("Düzenleye tıklandı");
-                                },
-                                backgroundColor: const Color(0xFF21B7CA),
-                                foregroundColor: Colors.white,
-                                icon: Icons.edit,
-                                label: 'Düzenle',
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 4,
-                              horizontal: 2,
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage:
-                                      AssetImage(data[index].avatar),
+                    child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection(FirebaseConstants.usersCollection)
+                          .where(
+                            'userRank',
+                            isEqualTo: 'admin',
+                          )
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else {
+                          return ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              DocumentSnapshot documentSnapshot =
+                                  snapshot.data!.docs[index];
+
+                              UserModel userModel = UserModel.fromMap(
+                                  documentSnapshot.data()
+                                      as Map<String, dynamic>);
+
+                              return Slidable(
+                                key: ValueKey(index),
+                                endActionPane: ActionPane(
+                                  extentRatio: 0.6,
+                                  motion: const DrawerMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        print("Sile tıklandı");
+                                      },
+                                      backgroundColor: const Color(0xFFFE4A49),
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.delete,
+                                      label: 'Sil',
+                                    ),
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        print("Düzenleye tıklandı");
+                                      },
+                                      backgroundColor: const Color(0xFF21B7CA),
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.edit,
+                                      label: 'Düzenle',
+                                    ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 5),
-                                  child: SizedBox(
-                                    width: 250,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 5),
-                                          child: Text(
-                                            data[index].name,
-                                            style: const TextStyle(
-                                                fontFamily: "Poppins",
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 5),
-                                          child: Text(
-                                            textAlign: TextAlign.left,
-                                            data[index].job,
-                                            softWrap: true,
-                                            style: const TextStyle(
-                                                fontFamily: "Poppins",
-                                                fontSize: 14,
-                                                color: Color.fromRGBO(
-                                                    135, 135, 135, 1)),
-                                          ),
-                                        ),
-                                      ],
+                                child: ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                      userModel.userAvatarUrl!,
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
+                                  title: Text(
+                                      '${userModel.userName} ${userModel.userSurname}'),
+                                  subtitle: Text(userModel.userRank!),
+                                ),
+
+                                // Padding(
+                                //   padding: const EdgeInsets.symmetric(
+                                //     vertical: 4,
+                                //     horizontal: 2,
+                                //   ),
+                                //   child: Row(
+                                //     crossAxisAlignment:
+                                //         CrossAxisAlignment.start,
+                                //     children: [
+                                //       CircleAvatar(
+                                //         radius: 40,
+                                //         backgroundImage: NetworkImage(
+                                //           userModel.userAvatarUrl!,
+                                //         ),
+                                //       ),
+                                //       Padding(
+                                //         padding: const EdgeInsets.symmetric(
+                                //           horizontal: 5,
+                                //         ),
+                                //         child: SizedBox(
+                                //           width: 250,
+                                //           child: Column(
+                                //             crossAxisAlignment:
+                                //                 CrossAxisAlignment.start,
+                                //             children: [
+                                //               Padding(
+                                //                 padding: const EdgeInsets.only(
+                                //                     top: 5),
+                                //                 child: Text(
+                                //                   ' ${userModel.userName} ${userModel.userSurname}',
+                                //                   style: const TextStyle(
+                                //                     fontFamily: "Poppins",
+                                //                     fontWeight: FontWeight.bold,
+                                //                     fontSize: 16,
+                                //                   ),
+                                //                 ),
+                                //               ),
+                                //               Padding(
+                                //                 padding: const EdgeInsets.only(
+                                //                     top: 5),
+                                //                 child: Text(
+                                //                   textAlign: TextAlign.left,
+                                //                   userModel.userRank!,
+                                //                   softWrap: true,
+                                //                   style: const TextStyle(
+                                //                     fontFamily: "Poppins",
+                                //                     fontSize: 14,
+                                //                     color: Color.fromRGBO(
+                                //                         135, 135, 135, 1),
+                                //                   ),
+                                //                 ),
+                                //               ),
+                                //             ],
+                                //           ),
+                                //         ),
+                                //       )
+                                //    ],
+                                //  ),
+                                //  ),
+                              );
+                            },
+                          );
+                        }
                       },
                     ),
                   )
