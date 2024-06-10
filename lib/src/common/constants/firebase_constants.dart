@@ -1,3 +1,4 @@
 class FirebaseConstants {
-  static const String events = "events";
+  static const String eventsCollection = "events";
+  static const String usersCollection = "users";
 }
