@@ -28,7 +28,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: Scaffold(
       //   body: CourseScreen(),
@@ -50,16 +50,16 @@ class MainApp extends StatelessWidget {
       //     : AppRouteNames.platformScreenRoute,
       initialRoute: AppRouteNames.homeRoute,
 
-      // home: StreamBuilder<User?>(
-      //   stream: FirebaseAuth.instance.authStateChanges(),
-      //   builder: (context, snapshot) {
-      //     if (snapshot.hasData) {
-      //       return const PlatformScreen();
-      //     } else {
-      //       return const HomeScreen();
-      //     }
-      //   },
-      // ),
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const PlatformScreen();
+          } else {
+            return const HomeScreen();
+          }
+        },
+      ),
       // home: PlatformScreen(),
     );
   }

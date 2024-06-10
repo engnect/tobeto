@@ -11,18 +11,17 @@ class TBTInputField extends StatefulWidget {
   final int? minLines;
   final EdgeInsets? padding;
 
-  const TBTInputField({
-    super.key,
-    required this.hintText,
-    this.isObscure = false,
-    required this.controller,
-    required this.onSaved,
-    required this.keyboardType,
-    this.readOnly,
-    this.maxLines,
-    this.minLines,
-    this.padding
-  });
+  const TBTInputField(
+      {super.key,
+      required this.hintText,
+      this.isObscure,
+      required this.controller,
+      required this.onSaved,
+      required this.keyboardType,
+      this.readOnly,
+      this.maxLines,
+      this.minLines,
+      this.padding});
 
   @override
   State<TBTInputField> createState() => _TBTInputFieldState();
@@ -43,25 +42,33 @@ class _TBTInputFieldState extends State<TBTInputField> {
         keyboardType: widget.keyboardType,
         controller: widget.controller,
         decoration: InputDecoration(
-          suffixIcon: widget.isObscure == true
-              ? showPassword
+          suffixIcon: widget.isObscure == null
+              ? null
+              : showPassword
                   ? IconButton(
-                      icon: const Icon(Icons.remove_red_eye_outlined),
                       onPressed: () {
                         setState(() {
                           showPassword = !showPassword;
+
+                          print(showPassword);
                         });
                       },
+                      icon: const Icon(
+                        Icons.visibility_off_outlined,
+                      ),
                     )
                   : IconButton(
-                      icon: const Icon(Icons.visibility_off_outlined),
                       onPressed: () {
                         setState(() {
                           showPassword = !showPassword;
+
+                          print(showPassword);
                         });
                       },
-                    )
-              : null,
+                      icon: const Icon(
+                        Icons.visibility_outlined,
+                      ),
+                    ),
           hintText: widget.hintText,
           border: const OutlineInputBorder(
             borderSide: BorderSide(
@@ -87,8 +94,7 @@ class _TBTInputFieldState extends State<TBTInputField> {
           ),
         ),
         autocorrect: false,
-        obscureText: showPassword,
-
+        obscureText: widget.isObscure != null ? !showPassword : showPassword,
         // onSaved: onSaved,
       ),
     );
