@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/end_drawer.dart';
 import 'package:tobeto/src/presentation/screens/platform/widgets/extract_home_widgets.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
@@ -22,12 +21,6 @@ class _PlatformScreenState extends State<PlatformScreen> {
       child: DefaultTabController(
         length: 3, // Toplam sekme sayısı
         child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              AuthRepository().signOutUser();
-            },
-            child: const Icon(Icons.add),
-          ),
           appBar: TBTAppBar(controller: controller),
           drawer: const TBTDrawer(),
           endDrawer: const TBTEndDrawer(),

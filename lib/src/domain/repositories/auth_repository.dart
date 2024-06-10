@@ -1,9 +1,5 @@
-import 'dart:ui';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/rendering.dart';
-
 import '../../common/constants/firebase_constants.dart';
 import '../../models/user_model.dart';
 
@@ -13,6 +9,13 @@ class AuthRepository {
 
   CollectionReference get _users =>
       _firebaseFirestore.collection(FirebaseConstants.usersCollection);
+
+  Future<UserModel> getCurrentUser() async {
+    User currentUser = _firebaseAuth.currentUser!;
+
+    DocumentSnapshot documentSnapshot = await _users.doc(currentUser.uid).get();
+    return UserModel.fromMap(documentSnapshot.data() as Map<String, dynamic>);
+  }
 
   Future<void> registerUser({
     required String userName,
@@ -37,6 +40,7 @@ class AuthRepository {
           userEmail: userEmail,
           userRank: 'student',
           userCreatedAt: DateTime.now(),
+          userBirthDate: DateTime.now(),
           languageList: [],
           socialMediaList: [],
           skillsList: [],
