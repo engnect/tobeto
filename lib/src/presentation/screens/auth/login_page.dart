@@ -4,6 +4,7 @@ import 'package:glowy_borders/glowy_borders.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
+import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/presentation/screens/auth/register_page.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
@@ -86,7 +87,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: const EdgeInsets.all(8.0),
                             child: TBTPurpleButton(
                               buttonText: 'Giriş Yap',
-                              onPressed: () {},
+                              onPressed: () async {
+                                await AuthRepository().singInUser(
+                                  userEmail: emailController.text,
+                                  userPassword: passwordController.text,
+                                );
+                              },
                             ),
                           ),
                           ElevatedButton(
