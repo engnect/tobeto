@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tobeto/firebase_options.dart';
+import 'package:tobeto/simple_bloc_observer.dart';
 import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
 import 'package:tobeto/src/presentation/screens/onboarding/onboarding_screen.dart';
 import 'package:tobeto/src/presentation/screens/platform/platform_screen.dart';
@@ -20,6 +22,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Bloc.observer = SimpleBlocObserver();
   runApp(const MainApp());
 }
 
@@ -44,7 +47,7 @@ class MainApp extends StatelessWidget {
       //   GlobalWidgetsLocalizations.delegate,
       //   GlobalCupertinoLocalizations.delegate,
       // ],
-      onGenerateRoute: AppRouter.generateRoute,
+      onGenerateRoute: AppRouter().generateRoute,
       // initialRoute: initScreen == 0 || initScreen == null
       //     ? AppRouteNames.onboardingRoute
       //     : AppRouteNames.platformScreenRoute,

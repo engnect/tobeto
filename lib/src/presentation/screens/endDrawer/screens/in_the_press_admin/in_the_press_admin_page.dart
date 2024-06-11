@@ -26,7 +26,7 @@ class _InThePressAdminState extends State<InThePressAdmin> {
   }
 
   void getBlogs() async {
-    blogs = await BlogRepository().fetchBlogsFromFirestore();
+    blogs = await BlogRepository(isBlog: true).fetchBlogsFromFirestore();
   }
 
   @override

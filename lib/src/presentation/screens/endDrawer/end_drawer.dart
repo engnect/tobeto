@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/blog_page/blog_page.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/screens/blog_page/blog_admin_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/in_the_press_admin/in_the_press_admin_page.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_page.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/students_page/students_page.dart';

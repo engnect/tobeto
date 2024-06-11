@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 
-class InThePressCard extends StatefulWidget {
-  final String image;
-  final String date;
-  final String title;
-  final String content;
+import 'package:tobeto/src/models/blog_model.dart';
+
+class TBTBlogCard extends StatefulWidget {
+  final BlogModel blogModel;
   final VoidCallback ontap;
 
-  const InThePressCard({
+  const TBTBlogCard({
     super.key,
-    required this.image,
-    required this.date,
-    required this.title,
-    required this.content,
+    required this.blogModel,
     required this.ontap,
   });
 
   @override
-  State<InThePressCard> createState() => _InThePressCardState();
+  State<TBTBlogCard> createState() => _TBTBlogCardState();
 }
 
-class _InThePressCardState extends State<InThePressCard> {
+class _TBTBlogCardState extends State<TBTBlogCard> {
   bool _isExpanded = false;
 
   @override
@@ -48,12 +44,12 @@ class _InThePressCardState extends State<InThePressCard> {
           children: [
             ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(15)),
-              child: Image.asset(widget.image),
+              child: Image.network(widget.blogModel.blogImageUrl),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
               child: Text(
-                widget.date,
+                widget.blogModel.blogCreatedAt.toString(),
                 textAlign: TextAlign.start,
                 style: const TextStyle(
                   color: Colors.grey,
@@ -64,7 +60,7 @@ class _InThePressCardState extends State<InThePressCard> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
               child: Text(
-                widget.title,
+                widget.blogModel.blogTitle,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontWeight: FontWeight.bold),
@@ -75,7 +71,7 @@ class _InThePressCardState extends State<InThePressCard> {
               child: AnimatedSize(
                 duration: const Duration(milliseconds: 300),
                 child: Text(
-                  widget.content,
+                  widget.blogModel.blogContent,
                   maxLines: _isExpanded ? null : 4,
                   overflow: _isExpanded
                       ? TextOverflow.visible
