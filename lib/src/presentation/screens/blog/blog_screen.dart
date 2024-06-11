@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/presentation/screens/about_us/about_us_screen.dart';
+import 'package:tobeto/src/presentation/screens/auth/extract_login.dart';
 import '../../widgets/tbt_app_bar_widget.dart';
 import '../../widgets/tbt_blog_stream.dart';
 import '../../widgets/tbt_drawer_widget.dart';
@@ -21,26 +22,27 @@ class _BlogScreenState extends State<BlogScreen> {
         appBar: TBTAppBar(controller: controller),
         drawer: const TBTDrawer(),
         backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
-        body: const Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-              child: Text(
-                "Basında Biz",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 35,
+        body: SingleChildScrollView(
+          controller: controller,
+          child: const Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+                child: Text(
+                  "Basında Biz",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 35,
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: TBTBlogStream(
+              TBTBlogStream(
                 isBlog: true,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
