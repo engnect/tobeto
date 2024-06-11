@@ -8,6 +8,7 @@ import 'package:tobeto/src/presentation/screens/blog/blog_screen.dart';
 import 'package:tobeto/src/presentation/screens/calendar/calendar_screen.dart';
 import 'package:tobeto/src/presentation/screens/contact_us/contact_us_screen.dart';
 import 'package:tobeto/src/presentation/screens/course/course_screen.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/screens/blog_page/blog_admin_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/in_the_press_admin/in_the_press_add_edit.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_add_edit.dart';
 import 'package:tobeto/src/presentation/screens/error/error_screen.dart';
@@ -88,6 +89,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const BlogScreen(),
         );
+      case AppRouteNames.blogAdminScreenRoute:
+        return MaterialPageRoute(
+          builder: (_) => const AdminBlogScreen(),
+        );
       // error
       default:
         return MaterialPageRoute(
@@ -115,4 +120,5 @@ class AppRouteNames {
   static const String staffAddEditScreenRoute = '/staffAddEditScreen';
   static const String inThePressAddEditScreenRoute = '/inThePressAddEditScreen';
   static const String blogScreenRoute = '/blogScreen';
+  static const String blogAdminScreenRoute = '/blogAdminScreen';
 }
