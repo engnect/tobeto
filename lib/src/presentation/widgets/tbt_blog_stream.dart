@@ -28,7 +28,8 @@ class TBTBlogStream extends StatelessWidget {
           );
         } else {
           return ListView.builder(
-            physics: const AlwaysScrollableScrollPhysics(),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
