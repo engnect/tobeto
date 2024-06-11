@@ -95,12 +95,41 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                             ),
                           ),
-                          ElevatedButton(
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  const Color.fromARGB(255, 255, 255, 255),
+                                ),
+                              ),
                               onPressed: () {
-                                signInWithGoogle();
+                                // signInWithGoogle();
                                 print("giriş yapa tıklandı");
                               },
-                              child: const Text("Google İle Giriş")),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Image.asset(
+                                    Assets.imageGoogle,
+                                    width: 32,
+                                  ),
+                                  const Expanded(
+                                    child: Text(
+                                      "Google İle Giriş",
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                           GestureDetector(
                             onTap: () {},
                             child: const Padding(

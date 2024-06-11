@@ -1,6 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/presentation/screens/blog/blog_screen.dart';
+import 'package:tobeto/src/presentation/screens/calendar/calendar_screen.dart';
+import 'package:tobeto/src/presentation/screens/course/course_screen.dart';
 import 'package:tobeto/src/presentation/screens/platform/platform_screen.dart';
+import 'package:tobeto/src/presentation/screens/profile/profile_screen.dart';
 
 class NavigationBarWidget extends StatefulWidget {
   const NavigationBarWidget({super.key});
@@ -10,15 +14,15 @@ class NavigationBarWidget extends StatefulWidget {
 }
 
 class _NavigationBarWidgetState extends State<NavigationBarWidget> {
-  int index = 2;
+  int index = 0;
 
-  // final screens = [
-  //   const ProfilPage(),
-  //   const LoginPage(),
-  //   const RegisterPage(),    ==>> Sayfalar tamamlalanınca aktif olacak!
-  //   const LessonsPage(),
-  //   const Homepage(),
-  // ];
+  final screens = [
+    const PlatformScreen(),
+    const BlogScreen(),
+    const CourseScreen(),
+    const CalendarScreen(),
+    const ProfileScreen()
+  ];
 
   final items = <Widget>[
     const Icon(Icons.home, size: 30),
@@ -31,7 +35,7 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: const PlatformScreen(), //  bu kısım Sayfalar tamamlanınca değişecek
+      body: screens[index],
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           iconTheme: const IconThemeData(
