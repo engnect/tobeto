@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/domain/repositories/auth_repository.dart';
+import 'package:tobeto/src/models/social_media_model.dart';
+import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/screens/contact_us/widgets/communication_info.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';

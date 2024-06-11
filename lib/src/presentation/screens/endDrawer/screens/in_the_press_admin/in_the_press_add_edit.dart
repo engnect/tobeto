@@ -68,14 +68,17 @@ class _InThePressAddEditState extends State<InThePressAddEdit> {
                 padding: const EdgeInsets.all(8),
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.6),
-                        blurRadius: 20,
-                      )
-                    ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Color.fromRGBO(0, 0, 0, 0.6),
+                      blurRadius: 20,
+                    )
+                  ],
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(25),
+                  ),
+                ),
                 child: Column(
                   children: [
                     GestureDetector(
@@ -135,7 +138,7 @@ class _InThePressAddEditState extends State<InThePressAddEdit> {
                                 'https://images.unsplash.com/photo-1718011087751-e82f1792aa32?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHx8',
                           );
 
-                          await BlogRepository(isBlog: true)
+                          await BlogRepository(isBlog: false)
                               .addBlog(blogModel: blogModel);
                         },
                       ),

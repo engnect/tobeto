@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -26,44 +28,48 @@ Future<void> main() async {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  late StreamSubscription<User?> _sub;
+  final _navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _sub = FirebaseAuth.instance.userChanges().listen((event) {
+      _navigatorKey.currentState!.pushReplacementNamed(
+        event != null
+            ? AppRouteNames.platformScreenRoute
+            : AppRouteNames.homeRoute,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _sub.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: Scaffold(
-      //   body: CourseScreen(),
-      // ),
-      // locale: Locale('tr'),
-      // supportedLocales: [
-      //   Locale('en', ''),
-      //   Locale('tr', ''),
-      // ],
-      // localizationsDelegates: [
-      //   AppLocalizations.delegate,
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      //   GlobalCupertinoLocalizations.delegate,
-      // ],
+      navigatorKey: _navigatorKey,
       onGenerateRoute: AppRouter().generateRoute,
       // initialRoute: initScreen == 0 || initScreen == null
       //     ? AppRouteNames.onboardingRoute
       //     : AppRouteNames.platformScreenRoute,
-      initialRoute: AppRouteNames.homeRoute,
-
-      home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return const PlatformScreen();
-          } else {
-            return const HomeScreen();
-          }
-        },
-      ),
-      // home: PlatformScreen(),
+      initialRoute: FirebaseAuth.instance.currentUser == null
+          ? AppRouteNames.homeRoute
+          : AppRouteNames.platformScreenRoute,
     );
   }
 }

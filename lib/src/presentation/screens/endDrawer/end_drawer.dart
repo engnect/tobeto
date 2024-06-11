@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/common/router/app_router.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/blog_page/blog_admin_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/in_the_press_admin/in_the_press_admin_page.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_page.dart';
@@ -81,9 +82,8 @@ class TBTEndDrawer extends StatelessWidget {
                   title: TBTPurpleButton(
                     buttonText: "Blog",
                     onPressed: () {
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //   builder: (context) => const BlogPageAdmin(),
-                      // ));
+                      Navigator.of(context)
+                          .pushNamed(AppRouteNames.blogAdminScreenRoute);
                     },
                   ),
                 ),
@@ -127,9 +127,11 @@ class TBTEndDrawer extends StatelessWidget {
                       title: TBTPurpleButton(
                         buttonText: "Öğrenciler",
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const StudentsPage(),
-                          ));
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const StudentsPage(),
+                            ),
+                          );
                         },
                       ),
                     ),

@@ -1,12 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/router/app_router.dart';
+import 'package:tobeto/src/domain/repositories/auth_repository.dart';
+import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import '../../common/constants/assets.dart';
 
-class TBTDrawer extends StatelessWidget {
+class TBTDrawer extends StatefulWidget {
   const TBTDrawer({
     super.key,
   });
+
+  @override
+  State<TBTDrawer> createState() => _TBTDrawerState();
+}
+
+class _TBTDrawerState extends State<TBTDrawer> {
+  UserModel? userModel;
+  Future<void> getCurrentUser() async {
+    print(userModel);
+    userModel = await AuthRepository().getCurrentUser();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser().then(
+      (value) {
+        setState(() {});
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,29 +176,42 @@ class TBTDrawer extends StatelessWidget {
                     .pushNamed(AppRouteNames.contactUsScreenRoute);
               },
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 30),
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                    Colors.black,
+            if (userModel == null)
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5, vertical: 30),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                      Colors.black,
+                    ),
                   ),
-                ),
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(AppRouteNames.loginScreenRoute);
-                },
-                child: const Text(
-                  "Giriş yap",
-                  style: TextStyle(
-                    fontFamily: "Poppins",
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushNamed(AppRouteNames.loginScreenRoute);
+                  },
+                  child: const Text(
+                    "Giriş yap",
+                    style: TextStyle(
+                      fontFamily: "Poppins",
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                 ),
               ),
-            ),
+            if (userModel != null)
+              TextButton.icon(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed(AppRouteNames.platformScreenRoute);
+                },
+                icon: CircleAvatar(
+                  backgroundImage: NetworkImage(userModel!.userAvatarUrl!),
+                ),
+                label: Text('deneme'),
+              ),
           ],
         ),
       ),
