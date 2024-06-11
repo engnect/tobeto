@@ -9,7 +9,8 @@ import 'package:tobeto/firebase_options.dart';
 import 'package:tobeto/simple_bloc_observer.dart';
 import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
 import 'package:tobeto/src/presentation/screens/onboarding/onboarding_screen.dart';
-import 'package:tobeto/src/presentation/screens/platform/platform_screen.dart';
+import 'package:tobeto/src/presentation/screens/platform/tabs/platform_tab.dart';
+import 'package:tobeto/src/presentation/screens/profile/navigation_bar_widget.dart';
 import 'src/common/router/app_router.dart';
 // import 'src/lang/lang.dart';
 
@@ -70,6 +71,7 @@ class _MainAppState extends State<MainApp> {
       initialRoute: FirebaseAuth.instance.currentUser == null
           ? AppRouteNames.homeRoute
           : AppRouteNames.platformScreenRoute,
+      // home: NavigationBarWidget(),
     );
   }
 }

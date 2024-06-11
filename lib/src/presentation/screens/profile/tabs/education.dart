@@ -38,7 +38,7 @@ class _EducationPageState extends State<EducationPage> {
     }
   }
 
-    Future<void> _selectEndDate(BuildContext context) async {
+  Future<void> _selectEndDate(BuildContext context) async {
     final selectedDate = await EducationUtil.selectEndDate(context);
     if (selectedDate != null) {
       setState(() {
@@ -46,7 +46,6 @@ class _EducationPageState extends State<EducationPage> {
       });
     }
   }
-
 
   void _addEducation() {
     setState(() {
@@ -68,20 +67,17 @@ class _EducationPageState extends State<EducationPage> {
     });
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Eğitim Bilgileri'),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              PaddedWidget( 
-                padding: 8.0, 
+              PaddedWidget(
+                padding: 8.0,
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
@@ -123,8 +119,8 @@ class _EducationPageState extends State<EducationPage> {
                   ),
                 ),
               ),
-              PaddedWidget( 
-                padding: 8.0, 
+              PaddedWidget(
+                padding: 8.0,
                 child: TBTInputField(
                   hintText: "Üniversite",
                   controller: _universityController,
@@ -132,8 +128,8 @@ class _EducationPageState extends State<EducationPage> {
                   keyboardType: TextInputType.name,
                 ),
               ),
-              PaddedWidget( 
-                padding: 8.0, 
+              PaddedWidget(
+                padding: 8.0,
                 child: TBTInputField(
                   hintText: "Bölüm",
                   controller: _departmentController,
@@ -141,8 +137,8 @@ class _EducationPageState extends State<EducationPage> {
                   keyboardType: TextInputType.name,
                 ),
               ),
-              PaddedWidget( 
-                padding: 8.0, 
+              PaddedWidget(
+                padding: 8.0,
                 child: TextFormField(
                   controller: TextEditingController(
                     text: _selectedStartDate != null
@@ -164,8 +160,8 @@ class _EducationPageState extends State<EducationPage> {
                   },
                 ),
               ),
-              PaddedWidget( 
-                padding: 8.0, 
+              PaddedWidget(
+                padding: 8.0,
                 child: TextFormField(
                   controller: TextEditingController(
                     text: _selectedEndDate != null
@@ -187,8 +183,8 @@ class _EducationPageState extends State<EducationPage> {
                   },
                 ),
               ),
-              PaddedWidget( 
-                padding: 8.0, 
+              PaddedWidget(
+                padding: 8.0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -214,7 +210,7 @@ class _EducationPageState extends State<EducationPage> {
               TBTPurpleButton(
                 buttonText: 'Kaydet',
                 onPressed: _addEducation,
-              ),       
+              ),
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

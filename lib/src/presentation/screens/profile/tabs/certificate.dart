@@ -3,7 +3,6 @@ import 'package:tobeto/src/common/constants/utilities.dart';
 import 'package:tobeto/src/presentation/screens/profile/padded_widget';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
- 
 
 class CertificatesPage extends StatefulWidget {
   const CertificatesPage({super.key});
@@ -13,8 +12,8 @@ class CertificatesPage extends StatefulWidget {
 }
 
 class _CertificatesPageState extends State<CertificatesPage> {
-  final TextEditingController _certificateNameController = TextEditingController();
-      
+  final TextEditingController _certificateNameController =
+      TextEditingController();
 
   DateTime? _selectedYear;
   String? _filePath;
@@ -26,7 +25,8 @@ class _CertificatesPageState extends State<CertificatesPage> {
   }
 
   Future<void> _selectYear(BuildContext context) async {
-    final DateTime? picked = await CertificateUtil.selectYear(context, _selectedYear);
+    final DateTime? picked =
+        await CertificateUtil.selectYear(context, _selectedYear);
     if (picked != null && picked != _selectedYear) {
       setState(() {
         _selectedYear = picked;
@@ -46,9 +46,6 @@ class _CertificatesPageState extends State<CertificatesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sertifikalar'),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(

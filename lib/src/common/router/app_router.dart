@@ -17,7 +17,7 @@ import 'package:tobeto/src/presentation/screens/for_individuals/for_individuals_
 import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
 import 'package:tobeto/src/presentation/screens/in_the_press/in_the_press_screen.dart';
 import 'package:tobeto/src/presentation/screens/onboarding/onboarding_screen.dart';
-import 'package:tobeto/src/presentation/screens/platform/extract_home_page.dart';
+import 'package:tobeto/src/presentation/screens/platform/platform_screen.dart';
 import 'package:tobeto/src/presentation/screens/profile/profile_screen.dart';
 
 class AppRouter {
@@ -93,6 +93,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const AdminBlogScreen(),
         );
+
       // error
       default:
         return MaterialPageRoute(

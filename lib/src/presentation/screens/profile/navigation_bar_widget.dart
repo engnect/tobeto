@@ -1,6 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/platform/platform_screen.dart';
+import 'package:tobeto/src/presentation/screens/blog/blog_screen.dart';
+import 'package:tobeto/src/presentation/screens/calendar/calendar_screen.dart';
+import 'package:tobeto/src/presentation/screens/course/course_screen.dart';
+import 'package:tobeto/src/presentation/screens/platform/tabs/platform_tab.dart';
+import 'package:tobeto/src/presentation/screens/profile/profile_screen.dart';
 
 class NavigationBarWidget extends StatefulWidget {
   const NavigationBarWidget({super.key});
@@ -10,15 +14,15 @@ class NavigationBarWidget extends StatefulWidget {
 }
 
 class _NavigationBarWidgetState extends State<NavigationBarWidget> {
-  int index = 2;
+  int indx = 0;
 
-  // final screens = [
-  //   const ProfilPage(),
-  //   const LoginPage(),
-  //   const RegisterPage(),    ==>> Sayfalar tamamlalanınca aktif olacak!
-  //   const LessonsPage(),
-  //   const Homepage(),
-  // ];
+  final screens = [
+    const PlatformTab(),
+    const BlogScreen(),
+    const CourseScreen(),
+    const CalendarScreen(),
+    const ProfileScreen()
+  ];
 
   final items = <Widget>[
     const Icon(Icons.home, size: 30),
@@ -31,7 +35,7 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: const PlatformScreen(), //  bu kısım Sayfalar tamamlanınca değişecek
+      body: screens[indx],
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           iconTheme: const IconThemeData(
@@ -43,8 +47,8 @@ class _NavigationBarWidgetState extends State<NavigationBarWidget> {
           buttonBackgroundColor: const Color.fromARGB(255, 99, 21, 177),
           height: 47,
           items: items,
-          index: index,
-          onTap: (index) => setState(() => this.index = index),
+          index: indx,
+          onTap: (index) => setState(() => indx = index),
           color: const Color.fromARGB(255, 153, 51, 255),
         ),
       ),

@@ -59,9 +59,6 @@ class _ExperiencePageState extends State<ExperiencePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Tecrübe Bilgileri'),
-      ),
       body: SingleChildScrollView(
         child: PaddedWidget(
           padding: 16.0,
