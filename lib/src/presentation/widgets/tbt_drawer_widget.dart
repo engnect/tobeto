@@ -49,12 +49,6 @@ class TBTDrawer extends StatelessWidget {
                 style: TextStyle(fontFamily: "Poppins"),
               ),
               onTap: () {
-                // Navigator.of(context).pushReplacement(
-                //   MaterialPageRoute(
-                //     builder: (context) => const AboutUsScreen(),
-                //   ),
-                // );
-
                 Navigator.of(context)
                     .pushNamed(AppRouteNames.aboutUsScreenRoute);
               },
@@ -72,12 +66,6 @@ class TBTDrawer extends StatelessWidget {
                     title: TBTPurpleButton(
                       buttonText: "Bireyler için",
                       onPressed: () {
-                        // Navigator.of(context).pushReplacement(
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const ForIndividualsScreen(),
-                        //   ),
-                        // );
-
                         Navigator.of(context)
                             .pushNamed(AppRouteNames.forIndividualsScreenRoute);
                       },
@@ -89,12 +77,6 @@ class TBTDrawer extends StatelessWidget {
                   title: TBTPurpleButton(
                     buttonText: "Kurumlar için",
                     onPressed: () {
-                      // Navigator.of(context).pushReplacement(
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const ForCompaniesScreen(),
-                      //   ),
-                      // );
-
                       Navigator.of(context)
                           .pushNamed(AppRouteNames.forCompaniesScreenRoute);
                     },
@@ -122,7 +104,10 @@ class TBTDrawer extends StatelessWidget {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     title: TBTPurpleButton(
                       buttonText: "Blog",
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushNamed(AppRouteNames.blogScreenRoute);
+                      },
                     ),
                   ),
                 ),
@@ -134,10 +119,6 @@ class TBTDrawer extends StatelessWidget {
                     title: TBTPurpleButton(
                       buttonText: "Basında Biz",
                       onPressed: () {
-                        // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        //   builder: (context) => const InThePressScreen(),
-                        // ));
-
                         Navigator.of(context)
                             .pushNamed(AppRouteNames.inThePressScreenRoute);
                       },
@@ -168,12 +149,6 @@ class TBTDrawer extends StatelessWidget {
                 style: TextStyle(fontFamily: "Poppins"),
               ),
               onTap: () {
-                // Navigator.of(context).pushReplacement(
-                //   MaterialPageRoute(
-                //     builder: (context) => const ContactUsScreen(),
-                //   ),
-                // );
-
                 Navigator.of(context)
                     .pushNamed(AppRouteNames.contactUsScreenRoute);
               },
@@ -187,12 +162,6 @@ class TBTDrawer extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  // Navigator.of(context).pushReplacement(
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const LoginScreen(),
-                  //   ),
-                  // );
-
                   Navigator.of(context)
                       .pushNamed(AppRouteNames.loginScreenRoute);
                 },
@@ -206,7 +175,7 @@ class TBTDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

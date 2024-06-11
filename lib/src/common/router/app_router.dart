@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tobeto/src/blocs/blog/blog_bloc.dart';
+import 'package:tobeto/src/domain/repositories/blog_repository.dart';
 import 'package:tobeto/src/presentation/screens/about_us/about_us_screen.dart';
 import 'package:tobeto/src/presentation/screens/auth/extract_login.dart';
+import 'package:tobeto/src/presentation/screens/blog/blog_screen.dart';
 import 'package:tobeto/src/presentation/screens/calendar/calendar_screen.dart';
 import 'package:tobeto/src/presentation/screens/contact_us/contact_us_screen.dart';
 import 'package:tobeto/src/presentation/screens/course/course_screen.dart';
@@ -16,7 +20,9 @@ import 'package:tobeto/src/presentation/screens/platform/extract_home_page.dart'
 import 'package:tobeto/src/presentation/screens/profile/profile_screen.dart';
 
 class AppRouter {
-  static Route<dynamic>? generateRoute(RouteSettings routeSettings) {
+  final BlogBloc _blogBloc = BlogBloc(BlogRepository(isBlog: true));
+
+  Route<dynamic>? generateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case AppRouteNames.homeRoute:
         return MaterialPageRoute(
@@ -78,6 +84,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const InThePressAddEdit(),
         );
+      case AppRouteNames.blogScreenRoute:
+        return MaterialPageRoute(
+          builder: (_) => const BlogScreen(),
+        );
       // error
       default:
         return MaterialPageRoute(
@@ -104,4 +114,5 @@ class AppRouteNames {
   static const String calendarScreenRoute = '/calendarScreen';
   static const String staffAddEditScreenRoute = '/staffAddEditScreen';
   static const String inThePressAddEditScreenRoute = '/inThePressAddEditScreen';
+  static const String blogScreenRoute = '/blogScreen';
 }
