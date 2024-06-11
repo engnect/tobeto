@@ -31,7 +31,7 @@ class InThePressScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              // TBTBlogStream(isBlog: false),
+              TBTBlogStream(isBlog: false),
             ],
           ),
         ),

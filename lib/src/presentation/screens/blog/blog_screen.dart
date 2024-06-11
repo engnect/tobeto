@@ -29,7 +29,7 @@ class _BlogScreenState extends State<BlogScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
                 child: Text(
-                  "Basında Biz",
+                  "Blog",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,

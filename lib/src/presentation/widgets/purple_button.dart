@@ -4,6 +4,12 @@ class TBTPurpleButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
   final double? width;
+
+  /// The number of characters in this chunk when unsplit.
+  ///
+  /// ayıp ettin muhammed
+  ///
+  /// The number of characters in this chunk when unsplit.
   const TBTPurpleButton(
       {super.key,
       required this.buttonText,
