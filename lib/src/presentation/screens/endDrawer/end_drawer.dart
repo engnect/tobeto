@@ -35,10 +35,11 @@ class TBTEndDrawer extends StatelessWidget {
                       child: Text(
                         "Yönetim Paneli",
                         style: TextStyle(
-                            color: Color.fromRGBO(126, 35, 218, 1),
-                            fontFamily: "Poppins",
-                            fontSize: 12,
-                            fontWeight: FontWeight.w900),
+                          color: Color.fromRGBO(126, 35, 218, 1),
+                          fontFamily: "Poppins",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                     )
                   ],
@@ -47,14 +48,22 @@ class TBTEndDrawer extends StatelessWidget {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+              title: Text('Takvim'),
+              onTap: () => Navigator.of(context)
+                  .pushNamed(AppRouteNames.adminEventScreenRoute),
+            ),
+            ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
               title: const Text(
                 "Kadro",
                 style: TextStyle(fontFamily: "Poppins"),
               ),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const StaffPage(),
-                ));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const StaffPage(),
+                  ),
+                );
               },
             ),
             CustomExpansionTile(

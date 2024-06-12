@@ -1,45 +1,51 @@
 import 'dart:convert';
 
 class EventModel {
-  final String id;
-  final String title;
-  final String description;
+  final String eventId;
+  final String userId;
+  final String eventTitle;
+  final String eventDescription;
   final DateTime eventDate;
   EventModel({
-    required this.id,
-    required this.title,
-    required this.description,
+    required this.eventId,
+    required this.userId,
+    required this.eventTitle,
+    required this.eventDescription,
     required this.eventDate,
   });
 
   EventModel copyWith({
-    String? id,
-    String? title,
-    String? description,
+    String? eventId,
+    String? userId,
+    String? eventTitle,
+    String? eventDescription,
     DateTime? eventDate,
   }) {
     return EventModel(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      description: description ?? this.description,
+      eventId: eventId ?? this.eventId,
+      userId: userId ?? this.userId,
+      eventTitle: eventTitle ?? this.eventTitle,
+      eventDescription: eventDescription ?? this.eventDescription,
       eventDate: eventDate ?? this.eventDate,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'title': title,
-      'description': description,
+      'eventId': eventId,
+      'userId': userId,
+      'eventTitle': eventTitle,
+      'eventDescription': eventDescription,
       'eventDate': eventDate,
     };
   }
 
   factory EventModel.fromMap(Map<String, dynamic> map) {
     return EventModel(
-      id: map['id'] ?? '',
-      title: map['title'] ?? '',
-      description: map['description'] ?? '',
+      eventId: map['eventId'] ?? '',
+      userId: map['userId'] ?? '',
+      eventTitle: map['eventTitle'] ?? '',
+      eventDescription: map['eventDescription'] ?? '',
       eventDate: map['eventDate'].toDate(),
     );
   }
@@ -51,7 +57,7 @@ class EventModel {
 
   @override
   String toString() {
-    return 'EventModel(id: $id, title: $title, description: $description, eventDate: $eventDate)';
+    return 'EventModel(eventId: $eventId, userId: $userId, eventTitle: $eventTitle, eventDescription: $eventDescription, eventDate: $eventDate)';
   }
 
   @override
@@ -59,17 +65,19 @@ class EventModel {
     if (identical(this, other)) return true;
 
     return other is EventModel &&
-        other.id == id &&
-        other.title == title &&
-        other.description == description &&
+        other.eventId == eventId &&
+        other.userId == userId &&
+        other.eventTitle == eventTitle &&
+        other.eventDescription == eventDescription &&
         other.eventDate == eventDate;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        title.hashCode ^
-        description.hashCode ^
+    return eventId.hashCode ^
+        userId.hashCode ^
+        eventTitle.hashCode ^
+        eventDescription.hashCode ^
         eventDate.hashCode;
   }
 }
