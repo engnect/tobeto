@@ -21,7 +21,7 @@ class _InThePressAddEditState extends State<InThePressAddEdit> {
   final _formKey = GlobalKey<FormState>();
   XFile? selectedImage;
   bool selected = false;
-  late UserModel userModel;
+  late UserModel? userModel;
 
   @override
   void initState() {
@@ -128,9 +128,9 @@ class _InThePressAddEditState extends State<InThePressAddEdit> {
                         onPressed: () async {
                           BlogModel blogModel = BlogModel(
                             blogId: '1',
-                            userId: userModel.userId,
+                            userId: userModel!.userId,
                             userFullName:
-                                '${userModel.userName} ${userModel.userSurname}',
+                                '${userModel!.userName} ${userModel!.userSurname}',
                             blogCreatedAt: DateTime.now(),
                             blogTitle: titleController.text,
                             blogContent: contentController.text,
