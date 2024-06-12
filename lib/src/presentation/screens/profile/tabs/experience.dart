@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/common/constants/utilities.dart';
 import 'package:tobeto/src/presentation/screens/profile/padded_widget';
@@ -26,6 +27,10 @@ class _ExperiencePageState extends State<ExperiencePage> {
   DateTime? _selectedStartDate;
   DateTime? _selectedEndDate;
   bool _isCurrentlyWorking = false;
+
+  bool isSelect = false;
+
+  ///++++++++
 
   @override
   void dispose() {
@@ -63,157 +68,205 @@ class _ExperiencePageState extends State<ExperiencePage> {
         child: PaddedWidget(
           padding: 16.0,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              PaddedWidget(
-                child: TBTInputField(
-                  hintText: "Kurum Adı",
-                  controller: _companyController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name,
-                ),
-              ),
-              PaddedWidget(
-                child: TBTInputField(
-                  hintText: "Pozisyon",
-                  controller: _positionController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name,
-                ),
-              ),
-              PaddedWidget(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: PopupMenuButton<String>(
-                    initialValue: _selectedExperienceType,
-                    itemBuilder: (BuildContext context) {
-                      return <PopupMenuEntry<String>>[
-                        const PopupMenuItem<String>(
-                          value: 'Staj',
-                          child: Text('Staj'),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'Gönüllü Çalışma',
-                          child: Text('Gönüllü Çalışma'),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'Profesyonel Çalışma',
-                          child: Text('Profesyonel Çalışma'),
-                        ),
-                      ];
-                    },
-                    onSelected: (String? newValue) {
-                      setState(() {
-                        _selectedExperienceType = newValue;
-                      });
-                    },
-                    child: ListTile(
-                      title: Text(
-                          _selectedExperienceType ?? 'Deneyim Türü Seçiniz'),
-                      trailing: const Icon(Icons.arrow_drop_down),
-                    ),
-                  ),
-                ),
-              ),
-              PaddedWidget(
-                child: TBTInputField(
-                  hintText: "Sektör",
-                  controller: _sectorController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name,
-                ),
-              ),
-              PaddedWidget(
-                child: TBTInputField(
-                  hintText: "Şehir",
-                  controller: _cityController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name,
-                ),
-              ),
-              PaddedWidget(
-                child: TextFormField(
-                  controller: TextEditingController(
-                    text: _selectedStartDate != null
-                        ? DateFormat('dd/MM/yyyy').format(_selectedStartDate!)
-                        : '',
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'İş Başlangıç Tarihi',
-                    hintText: 'Tarih Seçiniz',
-                    contentPadding: const EdgeInsets.all(12),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    suffixIcon: const Icon(Icons.calendar_today),
-                  ),
-                  readOnly: true,
-                  onTap: () {
-                    _selectStartDate(context);
-                  },
-                ),
-              ),
-              PaddedWidget(
-                child: TextFormField(
-                  controller: TextEditingController(
-                    text: _selectedEndDate != null
-                        ? DateFormat('dd/MM/yyyy').format(_selectedEndDate!)
-                        : '',
-                  ),
-                  decoration: InputDecoration(
-                    labelText: 'İş Bitiş Tarihi',
-                    hintText: 'Tarih Seçiniz',
-                    contentPadding: const EdgeInsets.all(12),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    suffixIcon: const Icon(Icons.calendar_today),
-                  ),
-                  readOnly: true,
-                  onTap: () {
-                    _selectEndDate(context);
-                  },
-                ),
-              ),
-              PaddedWidget(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Checkbox(
-                      value: _isCurrentlyWorking,
-                      onChanged: (value) {
-                        setState(() {
-                          _isCurrentlyWorking = value!;
-                          if (value) {
-                            _selectedEndDate = null;
-                          }
-                        });
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      'Çalışmaya devam ediyorum',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-              PaddedWidget(
-                child: TBTInputField(
-                  hintText: "İş Açıklaması",
-                  controller: _jobdescrbController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.multiline,
-                  maxLines: 3,
-                  minLines: 3,
-                ),
-              ),
               TBTPurpleButton(
-                buttonText: 'Kaydet',
-                onPressed: () {},
+                buttonText: "Düzenle",
+                onPressed: () {
+                  setState(() {
+                    isSelect = !isSelect;
+                  });
+                },
+              ),
+              AnimatedContainer(
+                decoration: BoxDecoration(
+                    borderRadius: isSelect
+                        ? const BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10),
+                          )
+                        : null,
+                    border: Border(
+                      bottom: BorderSide(
+                          width: isSelect ? 7 : 0,
+                          color: const Color.fromARGB(255, 153, 51, 255)),
+                    )),
+                height: isSelect ? 500 : 0,
+                duration: const Duration(seconds: 1),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      PaddedWidget(
+                        child: TBTInputField(
+                          hintText: "Kurum Adı",
+                          controller: _companyController,
+                          onSaved: (p0) {},
+                          keyboardType: TextInputType.name,
+                        ),
+                      ),
+                      PaddedWidget(
+                        child: TBTInputField(
+                          hintText: "Pozisyon",
+                          controller: _positionController,
+                          onSaved: (p0) {},
+                          keyboardType: TextInputType.name,
+                        ),
+                      ),
+                      PaddedWidget(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: PopupMenuButton<String>(
+                            initialValue: _selectedExperienceType,
+                            itemBuilder: (BuildContext context) {
+                              return <PopupMenuEntry<String>>[
+                                const PopupMenuItem<String>(
+                                  value: 'Staj',
+                                  child: Text('Staj'),
+                                ),
+                                const PopupMenuItem<String>(
+                                  value: 'Gönüllü Çalışma',
+                                  child: Text('Gönüllü Çalışma'),
+                                ),
+                                const PopupMenuItem<String>(
+                                  value: 'Profesyonel Çalışma',
+                                  child: Text('Profesyonel Çalışma'),
+                                ),
+                              ];
+                            },
+                            onSelected: (String? newValue) {
+                              setState(() {
+                                _selectedExperienceType = newValue;
+                              });
+                            },
+                            child: ListTile(
+                              title: Text(_selectedExperienceType ??
+                                  'Deneyim Türü Seçiniz'),
+                              trailing: const Icon(Icons.arrow_drop_down),
+                            ),
+                          ),
+                        ),
+                      ),
+                      PaddedWidget(
+                        child: TBTInputField(
+                          hintText: "Sektör",
+                          controller: _sectorController,
+                          onSaved: (p0) {},
+                          keyboardType: TextInputType.name,
+                        ),
+                      ),
+                      PaddedWidget(
+                        child: TBTInputField(
+                          hintText: "Şehir",
+                          controller: _cityController,
+                          onSaved: (p0) {},
+                          keyboardType: TextInputType.name,
+                        ),
+                      ),
+                      PaddedWidget(
+                        child: TextFormField(
+                          controller: TextEditingController(
+                            text: _selectedStartDate != null
+                                ? DateFormat('dd/MM/yyyy')
+                                    .format(_selectedStartDate!)
+                                : '',
+                          ),
+                          decoration: InputDecoration(
+                            labelText: 'İş Başlangıç Tarihi',
+                            hintText: 'Tarih Seçiniz',
+                            contentPadding: const EdgeInsets.all(12),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            suffixIcon: const Icon(Icons.calendar_today),
+                          ),
+                          readOnly: true,
+                          onTap: () {
+                            _selectStartDate(context);
+                          },
+                        ),
+                      ),
+                      PaddedWidget(
+                        child: TextFormField(
+                          controller: TextEditingController(
+                            text: _selectedEndDate != null
+                                ? DateFormat('dd/MM/yyyy')
+                                    .format(_selectedEndDate!)
+                                : '',
+                          ),
+                          decoration: InputDecoration(
+                            labelText: 'İş Bitiş Tarihi',
+                            hintText: 'Tarih Seçiniz',
+                            contentPadding: const EdgeInsets.all(12),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            suffixIcon: const Icon(Icons.calendar_today),
+                          ),
+                          readOnly: true,
+                          onTap: () {
+                            _selectEndDate(context);
+                          },
+                        ),
+                      ),
+                      PaddedWidget(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Checkbox(
+                              value: _isCurrentlyWorking,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isCurrentlyWorking = value!;
+                                  if (value) {
+                                    _selectedEndDate = null;
+                                  }
+                                });
+                              },
+                            ),
+                            const SizedBox(width: 8),
+                            const Text(
+                              'Çalışmaya devam ediyorum',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                      PaddedWidget(
+                        child: TBTInputField(
+                          hintText: "İş Açıklaması",
+                          controller: _jobdescrbController,
+                          onSaved: (p0) {},
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 3,
+                          minLines: 3,
+                        ),
+                      ),
+                      TBTPurpleButton(
+                        buttonText: 'Kaydet',
+                        onPressed: () {},
+                      ),
+                      const SizedBox(
+                        height:
+                            50, // Bottom Navigation bar Yüksekliği için! (mami_düzenledi)
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isSelect = !isSelect;
+                  });
+                },
+                child: isSelect
+                    ? const Icon(Icons.keyboard_arrow_up_outlined,
+                        size: 50, color: Color.fromARGB(255, 153, 51, 255))
+                    : const Icon(Icons.keyboard_arrow_down_outlined,
+                        size: 50, color: Color.fromARGB(255, 153, 51, 255)),
               )
             ],
           ),

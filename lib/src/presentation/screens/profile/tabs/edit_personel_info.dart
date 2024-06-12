@@ -425,6 +425,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   onPressed: () {},
                 ),
               ),
+              const SizedBox(
+                height: 50, // Bottom Navigation bar Yüksekliği için!
+              )
             ],
           ),
         ),
