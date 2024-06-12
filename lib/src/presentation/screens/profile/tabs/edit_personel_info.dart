@@ -1,12 +1,18 @@
 import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field2/intl_phone_field.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/common/constants/utilities.dart';
+import 'package:tobeto/src/domain/repositories/auth_repository.dart';
+import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/presentation/screens/profile/padded_widget';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
+import 'package:tobeto/src/models/user_model.dart';
+
 
 class PersonalInfoPage extends StatefulWidget {
   const PersonalInfoPage({super.key});
@@ -22,46 +28,46 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _aboutmeController = TextEditingController();
   final TextEditingController _streetController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
   File? _image;
   DateTime? _selectedDate;
-  final TextEditingController _emailController = TextEditingController();
   String? _selectedGender;
   String? _selectedMilitaryStatus;
   String? _selectedDisabilityStatus;
   String? _selectedCountry;
-  final List<String> _countries = [
-    'Türkiye',
-    'ABD',
-    'Almanya',
-    'Fransa',
-    'İngiltere'
-  ];
   String? _selectedCityId;
   String? _selectedCityName;
-  List<Map<String, String>> _cities = [];
-  Map<String, List<Map<String, String>>> _cityDistrictMap = {};
   String? _selectedDistrictId;
   String? _selectedDistrictName;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadCityData();
-    _loadDistrictData();
-  }
+  List<Map<String, String>> _cities = [];
+  Map<String, List<Map<String, String>>> _cityDistrictMap = {};
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _surnameController.dispose();
-    _phoneController.dispose();
-    _dateController.dispose();
-    _aboutmeController.dispose();
-    _streetController.dispose();
-    _emailController.dispose();
-    super.dispose();
+  final List<String> _countries = ['Türkiye', 'ABD', 'Almanya', 'Fransa', 'İngiltere'];
+
+  final UserRepository _userRepository = UserRepository();
+
+
+Future<void> _loadUserData() async {
+  UserModel? user = await AuthRepository().getCurrentUser();
+  if (user != null) {
+    setState(() {
+      _nameController.text = user.userName;
+      _surnameController.text = user.userSurname;
+      _emailController.text = user.userEmail;
+      _phoneController.text = user.userPhoneNumber ?? '';
+      _dateController.text = user.userBirthDate != null ? DateFormat('dd/MM/yyyy').format(user.userBirthDate!) : '';
+      _aboutmeController.text = user.aboutMe ?? '';
+      _selectedGender = user.gender;
+      _selectedMilitaryStatus = user.militaryStatus;
+      _selectedDisabilityStatus = user.disabilityStatus;
+    });
+  } else {
+    print("getUser returned null");
   }
+}
+
 
   Future<void> _getImageFromGallery() async {
     final image = await PersonalInfoUtil.getImageFromGallery();
@@ -98,8 +104,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   void _onCitySelected(String? newCityId) {
     setState(() {
       _selectedCityId = newCityId;
-      _selectedCityName =
-          _cities.firstWhere((city) => city["id"] == newCityId)["name"];
+      _selectedCityName = _cities.firstWhere((city) => city["id"] == newCityId)["name"];
       _selectedDistrictId = null;
       _selectedDistrictName = null;
     });
@@ -111,6 +116,58 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       _selectedDistrictName = (_cityDistrictMap[_selectedCityId!] ?? [])
           .firstWhere((district) => district["id"] == newDistrictId)["name"];
     });
+  }
+
+void _updateUser() async {
+  UserModel usermodel = await AuthRepository().getCurrentUser();
+  try {
+     
+    if (usermodel != null) {
+      UserModel updatedUser = usermodel.copyWith(
+        userName: _nameController.text, 
+        userSurname: _surnameController.text, 
+        userEmail: _emailController.text, 
+        userPhoneNumber: _phoneController.text, 
+        userBirthDate: _selectedDate, 
+        gender: _selectedGender,
+        militaryStatus: _selectedMilitaryStatus,
+        disabilityStatus: _selectedDisabilityStatus, 
+        aboutMe: _aboutmeController.text, 
+
+
+      );
+      await _userRepository.updateUser(updatedUser);
+      
+      _loadUserData();
+    } else {
+      throw Exception('Kullanıcı oturumu açmamış.');
+    }
+  } catch (e) {
+    print('Hata: $e');
+  }
+}
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCityData();
+    _loadDistrictData();
+    _loadUserData();
+  }
+
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _surnameController.dispose();
+    _phoneController.dispose();
+    _dateController.dispose();
+    _aboutmeController.dispose();
+    _streetController.dispose();
+    _emailController.dispose();
+    super.dispose();
   }
 
   @override
@@ -173,6 +230,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   children: [
                     const SizedBox(height: 8),
                     IntlPhoneField(
+                      controller: _phoneController,
                       decoration: const InputDecoration(
                         labelText: 'Telefon Numaranız',
                         border: OutlineInputBorder(),
@@ -422,7 +480,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               PaddedWidget(
                 child: TBTPurpleButton(
                   buttonText: 'Kaydet',
-                  onPressed: () {},
+                  onPressed: _updateUser, 
                 ),
               ),
             ],
@@ -432,3 +490,4 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     );
   }
 }
+
