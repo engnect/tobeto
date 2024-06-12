@@ -10,11 +10,21 @@ class AuthRepository {
   CollectionReference get _users =>
       _firebaseFirestore.collection(FirebaseConstants.usersCollection);
 
-  Future<UserModel> getCurrentUser() async {
+  Future<UserModel?> getCurrentUser() async {
     User currentUser = _firebaseAuth.currentUser!;
 
     DocumentSnapshot documentSnapshot = await _users.doc(currentUser.uid).get();
-    return UserModel.fromMap(documentSnapshot.data() as Map<String, dynamic>);
+    return UserModel.fromMap(documentSnapshot.data()! as Map<String, dynamic>);
+  }
+
+  Stream<UserModel?> getUserStream() {
+    User currentUser = _firebaseAuth.currentUser!;
+    return _users.doc(currentUser.uid).snapshots().map((snapshot) {
+      if (snapshot.exists) {
+        return UserModel.fromMap(snapshot.data()! as Map<String, dynamic>);
+      }
+      return null;
+    });
   }
 
   Future<void> registerUser({

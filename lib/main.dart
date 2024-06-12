@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tobeto/firebase_options.dart';
 import 'package:tobeto/simple_bloc_observer.dart';
+import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
+import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
 import 'package:tobeto/src/presentation/screens/onboarding/onboarding_screen.dart';
 import 'package:tobeto/src/presentation/screens/platform/tabs/platform_tab.dart';
@@ -61,17 +63,27 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: _navigatorKey,
-      onGenerateRoute: AppRouter().generateRoute,
-      // initialRoute: initScreen == 0 || initScreen == null
-      //     ? AppRouteNames.onboardingRoute
-      //     : AppRouteNames.platformScreenRoute,
-      initialRoute: FirebaseAuth.instance.currentUser == null
-          ? AppRouteNames.homeRoute
-          : AppRouteNames.platformScreenRoute,
-      // home: NavigationBarWidget(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthBloc(
+            authRepository: AuthRepository(),
+            firebaseAuth: FirebaseAuth.instance,
+          ),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        navigatorKey: _navigatorKey,
+        onGenerateRoute: AppRouter().generateRoute,
+        // initialRoute: initScreen == 0 || initScreen == null
+        //     ? AppRouteNames.onboardingRoute
+        //     : AppRouteNames.platformScreenRoute,
+        initialRoute: FirebaseAuth.instance.currentUser == null
+            ? AppRouteNames.homeRoute
+            : AppRouteNames.platformScreenRoute,
+        // home: NavigationBarWidget(),
+      ),
     );
   }
 }
