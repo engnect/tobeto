@@ -5,6 +5,7 @@ import 'package:tobeto/src/domain/repositories/calendar_repository.dart';
 import 'package:tobeto/src/models/calendar_model.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 
 import '../../../../../common/constants/firebase_constants.dart';
@@ -57,23 +58,9 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                     });
                   },
                 ),
-                AnimatedContainer(
-                  decoration: BoxDecoration(
-                    borderRadius: isSelect
-                        ? const BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          )
-                        : null,
-                    border: Border(
-                      bottom: BorderSide(
-                        width: isSelect ? 7 : 0,
-                        color: const Color.fromARGB(255, 153, 51, 255),
-                      ),
-                    ),
-                  ),
-                  height: isSelect ? 275 : 0,
-                  duration: const Duration(seconds: 1),
+                TBTAnimatedContainer(
+                  isExpanded: isSelect,
+                  height: 275,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -124,7 +111,6 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                     ],
                   ),
                 ),
-                //
                 SizedBox(
                   height:
                       MediaQuery.of(context).size.height - kToolbarHeight - 200,
