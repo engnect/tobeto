@@ -78,17 +78,21 @@ class _ExperiencePageState extends State<ExperiencePage> {
               ),
               AnimatedContainer(
                 decoration: BoxDecoration(
-                    borderRadius: isSelect
-                        ? const BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                          )
-                        : null,
-                    border: Border(
-                      bottom: BorderSide(
-                          width: isSelect ? 7 : 0,
-                          color: const Color.fromARGB(255, 153, 51, 255)),
-                    )),
+                  borderRadius: isSelect
+                      ? const BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                        )
+                      : null,
+                  border: isSelect
+                      ? Border(
+                          bottom: BorderSide(
+                            width: isSelect ? 7 : 0,
+                            color: const Color.fromARGB(255, 153, 51, 255),
+                          ),
+                        )
+                      : null,
+                ),
                 height: isSelect ? 500 : 0,
                 duration: const Duration(seconds: 1),
                 child: SingleChildScrollView(
