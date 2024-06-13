@@ -42,7 +42,21 @@ class _TBTAnimatedContainerState extends State<TBTAnimatedContainer> {
           ),
           height: widget.isExpanded ? widget.height : 0,
           duration: const Duration(seconds: 1),
-          child: SingleChildScrollView(child: widget.child),
+          child: ScrollbarTheme(
+            data: ScrollbarThemeData(
+              thumbVisibility: MaterialStateProperty.all(true),
+              trackVisibility: MaterialStateProperty.all(true),
+              thickness: MaterialStateProperty.all(3.0),
+              thumbColor: MaterialStateProperty.all(
+                  const Color.fromARGB(255, 153, 51, 255)),
+            ),
+            child: Scrollbar(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(child: widget.child),
+              ),
+            ),
+          ),
         ),
         //
         GestureDetector(
