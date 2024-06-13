@@ -21,20 +21,28 @@ class AdminEventScreen extends StatefulWidget {
 
 class _AdminEventScreenState extends State<AdminEventScreen> {
   bool isSelect = false;
-  final controller = ScrollController();
   DateTime? selectedDate;
-
-  final TextEditingController eventTitleController = TextEditingController();
-  final TextEditingController eventDescriptionController =
+  final ScrollController _controller = ScrollController();
+  final TextEditingController _eventTitleController = TextEditingController();
+  final TextEditingController _eventDescriptionController =
       TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+    _eventTitleController.dispose();
+    _eventDescriptionController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: TBTAppBar(controller: controller),
+        appBar: TBTAppBar(controller: _controller),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
-          controller: controller,
+          controller: _controller,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Column(
@@ -66,13 +74,13 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                     children: [
                       TBTInputField(
                         hintText: 'Etkinlik Başlığı',
-                        controller: eventTitleController,
+                        controller: _eventTitleController,
                         onSaved: (p0) {},
                         keyboardType: TextInputType.multiline,
                       ),
                       TBTInputField(
                         hintText: 'Etkinlik Açıklaması',
-                        controller: eventDescriptionController,
+                        controller: _eventDescriptionController,
                         onSaved: (p0) {},
                         keyboardType: TextInputType.multiline,
                       ),
@@ -99,8 +107,8 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                           EventModel eventModel = EventModel(
                             eventId: 'eventId',
                             userId: '',
-                            eventTitle: eventTitleController.text,
-                            eventDescription: eventDescriptionController.text,
+                            eventTitle: _eventTitleController.text,
+                            eventDescription: _eventDescriptionController.text,
                             eventDate: selectedDate!,
                           );
 

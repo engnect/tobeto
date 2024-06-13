@@ -15,18 +15,23 @@ class ForCompaniesScreen extends StatefulWidget {
   State<ForCompaniesScreen> createState() => _ForCompaniesScreenState();
 }
 
-final controller = ScrollController();
-
 class _ForCompaniesScreenState extends State<ForCompaniesScreen> {
+  final ScrollController _controller = ScrollController();
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-        appBar: TBTAppBar(controller: controller),
+        appBar: TBTAppBar(controller: _controller),
         drawer: const TBTDrawer(),
         body: SingleChildScrollView(
-          controller: controller,
+          controller: _controller,
           child: Column(
             children: [
               Padding(

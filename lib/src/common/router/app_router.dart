@@ -5,6 +5,7 @@ import 'package:tobeto/src/presentation/screens/blog/blog_screen.dart';
 import 'package:tobeto/src/presentation/screens/calendar/calendar_screen.dart';
 import 'package:tobeto/src/presentation/screens/contact_us/contact_us_screen.dart';
 import 'package:tobeto/src/presentation/screens/course/course_screen.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_contact_forms/admin_contact_forms_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/blog_page/blog_admin_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/event_screen/admin_event_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/in_the_press_admin/in_the_press_add_edit.dart';
@@ -93,6 +94,10 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const AdminEventScreen(),
         );
+      case AppRouteNames.adminContactFormScreenRoute:
+        return MaterialPageRoute(
+          builder: (_) => const AdminContactFormsScreen(),
+        );
 
       // error
       default:
@@ -123,4 +128,5 @@ class AppRouteNames {
   static const String blogScreenRoute = '/blogScreen';
   static const String blogAdminScreenRoute = '/blogAdminScreen';
   static const String adminEventScreenRoute = '/adminEventScreen';
+  static const String adminContactFormScreenRoute = '/adminContactFormScreen';
 }
