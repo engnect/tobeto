@@ -8,10 +8,12 @@ class ContactFromRepository {
   CollectionReference get _contactForms =>
       _firebaseFirestore.collection(FirebaseConstants.contactFormsCollection);
 
-  Future<String> sendNewForm(ContactFormModel contactFormModel) async {
+  Future<String> sendOrUpdateForm(ContactFormModel contactFormModel) async {
     String result = '';
     try {
-      await _contactForms.add(contactFormModel.toMap());
+      await _contactForms
+          .doc(contactFormModel.contactFormId)
+          .set(contactFormModel.toMap());
       result = 'success';
     } catch (_) {
       result = 'failure';

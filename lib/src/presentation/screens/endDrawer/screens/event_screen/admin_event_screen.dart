@@ -119,41 +119,38 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                     ],
                   ),
                 ),
-                SizedBox(
-                  height:
-                      MediaQuery.of(context).size.height - kToolbarHeight - 200,
-                  child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection(FirebaseConstants.eventsCollection)
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else {
-                        return ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            DocumentSnapshot documentSnapshot =
-                                snapshot.data!.docs[index];
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection(FirebaseConstants.eventsCollection)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return ListView.builder(
+                        primary: false,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot documentSnapshot =
+                              snapshot.data!.docs[index];
 
-                            EventModel eventModel = EventModel.fromMap(
-                                documentSnapshot.data()
-                                    as Map<String, dynamic>);
-                            return ListTile(
-                              title: Text(eventModel.eventTitle),
-                              subtitle: Text(
-                                DateFormat('dd/MM/yyyy')
-                                    .format(eventModel.eventDate),
-                              ),
-                            );
-                          },
-                        );
-                      }
-                    },
-                  ),
+                          EventModel eventModel = EventModel.fromMap(
+                              documentSnapshot.data() as Map<String, dynamic>);
+                          return ListTile(
+                            title: Text(eventModel.eventTitle),
+                            subtitle: Text(
+                              DateFormat('dd/MM/yyyy')
+                                  .format(eventModel.eventDate),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  },
                 ),
               ],
             ),

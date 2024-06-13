@@ -4,6 +4,7 @@ import 'package:tobeto/src/models/contact_form_model.dart';
 import 'package:tobeto/src/presentation/screens/contact_us/widgets/communication_info.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../widgets/input_field.dart';
 import '../../widgets/purple_button.dart';
@@ -181,7 +182,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       buttonText: "Gönder",
                       onPressed: () async {
                         ContactFormModel contactFormModel = ContactFormModel(
-                          contactFormId: 'contactFormId',
+                          contactFormId: const Uuid().v1(),
                           contactFormFullName: _nameController.text,
                           contactFormEmail: _emailController.text,
                           contactFormMessage: _messageController.text,
@@ -192,7 +193,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         );
 
                         var result = await ContactFromRepository()
-                            .sendNewForm(contactFormModel);
+                            .sendOrUpdateForm(contactFormModel);
 
                         if (result == 'success' && context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(

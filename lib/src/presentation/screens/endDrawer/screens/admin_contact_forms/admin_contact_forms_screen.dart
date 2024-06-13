@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/domain/repositories/contact_form_repository.dart';
 import 'package:tobeto/src/models/contact_form_model.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 
@@ -37,9 +39,10 @@ class _AdminContactFormsScreenState extends State<AdminContactFormsScreen> {
                 child: Text(
                   "İletişim Formları",
                   style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold),
+                    fontFamily: "Poppins",
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(
@@ -66,39 +69,110 @@ class _AdminContactFormsScreenState extends State<AdminContactFormsScreen> {
                           ContactFormModel contactFormModel =
                               ContactFormModel.fromMap(documentSnapshot.data()
                                   as Map<String, dynamic>);
-                          return ListTile(
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          return Slidable(
+                            endActionPane: ActionPane(
+                              extentRatio: 0.20,
+                              motion: const DrawerMotion(),
                               children: [
-                                Text(contactFormModel.contactFormFullName),
-                                Text(DateFormat('dd/MM/yyyy').format(
-                                    contactFormModel.contactFormCreatedAt)),
+                                SlidableAction(
+                                  onPressed: (context) {},
+                                  backgroundColor: const Color(0xFFFE4A49),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: 'Sil',
+                                ),
                               ],
                             ),
-                            subtitle: Text(contactFormModel.contactFormEmail),
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                        contactFormModel.contactFormFullName),
-                                    content: Text(
-                                        contactFormModel.contactFormMessage),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {},
-                                        child: Text('Okundu Olarak İşaretle'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {},
-                                        child: Text('Okundu Olarak İşaretle'),
-                                      ),
+                            child: Container(
+                              color:
+                                  contactFormModel.contactFormIsClosed == false
+                                      ? const Color.fromRGBO(200, 255, 0, 0.13)
+                                      : const Color.fromRGBO(60, 255, 0, 0.188),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                ),
+                                child: ListTile(
+                                  leading: Icon(
+                                    contactFormModel.contactFormIsClosed ==
+                                            false
+                                        ? Icons.mark_email_unread_outlined
+                                        : Icons.mark_email_read_outlined,
+                                  ),
+                                  title: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                          contactFormModel.contactFormFullName),
+                                      Text(DateFormat('dd/MM/yyyy').format(
+                                          contactFormModel
+                                              .contactFormCreatedAt)),
                                     ],
-                                  );
-                                },
-                              );
-                            },
+                                  ),
+                                  subtitle:
+                                      Text(contactFormModel.contactFormEmail),
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text(contactFormModel
+                                              .contactFormFullName),
+                                          content: Text(contactFormModel
+                                              .contactFormMessage),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () async {
+                                                ContactFormModel
+                                                    updatedContactFormModel =
+                                                    contactFormModel.copyWith(
+                                                  contactFormClosedAt:
+                                                      DateTime.now(),
+                                                  contactFormIsClosed: true,
+                                                  contactFormClosedBy:
+                                                      'alperen',
+                                                );
+
+                                                await ContactFromRepository()
+                                                    .sendOrUpdateForm(
+                                                        updatedContactFormModel);
+                                                if (!context.mounted) return;
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text(
+                                                  'Okundu Olarak İşaretle'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () async {
+                                                ContactFormModel
+                                                    updatedContactFormModel =
+                                                    contactFormModel.copyWith(
+                                                  contactFormClosedAt:
+                                                      DateTime.now(),
+                                                  contactFormIsClosed: false,
+                                                  contactFormClosedBy:
+                                                      'muhammed',
+                                                );
+
+                                                await ContactFromRepository()
+                                                    .sendOrUpdateForm(
+                                                        updatedContactFormModel);
+
+                                                if (!context.mounted) return;
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text(
+                                                  'Okunmadı Olarak İşaretle'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
                           );
                         },
                       );
