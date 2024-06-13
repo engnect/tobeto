@@ -23,13 +23,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return events.where((event) => isSameDay(event.eventDate, date)).toList();
   }
 
+  final ScrollController _controller = ScrollController();
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final controller = ScrollController();
     return Scaffold(
-      appBar: TBTAppBar(controller: controller),
+      appBar: TBTAppBar(controller: _controller),
       body: SingleChildScrollView(
-        controller: controller,
+        controller: _controller,
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

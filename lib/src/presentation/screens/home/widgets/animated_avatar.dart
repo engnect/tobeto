@@ -16,7 +16,7 @@ class AnimatedAvatar extends StatefulWidget {
 
 class _AnimatedAvatarState extends State<AnimatedAvatar>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
+  late final AnimationController _animationController = AnimationController(
     duration: const Duration(milliseconds: 1300),
     vsync: this,
   )..repeat(reverse: true);
@@ -24,11 +24,12 @@ class _AnimatedAvatarState extends State<AnimatedAvatar>
     begin: const Offset(0, 0.2),
     end: const Offset(0, 0.5),
   ).animate(
-    CurvedAnimation(parent: _controller, curve: Curves.linear),
+    CurvedAnimation(parent: _animationController, curve: Curves.linear),
   );
+
   @override
   void dispose() {
-    _controller.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 

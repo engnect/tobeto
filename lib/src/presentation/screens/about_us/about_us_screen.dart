@@ -16,8 +16,6 @@ class AboutUsScreen extends StatefulWidget {
   State<AboutUsScreen> createState() => _AboutUsScreenState();
 }
 
-final controller = ScrollController();
-
 Future<void> _launchUrl(a) async {
   if (!await launchUrl(Uri.parse(a), mode: LaunchMode.externalApplication)) {
     throw Exception('Could not launch');
@@ -25,15 +23,23 @@ Future<void> _launchUrl(a) async {
 }
 
 class _AboutUsScreenState extends State<AboutUsScreen> {
+  final ScrollController _controller = ScrollController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 235, 235, 235),
-        appBar: TBTAppBar(controller: controller),
+        appBar: TBTAppBar(controller: _controller),
         drawer: const TBTDrawer(),
         body: SingleChildScrollView(
-          controller: controller,
+          controller: _controller,
           child: Column(
             children: [
               const AboutUsVideoCard(),

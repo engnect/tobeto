@@ -20,21 +20,27 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-final controller = ScrollController();
-
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final ScrollController _controller = ScrollController();
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-      appBar: TBTAppBar(controller: controller),
+      appBar: TBTAppBar(controller: _controller),
       drawer: const TBTDrawer(),
       body: SingleChildScrollView(
-        controller: controller,
+        controller: _controller,
         child: SizedBox(
           height: MediaQuery.of(context).size.height - kToolbarHeight - 50,
           child: Column(
@@ -72,13 +78,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           TBTInputField(
                             hintText: 'E - Posta',
-                            controller: emailController,
+                            controller: _emailController,
                             onSaved: (p0) {},
                             keyboardType: TextInputType.emailAddress,
                           ),
                           TBTInputField(
                             hintText: 'Şifre',
-                            controller: passwordController,
+                            controller: _passwordController,
                             isObscure: true,
                             keyboardType: TextInputType.multiline,
                             onSaved: (p0) {},
@@ -90,8 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               buttonText: 'Giriş Yap',
                               onPressed: () async {
                                 await AuthRepository().singInUser(
-                                  userEmail: emailController.text,
-                                  userPassword: passwordController.text,
+                                  userEmail: _emailController.text,
+                                  userPassword: _passwordController.text,
                                 );
                               },
                             ),

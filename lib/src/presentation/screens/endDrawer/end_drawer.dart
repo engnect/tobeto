@@ -40,7 +40,7 @@ class TBTEndDrawer extends StatelessWidget {
                           fontWeight: FontWeight.w900,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -50,6 +50,12 @@ class TBTEndDrawer extends StatelessWidget {
               title: const Text('Takvim'),
               onTap: () => Navigator.of(context)
                   .pushNamed(AppRouteNames.adminEventScreenRoute),
+            ),
+            ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+              title: const Text('İletişim Formları'),
+              onTap: () => Navigator.of(context)
+                  .pushNamed(AppRouteNames.adminContactFormScreenRoute),
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
@@ -78,9 +84,11 @@ class TBTEndDrawer extends StatelessWidget {
                     title: TBTPurpleButton(
                       buttonText: "Basında Biz",
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const InThePressAdmin(),
-                        ));
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const InThePressAdmin(),
+                          ),
+                        );
                       },
                     ),
                   ),

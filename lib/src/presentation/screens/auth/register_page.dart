@@ -15,23 +15,34 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController surnameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
-  final controller = ScrollController();
-
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _surnameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  final ScrollController _controller = ScrollController();
   final _formKey = GlobalKey<FormState>();
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+    _nameController.dispose();
+    _surnameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-        appBar: TBTAppBar(controller: controller),
+        appBar: TBTAppBar(controller: _controller),
         drawer: const TBTDrawer(),
         body: SingleChildScrollView(
-          controller: controller,
+          controller: _controller,
           child: Column(
             children: [
               AnimatedGradientBorder(
@@ -66,25 +77,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           TBTInputField(
                             hintText: 'İsim',
-                            controller: nameController,
+                            controller: _nameController,
                             onSaved: (p0) {},
                             keyboardType: TextInputType.name,
                           ),
                           TBTInputField(
                             hintText: 'Soy İsim',
-                            controller: surnameController,
+                            controller: _surnameController,
                             onSaved: (p0) {},
                             keyboardType: TextInputType.name,
                           ),
                           TBTInputField(
                             hintText: 'E - Posta',
-                            controller: emailController,
+                            controller: _emailController,
                             onSaved: (p0) {},
                             keyboardType: TextInputType.emailAddress,
                           ),
                           TBTInputField(
                             hintText: 'Şifre',
-                            controller: passwordController,
+                            controller: _passwordController,
                             onSaved: (p0) {},
                             keyboardType: TextInputType.multiline,
                             isObscure: true,
@@ -92,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           TBTInputField(
                             hintText: 'Şifre Tekrar Giriniz',
-                            controller: confirmPasswordController,
+                            controller: _confirmPasswordController,
                             onSaved: (p0) {},
                             keyboardType: TextInputType.multiline,
                             isObscure: true,
@@ -104,10 +115,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               buttonText: 'Kayıt Ol',
                               onPressed: () async {
                                 await AuthRepository().registerUser(
-                                  userName: nameController.text,
-                                  userSurname: surnameController.text,
-                                  userEmail: emailController.text,
-                                  userPassword: passwordController.text,
+                                  userName: _nameController.text,
+                                  userSurname: _surnameController.text,
+                                  userEmail: _emailController.text,
+                                  userPassword: _passwordController.text,
                                 );
                               },
                             ),
