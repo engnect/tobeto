@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:glowy_borders/glowy_borders.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -106,7 +107,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               onPressed: () {
                                 // signInWithGoogle();
-                                print("giriş yapa tıklandı");
+                                if (kDebugMode) {
+                                  print("giriş yapa tıklandı");
+                                }
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,

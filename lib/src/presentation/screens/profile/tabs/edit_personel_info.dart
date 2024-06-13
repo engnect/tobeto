@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field2/intl_phone_field.dart';
@@ -70,7 +70,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         _selectedDisabilityStatus = user.disabilityStatus;
       });
     } else {
-      print("getUser returned null");
+      if (kDebugMode) {
+        print("getUser returned null");
+      }
     }
   }
 
@@ -146,7 +148,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         throw Exception('Kullanıcı oturumu açmamış.');
       }
     } catch (e) {
-      print('Hata: $e');
+      if (kDebugMode) {
+        print('Hata: $e');
+      }
     }
   }
 
@@ -237,7 +241,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                       ),
                       initialCountryCode: 'TR',
                       onChanged: (phone) {
-                        print(phone.completeNumber);
+                        if (kDebugMode) {
+                          print(phone.completeNumber);
+                        }
                       },
                     ),
                   ],

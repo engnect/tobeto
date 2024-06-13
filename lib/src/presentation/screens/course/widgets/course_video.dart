@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:chewie/chewie.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -122,7 +123,9 @@ class _CourseVideoState extends State<CourseVideo> {
         _isVideoInitialized = false;
       });
       // Handle the error
-      print('Error initializing video player: $error');
+      if (kDebugMode) {
+        print('Error initializing video player: $error');
+      }
     }
   }
 

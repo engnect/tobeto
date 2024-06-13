@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
-import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/end_drawer.dart';
 import 'package:tobeto/src/presentation/screens/platform/widgets/purple_card.dart';
 

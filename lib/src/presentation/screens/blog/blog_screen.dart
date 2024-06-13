@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/about_us/about_us_screen.dart';
-import 'package:tobeto/src/presentation/screens/auth/extract_login.dart';
 import '../../widgets/tbt_app_bar_widget.dart';
 import '../../widgets/tbt_blog_stream.dart';
 import '../../widgets/tbt_drawer_widget.dart';

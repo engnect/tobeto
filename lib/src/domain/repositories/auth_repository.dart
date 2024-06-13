@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import '../../common/constants/firebase_constants.dart';
 import '../../models/user_model.dart';
 
@@ -62,7 +63,9 @@ class AuthRepository {
         _users.doc(userCredential.user!.uid).set(userModel.toMap());
       }
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
@@ -78,7 +81,9 @@ class AuthRepository {
         );
       } else {}
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

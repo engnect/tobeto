@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/common/router/app_router.dart';
@@ -87,7 +87,9 @@ class _StaffPageState extends State<StaffPage> {
                             children: [
                               SlidableAction(
                                 onPressed: (context) {
-                                  print("Sile tıklandı");
+                                  if (kDebugMode) {
+                                    print("Sile tıklandı");
+                                  }
                                 },
                                 backgroundColor: const Color(0xFFFE4A49),
                                 foregroundColor: Colors.white,
@@ -96,7 +98,9 @@ class _StaffPageState extends State<StaffPage> {
                               ),
                               SlidableAction(
                                 onPressed: (context) {
-                                  print("Düzenleye tıklandı");
+                                  if (kDebugMode) {
+                                    print("Düzenleye tıklandı");
+                                  }
                                 },
                                 backgroundColor: const Color(0xFF21B7CA),
                                 foregroundColor: Colors.white,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/common/constants/utilities.dart';
 import 'package:tobeto/src/presentation/screens/profile/padded_widget';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/router/app_router.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/blog_page/blog_admin_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/in_the_press_admin/in_the_press_admin_page.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_page.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/students_page/students_page.dart';
@@ -48,7 +47,7 @@ class TBTEndDrawer extends StatelessWidget {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: Text('Takvim'),
+              title: const Text('Takvim'),
               onTap: () => Navigator.of(context)
                   .pushNamed(AppRouteNames.adminEventScreenRoute),
             ),
