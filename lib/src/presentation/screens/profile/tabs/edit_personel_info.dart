@@ -126,6 +126,29 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     });
   }
 
+
+void _updateUser() async {
+  UserModel usermodel = await AuthRepository().getCurrentUser();
+  try {
+     
+    if (usermodel != null) {
+      UserModel updatedUser = usermodel.copyWith(
+        userName: _nameController.text, 
+        userSurname: _surnameController.text, 
+        userEmail: _emailController.text, 
+        userPhoneNumber: _phoneController.text, 
+        userBirthDate: _selectedDate, 
+        gender: _selectedGender,
+        militaryStatus: _selectedMilitaryStatus,
+        disabilityStatus: _selectedDisabilityStatus, 
+        aboutMe: _aboutmeController.text, 
+      );
+      await _userRepository.updateUser(updatedUser);
+      
+      _loadUserData();
+    } else {
+      throw Exception('Kullanıcı oturumu açmamış.');
+
   void _updateUser() async {
     UserModel? usermodel = await AuthRepository().getCurrentUser();
     try {
@@ -151,6 +174,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       if (kDebugMode) {
         print('Hata: $e');
       }
+
     }
   }
 

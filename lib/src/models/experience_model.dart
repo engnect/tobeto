@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class ExperienceModel {
-  final String experienceId;
+  String experienceId;
   final String userId;
   final String companyName;
   final String experiencePosition;
