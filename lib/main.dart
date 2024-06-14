@@ -6,12 +6,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tobeto/app_view.dart';
 import 'package:tobeto/firebase_options.dart';
 import 'package:tobeto/simple_bloc_observer.dart';
+import 'package:tobeto/src/common/theme/tbt_theme.dart';
+import 'package:tobeto/src/data/datasource/theme_shared_pref.dart';
 
 int? initScreen;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences preferences = await SharedPreferences.getInstance();
+
+  final ThemePreferences pref = ThemePreferences();
+  final isDarkTheme = await pref.getTheme();
+  final initialTheme =
+      isDarkTheme ? TBTPalette.darkTheme : TBTPalette.lightTheme;
   initScreen = preferences.getInt("initScreen");
   await preferences.setInt("initScreen", 1);
 
@@ -19,5 +26,5 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   Bloc.observer = SimpleBlocObserver();
-  runApp(const MainApp());
+  runApp(MainApp(themeData: initialTheme));
 }
