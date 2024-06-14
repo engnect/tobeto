@@ -3,20 +3,30 @@ import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_blog_stream.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 
-class InThePressScreen extends StatelessWidget {
+class InThePressScreen extends StatefulWidget {
   const InThePressScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final controller = ScrollController();
+  State<InThePressScreen> createState() => _InThePressScreenState();
+}
 
+class _InThePressScreenState extends State<InThePressScreen> {
+  final ScrollController _controller = ScrollController();
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: TBTAppBar(controller: controller),
+        appBar: TBTAppBar(controller: _controller),
         drawer: const TBTDrawer(),
         backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
         body: SingleChildScrollView(
-          controller: controller,
+          controller: _controller,
           child: const Column(
             children: [
               Padding(

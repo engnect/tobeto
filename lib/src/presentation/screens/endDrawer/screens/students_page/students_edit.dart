@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 
 class StudentsEdit extends StatefulWidget {
@@ -16,7 +14,7 @@ class _StudentsEditState extends State<StudentsEdit> {
     return DefaultTabController(
       length: 7, // tab sayısı
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         appBar: AppBar(
           title: const Text("Öğrencileri düzenle"),
           centerTitle: true,

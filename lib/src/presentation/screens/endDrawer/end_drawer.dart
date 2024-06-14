@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/router/app_router.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/blog_page/blog_admin_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/in_the_press_admin/in_the_press_admin_page.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_page.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/students_page/students_page.dart';
@@ -35,15 +34,28 @@ class TBTEndDrawer extends StatelessWidget {
                       child: Text(
                         "Yönetim Paneli",
                         style: TextStyle(
-                            color: Color.fromRGBO(126, 35, 218, 1),
-                            fontFamily: "Poppins",
-                            fontSize: 12,
-                            fontWeight: FontWeight.w900),
+                          color: Color.fromRGBO(126, 35, 218, 1),
+                          fontFamily: "Poppins",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
+            ),
+            ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+              title: const Text('Takvim'),
+              onTap: () => Navigator.of(context)
+                  .pushNamed(AppRouteNames.adminEventScreenRoute),
+            ),
+            ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+              title: const Text('İletişim Formları'),
+              onTap: () => Navigator.of(context)
+                  .pushNamed(AppRouteNames.adminContactFormScreenRoute),
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
@@ -52,9 +64,11 @@ class TBTEndDrawer extends StatelessWidget {
                 style: TextStyle(fontFamily: "Poppins"),
               ),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const StaffPage(),
-                ));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const StaffPage(),
+                  ),
+                );
               },
             ),
             CustomExpansionTile(
@@ -70,9 +84,11 @@ class TBTEndDrawer extends StatelessWidget {
                     title: TBTPurpleButton(
                       buttonText: "Basında Biz",
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const InThePressAdmin(),
-                        ));
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const InThePressAdmin(),
+                          ),
+                        );
                       },
                     ),
                   ),

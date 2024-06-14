@@ -21,20 +21,26 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-final controller = ScrollController();
-
 class _HomeScreenState extends State<HomeScreen> {
-  final CarouselController _controller = CarouselController();
+  final ScrollController _controller = ScrollController();
+  final CarouselController _carouselController = CarouselController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   AvatarModel _selected = data[0];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-        appBar: TBTAppBar(controller: controller),
+        appBar: TBTAppBar(controller: _controller),
         drawer: const TBTDrawer(),
         body: SingleChildScrollView(
-          controller: controller,
+          controller: _controller,
           child: Column(
             children: [
               Container(
@@ -50,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     CarouselSlider(
-                      carouselController: _controller,
+                      carouselController: _carouselController,
                       items: [
                         CarouselCard(
                           header:
@@ -77,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            _controller.previousPage();
+                            _carouselController.previousPage();
                           },
                           child: const Icon(
                             Icons.navigate_before,
@@ -86,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            _controller.nextPage();
+                            _carouselController.nextPage();
                           },
                           child: const Icon(
                             Icons.navigate_next,

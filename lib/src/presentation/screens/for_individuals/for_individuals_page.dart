@@ -14,18 +14,23 @@ class ForIndividualsScreen extends StatefulWidget {
   State<ForIndividualsScreen> createState() => _ForIndividualsScreenState();
 }
 
-final controller = ScrollController();
-
 class _ForIndividualsScreenState extends State<ForIndividualsScreen> {
+  final ScrollController _controller = ScrollController();
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-        appBar: TBTAppBar(controller: controller),
+        appBar: TBTAppBar(controller: _controller),
         drawer: const TBTDrawer(),
         body: SingleChildScrollView(
-          controller: controller,
+          controller: _controller,
           child: Column(
             children: [
               Container(

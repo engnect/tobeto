@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/domain/repositories/auth_repository.dart';
-import 'package:tobeto/src/models/social_media_model.dart';
-import 'package:tobeto/src/models/user_model.dart';
+import 'package:tobeto/src/domain/repositories/contact_form_repository.dart';
+import 'package:tobeto/src/models/contact_form_model.dart';
 import 'package:tobeto/src/presentation/screens/contact_us/widgets/communication_info.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../widgets/input_field.dart';
 import '../../widgets/purple_button.dart';
@@ -16,23 +16,30 @@ class ContactUsScreen extends StatefulWidget {
   State<ContactUsScreen> createState() => _ContactUsScreenState();
 }
 
-final controller = ScrollController();
-
 class _ContactUsScreenState extends State<ContactUsScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController messageController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
+  final ScrollController _controller = ScrollController();
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _messageController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-        appBar: TBTAppBar(controller: controller),
+        appBar: TBTAppBar(controller: _controller),
         drawer: const TBTDrawer(),
         body: SingleChildScrollView(
-          controller: controller,
+          controller: _controller,
           child: Column(
             children: [
               Container(
@@ -151,17 +158,17 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                           children: [
                             TBTInputField(
                                 hintText: "Adınız Soyadınız",
-                                controller: nameController,
+                                controller: _nameController,
                                 onSaved: (p0) {},
                                 keyboardType: TextInputType.multiline),
                             TBTInputField(
                                 hintText: "E - Mail",
-                                controller: emailController,
+                                controller: _emailController,
                                 onSaved: (p0) {},
                                 keyboardType: TextInputType.emailAddress),
                             TBTInputField(
                               hintText: "Mesajınız",
-                              controller: messageController,
+                              controller: _messageController,
                               onSaved: (p0) {},
                               keyboardType: TextInputType.multiline,
                               minLines: 7,
@@ -173,11 +180,42 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                     TBTPurpleButton(
                       width: 200,
                       buttonText: "Gönder",
-                      onPressed: () {},
+                      onPressed: () async {
+                        ContactFormModel contactFormModel = ContactFormModel(
+                          contactFormId: const Uuid().v1(),
+                          contactFormFullName: _nameController.text,
+                          contactFormEmail: _emailController.text,
+                          contactFormMessage: _messageController.text,
+                          contactFormCreatedAt: DateTime.now(),
+                          contactFormIsClosed: false,
+                          contactFormClosedBy: 'contactFormClosedBy',
+                          contactFormClosedAt: DateTime.now(),
+                        );
+
+                        var result = await ContactFromRepository()
+                            .sendOrUpdateForm(contactFormModel);
+
+                        if (result == 'success' && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('İşlem Başarılı'),
+                            ),
+                          );
+                          _nameController.clear();
+                          _emailController.clear();
+                          _messageController.clear();
+                        } else if (result != 'success' && context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('İşlem Başarılı'),
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

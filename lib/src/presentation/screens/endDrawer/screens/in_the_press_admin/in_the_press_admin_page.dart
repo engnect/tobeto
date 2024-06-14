@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/common/router/app_router.dart';
 import 'package:tobeto/src/domain/repositories/blog_repository.dart';

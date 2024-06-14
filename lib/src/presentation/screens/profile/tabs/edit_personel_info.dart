@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field2/intl_phone_field.dart';
@@ -12,7 +12,6 @@ import 'package:tobeto/src/presentation/screens/profile/padded_widget';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
 import 'package:tobeto/src/models/user_model.dart';
-
 
 class PersonalInfoPage extends StatefulWidget {
   const PersonalInfoPage({super.key});
@@ -44,30 +43,38 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   List<Map<String, String>> _cities = [];
   Map<String, List<Map<String, String>>> _cityDistrictMap = {};
 
-  final List<String> _countries = ['Türkiye', 'ABD', 'Almanya', 'Fransa', 'İngiltere'];
+  final List<String> _countries = [
+    'Türkiye',
+    'ABD',
+    'Almanya',
+    'Fransa',
+    'İngiltere'
+  ];
 
   final UserRepository _userRepository = UserRepository();
 
-
-Future<void> _loadUserData() async {
-  UserModel? user = await AuthRepository().getCurrentUser();
-  if (user != null) {
-    setState(() {
-      _nameController.text = user.userName;
-      _surnameController.text = user.userSurname;
-      _emailController.text = user.userEmail;
-      _phoneController.text = user.userPhoneNumber ?? '';
-      _dateController.text = user.userBirthDate != null ? DateFormat('dd/MM/yyyy').format(user.userBirthDate!) : '';
-      _aboutmeController.text = user.aboutMe ?? '';
-      _selectedGender = user.gender;
-      _selectedMilitaryStatus = user.militaryStatus;
-      _selectedDisabilityStatus = user.disabilityStatus;
-    });
-  } else {
-    print("getUser returned null");
+  Future<void> _loadUserData() async {
+    UserModel? user = await AuthRepository().getCurrentUser();
+    if (user != null) {
+      setState(() {
+        _nameController.text = user.userName;
+        _surnameController.text = user.userSurname;
+        _emailController.text = user.userEmail;
+        _phoneController.text = user.userPhoneNumber ?? '';
+        _dateController.text = user.userBirthDate != null
+            ? DateFormat('dd/MM/yyyy').format(user.userBirthDate!)
+            : '';
+        _aboutmeController.text = user.aboutMe ?? '';
+        _selectedGender = user.gender;
+        _selectedMilitaryStatus = user.militaryStatus;
+        _selectedDisabilityStatus = user.disabilityStatus;
+      });
+    } else {
+      if (kDebugMode) {
+        print("getUser returned null");
+      }
+    }
   }
-}
-
 
   Future<void> _getImageFromGallery() async {
     final image = await PersonalInfoUtil.getImageFromGallery();
@@ -104,7 +111,8 @@ Future<void> _loadUserData() async {
   void _onCitySelected(String? newCityId) {
     setState(() {
       _selectedCityId = newCityId;
-      _selectedCityName = _cities.firstWhere((city) => city["id"] == newCityId)["name"];
+      _selectedCityName =
+          _cities.firstWhere((city) => city["id"] == newCityId)["name"];
       _selectedDistrictId = null;
       _selectedDistrictName = null;
     });
@@ -117,6 +125,7 @@ Future<void> _loadUserData() async {
           .firstWhere((district) => district["id"] == newDistrictId)["name"];
     });
   }
+
 
 void _updateUser() async {
   UserModel usermodel = await AuthRepository().getCurrentUser();
@@ -139,13 +148,35 @@ void _updateUser() async {
       _loadUserData();
     } else {
       throw Exception('Kullanıcı oturumu açmamış.');
+
+  void _updateUser() async {
+    UserModel? usermodel = await AuthRepository().getCurrentUser();
+    try {
+      if (usermodel != null) {
+        UserModel updatedUser = usermodel.copyWith(
+          userName: _nameController.text,
+          userSurname: _surnameController.text,
+          userEmail: _emailController.text,
+          userPhoneNumber: _phoneController.text,
+          userBirthDate: _selectedDate,
+          gender: _selectedGender,
+          militaryStatus: _selectedMilitaryStatus,
+          disabilityStatus: _selectedDisabilityStatus,
+          aboutMe: _aboutmeController.text,
+        );
+        await _userRepository.updateUser(updatedUser);
+
+        _loadUserData();
+      } else {
+        throw Exception('Kullanıcı oturumu açmamış.');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Hata: $e');
+      }
+
     }
-  } catch (e) {
-    print('Hata: $e');
   }
-}
-
-
 
   @override
   void initState() {
@@ -154,7 +185,6 @@ void _updateUser() async {
     _loadDistrictData();
     _loadUserData();
   }
-
 
   @override
   void dispose() {
@@ -235,7 +265,9 @@ void _updateUser() async {
                       ),
                       initialCountryCode: 'TR',
                       onChanged: (phone) {
-                        print(phone.completeNumber);
+                        if (kDebugMode) {
+                          print(phone.completeNumber);
+                        }
                       },
                     ),
                   ],
@@ -478,7 +510,7 @@ void _updateUser() async {
               PaddedWidget(
                 child: TBTPurpleButton(
                   buttonText: 'Kaydet',
-                  onPressed: _updateUser, 
+                  onPressed: _updateUser,
                 ),
               ),
               const SizedBox(
@@ -491,4 +523,3 @@ void _updateUser() async {
     );
   }
 }
-

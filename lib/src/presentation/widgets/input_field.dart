@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class TBTInputField extends StatefulWidget {
@@ -50,7 +51,9 @@ class _TBTInputFieldState extends State<TBTInputField> {
                         setState(() {
                           showPassword = !showPassword;
 
-                          print(showPassword);
+                          if (kDebugMode) {
+                            print(showPassword);
+                          }
                         });
                       },
                       icon: const Icon(
@@ -62,7 +65,9 @@ class _TBTInputFieldState extends State<TBTInputField> {
                         setState(() {
                           showPassword = !showPassword;
 
-                          print(showPassword);
+                          if (kDebugMode) {
+                            print(showPassword);
+                          }
                         });
                       },
                       icon: const Icon(
@@ -70,6 +75,8 @@ class _TBTInputFieldState extends State<TBTInputField> {
                       ),
                     ),
           hintText: widget.hintText,
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           border: const OutlineInputBorder(
             borderSide: BorderSide(
               color: Color.fromRGBO(138, 138, 138, 0.4),
@@ -84,10 +91,7 @@ class _TBTInputFieldState extends State<TBTInputField> {
               width: 4,
             ),
           ),
-          enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
+          enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Color.fromRGBO(112, 112, 112, 0.459),
             ),

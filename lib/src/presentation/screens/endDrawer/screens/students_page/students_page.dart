@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
@@ -72,7 +73,9 @@ class _StudentsPageState extends State<StudentsPage> {
                     children: [
                       SlidableAction(
                         onPressed: (context) {
-                          print("Sile tıklandı");
+                          if (kDebugMode) {
+                            print("Sile tıklandı");
+                          }
                         },
                         backgroundColor: const Color(0xFFFE4A49),
                         foregroundColor: Colors.white,
@@ -81,7 +84,9 @@ class _StudentsPageState extends State<StudentsPage> {
                       ),
                       SlidableAction(
                         onPressed: (context) {
-                          print("Düzenleye tıklandı");
+                          if (kDebugMode) {
+                            print("Düzenleye tıklandı");
+                          }
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const StudentsEdit(),
                           ));

@@ -164,6 +164,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
                           bottomRight: Radius.circular(10),
                         )
                       : null,
+
                   border: Border(
                     bottom: BorderSide(
                       width: isSelect ? 7 : 0,
@@ -172,6 +173,18 @@ class _ExperiencePageState extends State<ExperiencePage> {
                   ),
                 ),
                 height: isSelect ? 600 : 0,
+
+                  border: isSelect
+                      ? Border(
+                          bottom: BorderSide(
+                            width: isSelect ? 7 : 0,
+                            color: const Color.fromARGB(255, 153, 51, 255),
+                          ),
+                        )
+                      : null,
+                ),
+                height: isSelect ? 500 : 0,
+
                 duration: const Duration(seconds: 1),
                 child: isSelect
                     ? StreamBuilder(stream: FirebaseFirestore.instance.collection(FirebaseConstants.usersCollection).doc("czfb0mJN8ZX99MkhZfiDZUdhqU22").snapshots(), 

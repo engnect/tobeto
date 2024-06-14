@@ -12,38 +12,45 @@ class CourseScreen extends StatefulWidget {
   State<CourseScreen> createState() => _CourseScreenState();
 }
 
-final controller = ScrollController();
-
 class _CourseScreenState extends State<CourseScreen> {
+  final ScrollController _controller = ScrollController();
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-            backgroundColor: const Color.fromARGB(255, 240, 240, 240),
-            appBar: TBTAppBar(controller: controller),
-            body: SingleChildScrollView(
-                controller: controller,
-                child: Column(
-                  children: coursesWithModel.map((course) {
-                    return CourseCard(
-                      image: course.courseThumbnail,
-                      date: course.startDate,
-                      title: course.courseName,
-                      ontap: () {
-                        final courseVideos = coursesVideosWithModel
-                            .where((video) =>
-                                video.courseName == course.courseName)
-                            .toList();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CourseScreenDetails(
-                                course: course, courseVideos: courseVideos),
-                          ),
-                        );
-                      },
-                    );
-                  }).toList(),
-                ))));
+      child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+        appBar: TBTAppBar(controller: _controller),
+        body: SingleChildScrollView(
+          controller: _controller,
+          child: Column(
+            children: coursesWithModel.map((course) {
+              return CourseCard(
+                image: course.courseThumbnail,
+                date: course.startDate,
+                title: course.courseName,
+                ontap: () {
+                  final courseVideos = coursesVideosWithModel
+                      .where((video) => video.courseName == course.courseName)
+                      .toList();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CourseScreenDetails(
+                          course: course, courseVideos: courseVideos),
+                    ),
+                  );
+                },
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
   }
 }
