@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field2/intl_phone_field.dart';
@@ -70,9 +69,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         _selectedDisabilityStatus = user.disabilityStatus;
       });
     } else {
-      if (kDebugMode) {
-        print("getUser returned null");
-      }
+      print("getUser returned null");
     }
   }
 
@@ -126,29 +123,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     });
   }
 
-
-void _updateUser() async {
-  UserModel usermodel = await AuthRepository().getCurrentUser();
-  try {
-     
-    if (usermodel != null) {
-      UserModel updatedUser = usermodel.copyWith(
-        userName: _nameController.text, 
-        userSurname: _surnameController.text, 
-        userEmail: _emailController.text, 
-        userPhoneNumber: _phoneController.text, 
-        userBirthDate: _selectedDate, 
-        gender: _selectedGender,
-        militaryStatus: _selectedMilitaryStatus,
-        disabilityStatus: _selectedDisabilityStatus, 
-        aboutMe: _aboutmeController.text, 
-      );
-      await _userRepository.updateUser(updatedUser);
-      
-      _loadUserData();
-    } else {
-      throw Exception('Kullanıcı oturumu açmamış.');
-
   void _updateUser() async {
     UserModel? usermodel = await AuthRepository().getCurrentUser();
     try {
@@ -171,10 +145,7 @@ void _updateUser() async {
         throw Exception('Kullanıcı oturumu açmamış.');
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Hata: $e');
-      }
-
+      print('Hata: $e');
     }
   }
 
@@ -265,9 +236,7 @@ void _updateUser() async {
                       ),
                       initialCountryCode: 'TR',
                       onChanged: (phone) {
-                        if (kDebugMode) {
-                          print(phone.completeNumber);
-                        }
+                        print(phone.completeNumber);
                       },
                     ),
                   ],

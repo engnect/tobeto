@@ -6,22 +6,21 @@ import 'package:tobeto/src/models/user_model.dart';
 class ExperienceRepository {
   final CollectionReference experienceCollection =
       FirebaseFirestore.instance.collection('experiencesList');
-      final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  
   Future<void> addExperience(ExperienceModel experience) async {
     try {
-      
-      DocumentReference docRef = await experienceCollection.add(experience.toMap());
+      DocumentReference docRef =
+          await experienceCollection.add(experience.toMap());
       experience.experienceId = docRef.id;
 
       UserModel? usermodel = await AuthRepository().getCurrentUser();
-      if (usermodel.experiencesList != null) {
+      if (usermodel!.experiencesList != null) {
         usermodel.experiencesList!.add(experience);
       } else {
         usermodel.experiencesList = [experience];
       }
-    
+
       UserModel updatedUser = usermodel;
 
       await FirebaseFirestore.instance
@@ -43,16 +42,14 @@ class ExperienceRepository {
     }
   }
 
-
-     Future<void> deleteExperience(String experienceId) async {
+  Future<void> deleteExperience(String experienceId) async {
     try {
       UserModel? user = await AuthRepository().getCurrentUser();
 
-      if (user.experiencesList != null) {
+      if (user!.experiencesList != null) {
         print('User found: ${user.userId}');
         print('Experience List: ${user.experiencesList}');
 
-        
         ExperienceModel? experienceToRemove;
         for (var exp in user.experiencesList!) {
           print('Checking experience: ${exp.experienceId}');
@@ -65,12 +62,11 @@ class ExperienceRepository {
         if (experienceToRemove != null) {
           print('Experience to remove found: ${experienceToRemove.toMap()}');
 
-          
           await _firestore.collection('users').doc(user.userId).update({
-            'experiencesList': FieldValue.arrayRemove([experienceToRemove.toMap()])
+            'experiencesList':
+                FieldValue.arrayRemove([experienceToRemove.toMap()])
           });
 
-          
           //await _firestore.collection('experiences').doc(experienceId).delete();
 
           print('Experience deleted successfully');
@@ -83,20 +79,6 @@ class ExperienceRepository {
     } catch (e) {
       print('Failed to delete experience: $e');
       throw Exception('Failed to delete experience: $e');
-    }
-  }
-
-  Future<List<ExperienceModel>> getUserExperiences(String userId) async {
-    try {
-      QuerySnapshot querySnapshot = await experienceCollection
-          .where('userId', isEqualTo: userId)
-          .get();
-
-      return querySnapshot.docs
-          .map((doc) => ExperienceModel.fromMap(doc.data() as Map<String, dynamic>))
-          .toList();
-    } catch (e) {
-      throw Exception('Failed to fetch experiences: $e');
     }
   }
 }

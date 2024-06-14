@@ -1,10 +1,7 @@
-import 'dart:html';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/common/constants/utilities.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/domain/repositories/experience_repository.dart';
@@ -15,7 +12,7 @@ import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
 
 class ExperiencePage extends StatefulWidget {
-  const ExperiencePage({Key? key}) : super(key: key);
+  const ExperiencePage({super.key});
 
   @override
   State<ExperiencePage> createState() => _ExperiencePageState();
@@ -34,23 +31,6 @@ class _ExperiencePageState extends State<ExperiencePage> {
   bool _isCurrentlyWorking = false;
   bool isSelect = false;
 
-  late Future<List<ExperienceModel>> _experiencesFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchExperiences();
-    _experiencesFuture = _loadExperiences();
-  }
-
-  Future<List<ExperienceModel>> _loadExperiences() async {
-    UserModel? user = await AuthRepository().getCurrentUser();
-    if (user != null) {
-      return await ExperienceRepository().getUserExperiences(user.userId);
-    }
-    return [];
-  }
-
   @override
   void dispose() {
     _companyController.dispose();
@@ -59,16 +39,6 @@ class _ExperiencePageState extends State<ExperiencePage> {
     _cityController.dispose();
     _jobdescrbController.dispose();
     super.dispose();
-  }
-
-  Future<void> _fetchExperiences() async {
-    UserModel? user = await AuthRepository().getCurrentUser();
-    if (user != null) {
-      setState(() {
-        _experiencesFuture =
-            ExperienceRepository().getUserExperiences(user.userId);
-      });
-    }
   }
 
   Future<void> _selectStartDate(BuildContext context) async {
@@ -95,7 +65,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
     try {
       ExperienceModel newExperience = ExperienceModel(
         experienceId: '',
-        userId: user.userId,
+        userId: user!.userId,
         companyName: _companyController.text,
         experiencePosition: _positionController.text,
         experienceType: _selectedExperienceType ?? '',
@@ -113,8 +83,6 @@ class _ExperiencePageState extends State<ExperiencePage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Experience added successfully')),
       );
-
-      _fetchExperiences(); 
     } catch (e, stackTrace) {
       print('Failed to add experience: $e');
       print(stackTrace);
@@ -125,20 +93,18 @@ class _ExperiencePageState extends State<ExperiencePage> {
     }
   }
 
- Future<void> _deleteExperience(String experienceId) async {
-  try {
-    await ExperienceRepository().deleteExperience(experienceId);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Experience deleted successfully')),
-    );
-    _fetchExperiences(); 
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to delete experience: $e')),
-    );
+  Future<void> _deleteExperience(String experienceId) async {
+    try {
+      await ExperienceRepository().deleteExperience(experienceId);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Experience deleted successfully')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to delete experience: $e')),
+      );
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +130,6 @@ class _ExperiencePageState extends State<ExperiencePage> {
                           bottomRight: Radius.circular(10),
                         )
                       : null,
-
                   border: Border(
                     bottom: BorderSide(
                       width: isSelect ? 7 : 0,
@@ -173,33 +138,110 @@ class _ExperiencePageState extends State<ExperiencePage> {
                   ),
                 ),
                 height: isSelect ? 600 : 0,
-
-                  border: isSelect
-                      ? Border(
-                          bottom: BorderSide(
-                            width: isSelect ? 7 : 0,
-                            color: const Color.fromARGB(255, 153, 51, 255),
-                          ),
-                        )
-                      : null,
-                ),
-                height: isSelect ? 500 : 0,
-
                 duration: const Duration(seconds: 1),
                 child: isSelect
-                    ? StreamBuilder(stream: FirebaseFirestore.instance.collection(FirebaseConstants.usersCollection).doc("czfb0mJN8ZX99MkhZfiDZUdhqU22").snapshots(), 
-                    builder: (context, snapshot) {
-                      // if(!snapshot.hasData  ) {
-                      //   return Center(child: CircularProgressIndicator(),);
-                      // }else{
-                      //   UserModel documentSnapshot = snapshot.data!.data();
-                      //   return ListView.builder(itemBuilder: (context, index) {
-                      //     DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
-                      //     ExperienceModel experienceModel = ExperienceModel.fromMap(documentSnapshot.data() as Map<String, dynamic> );
-                      //   },);
-                      // }
-                    }, 
-                    )
+                    ? BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, state) {
+                          if (state is Authenticated) {
+                            UserModel currentUser = state.userModel;
+
+                            return ListView.builder(
+                              itemCount: currentUser.experiencesList!.length,
+                              itemBuilder: (context, index) {
+                                ExperienceModel experience =
+                                    currentUser.experiencesList![index];
+
+                                return Card(
+                                  child: ListTile(
+                                    title: Text(experience.companyName),
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(experience.experiencePosition),
+                                        Text(
+                                          'Başlangıç Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.startDate)}',
+                                        ),
+                                        Text(
+                                          experience.isCurrentlyWorking!
+                                              ? 'Devam Ediyor'
+                                              : 'Bitiş Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.endDate)}',
+                                        ),
+                                      ],
+                                    ),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(Icons.edit),
+                                          onPressed: () {
+                                            // Düzenleme işlemleri burada yapılabilir
+                                            // Örneğin, seçilen experience'ı form alanlarına doldurabilirsiniz
+                                            setState(() {
+                                              _companyController.text =
+                                                  experience.companyName;
+                                              _positionController.text =
+                                                  experience.experiencePosition;
+                                              _selectedExperienceType =
+                                                  experience.experienceType;
+                                              _sectorController.text =
+                                                  experience.experienceSector;
+                                              _cityController.text =
+                                                  experience.experienceCity;
+                                              _selectedStartDate =
+                                                  experience.startDate;
+                                              _selectedEndDate =
+                                                  experience.endDate;
+                                              _isCurrentlyWorking = experience
+                                                  .isCurrentlyWorking!;
+                                              _jobdescrbController.text =
+                                                  experience.jobDescription!;
+                                            });
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.delete),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                title:
+                                                    const Text("Deneyimi sil"),
+                                                content: const Text(
+                                                    "Bu dneyimi silmek istediğinizden emin msiniz?"),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    child: const Text("İptal"),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      Navigator.pop(context);
+                                                      print(
+                                                          "Silmek istediğim fonks: ${experience.experienceId}");
+                                                      await _deleteExperience(
+                                                          experience
+                                                              .experienceId);
+                                                    },
+                                                    child: const Text('Sil'),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            return const SizedBox.shrink();
+                          }
+                        },
+                      )
                     : const SizedBox.shrink(),
               ),
               PaddedWidget(
@@ -267,61 +309,60 @@ class _ExperiencePageState extends State<ExperiencePage> {
                 ),
               ),
               PaddedWidget(
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () => _selectStartDate(context),
-                                child: AbsorbPointer(
-                                  child: TBTInputField(
-                                    hintText: _selectedStartDate != null
-                                        ? DateFormat('dd/MM/yyyy')
-                                            .format(_selectedStartDate!)
-                                        : 'Başlangıç Tarihi',
-                                    controller: TextEditingController(
-                                      text: _selectedStartDate != null
-                                          ? DateFormat('dd/MM/yyyy')
-                                              .format(_selectedStartDate!)
-                                          : '',
-                                    ),
-                                    onSaved: (p0) {},
-                                    keyboardType: TextInputType.datetime,
-                                  ),
-                                ),
-                              ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => _selectStartDate(context),
+                        child: AbsorbPointer(
+                          child: TBTInputField(
+                            hintText: _selectedStartDate != null
+                                ? DateFormat('dd/MM/yyyy')
+                                    .format(_selectedStartDate!)
+                                : 'Başlangıç Tarihi',
+                            controller: TextEditingController(
+                              text: _selectedStartDate != null
+                                  ? DateFormat('dd/MM/yyyy')
+                                      .format(_selectedStartDate!)
+                                  : '',
                             ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: _isCurrentlyWorking
-                                    ? null
-                                    : () => _selectEndDate(context),
-                                child: AbsorbPointer(
-                                  child: TBTInputField(
-                                    hintText: _isCurrentlyWorking
-                                        ? 'Devam Ediyor'
-                                        : _selectedEndDate != null
-                                            ? DateFormat('dd/MM/yyyy')
-                                                .format(_selectedEndDate!)
-                                            : 'Bitiş Tarihi',
-                                    controller: TextEditingController(
-                                      text: _isCurrentlyWorking
-                                          ? 'Devam Ediyor'
-                                          : _selectedEndDate != null
-                                              ? DateFormat('dd/MM/yyyy')
-                                                  .format(_selectedEndDate!)
-                                              : '',
-                                    ),
-                                    
-                                    onSaved: (p0) {},
-                                    keyboardType: TextInputType.datetime,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                            onSaved: (p0) {},
+                            keyboardType: TextInputType.datetime,
+                          ),
                         ),
                       ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: _isCurrentlyWorking
+                            ? null
+                            : () => _selectEndDate(context),
+                        child: AbsorbPointer(
+                          child: TBTInputField(
+                            hintText: _isCurrentlyWorking
+                                ? 'Devam Ediyor'
+                                : _selectedEndDate != null
+                                    ? DateFormat('dd/MM/yyyy')
+                                        .format(_selectedEndDate!)
+                                    : 'Bitiş Tarihi',
+                            controller: TextEditingController(
+                              text: _isCurrentlyWorking
+                                  ? 'Devam Ediyor'
+                                  : _selectedEndDate != null
+                                      ? DateFormat('dd/MM/yyyy')
+                                          .format(_selectedEndDate!)
+                                      : '',
+                            ),
+                            onSaved: (p0) {},
+                            keyboardType: TextInputType.datetime,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               PaddedWidget(
                 child: Row(
                   children: [
