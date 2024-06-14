@@ -29,7 +29,7 @@ class UserModel {
   final List<LanguageModel>? languageList;
   final List<SocialMediaModel>? socialMediaList;
   final List<SkillModel>? skillsList;
-  final List<ExperienceModel>? experiencesList;
+   List<ExperienceModel>? experiencesList;
   final List<EducationModel>? schoolsList;
   final List<CertificateModel>? certeficatesList;
   UserModel({

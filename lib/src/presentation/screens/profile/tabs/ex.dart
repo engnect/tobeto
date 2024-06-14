@@ -1,10 +1,5 @@
-import 'dart:html';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/common/constants/utilities.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/domain/repositories/experience_repository.dart';
@@ -174,19 +169,109 @@ class _ExperiencePageState extends State<ExperiencePage> {
                 height: isSelect ? 600 : 0,
                 duration: const Duration(seconds: 1),
                 child: isSelect
-                    ? StreamBuilder(stream: FirebaseFirestore.instance.collection(FirebaseConstants.usersCollection).doc("czfb0mJN8ZX99MkhZfiDZUdhqU22").snapshots(), 
-                    builder: (context, snapshot) {
-                      // if(!snapshot.hasData  ) {
-                      //   return Center(child: CircularProgressIndicator(),);
-                      // }else{
-                      //   UserModel documentSnapshot = snapshot.data!.data();
-                      //   return ListView.builder(itemBuilder: (context, index) {
-                      //     DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
-                      //     ExperienceModel experienceModel = ExperienceModel.fromMap(documentSnapshot.data() as Map<String, dynamic> );
-                      //   },);
-                      // }
-                    }, 
-                    )
+                    ? FutureBuilder<List<ExperienceModel>>(
+                        future: _experiencesFuture,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(
+                                child: Text('Hata: ${snapshot.error}'));
+                          } else if (!snapshot.hasData ||
+                              snapshot.data!.isEmpty) {
+                            return const Center(
+                                child: Text('Henüz bir deneyim eklenmedi.'));
+                          } else {
+                            List<ExperienceModel> experiences = snapshot.data!;
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: experiences.length,
+                              itemBuilder: (context, index) {
+                                ExperienceModel experience = experiences[index];
+                                return Card(
+                                  child: ListTile(
+                                    title: Text(experience.companyName),
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(experience.experiencePosition),
+                                        Text(
+                                          'Başlangıç Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.startDate)}',
+                                        ),
+                                        Text(
+                                          experience.isCurrentlyWorking!
+                                              ? 'Devam Ediyor'
+                                              : 'Bitiş Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.endDate)}',
+                                        ),
+                                      ],
+                                    ),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(Icons.edit),
+                                          onPressed: () {
+                                            // Düzenleme işlemleri burada yapılabilir
+                                            // Örneğin, seçilen experience'ı form alanlarına doldurabilirsiniz
+                                            setState(() {
+                                              _companyController.text =
+                                                  experience.companyName;
+                                              _positionController.text =
+                                                  experience.experiencePosition;
+                                              _selectedExperienceType =
+                                                  experience.experienceType;
+                                              _sectorController.text =
+                                                  experience.experienceSector;
+                                              _cityController.text =
+                                                  experience.experienceCity;
+                                              _selectedStartDate =
+                                                  experience.startDate;
+                                              _selectedEndDate = experience.endDate;
+                                              _isCurrentlyWorking =
+                                                  experience.isCurrentlyWorking!;
+                                              _jobdescrbController.text =
+                                                  experience.jobDescription!;
+                                            });
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.delete),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context, 
+                                              builder: (context) => AlertDialog(
+                                                title: const Text("Deneyimi sil"),
+                                                content: const Text("Bu dneyimi silmek istediğinizden emin msiniz?"),
+                                                actions: [ 
+                                                  TextButton(onPressed: () => Navigator.pop(context), child: const Text("İptal"),
+                                                  ), 
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      Navigator.pop(context);
+                                                      print("Silmek istediğim fonks: ${experience.experienceId}");
+                                                      await _deleteExperience(
+                                                          "kJSDjJXEpmsOEfyyPasX");
+                                                    },
+                                                    child: const Text('Sil'),
+                                                  ),
+                                                ],
+
+                                              )
+                                              );
+                                          },
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                        },
+                      )
                     : const SizedBox.shrink(),
               ),
               PaddedWidget(

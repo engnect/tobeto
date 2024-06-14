@@ -133,8 +133,6 @@ void _updateUser() async {
         militaryStatus: _selectedMilitaryStatus,
         disabilityStatus: _selectedDisabilityStatus, 
         aboutMe: _aboutmeController.text, 
-
-
       );
       await _userRepository.updateUser(updatedUser);
       
