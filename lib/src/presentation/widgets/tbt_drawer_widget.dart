@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
+import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
 import 'package:tobeto/src/common/router/app_router.dart';
+import 'package:tobeto/src/data/datasource/theme_shared_pref.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import '../../common/constants/assets.dart';
 
@@ -15,6 +17,7 @@ class TBTDrawer extends StatefulWidget {
 }
 
 class _TBTDrawerState extends State<TBTDrawer> {
+  final prefs = ThemePreferences();
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
@@ -207,6 +210,29 @@ class _TBTDrawerState extends State<TBTDrawer> {
                 } else {
                   return const Text('Hata!');
                 }
+              },
+            ),
+
+            // theme switch
+
+            BlocBuilder<ThemeBloc, ThemeState>(
+              builder: (context, state) {
+                final isDarkTheme =
+                    state.themeData.brightness == Brightness.dark;
+
+                return Switch(
+                  value: isDarkTheme,
+                  onChanged: (value) async {
+                    final newTheme =
+                        value ? ThemeData.dark() : ThemeData.light();
+
+                    context.read<ThemeBloc>().add(
+                          ThemeChanged(themeData: newTheme),
+                        );
+
+                    await prefs.saveTheme(value);
+                  },
+                );
               },
             ),
           ],
