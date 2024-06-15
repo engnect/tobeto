@@ -5,8 +5,10 @@ import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/common/constants/utilities.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/domain/repositories/experience_repository.dart';
+import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/experience_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
+import 'package:uuid/uuid.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
 
@@ -84,52 +86,52 @@ class _ExperiencePageState extends State<ExperiencePage> {
     }
   }
 
-  void _saveExperience() async {
-    UserModel? user = await AuthRepository().getCurrentUser();
+  // void _saveExperience() async {
+  //   UserModel? user = await UserRepository().getCurrentUser();
 
-    try {
-      ExperienceModel newExperience = ExperienceModel(
-        experienceId: '',
-        userId: user!.userId,
-        companyName: _companyController.text,
-        experiencePosition: _positionController.text,
-        experienceType: _selectedExperienceType ?? '',
-        experienceSector: _sectorController.text,
-        experienceCity: _selectedCityName ?? '',
-        startDate: _selectedStartDate!,
-        endDate: _isCurrentlyWorking ? DateTime.now() : _selectedEndDate!,
-        isCurrentlyWorking: _isCurrentlyWorking,
-        jobDescription: _jobdescrbController.text,
-      );
+  //   try {
+  //     ExperienceModel newExperience = ExperienceModel(
+  //       experienceId: '',
+  //       userId: user!.userId,
+  //       companyName: _companyController.text,
+  //       experiencePosition: _positionController.text,
+  //       experienceType: _selectedExperienceType ?? '',
+  //       experienceSector: _sectorController.text,
+  //       experienceCity: _selectedCityName ?? '',
+  //       startDate: _selectedStartDate!,
+  //       endDate: _isCurrentlyWorking ? DateTime.now() : _selectedEndDate!,
+  //       isCurrentlyWorking: _isCurrentlyWorking,
+  //       jobDescription: _jobdescrbController.text,
+  //     );
 
-      print('New Experience Data: ${newExperience.toMap()}');
+  //     print('New Experience Data: ${newExperience.toMap()}');
 
-      await ExperienceRepository().addExperience(newExperience);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Experience added successfully')),
-      );
-    } catch (e, stackTrace) {
-      print('Failed to add experience: $e');
-      print(stackTrace);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to add experience: $e')),
-      );
-      return;
-    }
-  }
+  //     await ExperienceRepository().addExperience(newExperience);
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text('Experience added successfully')),
+  //     );
+  //   } catch (e, stackTrace) {
+  //     print('Failed to add experience: $e');
+  //     print(stackTrace);
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Failed to add experience: $e')),
+  //     );
+  //     return;
+  //   }
+  // }
 
-  Future<void> _deleteExperience(String experienceId) async {
-    try {
-      await ExperienceRepository().deleteExperience(experienceId);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Experience deleted successfully')),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to delete experience: $e')),
-      );
-    }
-  }
+  // Future<void> _deleteExperience(String experienceId) async {
+  //   try {
+  //     await ExperienceRepository().deleteExperience(experienceId);
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text('Experience deleted successfully')),
+  //     );
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Failed to delete experience: $e')),
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -198,29 +200,30 @@ class _ExperiencePageState extends State<ExperiencePage> {
                                       children: [
                                         IconButton(
                                           icon: const Icon(Icons.edit),
-                                          onPressed: () {
-                                            // Düzenleme işlemleri burada yapılabilir
-                                            // Örneğin, seçilen experience'ı form alanlarına doldurabilirsiniz
-                                            setState(() {
-                                              _companyController.text =
-                                                  experience.companyName;
-                                              _positionController.text =
-                                                  experience.experiencePosition;
-                                              _selectedExperienceType =
-                                                  experience.experienceType;
-                                              _sectorController.text =
-                                                  experience.experienceSector;
-                                              _cityController.text =
-                                                  experience.experienceCity;
-                                              _selectedStartDate =
-                                                  experience.startDate;
-                                              _selectedEndDate =
-                                                  experience.endDate;
-                                              _isCurrentlyWorking = experience
-                                                  .isCurrentlyWorking!;
-                                              _jobdescrbController.text =
-                                                  experience.jobDescription!;
-                                            });
+                                          onPressed: () async {
+                                            ExperienceModel experienceModel =
+                                                ExperienceModel(
+                                              experienceId:
+                                                  'e9b1b5e0-962c-102e-8daa-2bf094a1a934',
+                                              userId: 'alperen',
+                                              companyName: 'alperen',
+                                              experiencePosition: 'alperen',
+                                              experienceType: 'alperen',
+                                              experienceSector: 'alperen',
+                                              experienceCity: 'alperen',
+                                              startDate: DateTime.now(),
+                                              endDate: DateTime.now(),
+                                              isCurrentlyWorking: true,
+                                              jobDescription:
+                                                  _jobdescrbController.text,
+                                            );
+
+                                            String result =
+                                                await ExperienceRepository()
+                                                    .updateExperience(
+                                                        experienceModel);
+
+                                            print(result);
                                           },
                                         ),
                                         IconButton(
@@ -244,9 +247,16 @@ class _ExperiencePageState extends State<ExperiencePage> {
                                                       Navigator.pop(context);
                                                       print(
                                                           "Silmek istediğim fonksiyon: ${experience.experienceId}");
-                                                      await _deleteExperience(
-                                                          experience
-                                                              .experienceId);
+                                                      // await _deleteExperience(
+                                                      //     experience
+                                                      //         .experienceId);
+
+                                                      String result =
+                                                          await ExperienceRepository()
+                                                              .deleteExperience(
+                                                                  experience);
+
+                                                      print(result);
                                                     },
                                                     child: const Text('Sil'),
                                                   ),
@@ -308,12 +318,13 @@ class _ExperiencePageState extends State<ExperiencePage> {
                     title:
                         Text(_selectedExperienceType ?? 'Deneyim Türünü Seçin'),
                     trailing: const Icon(Icons.arrow_drop_down),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 4.0, horizontal: 8.0),
                   ),
                 ),
               ),
               Padding(
-                              padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: TBTInputField(
                   hintText: "Sektör",
                   controller: _sectorController,
@@ -337,7 +348,8 @@ class _ExperiencePageState extends State<ExperiencePage> {
                   child: ListTile(
                     title: Text(_selectedCityName ?? 'Şehir Seçiniz'),
                     trailing: const Icon(Icons.arrow_drop_down),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 4.0, horizontal: 8.0),
                   ),
                 ),
               ),
@@ -424,7 +436,29 @@ class _ExperiencePageState extends State<ExperiencePage> {
               ),
               TBTPurpleButton(
                 buttonText: 'Kaydet',
-                onPressed: _saveExperience,
+                onPressed: () async {
+                  UserModel? userModel =
+                      await UserRepository().getCurrentUser();
+
+                  ExperienceModel experienceModel = ExperienceModel(
+                    experienceId: const Uuid().v1(),
+                    userId: userModel!.userId,
+                    companyName: _companyController.text,
+                    experiencePosition: _selectedExperienceType.toString(),
+                    experienceType: _selectedExperienceType.toString(),
+                    experienceSector: _sectorController.text,
+                    experienceCity: _selectedCityName.toString(),
+                    startDate: _selectedStartDate!,
+                    endDate: _selectedStartDate!,
+                    isCurrentlyWorking: _isCurrentlyWorking,
+                    jobDescription: _jobdescrbController.text,
+                  );
+
+                  String sonuc = await ExperienceRepository()
+                      .addExperience(experienceModel);
+
+                  print(sonuc);
+                },
               ),
             ],
           ),
@@ -433,5 +467,3 @@ class _ExperiencePageState extends State<ExperiencePage> {
     );
   }
 }
-
-                 

@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/domain/repositories/blog_repository.dart';
+import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/blog_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
@@ -44,7 +44,7 @@ class _InThePressAddEditState extends State<InThePressAddEdit> {
   }
 
   void getCurrentUser() async {
-    userModel = await AuthRepository().getCurrentUser();
+    userModel = await UserRepository().getCurrentUser();
   }
 
   //kamera mı ? galeri mi ? ekle!!!

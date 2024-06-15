@@ -52,7 +52,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   final UserRepository _userRepository = UserRepository();
 
   Future<void> _loadUserData() async {
-    UserModel? user = await AuthRepository().getCurrentUser();
+    UserModel? user = await UserRepository().getCurrentUser();
     if (user != null) {
       setState(() {
         _nameController.text = user.userName;
@@ -123,7 +123,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   }
 
   void _updateUser() async {
-    UserModel? usermodel = await AuthRepository().getCurrentUser();
+    UserModel? usermodel = await UserRepository().getCurrentUser();
     try {
       if (usermodel != null) {
         UserModel updatedUser = usermodel.copyWith(
@@ -306,7 +306,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   ),
                 ),
               ),
-                            Padding(
+              Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PopupMenuButton<String>(
                   initialValue: _selectedMilitaryStatus,
@@ -478,4 +478,3 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     );
   }
 }
-

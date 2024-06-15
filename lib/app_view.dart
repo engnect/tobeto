@@ -6,6 +6,7 @@ import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
 import 'package:tobeto/src/common/router/app_router.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
+import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
 import 'package:tobeto/src/presentation/screens/platform/platform_screen.dart';
 
@@ -55,7 +56,7 @@ class _MainAppState extends State<MainApp> {
         ),
         BlocProvider(
           create: (context) => AuthBloc(
-            authRepository: AuthRepository(),
+            userRepository: UserRepository(),
             firebaseAuth: FirebaseAuth.instance,
           ),
         ),
