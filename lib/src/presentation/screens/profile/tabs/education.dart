@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/common/constants/utilities.dart';
-import 'package:tobeto/src/presentation/screens/profile/padded_widget';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
 
@@ -76,51 +75,59 @@ class _EducationPageState extends State<EducationPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              PaddedWidget(
-                padding: 8.0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: PopupMenuButton<String>(
-                    initialValue: _selectedEducationLevel,
-                    itemBuilder: (BuildContext context) {
-                      return <PopupMenuEntry<String>>[
-                        const PopupMenuItem<String>(
-                          value: 'Lisans',
-                          child: Text('Lisans'),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedEducationLevel,
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuEntry<String>>[
+                      const PopupMenuItem<String>(
+                        value: 'Lisans',
+                        child: ListTile(
+                          title: Text('Lisans'),
+                          contentPadding: EdgeInsets.zero,
                         ),
-                        const PopupMenuItem<String>(
-                          value: 'Ön Lisans',
-                          child: Text('Ön Lisans'),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'Yüksek Lisans',
-                          child: Text('Yüksek Lisans'),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'Doktora',
-                          child: Text('Doktora'),
-                        ),
-                      ];
-                    },
-                    onSelected: (String? newValue) {
-                      setState(() {
-                        _selectedEducationLevel = newValue;
-                      });
-                    },
-                    child: ListTile(
-                      title: Text(
-                        _selectedEducationLevel ?? 'Eğitim Seviyesi Seçiniz',
                       ),
-                      trailing: const Icon(Icons.arrow_drop_down),
+                      const PopupMenuItem<String>(
+                        value: 'Ön Lisans',
+                        child: ListTile(
+                          title: Text('Ön Lisans'),
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Yüksek Lisans',
+                        child: ListTile(
+                          title: Text('Yüksek Lisans'),
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Doktora',
+                        child: ListTile(
+                          title: Text('Doktora'),
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                      ),
+                    ];
+                  },
+                  onSelected: (String? newValue) {
+                    setState(() {
+                      _selectedEducationLevel = newValue;
+                    });
+                  },
+                  child: ListTile(
+                    title: Text(
+                      _selectedEducationLevel ?? 'Eğitim Seviyesi Seçiniz',
+                      style: const TextStyle(fontSize: 16),
                     ),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
                   ),
                 ),
               ),
-              PaddedWidget(
-                padding: 8.0,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TBTInputField(
                   hintText: "Üniversite",
                   controller: _universityController,
@@ -128,8 +135,8 @@ class _EducationPageState extends State<EducationPage> {
                   keyboardType: TextInputType.name,
                 ),
               ),
-              PaddedWidget(
-                padding: 8.0,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TBTInputField(
                   hintText: "Bölüm",
                   controller: _departmentController,
@@ -137,22 +144,19 @@ class _EducationPageState extends State<EducationPage> {
                   keyboardType: TextInputType.name,
                 ),
               ),
-              PaddedWidget(
-                padding: 8.0,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: TextEditingController(
                     text: _selectedStartDate != null
                         ? DateFormat('dd/MM/yyyy').format(_selectedStartDate!)
                         : '',
                   ),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Başlangıç Tarihi',
                     hintText: 'Başlangıç Tarihi Seçiniz',
-                    contentPadding: const EdgeInsets.all(12),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    suffixIcon: const Icon(Icons.calendar_today),
+                    contentPadding: EdgeInsets.all(12),
+                    suffixIcon: Icon(Icons.calendar_today),
                   ),
                   readOnly: true,
                   onTap: () {
@@ -160,22 +164,19 @@ class _EducationPageState extends State<EducationPage> {
                   },
                 ),
               ),
-              PaddedWidget(
-                padding: 8.0,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: TextEditingController(
                     text: _selectedEndDate != null
                         ? DateFormat('dd/MM/yyyy').format(_selectedEndDate!)
                         : '',
                   ),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Bitiş Tarihi',
                     hintText: 'Bitiş Tarihi Seçiniz',
-                    contentPadding: const EdgeInsets.all(12),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    suffixIcon: const Icon(Icons.calendar_today),
+                    contentPadding: EdgeInsets.all(12),
+                    suffixIcon: Icon(Icons.calendar_today),
                   ),
                   readOnly: true,
                   onTap: () {
@@ -183,8 +184,8 @@ class _EducationPageState extends State<EducationPage> {
                   },
                 ),
               ),
-              PaddedWidget(
-                padding: 8.0,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

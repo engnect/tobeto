@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/profile/padded_widget';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
 class LanguagesPage extends StatefulWidget {
@@ -56,65 +55,55 @@ class _LanguagesPageState extends State<LanguagesPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            PaddedWidget(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: PopupMenuButton<String>(
-                  initialValue: _selectedLanguage,
-                  itemBuilder: (BuildContext context) {
-                    return _languages
-                        .map<PopupMenuItem<String>>((String value) {
-                      return PopupMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList();
-                  },
-                  onSelected: (String? newValue) {
-                    setState(() {
-                      _selectedLanguage = newValue;
-                    });
-                  },
-                  child: ListTile(
-                    title: Text(
-                      _selectedLanguage ?? 'Yabancı Dil Seçiniz',
-                    ),
-                    trailing: const Icon(Icons.arrow_drop_down),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: PopupMenuButton<String>(
+                initialValue: _selectedLanguage,
+                itemBuilder: (BuildContext context) {
+                  return _languages
+                      .map<PopupMenuItem<String>>((String value) {
+                    return PopupMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList();
+                },
+                onSelected: (String? newValue) {
+                  setState(() {
+                    _selectedLanguage = newValue;
+                  });
+                },
+                child: ListTile(
+                  title: Text(
+                    _selectedLanguage ?? 'Yabancı Dil Seçiniz',
                   ),
+                  trailing: const Icon(Icons.arrow_drop_down),
                 ),
               ),
             ),
             const SizedBox(height: 16),
-            PaddedWidget(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: PopupMenuButton<String>(
-                  initialValue: _selectedLevel,
-                  itemBuilder: (BuildContext context) {
-                    return _levels.map<PopupMenuItem<String>>((String value) {
-                      return PopupMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList();
-                  },
-                  onSelected: (String? newValue) {
-                    setState(() {
-                      _selectedLevel = newValue;
-                    });
-                  },
-                  child: ListTile(
-                    title: Text(
-                      _selectedLevel ?? 'Seviye Seçiniz',
-                    ),
-                    trailing: const Icon(Icons.arrow_drop_down),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: PopupMenuButton<String>(
+                initialValue: _selectedLevel,
+                itemBuilder: (BuildContext context) {
+                  return _levels.map<PopupMenuItem<String>>((String value) {
+                    return PopupMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList();
+                },
+                onSelected: (String? newValue) {
+                  setState(() {
+                    _selectedLevel = newValue;
+                  });
+                },
+                child: ListTile(
+                  title: Text(
+                    _selectedLevel ?? 'Seviye Seçiniz',
                   ),
+                  trailing: const Icon(Icons.arrow_drop_down),
                 ),
               ),
             ),

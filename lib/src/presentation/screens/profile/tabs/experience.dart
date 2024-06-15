@@ -7,7 +7,6 @@ import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/domain/repositories/experience_repository.dart';
 import 'package:tobeto/src/models/experience_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
-import 'package:tobeto/src/presentation/screens/profile/padded_widget';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
 
@@ -31,6 +30,16 @@ class _ExperiencePageState extends State<ExperiencePage> {
   bool _isCurrentlyWorking = false;
   bool isSelect = false;
 
+  List<Map<String, String>> _cities = [];
+  String? _selectedCityId;
+  String? _selectedCityName;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCityData();
+  }
+
   @override
   void dispose() {
     _companyController.dispose();
@@ -39,6 +48,22 @@ class _ExperiencePageState extends State<ExperiencePage> {
     _cityController.dispose();
     _jobdescrbController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadCityData() async {
+    // Verileri yükleme kodu burada olacak
+    final cities = await PersonalInfoUtil.loadCityData();
+    setState(() {
+      _cities = cities;
+    });
+  }
+
+  void _onCitySelected(String? newCityId) {
+    setState(() {
+      _selectedCityId = newCityId;
+      _selectedCityName =
+          _cities.firstWhere((city) => city["id"] == newCityId)["name"];
+    });
   }
 
   Future<void> _selectStartDate(BuildContext context) async {
@@ -70,7 +95,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
         experiencePosition: _positionController.text,
         experienceType: _selectedExperienceType ?? '',
         experienceSector: _sectorController.text,
-        experienceCity: _cityController.text,
+        experienceCity: _selectedCityName ?? '',
         startDate: _selectedStartDate!,
         endDate: _isCurrentlyWorking ? DateTime.now() : _selectedEndDate!,
         isCurrentlyWorking: _isCurrentlyWorking,
@@ -110,8 +135,8 @@ class _ExperiencePageState extends State<ExperiencePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: PaddedWidget(
-          padding: 16.0,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
               TBTPurpleButton(
@@ -150,7 +175,6 @@ class _ExperiencePageState extends State<ExperiencePage> {
                               itemBuilder: (context, index) {
                                 ExperienceModel experience =
                                     currentUser.experiencesList![index];
-
                                 return Card(
                                   child: ListTile(
                                     title: Text(experience.companyName),
@@ -208,7 +232,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
                                                 title:
                                                     const Text("Deneyimi sil"),
                                                 content: const Text(
-                                                    "Bu dneyimi silmek istediğinizden emin msiniz?"),
+                                                    "Bu deneyimi silmek istediğinizden emin misiniz?"),
                                                 actions: [
                                                   TextButton(
                                                     onPressed: () =>
@@ -219,7 +243,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
                                                     onPressed: () async {
                                                       Navigator.pop(context);
                                                       print(
-                                                          "Silmek istediğim fonks: ${experience.experienceId}");
+                                                          "Silmek istediğim fonksiyon: ${experience.experienceId}");
                                                       await _deleteExperience(
                                                           experience
                                                               .experienceId);
@@ -244,7 +268,8 @@ class _ExperiencePageState extends State<ExperiencePage> {
                       )
                     : const SizedBox.shrink(),
               ),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TBTInputField(
                   hintText: "Kurum Adı",
                   controller: _companyController,
@@ -252,7 +277,8 @@ class _ExperiencePageState extends State<ExperiencePage> {
                   keyboardType: TextInputType.name,
                 ),
               ),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TBTInputField(
                   hintText: "Pozisyon",
                   controller: _positionController,
@@ -260,39 +286,34 @@ class _ExperiencePageState extends State<ExperiencePage> {
                   keyboardType: TextInputType.name,
                 ),
               ),
-              PaddedWidget(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: DropdownButton<String>(
-                    underline: const SizedBox(),
-                    isExpanded: true,
-                    value: _selectedExperienceType,
-                    hint: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text('Deneyim Türünü Seçin'),
-                    ),
-                    items: <String>['Tam Zamanlı', 'Yarı Zamanlı', 'Staj']
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedExperienceType,
+                  itemBuilder: (BuildContext context) {
+                    return ['Tam Zamanlı', 'Yarı Zamanlı', 'Staj']
                         .map((String value) {
-                      return DropdownMenuItem<String>(
+                      return PopupMenuItem<String>(
                         value: value,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(value),
-                        ),
+                        child: Text(value),
                       );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        _selectedExperienceType = newValue;
-                      });
-                    },
+                    }).toList();
+                  },
+                  onSelected: (String? newValue) {
+                    setState(() {
+                      _selectedExperienceType = newValue;
+                    });
+                  },
+                  child: ListTile(
+                    title:
+                        Text(_selectedExperienceType ?? 'Deneyim Türünü Seçin'),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
                   ),
                 ),
               ),
-              PaddedWidget(
+              Padding(
+                              padding: const EdgeInsets.all(8.0),
                 child: TBTInputField(
                   hintText: "Sektör",
                   controller: _sectorController,
@@ -300,15 +321,28 @@ class _ExperiencePageState extends State<ExperiencePage> {
                   keyboardType: TextInputType.name,
                 ),
               ),
-              PaddedWidget(
-                child: TBTInputField(
-                  hintText: "Şehir",
-                  controller: _cityController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedCityId,
+                  itemBuilder: (BuildContext context) {
+                    return _cities.map((city) {
+                      return PopupMenuItem<String>(
+                        value: city["id"],
+                        child: Text(city["name"]!),
+                      );
+                    }).toList();
+                  },
+                  onSelected: _onCitySelected,
+                  child: ListTile(
+                    title: Text(_selectedCityName ?? 'Şehir Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                  ),
                 ),
               ),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
                     Expanded(
@@ -363,7 +397,8 @@ class _ExperiencePageState extends State<ExperiencePage> {
                   ],
                 ),
               ),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
                     Checkbox(
@@ -378,7 +413,8 @@ class _ExperiencePageState extends State<ExperiencePage> {
                   ],
                 ),
               ),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TBTInputField(
                   hintText: "İş Tanımı",
                   controller: _jobdescrbController,
@@ -397,3 +433,5 @@ class _ExperiencePageState extends State<ExperiencePage> {
     );
   }
 }
+
+                 

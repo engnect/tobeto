@@ -18,7 +18,7 @@ class ExperienceRepository {
       if (usermodel!.experiencesList != null) {
         usermodel.experiencesList!.add(experience);
       } else {
-        usermodel.experiencesList = [experience];
+        //usermodel.experiencesList = [experience];
       }
 
       UserModel updatedUser = usermodel;

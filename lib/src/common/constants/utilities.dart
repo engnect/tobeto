@@ -6,19 +6,32 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 
-//UTILITY DUZENLENECEK
 
-class CertificateUtil {
-  static Future<DateTime?> selectYear(BuildContext context, DateTime? selectedYear) async {
+class CommonUtil {
+  static Future<DateTime?> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(1990),
+      firstDate: DateTime(1900),
       lastDate: DateTime.now(),
     );
     return picked;
   }
 
+  static List<Map<String, String>> sortByName(List<Map<String, String>> list) {
+    list.sort((a, b) => a["name"]!.compareTo(b["name"]!));
+    return list;
+  }
+}
+
+
+class CertificateUtil {
+  
+  static Future<DateTime?> selectYear(BuildContext context, DateTime? selectedYear) async {
+    return await CommonUtil.selectDate(context);
+  }
+
+  
   static Future<String?> pickPDF() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -41,15 +54,10 @@ class PersonalInfoUtil {
   }
 
   static Future<DateTime?> selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    return pickedDate;
+    return await CommonUtil.selectDate(context);
   }
 
+  
   static Future<List<Map<String, String>>> loadCityData() async {
     final String response = await rootBundle.loadString(Assets.filesCitiesJson);
     final List<dynamic> data = json.decode(response);
@@ -59,10 +67,10 @@ class PersonalInfoUtil {
         "name": item["name"].toString(),
       };
     }).toList();
-    cities.sort((a, b) => a["name"]!.compareTo(b["name"]!));
-    return cities;
+    return CommonUtil.sortByName(cities);
   }
 
+  
   static Future<Map<String, List<Map<String, String>>>> loadDistrictData() async {
     final String response = await rootBundle.loadString(Assets.filesDistrictJson);
     final List<dynamic> data = json.decode(response);
@@ -84,58 +92,31 @@ class PersonalInfoUtil {
       }
     }
     cityDistrictMap.forEach((cityId, districts) {
-      districts.sort((a, b) => a["name"]!.compareTo(b["name"]!));
+      CommonUtil.sortByName(districts);
     });
     return cityDistrictMap;
   }
 }
 
+
 class EducationUtil {
+  
   static Future<DateTime?> selectStartDate(BuildContext context) async {
-    final DateTime? pickedStartDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-
-    return pickedStartDate;
+    return await CommonUtil.selectDate(context);
   }
 
   static Future<DateTime?> selectEndDate(BuildContext context) async {
-    final DateTime? pickedEndDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-
-    return pickedEndDate;
-  } 
+    return await CommonUtil.selectDate(context);
   }
+}
 
+class ExperienceUtil {
 
-  class ExperienceUtil {
   static Future<DateTime?> selectStartDate(BuildContext context) async {
-    final DateTime? pickedStartDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-
-    return pickedStartDate;
+    return await CommonUtil.selectDate(context);
   }
 
   static Future<DateTime?> selectEndDate(BuildContext context) async {
-    final DateTime? pickedEndDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-
-    return pickedEndDate;
-  } 
+    return await CommonUtil.selectDate(context);
   }
-
+}
