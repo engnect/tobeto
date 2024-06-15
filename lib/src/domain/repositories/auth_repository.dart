@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:tobeto/src/common/constants/enums.dart';
+import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart';
 import '../../common/constants/firebase_constants.dart';
 import '../../models/user_model.dart';
 
@@ -44,12 +46,16 @@ class AuthRepository {
           password: userPassword,
         );
 
+        String userAvatarUrl = await FirebaseStorageRepository()
+            .getDefaultAvatarUrl(userCredential.user!.uid);
+
         UserModel userModel = UserModel(
           userId: userCredential.user!.uid,
           userName: userName,
           userSurname: userSurname,
           userEmail: userEmail,
-          userRank: 'student',
+          userAvatarUrl: userAvatarUrl,
+          userRank: UserRank.student,
           userCreatedAt: DateTime.now(),
           userBirthDate: DateTime.now(),
           languageList: [],
