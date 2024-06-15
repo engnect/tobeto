@@ -35,7 +35,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+        //backgroundColor: const Color.fromARGB(255, 240, 240, 240),
         appBar: TBTAppBar(controller: _controller),
         drawer: const TBTDrawer(),
         body: SingleChildScrollView(
@@ -119,7 +119,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                 margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
                 width: MediaQuery.of(context).size.width,
                 decoration: const BoxDecoration(
-                  color: Colors.white,
+                  color: Color.fromARGB(255, 229, 130, 130),
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 child: Column(
