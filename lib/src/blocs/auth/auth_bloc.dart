@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
+import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/user_model.dart';
 
 part 'auth_event.dart';
@@ -11,16 +12,16 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth firebaseAuth;
-  final AuthRepository authRepository;
+  final UserRepository userRepository;
   StreamSubscription<UserModel?>? _userStreamSubscription;
 
-  AuthBloc({required this.firebaseAuth, required this.authRepository})
+  AuthBloc({required this.firebaseAuth, required this.userRepository})
       : super(AuthInitial()) {
     firebaseAuth.authStateChanges().listen((User? firebaseUser) async {
       await _userStreamSubscription
           ?.cancel(); // Cancel the previous subscription
       if (firebaseUser != null) {
-        _userStreamSubscription = authRepository.getUserStream().listen(
+        _userStreamSubscription = userRepository.getUserStream().listen(
           (customUser) {
             if (customUser != null) {
               add(_UserAuthenticated(userModel: customUser));
@@ -45,7 +46,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AuthCheckRequested event, Emitter<AuthState> emit) async {
     final currentUser = firebaseAuth.currentUser;
     if (currentUser != null) {
-      final customUser = await authRepository.getCurrentUser();
+      final customUser = await userRepository.getCurrentUser();
       if (customUser != null) {
         emit(Authenticated(userModel: customUser));
       } else {
