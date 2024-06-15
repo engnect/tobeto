@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text("Henüz üye değil misin?"),
+                                const Text("Henüz üye değil misin? "),
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.of(context).push(

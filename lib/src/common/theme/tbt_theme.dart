@@ -32,26 +32,6 @@ class TBTPalette {
       ),
     ),
     cardColor: Colors.green,
-    textTheme: const TextTheme(
-      // TEXT THEME
-      bodyMedium: TextStyle(
-          color: Colors.grey,
-          fontFamily: AutofillHints.postalAddressExtendedPostalCode,
-          fontSize: 35,
-          fontStyle: FontStyle.normal),
-      displayMedium: TextStyle(
-        color: Colors.orange,
-        fontFamily: String.fromEnvironment(AutofillHints.creditCardNumber),
-        fontSize: 40,
-        fontStyle: FontStyle.normal,
-      ),
-      headlineMedium: TextStyle(
-        color: Colors.yellow,
-        fontFamily: AutofillHints.addressState,
-        fontSize: 60,
-        fontStyle: FontStyle.italic,
-      ),
-    ),
   );
 
   static ThemeData darkTheme = ThemeData.dark().copyWith(
@@ -85,23 +65,5 @@ class TBTPalette {
       ),
     ),
     cardColor: const Color.fromARGB(255, 221, 221, 221),
-    textTheme: const TextTheme(
-      // TEXT THEME
-      bodyMedium: TextStyle(
-        color: Colors.grey,
-        fontSize: 35,
-        fontStyle: FontStyle.normal,
-      ),
-      displayMedium: TextStyle(
-        color: Colors.orange,
-        fontSize: 40,
-        fontStyle: FontStyle.normal,
-      ),
-      headlineMedium: TextStyle(
-        color: Colors.yellow,
-        fontSize: 60,
-        fontStyle: FontStyle.italic,
-      ),
-    ),
   );
 }
