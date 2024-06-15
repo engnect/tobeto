@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:tobeto/src/common/constants/enums.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/common/router/app_router.dart';
 import 'package:tobeto/src/models/user_model.dart';
@@ -23,112 +24,116 @@ class _StaffPageState extends State<StaffPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text("Kadro"),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 15),
-              child: Text(
-                "Kadro Düzenle",
-                style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text("Kadro"),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 15),
+                child: Text(
+                  "Kadro Düzenle",
+                  style: TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-              child: TBTPurpleButton(
-                buttonText: "Yeni Personel Ekle",
-                onPressed: () {
-                  Navigator.of(context)
-                      .pushNamed(AppRouteNames.staffAddEditScreenRoute);
-                },
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                child: TBTPurpleButton(
+                  buttonText: "Yeni Personel Ekle",
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushNamed(AppRouteNames.staffAddEditScreenRoute);
+                  },
+                ),
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height - kToolbarHeight - 200,
-              child: StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection(FirebaseConstants.usersCollection)
-                    .where(
-                      'userRank',
-                      isEqualTo: 'admin',
-                    )
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        DocumentSnapshot documentSnapshot =
-                            snapshot.data!.docs[index];
+              SizedBox(
+                height:
+                    MediaQuery.of(context).size.height - kToolbarHeight - 200,
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection(FirebaseConstants.usersCollection)
+                      .where(
+                        'userRank',
+                        isEqualTo: 'admin',
+                      )
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          DocumentSnapshot documentSnapshot =
+                              snapshot.data!.docs[index];
 
-                        UserModel userModel = UserModel.fromMap(
-                            documentSnapshot.data() as Map<String, dynamic>);
+                          UserModel userModel = UserModel.fromMap(
+                              documentSnapshot.data() as Map<String, dynamic>);
 
-                        return Slidable(
-                          key: ValueKey(index),
-                          endActionPane: ActionPane(
-                            extentRatio: 0.6,
-                            motion: const DrawerMotion(),
-                            children: [
-                              SlidableAction(
-                                onPressed: (context) {
-                                  if (kDebugMode) {
-                                    print("Sile tıklandı");
-                                  }
-                                },
-                                backgroundColor: const Color(0xFFFE4A49),
-                                foregroundColor: Colors.white,
-                                icon: Icons.delete,
-                                label: 'Sil',
-                              ),
-                              SlidableAction(
-                                onPressed: (context) {
-                                  if (kDebugMode) {
-                                    print("Düzenleye tıklandı");
-                                  }
-                                },
-                                backgroundColor: const Color(0xFF21B7CA),
-                                foregroundColor: Colors.white,
-                                icon: Icons.edit,
-                                label: 'Düzenle',
-                              ),
-                            ],
-                          ),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                userModel.userAvatarUrl!,
-                              ),
+                          return Slidable(
+                            key: ValueKey(index),
+                            endActionPane: ActionPane(
+                              extentRatio: 0.6,
+                              motion: const DrawerMotion(),
+                              children: [
+                                SlidableAction(
+                                  onPressed: (context) {
+                                    if (kDebugMode) {
+                                      print("Sile tıklandı");
+                                    }
+                                  },
+                                  backgroundColor: const Color(0xFFFE4A49),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: 'Sil',
+                                ),
+                                SlidableAction(
+                                  onPressed: (context) {
+                                    if (kDebugMode) {
+                                      print("Düzenleye tıklandı");
+                                    }
+                                  },
+                                  backgroundColor: const Color(0xFF21B7CA),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.edit,
+                                  label: 'Düzenle',
+                                ),
+                              ],
                             ),
-                            title: Text(
-                                '${userModel.userName} ${userModel.userSurname}'),
-                            subtitle: Text(userModel.userRank!),
-                          ),
-                        );
-                      },
-                    );
-                  }
-                },
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  userModel.userAvatarUrl!,
+                                ),
+                              ),
+                              title: Text(
+                                  '${userModel.userName} ${userModel.userSurname}'),
+                              subtitle:
+                                  Text(userModel.userRank!.toNameCapitalize()),
+                            ),
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

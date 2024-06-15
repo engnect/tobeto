@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import 'package:tobeto/src/common/constants/enums.dart';
 import 'package:tobeto/src/models/certificate_model.dart';
 import 'package:tobeto/src/models/education_model.dart';
 import 'package:tobeto/src/models/experience_model.dart';
@@ -18,18 +19,18 @@ class UserModel {
   final String? userPhoneNumber;
   final DateTime? userBirthDate;
 
-  final String? userRank;
-  final DateTime? userCreatedAt;
+  //enum
+  final UserRank? userRank;
 
+  final DateTime? userCreatedAt;
   final String? gender;
   final String? militaryStatus;
   final String? disabilityStatus;
   final String? aboutMe;
-
   final List<LanguageModel>? languageList;
   final List<SocialMediaModel>? socialMediaList;
   final List<SkillModel>? skillsList;
-   List<ExperienceModel>? experiencesList;
+  final List<ExperienceModel>? experiencesList;
   final List<EducationModel>? schoolsList;
   final List<CertificateModel>? certeficatesList;
   UserModel({
@@ -62,7 +63,7 @@ class UserModel {
     String? userAvatarUrl,
     String? userPhoneNumber,
     DateTime? userBirthDate,
-    String? userRank,
+    UserRank? userRank,
     DateTime? userCreatedAt,
     String? gender,
     String? militaryStatus,
@@ -107,7 +108,7 @@ class UserModel {
       'userAvatarUrl': userAvatarUrl,
       'userPhoneNumber': userPhoneNumber,
       'userBirthDate': userBirthDate,
-      'userRank': userRank,
+      'userRank': userRank?.name,
       'userCreatedAt': userCreatedAt,
       'gender': gender,
       'militaryStatus': militaryStatus,
@@ -131,7 +132,7 @@ class UserModel {
       userAvatarUrl: map['userAvatarUrl'],
       userPhoneNumber: map['userPhoneNumber'],
       userBirthDate: map['userBirthDate'].toDate(),
-      userRank: map['userRank'],
+      userRank: UserRankExtension.fromName(map['userRank']),
       userCreatedAt: map['userCreatedAt'].toDate(),
       gender: map['gender'],
       militaryStatus: map['militaryStatus'],

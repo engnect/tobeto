@@ -1,11 +1,11 @@
-enum SocialMediaPlatforms {
-  empty('empty'),
-  instagram('instagram'),
-  twitter('twitter'),
-  linkedin('linkedin'),
-  dribble('dribble'),
-  behance('behance');
+enum UserRank { student, instructor, admin }
 
-  final String platformName;
-  const SocialMediaPlatforms(this.platformName);
+extension UserRankExtension on UserRank {
+  static UserRank fromName(String name) {
+    return UserRank.values.firstWhere((element) => element.name == name);
+  }
+
+  String toNameCapitalize() {
+    return '${name[0].toUpperCase()}${name.substring(1)}';
+  }
 }
