@@ -13,7 +13,7 @@ dependencies:
   firebase_storage: ^12.0.1
   flutter_bloc: ^8.1.6
   glowy_borders: ^1.0.2
-  curved_navigation_bar: ^1.0.5
+  curved_navigation_bar: ^1.0.6
   page_transition: ^2.1.0
   flutter:
     sdk: flutter
@@ -33,6 +33,7 @@ dependencies:
   introduction_screen: ^3.1.14
   shared_preferences: ^2.2.3
   uuid: ^4.4.0
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:

@@ -18,7 +18,7 @@ class TBTAppBar extends StatelessWidget implements PreferredSizeWidget {
         Assets.imagesTobetoLogo,
         width: 200,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
     );
   }
 

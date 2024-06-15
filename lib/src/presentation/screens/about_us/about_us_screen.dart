@@ -35,7 +35,6 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 235, 235, 235),
         appBar: TBTAppBar(controller: _controller),
         drawer: const TBTDrawer(),
         body: SingleChildScrollView(
