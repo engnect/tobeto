@@ -7,7 +7,6 @@ import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/common/constants/utilities.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/presentation/screens/profile/padded_widget';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
 import 'package:tobeto/src/models/user_model.dart';
@@ -207,7 +206,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                         ),
                 ),
               ),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TBTInputField(
                   hintText: 'Ad',
                   controller: _nameController,
@@ -215,7 +215,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   keyboardType: TextInputType.name,
                 ),
               ),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TBTInputField(
                   hintText: 'Soyad',
                   controller: _surnameController,
@@ -223,7 +224,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   keyboardType: TextInputType.name,
                 ),
               ),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -232,7 +234,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                       controller: _phoneController,
                       decoration: const InputDecoration(
                         labelText: 'Telefon Numaranız',
-                        border: OutlineInputBorder(),
                       ),
                       initialCountryCode: 'TR',
                       onChanged: (phone) {
@@ -242,21 +243,20 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   ],
                 ),
               ),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
                   controller: TextEditingController(
                     text: _selectedDate != null
                         ? DateFormat('dd/MM/yyyy').format(_selectedDate!)
                         : '',
                   ),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Doğum Tarihi',
                     hintText: 'Doğum Tarihi Seçiniz',
-                    contentPadding: const EdgeInsets.all(12),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    suffixIcon: const Icon(Icons.calendar_today),
+                    contentPadding: EdgeInsets.all(12),
+                    border: InputBorder.none,
+                    suffixIcon: Icon(Icons.calendar_today),
                   ),
                   readOnly: true,
                   onTap: () {
@@ -264,7 +264,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   },
                 ),
               ),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TBTInputField(
                   hintText: "E-posta",
                   controller: _emailController,
@@ -272,190 +273,173 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   keyboardType: TextInputType.emailAddress,
                 ),
               ),
-              PaddedWidget(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: PopupMenuButton<String>(
-                    initialValue: _selectedGender,
-                    itemBuilder: (BuildContext context) {
-                      return <PopupMenuEntry<String>>[
-                        const PopupMenuItem<String>(
-                          value: 'Erkek',
-                          child: Text('Erkek'),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'Kız',
-                          child: Text('Kız'),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'Belirtmek istemiyorum',
-                          child: Text('Belirtmek istemiyorum'),
-                        ),
-                      ];
-                    },
-                    onSelected: (String? newValue) {
-                      setState(() {
-                        _selectedGender = newValue;
-                      });
-                    },
-                    child: ListTile(
-                      title: Text(_selectedGender ?? 'Cinsiyet Seçiniz'),
-                      trailing: const Icon(Icons.arrow_drop_down),
-                    ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedGender,
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuEntry<String>>[
+                      const PopupMenuItem<String>(
+                        value: 'Erkek',
+                        child: Text('Erkek'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Kız',
+                        child: Text('Kız'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Belirtmek istemiyorum',
+                        child: Text('Belirtmek istemiyorum'),
+                      ),
+                    ];
+                  },
+                  onSelected: (String? newValue) {
+                    setState(() {
+                      _selectedGender = newValue;
+                    });
+                  },
+                  child: ListTile(
+                    title: Text(_selectedGender ?? 'Cinsiyet Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 4.0, horizontal: 8.0),
                   ),
                 ),
               ),
-              PaddedWidget(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: PopupMenuButton<String>(
-                    initialValue: _selectedMilitaryStatus,
-                    itemBuilder: (BuildContext context) {
-                      return <PopupMenuEntry<String>>[
-                        const PopupMenuItem<String>(
-                          value: 'Yaptı',
-                          child: Text('Yaptı'),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'Muaf',
-                          child: Text('Muaf'),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'Tecilli',
-                          child: Text('Tecilli'),
-                        ),
-                      ];
-                    },
-                    onSelected: (String? newValue) {
-                      setState(() {
-                        _selectedMilitaryStatus = newValue;
-                      });
-                    },
-                    child: ListTile(
-                      title: Text(
-                          _selectedMilitaryStatus ?? 'Askerlik Durumu Seçiniz'),
-                      trailing: const Icon(Icons.arrow_drop_down),
-                    ),
+                            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedMilitaryStatus,
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuEntry<String>>[
+                      const PopupMenuItem<String>(
+                        value: 'Yaptı',
+                        child: Text('Yaptı'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Muaf',
+                        child: Text('Muaf'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Tecilli',
+                        child: Text('Tecilli'),
+                      ),
+                    ];
+                  },
+                  onSelected: (String? newValue) {
+                    setState(() {
+                      _selectedMilitaryStatus = newValue;
+                    });
+                  },
+                  child: ListTile(
+                    title: Text(
+                        _selectedMilitaryStatus ?? 'Askerlik Durumu Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 4.0, horizontal: 8.0),
                   ),
                 ),
               ),
-              PaddedWidget(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: PopupMenuButton<String>(
-                    initialValue: _selectedDisabilityStatus,
-                    itemBuilder: (BuildContext context) {
-                      return <PopupMenuEntry<String>>[
-                        const PopupMenuItem<String>(
-                          value: 'Yok',
-                          child: Text('Yok'),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'Var',
-                          child: Text('Var'),
-                        ),
-                      ];
-                    },
-                    onSelected: (String? newValue) {
-                      setState(() {
-                        _selectedDisabilityStatus = newValue;
-                      });
-                    },
-                    child: ListTile(
-                      title: Text(
-                          _selectedDisabilityStatus ?? 'Engel Durumu Seçiniz'),
-                      trailing: const Icon(Icons.arrow_drop_down),
-                    ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedDisabilityStatus,
+                  itemBuilder: (BuildContext context) {
+                    return <PopupMenuEntry<String>>[
+                      const PopupMenuItem<String>(
+                        value: 'Yok',
+                        child: Text('Yok'),
+                      ),
+                      const PopupMenuItem<String>(
+                        value: 'Var',
+                        child: Text('Var'),
+                      ),
+                    ];
+                  },
+                  onSelected: (String? newValue) {
+                    setState(() {
+                      _selectedDisabilityStatus = newValue;
+                    });
+                  },
+                  child: ListTile(
+                    title: Text(
+                        _selectedDisabilityStatus ?? 'Engel Durumu Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 4.0, horizontal: 8.0),
                   ),
                 ),
               ),
-              PaddedWidget(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: PopupMenuButton<String>(
-                    initialValue: _selectedCountry,
-                    itemBuilder: (BuildContext context) {
-                      return _countries.map((country) {
-                        return PopupMenuItem<String>(
-                          value: country,
-                          child: Text(country),
-                        );
-                      }).toList();
-                    },
-                    onSelected: (String? newValue) {
-                      setState(() {
-                        _selectedCountry = newValue;
-                      });
-                    },
-                    child: ListTile(
-                      title: Text(_selectedCountry ?? 'Ülke Seçiniz'),
-                      trailing: const Icon(Icons.arrow_drop_down),
-                    ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedCountry,
+                  itemBuilder: (BuildContext context) {
+                    return _countries.map((country) {
+                      return PopupMenuItem<String>(
+                        value: country,
+                        child: Text(country),
+                      );
+                    }).toList();
+                  },
+                  onSelected: (String? newValue) {
+                    setState(() {
+                      _selectedCountry = newValue;
+                    });
+                  },
+                  child: ListTile(
+                    title: Text(_selectedCountry ?? 'Ülke Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 4.0, horizontal: 8.0),
                   ),
                 ),
               ),
-              PaddedWidget(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: PopupMenuButton<String>(
-                    initialValue: _selectedCityId,
-                    itemBuilder: (BuildContext context) {
-                      return _cities.map((city) {
-                        return PopupMenuItem<String>(
-                          value: city["id"],
-                          child: Text(city["name"]!),
-                        );
-                      }).toList();
-                    },
-                    onSelected: _onCitySelected,
-                    child: ListTile(
-                      title: Text(_selectedCityName ?? 'İl Seçiniz'),
-                      trailing: const Icon(Icons.arrow_drop_down),
-                    ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedCityId,
+                  itemBuilder: (BuildContext context) {
+                    return _cities.map((city) {
+                      return PopupMenuItem<String>(
+                        value: city["id"],
+                        child: Text(city["name"]!),
+                      );
+                    }).toList();
+                  },
+                  onSelected: _onCitySelected,
+                  child: ListTile(
+                    title: Text(_selectedCityName ?? 'İl Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 4.0, horizontal: 8.0),
                   ),
                 ),
               ),
-              PaddedWidget(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: PopupMenuButton<String>(
-                    initialValue: _selectedDistrictId,
-                    itemBuilder: (BuildContext context) {
-                      return (_cityDistrictMap[_selectedCityId] ?? [])
-                          .map((district) {
-                        return PopupMenuItem<String>(
-                          value: district["id"],
-                          child: Text(district["name"]!),
-                        );
-                      }).toList();
-                    },
-                    onSelected: _onDistrictSelected,
-                    child: ListTile(
-                      title: Text(_selectedDistrictName ?? 'İlçe Seçiniz'),
-                      trailing: const Icon(Icons.arrow_drop_down),
-                    ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: PopupMenuButton<String>(
+                  initialValue: _selectedDistrictId,
+                  itemBuilder: (BuildContext context) {
+                    return (_cityDistrictMap[_selectedCityId] ?? [])
+                        .map((district) {
+                      return PopupMenuItem<String>(
+                        value: district["id"],
+                        child: Text(district["name"]!),
+                      );
+                    }).toList();
+                  },
+                  onSelected: _onDistrictSelected,
+                  child: ListTile(
+                    title: Text(_selectedDistrictName ?? 'İlçe Seçiniz'),
+                    trailing: const Icon(Icons.arrow_drop_down),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 4.0, horizontal: 8.0),
                   ),
                 ),
               ),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TBTInputField(
                   hintText: 'Mahalle/Sokak',
                   controller: _streetController,
@@ -466,7 +450,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                 ),
               ),
               const SizedBox(height: 8),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TBTInputField(
                   hintText: 'Hakkımda',
                   controller: _aboutmeController,
@@ -476,7 +461,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   maxLines: 3,
                 ),
               ),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: TBTPurpleButton(
                   buttonText: 'Kaydet',
                   onPressed: _updateUser,
@@ -492,3 +478,4 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     );
   }
 }
+

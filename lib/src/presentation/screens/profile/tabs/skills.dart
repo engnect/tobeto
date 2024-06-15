@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/profile/padded_widget';
 
 class SkillsPage extends StatefulWidget {
   const SkillsPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _SkillsPageState createState() => _SkillsPageState();
+  State<SkillsPage> createState() => _SkillsPageState();
 }
 
 class _SkillsPageState extends State<SkillsPage> {
@@ -43,7 +41,8 @@ class _SkillsPageState extends State<SkillsPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Row(
                   children: [
                     Expanded(
@@ -51,7 +50,6 @@ class _SkillsPageState extends State<SkillsPage> {
                         controller: _skillController,
                         decoration: const InputDecoration(
                           hintText: 'Yetenek Adı',
-                          border: OutlineInputBorder(),
                         ),
                       ),
                     ),
@@ -68,8 +66,9 @@ class _SkillsPageState extends State<SkillsPage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 24),
-              PaddedWidget(
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Wrap(
                   spacing: 8,
                   children: _selectedSkills
@@ -87,7 +86,8 @@ class _SkillsPageState extends State<SkillsPage> {
                 ),
               ),
               const SizedBox(height: 16),
-              PaddedWidget(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: DropdownButtonFormField<String>(
                   value: null,
                   hint: const Text('Mevcut yetkinlik Seç'),
@@ -105,16 +105,19 @@ class _SkillsPageState extends State<SkillsPage> {
                 ),
               ),
               const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
-                ),
-                child: const Text(
-                  "Kaydet",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
+                  ),
+                  child: const Text(
+                    "Kaydet",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),

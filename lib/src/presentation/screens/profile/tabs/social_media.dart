@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/profile/padded_widget';
-import '../../../widgets/input_field.dart';
-import '../../../widgets/purple_button.dart';
 
 class SocialMediaPage extends StatefulWidget {
   const SocialMediaPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _SocialMediaPageState createState() => _SocialMediaPageState();
+  State<SocialMediaPage> createState() => _SocialMediaPageState();
 }
 
 class _SocialMediaPageState extends State<SocialMediaPage> {
@@ -29,68 +25,77 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            PaddedWidget(
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: PopupMenuButton<String>(
-                  initialValue: _selectedSocialMedia,
-                  itemBuilder: (BuildContext context) {
-                    return <PopupMenuEntry<String>>[
-                      const PopupMenuItem<String>(
-                        value: 'Instagram',
-                        child: Text('Instagram'),
-                      ),
-                      const PopupMenuItem<String>(
-                        value: 'Twitter',
-                        child: Text('Twitter'),
-                      ),
-                      const PopupMenuItem<String>(
-                        value: 'LinkedIn',
-                        child: Text('LinkedIn'),
-                      ),
-                      const PopupMenuItem<String>(
-                        value: 'Dribble',
-                        child: Text('Dribble'),
-                      ),
-                      const PopupMenuItem<String>(
-                        value: 'Behance',
-                        child: Text('Behance'),
-                      ),
-                      const PopupMenuItem<String>(
-                        value: 'Diğer',
-                        child: Text('Diğer'),
-                      ),
-                    ];
-                  },
-                  onSelected: (String? newValue) {
-                    setState(() {
-                      _selectedSocialMedia = newValue;
-                    });
-                  },
-                  child: ListTile(
-                    title: Text(
-                      _selectedSocialMedia ?? 'Sosyal Medya Hesabı Seçiniz',
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: PopupMenuButton<String>(
+                initialValue: _selectedSocialMedia,
+                itemBuilder: (BuildContext context) {
+                  return <PopupMenuEntry<String>>[
+                    const PopupMenuItem<String>(
+                      value: 'Instagram',
+                      child: Text('Instagram'),
                     ),
-                    trailing: const Icon(Icons.arrow_drop_down),
+                    const PopupMenuItem<String>(
+                      value: 'Twitter',
+                      child: Text('Twitter'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'LinkedIn',
+                      child: Text('LinkedIn'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'Dribble',
+                      child: Text('Dribble'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'Behance',
+                      child: Text('Behance'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'Diğer',
+                      child: Text('Diğer'),
+                    ),
+                  ];
+                },
+                onSelected: (String? newValue) {
+                  setState(() {
+                    _selectedSocialMedia = newValue;
+                  });
+                },
+                child: ListTile(
+                  title: Text(
+                    _selectedSocialMedia ?? 'Sosyal Medya Hesabı Seçiniz',
                   ),
+                  trailing: const Icon(Icons.arrow_drop_down),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
                 ),
               ),
             ),
-            PaddedWidget(
-              child: TBTInputField(
-                hintText: "https://",
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: TextField(
                 controller: _linkController,
-                onSaved: (p0) {},
+                decoration: const InputDecoration(
+                  hintText: "https://",
+                ),
                 keyboardType: TextInputType.url,
               ),
             ),
-            const SizedBox(height: 16),
-            TBTPurpleButton(
-              buttonText: 'Kaydet',
-              onPressed: () {},
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromRGBO(153, 51, 255, 1),
+                ),
+                child: const Text(
+                  "Kaydet",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

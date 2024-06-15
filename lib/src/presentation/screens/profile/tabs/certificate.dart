@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/constants/utilities.dart';
-import 'package:tobeto/src/presentation/screens/profile/padded_widget';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
 
@@ -51,8 +50,8 @@ class _CertificatesPageState extends State<CertificatesPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            PaddedWidget(
-              padding: 8.0,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: TBTInputField(
                 hintText: "Sertifika Adı",
                 controller: _certificateNameController,
@@ -60,8 +59,8 @@ class _CertificatesPageState extends State<CertificatesPage> {
                 keyboardType: TextInputType.name,
               ),
             ),
-            PaddedWidget(
-              padding: 8.0,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 controller: TextEditingController(
                   text: _selectedYear != null ? '${_selectedYear!.year}' : '',
@@ -70,7 +69,6 @@ class _CertificatesPageState extends State<CertificatesPage> {
                   labelText: 'Alınan Tarih',
                   hintText: 'Yıl Seçin',
                   contentPadding: EdgeInsets.all(8),
-                  border: OutlineInputBorder(),
                   suffixIcon: Icon(Icons.calendar_today),
                 ),
                 readOnly: true,
@@ -79,15 +77,15 @@ class _CertificatesPageState extends State<CertificatesPage> {
                 },
               ),
             ),
-            const PaddedWidget(
-              padding: 16.0,
+            const Padding(
+              padding: EdgeInsets.all(16.0),
               child: Text(
                 'PDF Yükle',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            PaddedWidget(
-              padding: 8.0,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
                   _pickPDF();
@@ -99,12 +97,12 @@ class _CertificatesPageState extends State<CertificatesPage> {
               ),
             ),
             if (_filePath != null)
-              PaddedWidget(
-                padding: 8.0,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Text('Seçilen Dosya: $_filePath'),
               ),
-            PaddedWidget(
-              padding: 8.0,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: TBTPurpleButton(
                 buttonText: 'Kaydet',
                 onPressed: () {},
