@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
-import 'package:tobeto/src/common/router/app_router.dart';
+import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/domain/repositories/blog_repository.dart';
 import 'package:tobeto/src/models/blog_model.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
@@ -46,9 +46,10 @@ class _InThePressAdminState extends State<InThePressAdmin> {
               child: Text(
                 "İçeriği Düzenle",
                 style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold),
+                  fontFamily: "Poppins",
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Padding(

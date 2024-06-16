@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
+import 'package:tobeto/src/models/announcement_model.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/end_drawer.dart';
+import 'package:tobeto/src/presentation/screens/platform/tabs/announcement_card.dart';
 import 'package:tobeto/src/presentation/screens/platform/widgets/purple_card.dart';
 
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
@@ -169,13 +174,48 @@ class _PlatformTabState extends State<PlatformTab> {
                             Tab(text: 'Sınavlar'),
                           ],
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 250, // TabBarView'ın yüksekliği
                           child: TabBarView(
                             children: [
                               // Duyurular içeriği
-                              Center(
-                                child: Text('Duyurular İçeriği'),
+                              Container(
+                                height: 200,
+                                width: 300,
+                                child: StreamBuilder(
+                                  stream: FirebaseFirestore.instance
+                                      .collection(FirebaseConstants
+                                          .announcementsCollection)
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    } else {
+                                      return ListView.builder(
+                                        primary: false,
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: snapshot.data!.docs.length,
+                                        itemBuilder: (context, index) {
+                                          DocumentSnapshot documentSnapshot =
+                                              snapshot.data!.docs[index];
+
+                                          AnnouncementModel announcementModel =
+                                              AnnouncementModel.fromMap(
+                                                  documentSnapshot.data()
+                                                      as Map<String, dynamic>);
+
+                                          return AnnouncementCard(
+                                              announcementModel:
+                                                  announcementModel);
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
                               ),
                               // Anketler içeriği
                               Center(

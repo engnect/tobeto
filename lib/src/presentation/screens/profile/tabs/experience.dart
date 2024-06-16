@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/common/constants/utilities.dart';
-import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/domain/repositories/experience_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/experience_model.dart';

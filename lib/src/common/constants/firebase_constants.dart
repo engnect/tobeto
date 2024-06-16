@@ -5,4 +5,5 @@ class FirebaseConstants {
   static const String inThePressCollection = "inThePress";
   static const String contactFormsCollection = "contactForm";
   static const String profilePicsCollection = "profilePics";
+  static const String announcementsCollection = "announcements";
 }

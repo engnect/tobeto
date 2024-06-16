@@ -105,9 +105,11 @@ class _AdminContactFormsScreenState extends State<AdminContactFormsScreen> {
                                     children: [
                                       Text(
                                           contactFormModel.contactFormFullName),
-                                      Text(DateFormat('dd/MM/yyyy').format(
-                                          contactFormModel
-                                              .contactFormCreatedAt)),
+                                      Text(
+                                        DateFormat('dd/MM/yyyy').format(
+                                            contactFormModel
+                                                .contactFormCreatedAt),
+                                      ),
                                     ],
                                   ),
                                   subtitle:

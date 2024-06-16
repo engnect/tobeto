@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tobeto/src/domain/repositories/calendar_repository.dart';
+import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/domain/repositories/announcement_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/models/calendar_model.dart';
+import 'package:tobeto/src/models/announcement_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
@@ -11,31 +12,31 @@ import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../../common/constants/firebase_constants.dart';
-
-class AdminEventScreen extends StatefulWidget {
-  const AdminEventScreen({
+class AdminAnnouncementsScreen extends StatefulWidget {
+  const AdminAnnouncementsScreen({
     super.key,
   });
 
   @override
-  State<AdminEventScreen> createState() => _AdminEventScreenState();
+  State<AdminAnnouncementsScreen> createState() =>
+      _AdminAnnouncementsScreenState();
 }
 
-class _AdminEventScreenState extends State<AdminEventScreen> {
+class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
   bool isSelect = false;
   DateTime? selectedDate;
   final ScrollController _controller = ScrollController();
-  final TextEditingController _eventTitleController = TextEditingController();
-  final TextEditingController _eventDescriptionController =
+  final TextEditingController _announcementTitleController =
+      TextEditingController();
+  final TextEditingController _announcementContentController =
       TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     _controller.dispose();
-    _eventTitleController.dispose();
-    _eventDescriptionController.dispose();
+    _announcementTitleController.dispose();
+    _announcementContentController.dispose();
   }
 
   @override
@@ -53,7 +54,7 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 15),
                   child: Text(
-                    "Takvim Düzenle",
+                    "Duyurular",
                     style: TextStyle(
                       fontFamily: "Poppins",
                       fontSize: 26,
@@ -62,7 +63,7 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                   ),
                 ),
                 TBTPurpleButton(
-                  buttonText: "Yeni Etkinlik Ekle",
+                  buttonText: "Yeni Duyuru Yap",
                   onPressed: () {
                     setState(() {
                       isSelect = !isSelect;
@@ -76,50 +77,40 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       TBTInputField(
-                        hintText: 'Etkinlik Başlığı',
-                        controller: _eventTitleController,
+                        hintText: 'Duyuru Başlığı',
+                        controller: _announcementTitleController,
                         onSaved: (p0) {},
                         keyboardType: TextInputType.multiline,
                       ),
                       TBTInputField(
-                        hintText: 'Etkinlik Açıklaması',
-                        controller: _eventDescriptionController,
+                        hintText: 'Duyuru İçeriği',
+                        controller: _announcementContentController,
                         onSaved: (p0) {},
+                        minLines: 3,
                         keyboardType: TextInputType.multiline,
                       ),
-                      TextButton.icon(
-                        icon: const Icon(Icons.calendar_today_outlined),
-                        onPressed: () async {
-                          selectedDate = await showDatePicker(
-                            context: context,
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2050),
-                          );
-
-                          setState(() {});
-                        },
-                        label: Text(
-                          selectedDate == null
-                              ? 'Tarih Seç'
-                              : DateFormat('dd/MM/yyyy').format(selectedDate!),
-                        ),
-                      ),
                       TBTPurpleButton(
-                        buttonText: 'Etkinliği Ekle',
+                        buttonText: 'Duyuruyu Ekle',
                         onPressed: () async {
                           UserModel? currentUser =
                               await UserRepository().getCurrentUser();
 
-                          EventModel eventModel = EventModel(
-                            eventId: const Uuid().v1(),
+                          AnnouncementModel announcementModel =
+                              AnnouncementModel(
+                            announcementId: const Uuid().v1(),
                             userId: currentUser!.userId,
-                            eventTitle: _eventTitleController.text,
-                            eventDescription: _eventDescriptionController.text,
-                            eventDate: selectedDate!,
+                            announcementTitle:
+                                _announcementTitleController.text,
+                            announcementContent:
+                                _announcementContentController.text,
+                            announcementDate: DateTime.now(),
                           );
 
-                          await CalendarRepository()
-                              .addOrUpdateEvent(eventModel: eventModel);
+                          String result = await AnnouncementRepository()
+                              .addOrUpdateAnnouncement(
+                                  announcementModel: announcementModel);
+
+                          print(result);
                         },
                       ),
                     ],
@@ -127,7 +118,7 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                 ),
                 StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection(FirebaseConstants.eventsCollection)
+                      .collection(FirebaseConstants.announcementsCollection)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
@@ -144,13 +135,14 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                           DocumentSnapshot documentSnapshot =
                               snapshot.data!.docs[index];
 
-                          EventModel eventModel = EventModel.fromMap(
-                              documentSnapshot.data() as Map<String, dynamic>);
+                          AnnouncementModel announcementModel =
+                              AnnouncementModel.fromMap(documentSnapshot.data()
+                                  as Map<String, dynamic>);
                           return ListTile(
-                            title: Text(eventModel.eventTitle),
+                            title: Text(announcementModel.announcementTitle),
                             subtitle: Text(
                               DateFormat('dd/MM/yyyy')
-                                  .format(eventModel.eventDate),
+                                  .format(announcementModel.announcementDate),
                             ),
                           );
                         },

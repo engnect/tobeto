@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/common/router/app_router.dart';
+import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/in_the_press_admin/in_the_press_admin_page.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_page.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/students_page/students_page.dart';
@@ -59,6 +59,12 @@ class TBTEndDrawer extends StatelessWidget {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+              title: const Text('Duyurular'),
+              onTap: () => Navigator.of(context)
+                  .pushNamed(AppRouteNames.adminAnnouncementsScreenRoute),
+            ),
+            ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
               title: const Text(
                 "Kadro",
                 style: TextStyle(fontFamily: "Poppins"),
@@ -99,7 +105,7 @@ class TBTEndDrawer extends StatelessWidget {
                     buttonText: "Blog",
                     onPressed: () {
                       Navigator.of(context)
-                          .pushNamed(AppRouteNames.blogAdminScreenRoute);
+                          .pushNamed(AppRouteNames.adminBlogScreenRoute);
                     },
                   ),
                 ),

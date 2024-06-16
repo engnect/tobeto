@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/models/user_model.dart';
 
 class UserRepository {
@@ -27,17 +28,31 @@ class UserRepository {
     });
   }
 
-  Future<String> updateUser(UserModel updatedUser) async {
+  Future<String> addOrUpdateUser(UserModel updatedUser) async {
     UserModel? currentUser = await getCurrentUser();
     String result = '';
     if (currentUser != null) {
       try {
-        await _users.doc(currentUser.userId).update(updatedUser.toMap());
+        await _users.doc(currentUser.userId).set(updatedUser.toMap());
         result = 'success';
       } catch (e) {
         result = e.toString();
       }
     }
+    return result;
+  }
+
+  Future<String> deleteUser(UserModel userModel) async {
+    String result = '';
+
+    try {
+      await _users.doc(userModel.userId).delete();
+      await AuthRepository().deleteUser();
+      result = 'success';
+    } catch (e) {
+      result = e.toString();
+    }
+
     return result;
   }
 }

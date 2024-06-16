@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/common/router/app_router.dart';
+import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_slideable_list_tile.dart';
 
@@ -33,9 +33,10 @@ class _AdminBlogScreenState extends State<AdminBlogScreen> {
               child: Text(
                 "Blogları Düzenle",
                 style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold),
+                  fontFamily: "Poppins",
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Padding(

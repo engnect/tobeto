@@ -1,24 +1,20 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:tobeto/src/common/constants/enums.dart';
+import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart';
-import '../../common/constants/firebase_constants.dart';
+import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import '../../models/user_model.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
-  CollectionReference get _users =>
-      _firebaseFirestore.collection(FirebaseConstants.usersCollection);
-
-  Future<void> registerUser({
+  Future<String> registerUser({
     required String userName,
     required String userSurname,
     required String userEmail,
     required String userPassword,
   }) async {
+    String result = '';
     try {
       if (userName.isNotEmpty ||
           userSurname.isNotEmpty ||
@@ -49,34 +45,44 @@ class AuthRepository {
           certeficatesList: [],
         );
 
-        _users.doc(userCredential.user!.uid).set(userModel.toMap());
+        result = await UserRepository().addOrUpdateUser(userModel);
       }
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
+      result = e.toString();
     }
+    return result;
   }
 
-  Future<void> singInUser({
+  Future<String> singInUser({
     required String userEmail,
     required String userPassword,
   }) async {
+    String result = '';
     try {
       if (userEmail.isNotEmpty && userPassword.isNotEmpty) {
         await _firebaseAuth.signInWithEmailAndPassword(
           email: userEmail,
           password: userPassword,
         );
+        result = 'success';
       } else {}
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
+      result = e.toString();
     }
+    return result;
   }
 
-  void signOutUser() async {
+  Future<void> signOutUser() async {
     await _firebaseAuth.signOut();
+  }
+
+  Future<void> deleteUser() async {
+    await _firebaseAuth.currentUser!.delete();
   }
 }

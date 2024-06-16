@@ -11,7 +11,7 @@ class ExperienceRepository {
         userModel.experiencesList!.add(experienceModel);
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -31,7 +31,7 @@ class ExperienceRepository {
             experienceModel;
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -50,7 +50,7 @@ class ExperienceRepository {
         });
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
