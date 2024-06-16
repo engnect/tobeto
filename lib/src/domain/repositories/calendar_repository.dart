@@ -18,22 +18,22 @@ class CalendarRepository {
     return events;
   }
 
-  Future<String> addEvent({
-    required EventModel eventModel,
-  }) async {
-    String result = '';
+  // Future<String> addEvent({
+  //   required EventModel eventModel,
+  // }) async {
+  //   String result = '';
 
-    try {
-      await _events.add(eventModel.toMap());
-      result = 'success';
-    } catch (error) {
-      result = error.toString();
-    }
+  //   try {
+  //     await _events.add(eventModel.toMap());
+  //     result = 'success';
+  //   } catch (error) {
+  //     result = error.toString();
+  //   }
 
-    return result;
-  }
+  //   return result;
+  // }
 
-  Future<String> updateEvent({
+  Future<String> addOrUpdateEvent({
     required EventModel eventModel,
   }) async {
     String result = '';

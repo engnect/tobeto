@@ -30,30 +30,30 @@ class BlogRepository {
     return blogs;
   }
 
-  Future<String> addBlog({
-    required BlogModel blogModel,
-  }) async {
-    String result = '';
-    if (isBlog == true) {
-      try {
-        await _blogs.add(blogModel.toMap());
-        result = 'success';
-      } catch (error) {
-        result = error.toString();
-      }
-    } else {
-      try {
-        await _inThePress.add(blogModel.toMap());
-        result = 'success';
-      } catch (error) {
-        result = error.toString();
-      }
-    }
+  // Future<String> addBlog({
+  //   required BlogModel blogModel,
+  // }) async {
+  //   String result = '';
+  //   if (isBlog == true) {
+  //     try {
+  //       await _blogs.add(blogModel.toMap());
+  //       result = 'success';
+  //     } catch (error) {
+  //       result = error.toString();
+  //     }
+  //   } else {
+  //     try {
+  //       await _inThePress.add(blogModel.toMap());
+  //       result = 'success';
+  //     } catch (error) {
+  //       result = error.toString();
+  //     }
+  //   }
 
-    return result;
-  }
+  //   return result;
+  // }
 
-  Future<String> updateBlog({
+  Future<String> addOrUpdateBlog({
     required BlogModel blogModel,
   }) async {
     String result = '';
@@ -73,7 +73,6 @@ class BlogRepository {
         result = error.toString();
       }
     }
-
     return result;
   }
 
@@ -97,7 +96,6 @@ class BlogRepository {
         result = error.toString();
       }
     }
-
     return result;
   }
 }

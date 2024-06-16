@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
-
-import '../../../common/router/app_router.dart';
+import 'package:tobeto/src/common/router/app_route_names.dart';
 
 class ErrorScreen extends StatelessWidget {
   const ErrorScreen({super.key});

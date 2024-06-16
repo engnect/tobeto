@@ -29,7 +29,8 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     on<AddEvent>((event, emit) async {
       emit(CalendarLoading());
       try {
-        await _calendarRepository.addEvent(eventModel: event.eventModel);
+        await _calendarRepository.addOrUpdateEvent(
+            eventModel: event.eventModel);
         emit(CalendarSuccess());
       } catch (_) {
         emit(CalendarFailed());
@@ -40,7 +41,8 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
     on<UpdateEvent>((event, emit) async {
       emit(CalendarLoading());
       try {
-        await _calendarRepository.updateEvent(eventModel: event.eventModel);
+        await _calendarRepository.addOrUpdateEvent(
+            eventModel: event.eventModel);
         emit(CalendarSuccess());
       } catch (_) {
         emit(CalendarFailed());

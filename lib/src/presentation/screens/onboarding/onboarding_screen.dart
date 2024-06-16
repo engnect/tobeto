@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:tobeto/src/common/router/app_router.dart';
+import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/presentation/screens/onboarding/app_styles.dart';
 import '../../../common/constants/assets.dart';
 

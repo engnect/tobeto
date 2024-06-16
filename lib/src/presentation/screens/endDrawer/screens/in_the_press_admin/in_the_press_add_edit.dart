@@ -7,6 +7,7 @@ import 'package:tobeto/src/models/blog_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
+import 'package:uuid/uuid.dart';
 
 class InThePressAddEdit extends StatefulWidget {
   const InThePressAddEdit({super.key});
@@ -127,7 +128,7 @@ class _InThePressAddEditState extends State<InThePressAddEdit> {
                         buttonText: "Kaydet",
                         onPressed: () async {
                           BlogModel blogModel = BlogModel(
-                            blogId: '1',
+                            blogId: const Uuid().v1(),
                             userId: userModel!.userId,
                             userFullName:
                                 '${userModel!.userName} ${userModel!.userSurname}',
@@ -139,7 +140,7 @@ class _InThePressAddEditState extends State<InThePressAddEdit> {
                           );
 
                           await BlogRepository(isBlog: false)
-                              .addBlog(blogModel: blogModel);
+                              .addOrUpdateBlog(blogModel: blogModel);
                         },
                       ),
                     ),

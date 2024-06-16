@@ -45,14 +45,14 @@ class TBTPalette {
     ),
 
 //CARD TEMA
-    cardTheme: CardTheme(
-      color: const Color.fromARGB(255, 221, 221, 221),
-      shadowColor: Colors.black,
-      elevation: 30,
-      shape: BeveledRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-    ),
+    // cardTheme: CardTheme(
+    //   color: const Color.fromARGB(255, 221, 221, 221),
+    //   shadowColor: Colors.black,
+    //   elevation: 30,
+    //   shape: BeveledRectangleBorder(
+    //     borderRadius: BorderRadius.circular(20),
+    //   ),
+    // ),
 
 //TEXT TEMA
     textTheme: const TextTheme(
