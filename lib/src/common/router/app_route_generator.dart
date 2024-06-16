@@ -10,6 +10,7 @@ import 'package:tobeto/src/presentation/screens/course/course_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_announcement/admin_announcements_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_contact_forms/admin_contact_forms_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/blog_page/blog_admin_screen.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/screens/course_page/course_video_add_edit.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/event_screen/admin_event_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/in_the_press_admin/in_the_press_add_edit.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_add_edit.dart';
@@ -106,6 +107,10 @@ class AppRouter {
       case AppRouteNames.adminAnnouncementsScreenRoute:
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const AdminAnnouncementsScreen(),
+        );
+      case AppRouteNames.adminCourseVideoAddEdit:
+        return MaterialPageRoute(
+          builder: (_) => const CourseVideoAddEdit(),
         );
 
       // error

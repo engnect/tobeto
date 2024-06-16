@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/models/course_model.dart';
 import 'package:tobeto/src/models/course_video_model.dart';
 
 class CourseVideoCard extends StatefulWidget {
   final CourseVideoModel courseVideo;
+  final CourseModel course;
   final VoidCallback onTap;
   final double? watchedPercentage; // Yeni eklenen watchedPercentage
 
   const CourseVideoCard({
+    required this.course,
     required this.courseVideo,
     required this.watchedPercentage,
     required this.onTap,
@@ -21,7 +24,7 @@ class _CourseVideoCardState extends State<CourseVideoCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap, // önceden onTap idi dikkat et
+      onTap: widget.onTap,
       child: SizedBox(
         width: double.infinity,
         child: Card(
@@ -41,9 +44,8 @@ class _CourseVideoCardState extends State<CourseVideoCard> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 10),
                       Text(
-                          'Instructor: ${widget.courseVideo.courseInstructor}'),
+                          'Instructors: ${widget.course.courseInstructors.join(', ')}'),
                     ],
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/screens/course_page/course_video_admin_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/in_the_press_admin/in_the_press_admin_page.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_page.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/students_page/students_page.dart';
@@ -161,6 +162,44 @@ class TBTEndDrawer extends StatelessWidget {
                 ),
               ],
             ),
+            // Dersler ve ders videoları ekleme
+            CustomExpansionTile(
+              title: const Text("Dersler"),
+              children: [
+                SizedBox(
+                  height: 50,
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+                    title: TBTPurpleButton(
+                      buttonText: "Ders Ekle",
+                      onPressed: () {},
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: SizedBox(
+                    height: 50,
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                      ),
+                      title: TBTPurpleButton(
+                        buttonText: "Ders Videosu Ekle",
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const AdminCourseVideoScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),

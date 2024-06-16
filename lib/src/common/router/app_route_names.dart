@@ -23,4 +23,5 @@ class AppRouteNames {
   static const String adminContactFormScreenRoute = '/adminContactFormScreen';
   static const String adminAnnouncementsScreenRoute =
       '/AdminAnnouncementsScreen';
+  static const String adminCourseVideoAddEdit = '/courseVideoAddEditScreen';
 }
