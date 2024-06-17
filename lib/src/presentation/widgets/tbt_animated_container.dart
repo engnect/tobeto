@@ -18,6 +18,8 @@ class TBTAnimatedContainer extends StatefulWidget {
 }
 
 class _TBTAnimatedContainerState extends State<TBTAnimatedContainer> {
+  final ScrollController _controller = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     bool isExp = widget.isExpanded;
@@ -51,9 +53,13 @@ class _TBTAnimatedContainerState extends State<TBTAnimatedContainer> {
                   const Color.fromARGB(255, 153, 51, 255)),
             ),
             child: Scrollbar(
+              controller: _controller,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: SingleChildScrollView(child: widget.child),
+                child: SingleChildScrollView(
+                  primary: true,
+                  child: widget.child,
+                ),
               ),
             ),
           ),
