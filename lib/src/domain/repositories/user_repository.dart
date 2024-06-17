@@ -29,15 +29,12 @@ class UserRepository {
   }
 
   Future<String> addOrUpdateUser(UserModel updatedUser) async {
-    UserModel? currentUser = await getCurrentUser();
     String result = '';
-    if (currentUser != null) {
-      try {
-        await _users.doc(currentUser.userId).set(updatedUser.toMap());
-        result = 'success';
-      } catch (e) {
-        result = e.toString();
-      }
+    try {
+      await _users.doc(updatedUser.userId).set(updatedUser.toMap());
+      result = 'success';
+    } catch (e) {
+      result = e.toString();
     }
     return result;
   }
