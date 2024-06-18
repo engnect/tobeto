@@ -71,12 +71,12 @@ class AuthRepository {
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
       );
+      print(credential);
 
-      userCredential =
-          await _firebaseAuth.currentUser!.linkWithCredential(credential);
+      userCredential = await _firebaseAuth.signInWithCredential(credential);
 
+      print(userCredential);
       String? fullName = userCredential.user!.displayName!;
 
       // isim soyisim ayırma
