@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
@@ -53,6 +54,58 @@ class AuthRepository {
       }
       result = e.toString();
     }
+    return result;
+  }
+
+  Future<String> signInWithGoogle() async {
+    UserCredential userCredential;
+    GoogleSignIn googleSignIn = GoogleSignIn();
+    String result = '';
+    String firstName = '';
+    String lastName = '';
+    try {
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
+
+      final googleAuth = await googleSignInAccount?.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      userCredential =
+          await _firebaseAuth.currentUser!.linkWithCredential(credential);
+
+      String? fullName = userCredential.user!.displayName!;
+
+      // isim soyisim ayırma
+      List<String> nameParts = fullName.split(' ');
+      firstName = nameParts.isNotEmpty ? nameParts[0] : '';
+      lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '';
+
+      UserModel userModel = UserModel(
+        userId: userCredential.user!.uid,
+        userName: firstName,
+        userSurname: lastName,
+        userEmail: userCredential.user!.email!,
+        userAvatarUrl: userCredential.user!.photoURL,
+        userRank: UserRank.student,
+        userCreatedAt: DateTime.now(),
+        userBirthDate: DateTime.now(),
+        languageList: [],
+        socialMediaList: [],
+        skillsList: [],
+        experiencesList: [],
+        schoolsList: [],
+        certeficatesList: [],
+      );
+
+      result = await UserRepository().addOrUpdateUser(userModel);
+    } on FirebaseException catch (e) {
+      result = e.toString();
+    }
+
     return result;
   }
 

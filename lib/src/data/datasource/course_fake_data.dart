@@ -1,7 +1,3 @@
-import 'package:tobeto/src/common/constants/assets.dart';
-import 'package:tobeto/src/models/course_model.dart';
-import 'package:tobeto/src/models/course_video_model.dart';
-
 List<Map<String, String>> courses = [
   {
     'CourseName': 'ForBiggerJoyrides',

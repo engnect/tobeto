@@ -47,6 +47,7 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           controller: _controller,
+          // primary: true,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Column(
@@ -62,16 +63,8 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
                     ),
                   ),
                 ),
-                TBTPurpleButton(
-                  buttonText: "Yeni Duyuru Yap",
-                  onPressed: () {
-                    setState(() {
-                      isSelect = !isSelect;
-                    });
-                  },
-                ),
                 TBTAnimatedContainer(
-                  isExpanded: isSelect,
+                  infoText: 'Yeni Duyuru Yap!',
                   height: 275,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -111,6 +104,8 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
                                   announcementModel: announcementModel);
 
                           print(result);
+
+                          // setState(() {});
                         },
                       ),
                     ],
@@ -127,6 +122,7 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
                       );
                     } else {
                       return ListView.builder(
+                        controller: _controller,
                         primary: false,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),

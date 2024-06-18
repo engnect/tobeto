@@ -46,6 +46,7 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           controller: _controller,
+          primary: true,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Column(
@@ -61,16 +62,8 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                     ),
                   ),
                 ),
-                TBTPurpleButton(
-                  buttonText: "Yeni Etkinlik Ekle",
-                  onPressed: () {
-                    setState(() {
-                      isSelect = !isSelect;
-                    });
-                  },
-                ),
                 TBTAnimatedContainer(
-                  isExpanded: isSelect,
+                  infoText: 'Yeni Etkinlik Ekle!',
                   height: 275,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -136,6 +129,7 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                       );
                     } else {
                       return ListView.builder(
+                        controller: _controller,
                         primary: false,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),

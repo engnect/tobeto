@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
-import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_fake_data.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_model.dart';
-import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
 class StaffPage extends StatefulWidget {
   const StaffPage({
@@ -41,17 +39,6 @@ class _StaffPageState extends State<StaffPage> {
                       fontFamily: "Poppins",
                       fontSize: 26,
                       fontWeight: FontWeight.bold),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                child: TBTPurpleButton(
-                  buttonText: "Yeni Personel Ekle",
-                  onPressed: () {
-                    Navigator.of(context)
-                        .pushNamed(AppRouteNames.staffAddEditScreenRoute);
-                  },
                 ),
               ),
               SizedBox(

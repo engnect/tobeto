@@ -60,14 +60,14 @@ class BlogRepository {
 
     if (isBlog == true) {
       try {
-        await _blogs.doc(blogModel.blogId).set(blogModel);
+        await _blogs.doc(blogModel.blogId).set(blogModel.toMap());
         result = 'success';
       } catch (error) {
         result = error.toString();
       }
     } else {
       try {
-        await _inThePress.doc(blogModel.blogId).set(blogModel);
+        await _inThePress.doc(blogModel.blogId).set(blogModel.toMap());
         result = 'success';
       } catch (error) {
         result = error.toString();

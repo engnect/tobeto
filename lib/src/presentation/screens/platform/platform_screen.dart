@@ -33,23 +33,25 @@ class _PlatformScreenState extends State<PlatformScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      body: screens[index],
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          iconTheme: const IconThemeData(
-            color: Color.fromARGB(255, 235, 235, 235), //icon rengi değişimi
+    return SafeArea(
+      child: Scaffold(
+        extendBody: true,
+        body: screens[index],
+        bottomNavigationBar: Theme(
+          data: Theme.of(context).copyWith(
+            iconTheme: const IconThemeData(
+              color: Color.fromARGB(255, 235, 235, 235), //icon rengi değişimi
+            ),
           ),
-        ),
-        child: CurvedNavigationBar(
-          backgroundColor: const Color.fromARGB(20, 153, 51, 255),
-          buttonBackgroundColor: const Color.fromARGB(255, 99, 21, 177),
-          height: 47,
-          items: items,
-          index: index,
-          onTap: (index) => setState(() => this.index = index),
-          color: const Color.fromARGB(255, 153, 51, 255),
+          child: CurvedNavigationBar(
+            backgroundColor: const Color.fromARGB(20, 153, 51, 255),
+            buttonBackgroundColor: const Color.fromARGB(255, 99, 21, 177),
+            height: 47,
+            items: items,
+            index: index,
+            onTap: (index) => setState(() => this.index = index),
+            color: const Color.fromARGB(255, 153, 51, 255),
+          ),
         ),
       ),
     );
