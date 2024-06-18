@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/common/router/app_route_transition_animation_settings.dart';
 import 'package:tobeto/src/presentation/screens/about_us/about_us_screen.dart';
-import 'package:tobeto/src/presentation/screens/auth/extract_login.dart';
+import 'package:tobeto/src/presentation/screens/auth/auht.dart';
 import 'package:tobeto/src/presentation/screens/blog/blog_screen.dart';
 import 'package:tobeto/src/presentation/screens/calendar/calendar_screen.dart';
 import 'package:tobeto/src/presentation/screens/contact_us/contact_us_screen.dart';
@@ -58,14 +58,11 @@ class AppRouter {
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const PlatformScreen(),
         );
-      case AppRouteNames.loginScreenRoute:
+      case AppRouteNames.auhtScreenRoute:
         return AppRouterTransitionAnimation.tbtPageTransition(
-          child: const LoginScreen(),
+          child: const AuthPage(),
         );
-      case AppRouteNames.registerScreenRoute:
-        return AppRouterTransitionAnimation.tbtPageTransition(
-          child: const RegisterScreen(),
-        );
+
       case AppRouteNames.inThePressScreenRoute:
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const InThePressScreen(),

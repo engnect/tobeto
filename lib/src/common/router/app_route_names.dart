@@ -8,7 +8,7 @@ class AppRouteNames {
   static const String forIndividualsScreenRoute = '/forIndividualsScreen';
   static const String forCompaniesScreenRoute = '/forCompaniesScreen';
   static const String platformScreenRoute = '/platformScreen';
-  static const String loginScreenRoute = '/loginScreen';
+  static const String auhtScreenRoute = '/authScreen';
   static const String registerScreenRoute = '/registerScreen';
   static const String inThePressScreenRoute = '/InThePressScreen';
   static const String profileScreenRoute = '/profileScreen';

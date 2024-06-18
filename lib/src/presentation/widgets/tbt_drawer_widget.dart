@@ -193,8 +193,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed(AppRouteNames.loginScreenRoute);
+                        Navigator.of(context).pushReplacementNamed(
+                            AppRouteNames.auhtScreenRoute);
                       },
                       child: const Text(
                         "Giriş yap",
