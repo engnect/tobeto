@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/data/datasource/course_fake_data.dart';
 import 'package:tobeto/src/domain/repositories/course_repository.dart';
 import 'package:tobeto/src/models/course_model.dart';
 import 'package:tobeto/src/presentation/screens/course/course_screen_details.dart';

@@ -13,7 +13,6 @@ class AppRouteNames {
   static const String inThePressScreenRoute = '/InThePressScreen';
   static const String profileScreenRoute = '/profileScreen';
   static const String calendarScreenRoute = '/calendarScreen';
-  static const String staffAddEditScreenRoute = '/staffAddEditScreen';
   static const String inThePressAddEditScreenRoute = '/inThePressAddEditScreen';
   static const String blogScreenRoute = '/blogScreen';
 

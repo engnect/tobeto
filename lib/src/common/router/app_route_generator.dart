@@ -9,11 +9,9 @@ import 'package:tobeto/src/presentation/screens/contact_us/contact_us_screen.dar
 import 'package:tobeto/src/presentation/screens/course/course_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_announcement/admin_announcements_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_contact_forms/admin_contact_forms_screen.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/blog_page/blog_admin_screen.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_blog/admin_blog_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/course_page/course_video_add_edit.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/event_screen/admin_event_screen.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/in_the_press_admin/in_the_press_add_edit.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_add_edit.dart';
 import 'package:tobeto/src/presentation/screens/error/error_screen.dart';
 import 'package:tobeto/src/presentation/screens/for_companies/for_companies_screen.dart';
 import 'package:tobeto/src/presentation/screens/for_individuals/for_individuals_page.dart';
@@ -78,14 +76,7 @@ class AppRouter {
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const CalendarScreen(),
         );
-      case AppRouteNames.staffAddEditScreenRoute:
-        return AppRouterTransitionAnimation.tbtPageTransition(
-          child: const StaffAddEdit(),
-        );
-      case AppRouteNames.inThePressAddEditScreenRoute:
-        return AppRouterTransitionAnimation.tbtPageTransition(
-          child: const InThePressAddEdit(),
-        );
+
       case AppRouteNames.blogScreenRoute:
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const BlogScreen(),

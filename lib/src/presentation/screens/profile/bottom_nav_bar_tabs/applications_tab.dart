@@ -4,6 +4,8 @@ import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 
+enum UserRole { admin, instructor, istanbulkodluyor }
+
 class ApplicationsTab extends StatefulWidget {
   const ApplicationsTab({super.key});
 
@@ -12,10 +14,8 @@ class ApplicationsTab extends StatefulWidget {
 }
 
 class _ApplicationsTabState extends State<ApplicationsTab> {
-  bool isExpanded = false;
   final ScrollController _controller = ScrollController();
   final TextEditingController _textEditingController = TextEditingController();
-
   final GlobalKey _globalKey = GlobalKey();
   double _containerWidth = 0.0;
 
@@ -40,221 +40,202 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
   void dispose() {
     super.dispose();
     _controller.dispose();
+    _textEditingController.dispose();
   }
 
-  String? _selectedOption;
+  UserRole _selectedRole = UserRole.admin;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: TBTAppBar(controller: _controller),
-      body: SingleChildScrollView(
-        controller: _controller,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-          child: Column(
-            children: [
-              TBTPurpleButton(
-                buttonText: 'Yeni Başvuru Yap!',
-                onPressed: () {
-                  setState(() {
-                    isExpanded = !isExpanded;
-                  });
-                },
-              ),
-              TBTAnimatedContainer(
-                height: 450,
-                isExpanded: isExpanded,
-                child: Container(
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(left: 20, top: 10),
-                          child: Text(
-                            "Başvuru Türünü Seçiniz",
-                            style: TextStyle(fontFamily: "Poppins"),
-                          ),
-                        ),
-                        RadioListTile<String>(
-                          title: const Text(
-                            'admin',
-                            style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 16,
+    return SafeArea(
+      child: Scaffold(
+        appBar: TBTAppBar(controller: _controller),
+        body: SingleChildScrollView(
+          controller: _controller,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: Column(
+              children: [
+                TBTAnimatedContainer(
+                  height: 450,
+                  infoText: 'Yeni Başvuru Yap!',
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.only(left: 20, top: 10),
+                            child: Text(
+                              "Başvuru Türünü Seçiniz",
+                              style: TextStyle(fontFamily: "Poppins"),
                             ),
                           ),
-                          value: 'admin',
-                          groupValue: _selectedOption,
-                          onChanged: (String? value) {
-                            setState(() {
-                              _selectedOption = value;
-                            });
-                          },
-                        ),
-                        RadioListTile<String>(
-                          title: const Text(
-                            'eğitmen',
-                            style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 16,
+                          RadioListTile<UserRole>(
+                            toggleable: true,
+                            title: const Text('Admin'),
+                            value: UserRole.admin,
+                            groupValue: _selectedRole,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedRole = value!;
+                              });
+                            },
+                          ),
+                          RadioListTile<UserRole>(
+                            toggleable: true,
+                            title: const Text('Egitmen'),
+                            value: UserRole.instructor,
+                            groupValue: _selectedRole,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedRole = value!;
+                              });
+                            },
+                          ),
+                          RadioListTile<UserRole>(
+                            toggleable: true,
+                            title: const Text('İstanbul Kodluyor'),
+                            value: UserRole.istanbulkodluyor,
+                            groupValue: _selectedRole,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedRole = value!;
+                              });
+                            },
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: TBTInputField(
+                              minLines: 3,
+                              hintText: 'Başvuru Açıklaması Giriniz',
+                              controller: _textEditingController,
+                              onSaved: (p0) {},
+                              keyboardType: TextInputType.multiline,
                             ),
                           ),
-                          value: 'eğitmen',
-                          groupValue: _selectedOption,
-                          onChanged: (String? value) {
-                            setState(() {
-                              _selectedOption = value;
-                            });
-                          },
-                        ),
-                        RadioListTile<String>(
-                          title: const Text(
-                            'istanbulkodluyor',
-                            style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 16,
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: TBTPurpleButton(
+                              buttonText: "Başvur",
+                              onPressed: () {},
                             ),
                           ),
-                          value: 'istanbulkodluyor',
-                          groupValue: _selectedOption,
-                          onChanged: (String? value) {
-                            setState(() {
-                              _selectedOption = value;
-                            });
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: TBTInputField(
-                            minLines: 3,
-                            hintText: 'Başvuru Açıklaması Giriniz',
-                            controller: _textEditingController,
-                            onSaved: (p0) {},
-                            keyboardType: TextInputType.multiline,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: TBTPurpleButton(
-                            buttonText: "Başvur",
-                            onPressed: () {},
-                          ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Stack(
-                key: _globalKey,
-                clipBehavior: Clip.none,
-                children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.4),
-                          blurRadius: 5,
-                        )
-                      ],
-                      border: Border(
-                        left: BorderSide(
-                          color: Color.fromARGB(255, 7, 107, 52),
-                          width: 10,
-                        ),
-                      ),
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                    ),
-                    height: 125,
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: _containerWidth * 0.2,
-                            height: _containerWidth * 0.2,
-                            child: const Placeholder(),
+                Stack(
+                  key: _globalKey,
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.4),
+                            blurRadius: 5,
+                          ),
+                        ],
+                        border: Border(
+                          left: BorderSide(
+                            color: Color.fromARGB(255, 7, 107, 52),
+                            width: 10,
                           ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                width: _containerWidth * 0.4,
-                                child: const Text(
-                                  "Başvuru Başlığıaaaaa",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
+                        ),
+                      ),
+                      height: 125,
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              width: _containerWidth * 0.2,
+                              height: _containerWidth * 0.2,
+                              child: const Placeholder(),
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: SizedBox(
+                                  width: _containerWidth * 0.4,
+                                  child: const Text(
+                                    "Başvuru Başlığıaaaaa",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
                                       fontFamily: "Poppins",
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: _containerWidth * 0.70,
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 6),
-                                child: Text(
-                                  "Başvuru içeriği asdasaaaaaaaaaaa\n saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontFamily: "Poppins",
-                                    fontSize: 14,
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
                               ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    right: -10,
-                    top: 10,
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 4),
-                      padding: const EdgeInsets.only(
-                        left: 12,
-                        right: 25,
-                        bottom: 2,
-                        top: 2,
-                      ),
-                      decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 7, 107, 52),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(25),
-                          topLeft: Radius.circular(25),
-                        ),
-                      ),
-                      child: const Text(
-                        "Kabul Edildi",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontFamily: "Poppins",
-                        ),
+                              SizedBox(
+                                width: _containerWidth * 0.70,
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 6),
+                                  child: Text(
+                                    "Başvuru içeriği asdasaaaaaaaaaaa\n saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 200, //Test için olusturuldu silinecek!!!
-              )
-            ],
+                    Positioned(
+                      right: -10,
+                      top: 10,
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 4),
+                        padding: const EdgeInsets.only(
+                          left: 12,
+                          right: 25,
+                          bottom: 2,
+                          top: 2,
+                        ),
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 7, 107, 52),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(25),
+                            topLeft: Radius.circular(25),
+                          ),
+                        ),
+                        child: const Text(
+                          "Kabul Edildi",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13,
+                            fontFamily: "Poppins",
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 200, //Test için olusturuldu silinecek!!!
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/models/announcement_model.dart';
@@ -218,11 +217,11 @@ class _PlatformTabState extends State<PlatformTab> {
                                 ),
                               ),
                               // Anketler içeriği
-                              Center(
+                              const Center(
                                 child: Text('Anketler İçeriği'),
                               ),
                               // Sınavlar içeriği
-                              Center(
+                              const Center(
                                 child: Text('Sınavlar İçeriği'),
                               ),
                             ],

@@ -1,32 +1,34 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/domain/repositories/blog_repository.dart';
+import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/models/blog_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_slideable_list_tile.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../widgets/tbt_slideable_list_tile.dart';
+import '../../../../../common/constants/firebase_constants.dart';
+import '../../../../../models/blog_model.dart';
 
-class InThePressAdmin extends StatefulWidget {
-  const InThePressAdmin({
+class AdminBlogScreen extends StatefulWidget {
+  const AdminBlogScreen({
     super.key,
   });
 
   @override
-  State<InThePressAdmin> createState() => _InThePressAdminState();
+  State<AdminBlogScreen> createState() => _AdminBlogScreenState();
 }
 
-class _InThePressAdminState extends State<InThePressAdmin> {
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController contentController = TextEditingController();
+class _AdminBlogScreenState extends State<AdminBlogScreen> {
   final ScrollController _scrollController = ScrollController();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _contentController = TextEditingController();
   XFile? selectedImage;
   bool selected = false;
 
@@ -47,8 +49,8 @@ class _InThePressAdminState extends State<InThePressAdmin> {
   @override
   void dispose() {
     super.dispose();
-    titleController.dispose();
-    contentController.dispose();
+    _titleController.dispose();
+    _contentController.dispose();
     _scrollController.dispose();
   }
 
@@ -59,10 +61,9 @@ class _InThePressAdminState extends State<InThePressAdmin> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
-          title: const Text("Basında Biz"),
+          title: const Text("Blog"),
         ),
         body: SingleChildScrollView(
-          controller: _scrollController,
           primary: true,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -71,7 +72,7 @@ class _InThePressAdminState extends State<InThePressAdmin> {
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 15),
                   child: Text(
-                    "İçeriği Düzenle",
+                    "Blogları Düzenle",
                     style: TextStyle(
                       fontFamily: "Poppins",
                       fontSize: 26,
@@ -81,9 +82,9 @@ class _InThePressAdminState extends State<InThePressAdmin> {
                 ),
                 TBTAnimatedContainer(
                   height: 300,
-                  infoText: 'Yeni İçerik Ekle!',
+                  infoText: 'Yeni Blog Yazısı Ekle!',
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Column(
                       children: [
                         // foto seçimi
@@ -120,14 +121,14 @@ class _InThePressAdminState extends State<InThePressAdmin> {
                         // inputlar
                         TBTInputField(
                           hintText: "Başlık",
-                          controller: titleController,
+                          controller: _titleController,
                           onSaved: (p0) {},
                           keyboardType: TextInputType.multiline,
                         ),
                         TBTInputField(
                           minLines: 5,
                           hintText: "İçerik",
-                          controller: contentController,
+                          controller: _contentController,
                           onSaved: (p0) {},
                           keyboardType: TextInputType.multiline,
                         ),
@@ -140,23 +141,29 @@ class _InThePressAdminState extends State<InThePressAdmin> {
                             onPressed: () async {
                               UserModel? userModel =
                                   await UserRepository().getCurrentUser();
-
+                              String blogId = const Uuid().v1();
+                              String blogImageUrl =
+                                  await FirebaseStorageRepository()
+                                      .putBlogPicToStorage(
+                                isBlog: true,
+                                blogId: blogId,
+                                selectedImage: selectedImage,
+                              );
                               BlogModel blogModel = BlogModel(
-                                blogId: const Uuid().v1(),
+                                blogId: blogId,
                                 userId: userModel!.userId,
                                 userFullName:
                                     '${userModel.userName} ${userModel.userSurname}',
                                 blogCreatedAt: DateTime.now(),
-                                blogTitle: titleController.text,
-                                blogContent: contentController.text,
-                                blogImageUrl:
-                                    'https://images.unsplash.com/photo-1718011087751-e82f1792aa32?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHx8',
+                                blogTitle: _titleController.text,
+                                blogContent: _contentController.text,
+                                blogImageUrl: blogImageUrl,
                               );
 
-                              await BlogRepository(isBlog: false)
+                              String sonuc = await BlogRepository(isBlog: true)
                                   .addOrUpdateBlog(blogModel: blogModel);
 
-                              selectedImage = null;
+                              print(sonuc);
                             },
                           ),
                         ),
@@ -166,7 +173,7 @@ class _InThePressAdminState extends State<InThePressAdmin> {
                 ),
                 StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection(FirebaseConstants.inThePressCollection)
+                      .collection(FirebaseConstants.blogsCollection)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
@@ -175,10 +182,10 @@ class _InThePressAdminState extends State<InThePressAdmin> {
                       );
                     } else {
                       return ListView.builder(
-                        primary: false,
                         controller: _scrollController,
+                        primary: false,
                         shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
+                        physics: const AlwaysScrollableScrollPhysics(),
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
                           DocumentSnapshot documentSnapshot =
@@ -186,7 +193,6 @@ class _InThePressAdminState extends State<InThePressAdmin> {
 
                           BlogModel blogModel = BlogModel.fromMap(
                               documentSnapshot.data() as Map<String, dynamic>);
-
                           return TBTSlideableListTile(
                             imgUrl: blogModel.blogImageUrl,
                             title: blogModel.blogTitle,

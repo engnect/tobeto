@@ -1,14 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/domain/repositories/course_repository.dart';
-import 'package:tobeto/src/models/course_model.dart';
 import 'package:tobeto/src/models/course_video_model.dart';
-import 'package:tobeto/src/models/user_model.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/course_page/course_video_add_edit.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
 class AdminCourseVideoScreen extends StatefulWidget {
