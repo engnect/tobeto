@@ -5,14 +5,14 @@ import 'package:tobeto/src/presentation/screens/auth/login_page.dart';
 import 'package:tobeto/src/presentation/screens/auth/register_page.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_app_bar_widget.dart';
 
-class AuthPage extends StatefulWidget {
-  const AuthPage({super.key});
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
 
   @override
-  State<AuthPage> createState() => _AuthPageState();
+  State<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthPageState extends State<AuthPage>
+class _AuthScreenState extends State<AuthScreen>
     with SingleTickerProviderStateMixin {
   bool isLoginSelected = true;
   late AnimationController _controller;
