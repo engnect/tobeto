@@ -145,7 +145,10 @@ class _TBTDrawerState extends State<TBTDrawer> {
                       ),
                       title: TBTPurpleButton(
                         buttonText: "Takvim",
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(AppRouteNames.calendarScreenRoute);
+                        },
                       ),
                     ),
                   ),

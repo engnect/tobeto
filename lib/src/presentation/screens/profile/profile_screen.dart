@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+
+import 'package:tobeto/src/common/constants/assets.dart';
+
 import 'package:tobeto/src/presentation/screens/profile/profile_details.dart';
+
 import 'package:tobeto/src/presentation/screens/profile/tabs/certificate.dart';
 import 'package:tobeto/src/presentation/screens/profile/tabs/edit_personel_info.dart';
 import 'package:tobeto/src/presentation/screens/profile/tabs/education.dart';
@@ -8,7 +12,6 @@ import 'package:tobeto/src/presentation/screens/profile/tabs/languages.dart';
 import 'package:tobeto/src/presentation/screens/profile/tabs/settings.dart';
 import 'package:tobeto/src/presentation/screens/profile/tabs/skills.dart';
 import 'package:tobeto/src/presentation/screens/profile/tabs/social_media.dart';
-import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -60,38 +63,33 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const TBTDrawer(),
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const ProfilDetails(),
-                ));
-              },
-              icon: Icon(Icons.abc))
-        ],
-        centerTitle: true,
-        title: GestureDetector(
-          onTap: () {},
-          child: Image.asset(
-            Assets.imagesTobetoLogo,
-            width: 180,
-            height: 100,
-          ),
-        ),
-        bottom: TabBar(
-          controller: _tabController,
-          isScrollable: true,
-          tabs: List<Widget>.generate(_icons.length, (int index) {
-            return Tab(
-              icon: Icon(_icons[index]),
-            );
-          }),
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: _pages,
+
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              centerTitle: true,
+              floating: true,
+              snap: true,
+              title: Image.asset(
+                Assets.imagesTobetoLogo,
+                width: 200,
+              ),
+              backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+              bottom: TabBar(
+                controller: _tabController,
+                isScrollable: true,
+                tabs: List<Widget>.generate(_icons.length, (int index) {
+                  return Tab(
+                    icon: Icon(_icons[index]),
+                  );
+                }),
+              ),
+            ),
+          ];
+        },
+       
+
       ),
     );
   }

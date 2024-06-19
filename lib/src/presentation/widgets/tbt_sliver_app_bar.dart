@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:scroll_app_bar_2_0_0_custom_fix/scroll_app_bar.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 
-class TBTAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final ScrollController controller;
-  const TBTAppBar({
+class TBTSliverAppBar extends StatelessWidget {
+  const TBTSliverAppBar({
     super.key,
-    required this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ScrollAppBar(
-      controller: controller,
+    return SliverAppBar(
       centerTitle: true,
+      floating: true,
+      snap: true,
       title: Image.asset(
         Assets.imagesTobetoLogo,
         width: 200,
@@ -21,7 +19,4 @@ class TBTAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
