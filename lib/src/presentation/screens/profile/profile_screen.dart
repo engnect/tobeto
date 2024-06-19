@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/presentation/screens/profile/profile_details.dart';
 import 'package:tobeto/src/presentation/screens/profile/tabs/certificate.dart';
 import 'package:tobeto/src/presentation/screens/profile/tabs/edit_personel_info.dart';
 import 'package:tobeto/src/presentation/screens/profile/tabs/education.dart';
@@ -60,6 +61,15 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Scaffold(
       drawer: const TBTDrawer(),
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const ProfilDetails(),
+                ));
+              },
+              icon: Icon(Icons.abc))
+        ],
         centerTitle: true,
         title: GestureDetector(
           onTap: () {},
