@@ -43,141 +43,141 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-          backgroundColor: Colors.white,
-          body: CustomScrollView(
-            slivers: [
-              // appbar
-              SliverAppBar(
-                floating: true,
-                snap: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Image.asset(
-                    Assets.imagesTobetoLogo,
-                  ),
+        backgroundColor: Colors.white,
+        body: CustomScrollView(
+          slivers: [
+            // appbar
+            SliverAppBar(
+              floating: true,
+              snap: true,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Image.asset(
+                  Assets.imagesTobetoLogo,
                 ),
               ),
+            ),
 
-              // body
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: Column(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            child: Text(
-                              "Takvim Düzenle",
-                              style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
+            // body
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Column(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          child: Text(
+                            "Takvim Düzenle",
+                            style: TextStyle(
+                              fontFamily: "Poppins",
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        TBTAnimatedContainer(
+                          infoText: 'Yeni Etkinlik Ekle!',
+                          height: 275,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TBTInputField(
+                                hintText: 'Etkinlik Başlığı',
+                                controller: _eventTitleController,
+                                onSaved: (p0) {},
+                                keyboardType: TextInputType.multiline,
                               ),
-                            ),
+                              TBTInputField(
+                                hintText: 'Etkinlik Açıklaması',
+                                controller: _eventDescriptionController,
+                                onSaved: (p0) {},
+                                keyboardType: TextInputType.multiline,
+                              ),
+                              TextButton.icon(
+                                icon: const Icon(Icons.calendar_today_outlined),
+                                onPressed: () async {
+                                  selectedDate = await showDatePicker(
+                                    context: context,
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime(2050),
+                                  );
+
+                                  setState(() {});
+                                },
+                                label: Text(
+                                  selectedDate == null
+                                      ? 'Tarih Seç'
+                                      : DateFormat('dd/MM/yyyy')
+                                          .format(selectedDate!),
+                                ),
+                              ),
+                              TBTPurpleButton(
+                                buttonText: 'Etkinliği Ekle',
+                                onPressed: () async {
+                                  UserModel? currentUser =
+                                      await UserRepository().getCurrentUser();
+
+                                  EventModel eventModel = EventModel(
+                                    eventId: const Uuid().v1(),
+                                    userId: currentUser!.userId,
+                                    eventTitle: _eventTitleController.text,
+                                    eventDescription:
+                                        _eventDescriptionController.text,
+                                    eventDate: selectedDate!,
+                                  );
+
+                                  await CalendarRepository()
+                                      .addOrUpdateEvent(eventModel: eventModel);
+                                },
+                              ),
+                            ],
                           ),
-                          TBTAnimatedContainer(
-                            infoText: 'Yeni Etkinlik Ekle!',
-                            height: 275,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                TBTInputField(
-                                  hintText: 'Etkinlik Başlığı',
-                                  controller: _eventTitleController,
-                                  onSaved: (p0) {},
-                                  keyboardType: TextInputType.multiline,
-                                ),
-                                TBTInputField(
-                                  hintText: 'Etkinlik Açıklaması',
-                                  controller: _eventDescriptionController,
-                                  onSaved: (p0) {},
-                                  keyboardType: TextInputType.multiline,
-                                ),
-                                TextButton.icon(
-                                  icon:
-                                      const Icon(Icons.calendar_today_outlined),
-                                  onPressed: () async {
-                                    selectedDate = await showDatePicker(
-                                      context: context,
-                                      firstDate: DateTime(2000),
-                                      lastDate: DateTime(2050),
-                                    );
+                        ),
+                        StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection(FirebaseConstants.eventsCollection)
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else {
+                              return ListView.builder(
+                                controller: _controller,
+                                primary: false,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  DocumentSnapshot documentSnapshot =
+                                      snapshot.data!.docs[index];
 
-                                    setState(() {});
-                                  },
-                                  label: Text(
-                                    selectedDate == null
-                                        ? 'Tarih Seç'
-                                        : DateFormat('dd/MM/yyyy')
-                                            .format(selectedDate!),
-                                  ),
-                                ),
-                                TBTPurpleButton(
-                                  buttonText: 'Etkinliği Ekle',
-                                  onPressed: () async {
-                                    UserModel? currentUser =
-                                        await UserRepository().getCurrentUser();
-
-                                    EventModel eventModel = EventModel(
-                                      eventId: const Uuid().v1(),
-                                      userId: currentUser!.userId,
-                                      eventTitle: _eventTitleController.text,
-                                      eventDescription:
-                                          _eventDescriptionController.text,
-                                      eventDate: selectedDate!,
-                                    );
-
-                                    await CalendarRepository().addOrUpdateEvent(
-                                        eventModel: eventModel);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                          StreamBuilder(
-                            stream: FirebaseFirestore.instance
-                                .collection(FirebaseConstants.eventsCollection)
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              } else {
-                                return ListView.builder(
-                                  controller: _controller,
-                                  primary: false,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: snapshot.data!.docs.length,
-                                  itemBuilder: (context, index) {
-                                    DocumentSnapshot documentSnapshot =
-                                        snapshot.data!.docs[index];
-
-                                    EventModel eventModel = EventModel.fromMap(
-                                        documentSnapshot.data()
-                                            as Map<String, dynamic>);
-                                    return ListTile(
-                                      title: Text(eventModel.eventTitle),
-                                      subtitle: Text(
-                                        DateFormat('dd/MM/yyyy')
-                                            .format(eventModel.eventDate),
-                                      ),
-                                    );
-                                  },
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      ),
+                                  EventModel eventModel = EventModel.fromMap(
+                                      documentSnapshot.data()
+                                          as Map<String, dynamic>);
+                                  return ListTile(
+                                    title: Text(eventModel.eventTitle),
+                                    subtitle: Text(
+                                      DateFormat('dd/MM/yyyy')
+                                          .format(eventModel.eventDate),
+                                    ),
+                                  );
+                                },
+                              );
+                            }
+                          },
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

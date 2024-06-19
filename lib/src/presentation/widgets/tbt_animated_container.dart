@@ -77,7 +77,7 @@ class _TBTAnimatedContainerState extends State<TBTAnimatedContainer> {
               isExpanded = !isExpanded;
             });
           },
-          child: isExpanded == false
+          child: isExpanded == true
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

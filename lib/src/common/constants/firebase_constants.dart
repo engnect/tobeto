@@ -5,6 +5,7 @@ class FirebaseConstants {
   static const String inThePressCollection = "inThePress";
   static const String contactFormsCollection = "contactForm";
   static const String announcementsCollection = "announcements";
+  static const String applicationsCollection = "applications";
 
   // Storage klasör isimleri
   static const String videosCollection = "videos";

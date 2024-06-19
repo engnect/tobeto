@@ -4,6 +4,7 @@ import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/presentation/screens/auth/login_page.dart';
 import 'package:tobeto/src/presentation/screens/auth/register_page.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -58,15 +59,7 @@ class _AuthScreenState extends State<AuthScreen>
         drawer: const TBTDrawer(),
         body: CustomScrollView(
           slivers: <Widget>[
-            SliverAppBar(
-              floating: true,
-              snap: true,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Image.asset(
-                  Assets.imagesTobetoLogo,
-                ),
-              ),
-            ),
+            const TBTSliverAppBar(),
             SliverList(
               delegate: SliverChildListDelegate(
                 [

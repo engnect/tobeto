@@ -7,6 +7,7 @@ import 'package:tobeto/src/domain/repositories/experience_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/experience_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
 import 'package:uuid/uuid.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
@@ -85,197 +86,127 @@ class _ExperiencePageState extends State<ExperiencePage> {
     }
   }
 
-  // void _saveExperience() async {
-  //   UserModel? user = await UserRepository().getCurrentUser();
-
-  //   try {
-  //     ExperienceModel newExperience = ExperienceModel(
-  //       experienceId: '',
-  //       userId: user!.userId,
-  //       companyName: _companyController.text,
-  //       experiencePosition: _positionController.text,
-  //       experienceType: _selectedExperienceType ?? '',
-  //       experienceSector: _sectorController.text,
-  //       experienceCity: _selectedCityName ?? '',
-  //       startDate: _selectedStartDate!,
-  //       endDate: _isCurrentlyWorking ? DateTime.now() : _selectedEndDate!,
-  //       isCurrentlyWorking: _isCurrentlyWorking,
-  //       jobDescription: _jobdescrbController.text,
-  //     );
-
-  //     print('New Experience Data: ${newExperience.toMap()}');
-
-  //     await ExperienceRepository().addExperience(newExperience);
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text('Experience added successfully')),
-  //     );
-  //   } catch (e, stackTrace) {
-  //     print('Failed to add experience: $e');
-  //     print(stackTrace);
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('Failed to add experience: $e')),
-  //     );
-  //     return;
-  //   }
-  // }
-
-  // Future<void> _deleteExperience(String experienceId) async {
-  //   try {
-  //     await ExperienceRepository().deleteExperience(experienceId);
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text('Experience deleted successfully')),
-  //     );
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('Failed to delete experience: $e')),
-  //     );
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TBTPurpleButton(
-                buttonText: "Düzenle",
-                onPressed: () {
-                  setState(() {
-                    isSelect = !isSelect;
-                  });
-                },
-              ),
-              AnimatedContainer(
-                decoration: BoxDecoration(
-                  borderRadius: isSelect
-                      ? const BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        )
-                      : null,
-                  border: Border(
-                    bottom: BorderSide(
-                      width: isSelect ? 7 : 0,
-                      color: const Color.fromARGB(255, 153, 51, 255),
-                    ),
-                  ),
-                ),
-                height: isSelect ? 600 : 0,
-                duration: const Duration(seconds: 1),
-                child: isSelect
-                    ? BlocBuilder<AuthBloc, AuthState>(
-                        builder: (context, state) {
-                          if (state is Authenticated) {
-                            UserModel currentUser = state.userModel;
+              TBTAnimatedContainer(
+                height: 370,
+                infoText: 'Yeni Tecrübe Ekleyin',
+                child: BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    if (state is Authenticated) {
+                      UserModel currentUser = state.userModel;
 
-                            return ListView.builder(
-                              itemCount: currentUser.experiencesList!.length,
-                              itemBuilder: (context, index) {
-                                ExperienceModel experience =
-                                    currentUser.experiencesList![index];
-                                return Card(
-                                  child: ListTile(
-                                    title: Text(experience.companyName),
-                                    subtitle: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(experience.experiencePosition),
-                                        Text(
-                                          'Başlangıç Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.startDate)}',
-                                        ),
-                                        Text(
-                                          experience.isCurrentlyWorking!
-                                              ? 'Devam Ediyor'
-                                              : 'Bitiş Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.endDate)}',
-                                        ),
-                                      ],
-                                    ),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        IconButton(
-                                          icon: const Icon(Icons.edit),
-                                          onPressed: () async {
-                                            ExperienceModel experienceModel =
-                                                ExperienceModel(
-                                              experienceId:
-                                                  'e9b1b5e0-962c-102e-8daa-2bf094a1a934',
-                                              userId: 'alperen',
-                                              companyName: 'alperen',
-                                              experiencePosition: 'alperen',
-                                              experienceType: 'alperen',
-                                              experienceSector: 'alperen',
-                                              experienceCity: 'alperen',
-                                              startDate: DateTime.now(),
-                                              endDate: DateTime.now(),
-                                              isCurrentlyWorking: true,
-                                              jobDescription:
-                                                  _jobdescrbController.text,
-                                            );
-
-                                            String result =
-                                                await ExperienceRepository()
-                                                    .updateExperience(
-                                                        experienceModel);
-
-                                            print(result);
-                                          },
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(Icons.delete),
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) => AlertDialog(
-                                                title:
-                                                    const Text("Deneyimi sil"),
-                                                content: const Text(
-                                                    "Bu deneyimi silmek istediğinizden emin misiniz?"),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                    child: const Text("İptal"),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      Navigator.pop(context);
-                                                      print(
-                                                          "Silmek istediğim fonksiyon: ${experience.experienceId}");
-                                                      // await _deleteExperience(
-                                                      //     experience
-                                                      //         .experienceId);
-
-                                                      String result =
-                                                          await ExperienceRepository()
-                                                              .deleteExperience(
-                                                                  experience);
-
-                                                      print(result);
-                                                    },
-                                                    child: const Text('Sil'),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    ),
+                      return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: currentUser.experiencesList!.length,
+                        itemBuilder: (context, index) {
+                          ExperienceModel experience =
+                              currentUser.experiencesList![index];
+                          return Card(
+                            child: ListTile(
+                              title: Text(experience.companyName),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(experience.experiencePosition),
+                                  Text(
+                                    'Başlangıç Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.startDate)}',
                                   ),
-                                );
-                              },
-                            );
-                          } else {
-                            return const SizedBox.shrink();
-                          }
+                                  Text(
+                                    experience.isCurrentlyWorking!
+                                        ? 'Devam Ediyor'
+                                        : 'Bitiş Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.endDate)}',
+                                  ),
+                                ],
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.edit),
+                                    onPressed: () async {
+                                      ExperienceModel experienceModel =
+                                          ExperienceModel(
+                                        experienceId:
+                                            'e9b1b5e0-962c-102e-8daa-2bf094a1a934',
+                                        userId: 'alperen',
+                                        companyName: 'alperen',
+                                        experiencePosition: 'alperen',
+                                        experienceType: 'alperen',
+                                        experienceSector: 'alperen',
+                                        experienceCity: 'alperen',
+                                        startDate: DateTime.now(),
+                                        endDate: DateTime.now(),
+                                        isCurrentlyWorking: true,
+                                        jobDescription:
+                                            _jobdescrbController.text,
+                                      );
+
+                                      String result =
+                                          await ExperienceRepository()
+                                              .updateExperience(
+                                                  experienceModel);
+
+                                      print(result);
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: const Text("Deneyimi sil"),
+                                          content: const Text(
+                                              "Bu deneyimi silmek istediğinizden emin misiniz?"),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text("İptal"),
+                                            ),
+                                            TextButton(
+                                              onPressed: () async {
+                                                Navigator.pop(context);
+                                                print(
+                                                    "Silmek istediğim fonksiyon: ${experience.experienceId}");
+                                                // await _deleteExperience(
+                                                //     experience
+                                                //         .experienceId);
+
+                                                String result =
+                                                    await ExperienceRepository()
+                                                        .deleteExperience(
+                                                            experience);
+
+                                                print(result);
+                                              },
+                                              child: const Text('Sil'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
                         },
-                      )
-                    : const SizedBox.shrink(),
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  },
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -459,6 +390,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
                   print(sonuc);
                 },
               ),
+              const SizedBox(height: 60),
             ],
           ),
         ),

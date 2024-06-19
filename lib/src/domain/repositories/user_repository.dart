@@ -28,6 +28,11 @@ class UserRepository {
     });
   }
 
+  Future<UserModel?> getSpecificUserById(String userId) async {
+    DocumentSnapshot documentSnapshot = await _users.doc(userId).get();
+    return UserModel.fromMap(documentSnapshot.data()! as Map<String, dynamic>);
+  }
+
   Future<String> addOrUpdateUser(UserModel updatedUser) async {
     String result = '';
     try {
