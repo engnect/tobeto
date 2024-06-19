@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:tobeto/src/common/constants/assets.dart';
+
+import 'package:tobeto/src/presentation/screens/profile/profile_details.dart';
+
 import 'package:tobeto/src/presentation/screens/profile/tabs/certificate.dart';
 import 'package:tobeto/src/presentation/screens/profile/tabs/edit_personel_info.dart';
 import 'package:tobeto/src/presentation/screens/profile/tabs/education.dart';
@@ -59,6 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const TBTDrawer(),
+
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return <Widget>[
@@ -83,10 +88,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             ),
           ];
         },
-        body: TabBarView(
-          controller: _tabController,
-          children: _pages,
-        ),
+       
+
       ),
     );
   }
