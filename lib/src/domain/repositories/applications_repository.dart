@@ -21,7 +21,14 @@ class ApplicationsRepository {
     } catch (e) {
       result = e.toString();
     }
-    return result;
+
+    switch (result) {
+      case 'success':
+        return 'İşlem Başarılı';
+
+      default:
+        return 'Hata: $result';
+    }
   }
 
   Future<String> deleteAnnouncement({
@@ -35,6 +42,13 @@ class ApplicationsRepository {
     } catch (e) {
       result = e.toString();
     }
-    return result;
+
+    switch (result) {
+      case 'success':
+        return 'İşlem Başarılı';
+
+      default:
+        return 'Hata: $result';
+    }
   }
 }

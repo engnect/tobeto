@@ -150,7 +150,6 @@ class _CertificatesPageState extends State<CertificatesPage> {
                                                         await CertificateRepository()
                                                             .deleteCertificate(
                                                                 certificate);
-                                                    print(result);
                                                   },
                                                   child: const Text('Sil'),
                                                 ),

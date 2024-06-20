@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/common/enums/application_status_enum.dart';
 import 'package:tobeto/src/common/enums/application_type_enum.dart';
+import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/domain/repositories/applications_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/application_model.dart';
@@ -26,6 +28,7 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
   final TextEditingController _applicationContentController =
       TextEditingController();
   ApplicationType _selectedApplication = ApplicationType.admin;
+  UserRank _selectedUserRank = UserRank.admin;
 
   @override
   void dispose() {
@@ -73,6 +76,7 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
                                     onChanged: (value) {
                                       setState(() {
                                         _selectedApplication = value!;
+                                        _selectedUserRank = UserRank.admin;
                                       });
                                     },
                                   ),
@@ -84,6 +88,7 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
                                     onChanged: (value) {
                                       setState(() {
                                         _selectedApplication = value!;
+                                        _selectedUserRank = UserRank.instructor;
                                       });
                                     },
                                   ),
@@ -95,6 +100,7 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
                                     onChanged: (value) {
                                       setState(() {
                                         _selectedApplication = value!;
+                                        _selectedUserRank = UserRank.student;
                                       });
                                     },
                                   ),
@@ -125,7 +131,9 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
                                               _applicationContentController
                                                   .text,
                                           applicationType: _selectedApplication,
-                                          didApplicationApproved: false,
+                                          userRank: _selectedUserRank,
+                                          applicationStatus:
+                                              ApplicationStatus.waiting,
                                           applicationCreatedAt: DateTime.now(),
                                           applicationClosedBy:
                                               'applicationClosedBy',
@@ -137,8 +145,6 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
                                                 .addOrUpdateApplication(
                                                     applicationModel:
                                                         applicationModel);
-
-                                        print(result);
                                       },
                                     ),
                                   ),

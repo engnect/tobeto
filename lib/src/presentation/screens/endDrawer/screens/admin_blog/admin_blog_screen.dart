@@ -162,8 +162,6 @@ class _AdminBlogScreenState extends State<AdminBlogScreen> {
 
                               String sonuc = await BlogRepository(isBlog: true)
                                   .addOrUpdateBlog(blogModel: blogModel);
-
-                              print(sonuc);
                             },
                           ),
                         ),

@@ -55,6 +55,12 @@ class TBTEndDrawer extends StatelessWidget {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+              title: const Text('Kullanıcı Başvuruları'),
+              onTap: () => Navigator.of(context)
+                  .pushNamed(AppRouteNames.adminApplicationsScreenRoute),
+            ),
+            ListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
               title: const Text('İletişim Formları'),
               onTap: () => Navigator.of(context)
                   .pushNamed(AppRouteNames.adminContactFormScreenRoute),

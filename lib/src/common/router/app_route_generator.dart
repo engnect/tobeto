@@ -8,6 +8,7 @@ import 'package:tobeto/src/presentation/screens/calendar/calendar_screen.dart';
 import 'package:tobeto/src/presentation/screens/contact_us/contact_us_screen.dart';
 import 'package:tobeto/src/presentation/screens/course/course_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_announcement/admin_announcements_screen.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_applications/admin_applications_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_contact_forms/admin_contact_forms_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_blog/admin_blog_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/course_page/course_admin_add_edit.dart';
@@ -104,6 +105,10 @@ class AppRouter {
       case AppRouteNames.adminCourseAddEdit:
         return MaterialPageRoute(
           builder: (_) => const CourseAddEdit(),
+        );
+      case AppRouteNames.adminApplicationsScreenRoute:
+        return MaterialPageRoute(
+          builder: (_) => const AdminApplicationsScreen(),
         );
 
       // error

@@ -3,7 +3,6 @@ class AppRouteNames {
   static const String onboardingRoute = 'onboardingScreen';
   static const String aboutUsScreenRoute = '/aboutUsScreen';
   static const String contactUsScreenRoute = '/contactUsScreen';
-//TODO: kurs ekranına bakılcak!
   static const String courseScreenRoute = '/courseScreen';
   static const String forIndividualsScreenRoute = '/forIndividualsScreen';
   static const String forCompaniesScreenRoute = '/forCompaniesScreen';
@@ -24,4 +23,5 @@ class AppRouteNames {
       '/AdminAnnouncementsScreen';
   static const String adminCourseVideoAddEdit = '/courseVideoAddEditScreen';
   static const String adminCourseAddEdit = '/courseAddEditScreen';
+  static const String adminApplicationsScreenRoute = '/adminApplicationsScreen';
 }

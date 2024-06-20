@@ -1,5 +1,8 @@
 import 'dart:convert';
+
+import 'package:tobeto/src/common/enums/application_status_enum.dart';
 import 'package:tobeto/src/common/enums/application_type_enum.dart';
+import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 
 class ApplicationModel {
   final String applicationId;
@@ -7,8 +10,11 @@ class ApplicationModel {
   final String applicationContent;
   // enum
   final ApplicationType applicationType;
+  //enum
+  final UserRank userRank;
+  //enum
+  final ApplicationStatus applicationStatus;
 
-  final bool didApplicationApproved;
   final DateTime applicationCreatedAt;
   final String applicationClosedBy;
   final DateTime applicationClosedAt;
@@ -17,7 +23,8 @@ class ApplicationModel {
     required this.userId,
     required this.applicationContent,
     required this.applicationType,
-    required this.didApplicationApproved,
+    required this.userRank,
+    required this.applicationStatus,
     required this.applicationCreatedAt,
     required this.applicationClosedBy,
     required this.applicationClosedAt,
@@ -28,7 +35,8 @@ class ApplicationModel {
     String? userId,
     String? applicationContent,
     ApplicationType? applicationType,
-    bool? didApplicationApproved,
+    UserRank? userRank,
+    ApplicationStatus? applicationStatus,
     DateTime? applicationCreatedAt,
     String? applicationClosedBy,
     DateTime? applicationClosedAt,
@@ -38,8 +46,8 @@ class ApplicationModel {
       userId: userId ?? this.userId,
       applicationContent: applicationContent ?? this.applicationContent,
       applicationType: applicationType ?? this.applicationType,
-      didApplicationApproved:
-          didApplicationApproved ?? this.didApplicationApproved,
+      userRank: userRank ?? this.userRank,
+      applicationStatus: applicationStatus ?? this.applicationStatus,
       applicationCreatedAt: applicationCreatedAt ?? this.applicationCreatedAt,
       applicationClosedBy: applicationClosedBy ?? this.applicationClosedBy,
       applicationClosedAt: applicationClosedAt ?? this.applicationClosedAt,
@@ -52,7 +60,8 @@ class ApplicationModel {
       'userId': userId,
       'applicationContent': applicationContent,
       'applicationType': applicationType.index,
-      'didApplicationApproved': didApplicationApproved,
+      'userRank': userRank.index,
+      'applicationStatus': applicationStatus.index,
       'applicationCreatedAt': applicationCreatedAt,
       'applicationClosedBy': applicationClosedBy,
       'applicationClosedAt': applicationClosedAt,
@@ -65,7 +74,9 @@ class ApplicationModel {
       userId: map['userId'] ?? '',
       applicationContent: map['applicationContent'] ?? '',
       applicationType: ApplicationType.values[map['applicationType'] ?? 0],
-      didApplicationApproved: map['didApplicationApproved'] ?? false,
+      userRank: UserRank.values[map['userRank'] ?? 0],
+      applicationStatus:
+          ApplicationStatus.values[map['applicationStatus'] ?? 0],
       applicationCreatedAt:
           map['applicationCreatedAt'].toDate() ?? DateTime.now(),
       applicationClosedBy: map['applicationClosedBy'] ?? '',
@@ -81,7 +92,7 @@ class ApplicationModel {
 
   @override
   String toString() {
-    return 'ApplicationModel(applicationId: $applicationId, userId: $userId, applicationContent: $applicationContent, applicationType: $applicationType, didApplicationApproved: $didApplicationApproved, applicationCreatedAt: $applicationCreatedAt, applicationClosedBy: $applicationClosedBy, applicationClosedAt: $applicationClosedAt)';
+    return 'ApplicationModel(applicationId: $applicationId, userId: $userId, applicationContent: $applicationContent, applicationType: $applicationType, userRank: $userRank, applicationStatus: $applicationStatus, applicationCreatedAt: $applicationCreatedAt, applicationClosedBy: $applicationClosedBy, applicationClosedAt: $applicationClosedAt)';
   }
 
   @override
@@ -93,7 +104,8 @@ class ApplicationModel {
         other.userId == userId &&
         other.applicationContent == applicationContent &&
         other.applicationType == applicationType &&
-        other.didApplicationApproved == didApplicationApproved &&
+        other.userRank == userRank &&
+        other.applicationStatus == applicationStatus &&
         other.applicationCreatedAt == applicationCreatedAt &&
         other.applicationClosedBy == applicationClosedBy &&
         other.applicationClosedAt == applicationClosedAt;
@@ -105,7 +117,8 @@ class ApplicationModel {
         userId.hashCode ^
         applicationContent.hashCode ^
         applicationType.hashCode ^
-        didApplicationApproved.hashCode ^
+        userRank.hashCode ^
+        applicationStatus.hashCode ^
         applicationCreatedAt.hashCode ^
         applicationClosedBy.hashCode ^
         applicationClosedAt.hashCode;

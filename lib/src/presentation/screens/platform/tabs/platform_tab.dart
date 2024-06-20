@@ -172,7 +172,7 @@ class PlatformTab extends StatelessWidget {
                                   child: TabBarView(
                                     children: [
                                       // Duyurular içeriği
-                                      Container(
+                                      SizedBox(
                                         height: 200,
                                         width: 300,
                                         child: StreamBuilder(

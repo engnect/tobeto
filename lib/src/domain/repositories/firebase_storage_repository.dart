@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
@@ -57,7 +58,9 @@ class FirebaseStorageRepository {
 
       return downloadUrl;
     } catch (e) {
-      print("Error uploading video: $e");
+      if (kDebugMode) {
+        print("Error uploading video: $e");
+      }
       return null;
     }
   }
@@ -73,7 +76,9 @@ class FirebaseStorageRepository {
 
       return downloadUrl;
     } catch (e) {
-      print("Error uploading video: $e");
+      if (kDebugMode) {
+        print("Error uploading video: $e");
+      }
       return null;
     }
   }

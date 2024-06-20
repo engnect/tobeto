@@ -1,6 +1,10 @@
-enum ApplicationType { admin, instructor, istanbulkodluyor }
+enum ApplicationType {
+  istanbulkodluyor,
+  instructor,
+  admin,
+}
 
-extension UserRankExtension on ApplicationType {
+extension ApplicationTypeExtension on ApplicationType {
   static ApplicationType fromName(String name) {
     return ApplicationType.values.firstWhere((element) => element.name == name);
   }

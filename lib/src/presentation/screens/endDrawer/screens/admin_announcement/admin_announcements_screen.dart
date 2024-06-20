@@ -104,10 +104,6 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
                                   String result = await AnnouncementRepository()
                                       .addOrUpdateAnnouncement(
                                           announcementModel: announcementModel);
-
-                                  print(result);
-
-                                  // setState(() {});
                                 },
                               ),
                             ],
