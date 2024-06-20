@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
-import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
+// import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/data/datasource/theme_shared_pref.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
@@ -54,9 +54,11 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: const Text(
+              title: Text(
                 "Biz Kimiz?",
-                style: TextStyle(fontFamily: "Poppins"),
+                style: TextStyle(
+                    fontFamily: "Poppins",
+                    color: Theme.of(context).colorScheme.primary),
               ),
               onTap: () {
                 Navigator.of(context)
@@ -64,9 +66,11 @@ class _TBTDrawerState extends State<TBTDrawer> {
               },
             ),
             CustomExpansionTile(
-              title: const Text(
+              title: Text(
                 "Neler Sunuyoruz?",
-                style: TextStyle(fontFamily: "Poppins"),
+                style: TextStyle(
+                    fontFamily: "Poppins",
+                    color: Theme.of(context).colorScheme.primary),
               ),
               children: [
                 SizedBox(
@@ -96,16 +100,20 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: const Text(
+              title: Text(
                 "Eğitimlerimiz",
-                style: TextStyle(fontFamily: "Poppins"),
+                style: TextStyle(
+                    fontFamily: "Poppins",
+                    color: Theme.of(context).colorScheme.primary),
               ),
               onTap: () {},
             ),
             CustomExpansionTile(
-              title: const Text(
+              title: Text(
                 "Tobeto'da Neler Oluyor?",
-                style: TextStyle(fontFamily: "Poppins"),
+                style: TextStyle(
+                    fontFamily: "Poppins",
+                    color: Theme.of(context).colorScheme.primary),
               ),
               children: [
                 SizedBox(
@@ -157,9 +165,11 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: const Text(
+              title: Text(
                 "İletişim",
-                style: TextStyle(fontFamily: "Poppins"),
+                style: TextStyle(
+                    fontFamily: "Poppins",
+                    color: Theme.of(context).colorScheme.primary),
               ),
               onTap: () {
                 Navigator.of(context)
@@ -218,26 +228,26 @@ class _TBTDrawerState extends State<TBTDrawer> {
 
             // theme switch
 
-            BlocBuilder<ThemeBloc, ThemeState>(
-              builder: (context, state) {
-                final isDarkTheme =
-                    state.themeData.brightness == Brightness.dark;
+            // BlocBuilder<ThemeBloc, ThemeState>(
+            //   builder: (context, state) {
+            //     final isDarkTheme =
+            //         state.themeData.brightness == Brightness.dark;
 
-                return Switch(
-                  value: isDarkTheme,
-                  onChanged: (value) async {
-                    final newTheme =
-                        value ? ThemeData.dark() : ThemeData.light();
+            //     return Switch(
+            //       value: isDarkTheme,
+            //       onChanged: (value) async {
+            //         final newTheme =
+            //             value ? ThemeData.dark() : ThemeData.light();
 
-                    context.read<ThemeBloc>().add(
-                          ThemeChanged(themeData: newTheme),
-                        );
+            //         context.read<ThemeBloc>().add(
+            //               ThemeChanged(themeData: newTheme),
+            //             );
 
-                    await prefs.saveTheme(value);
-                  },
-                );
-              },
-            ),
+            //         await prefs.saveTheme(value);
+            //       },
+            //     );
+            //   },
+            // ),
           ],
         ),
       ),

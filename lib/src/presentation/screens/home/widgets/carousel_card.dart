@@ -42,7 +42,8 @@ class CarouselCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               child: Text(
                 header,
-                style: const TextStyle(
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
                     fontFamily: "Poppins",
                     fontSize: 26,
                     fontWeight: FontWeight.bold),
@@ -55,10 +56,10 @@ class CarouselCard extends StatelessWidget {
                 maxLines: 8,
                 overflow: TextOverflow.fade,
                 content,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: "Poppins",
                   fontSize: 18,
-                  color: Color.fromARGB(255, 79, 75, 104),
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
                 textAlign: TextAlign.center,
               ),

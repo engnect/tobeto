@@ -15,12 +15,12 @@ class HomeScreenGif extends StatelessWidget {
       margin: const EdgeInsets.symmetric(
           horizontal: 5, vertical: 5), //Ekran ile card arasında ki mesafe için
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        borderRadius: const BorderRadius.all(
           Radius.circular(90),
         ),
-        border: GradientBoxBorder(
+        border: const GradientBoxBorder(
           width: 5, //border kalınlığı
           gradient: SweepGradient(
             startAngle: 2.3561944902, //rad türünden 135 derece
@@ -48,8 +48,8 @@ class HomeScreenGif extends StatelessWidget {
                 Assets.gifSpiderSlide,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               child: Text(
                 'Tobeto "İşte Başarı Modeli"mizi Keşfet!',
                 textAlign: TextAlign.center,
@@ -57,19 +57,19 @@ class HomeScreenGif extends StatelessWidget {
                   fontFamily: "Poppins",
                   fontSize: 28,
                   fontWeight: FontWeight.w800,
-                  color: Color.fromRGBO(21, 21, 21, 1),
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(20, 5, 20, 10),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
               child: Text(
                 "Üyelerimize ücretsiz sunduğumuz, iş bulma ve işte başarılı olma sürecinde gerekli 80 tane davranış ifadesinden oluşan Tobeto 'İşte Başarı Modeli' ile, profesyonellik yetkinliklerini ölç, raporunu gör.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 101, 95, 95),
+                  color: Theme.of(context).colorScheme.onSecondary,
                 ),
               ),
             ),

@@ -41,18 +41,18 @@ class AboutUsScreen extends StatelessWidget {
                         "Öğrencilerin teoriyi anlamalarını önemsemekle beraber uygulamayı merkeze alan bir öğrenme yolculuğu sunuyoruz. Öğrenciyi sürekli gelişim, geri bildirim döngüsünde tutarak yetenek ve beceri kazanımını hızlandırıyoruz.",
                   ),
                   const AboutUsCarousel(),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 50,
                     ),
                     child: Text(
                       "EKİBİMİZ",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontWeight: FontWeight.w800,
-                        fontSize: 36,
-                      ),
+                          fontFamily: "Poppins",
+                          fontWeight: FontWeight.w800,
+                          fontSize: 36,
+                          color: Theme.of(context).colorScheme.primary),
                     ),
                   ),
                   const AboutUsOurTeamCard(
@@ -85,23 +85,24 @@ class AboutUsScreen extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 30),
                     decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Color.fromARGB(90, 0, 0, 0),
-                              blurRadius: 10),
-                        ],
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white),
-                    child: const Column(
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Color.fromARGB(90, 0, 0, 0), blurRadius: 10),
+                      ],
+                      borderRadius: BorderRadius.circular(20),
+                      color: Theme.of(context).colorScheme.background,
+                    ),
+                    child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20),
+                          padding: const EdgeInsets.symmetric(vertical: 20),
                           child: Text(
                             "Ofisimiz",
                             style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontSize: 34,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary),
                           ),
                         ),
                         Padding(
@@ -110,27 +111,28 @@ class AboutUsScreen extends StatelessWidget {
                             textAlign: TextAlign.center,
                             "Kavacık, Rüzgarlıbahçe Mah. Çampınarı Sok. No:4 Smart Plaza B Blok Kat:3 34805, Beykoz,İstanbul",
                             style: TextStyle(
-                                fontSize: 20,
-                                fontFamily: "Poppins",
-                                color: Color.fromARGB(255, 122, 122, 122)),
+                              fontSize: 20,
+                              fontFamily: "Poppins",
+                              color: Theme.of(context).colorScheme.onSecondary,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  ), // Linke Yönlendirme işlemind emülatör Chroma girince patladığı için eklemedim(kodu denedim çalışıyor fakat emülaötrde sıkıntı var )
+                  ),
                   Container(
                     height: 300,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     margin: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 30),
                     decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Color.fromARGB(90, 0, 0, 0),
-                              blurRadius: 10),
-                        ],
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white),
+                      boxShadow: const [
+                        BoxShadow(
+                            color: Color.fromARGB(90, 0, 0, 0), blurRadius: 10),
+                      ],
+                      borderRadius: BorderRadius.circular(20),
+                      color: Theme.of(context).colorScheme.background,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
