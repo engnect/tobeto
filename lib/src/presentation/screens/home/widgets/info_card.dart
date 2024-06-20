@@ -26,7 +26,7 @@ class TBTInfoCard extends StatelessWidget {
       width: MediaQuery.of(context).size.width - 100,
       height: 400,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.background,
         borderRadius: const BorderRadius.all(
           Radius.circular(90),
         ),
@@ -71,10 +71,10 @@ class TBTInfoCard extends StatelessWidget {
             Text(
               content,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 101, 95, 95),
+                color: Theme.of(context).colorScheme.onSecondary,
               ),
             ),
           ],

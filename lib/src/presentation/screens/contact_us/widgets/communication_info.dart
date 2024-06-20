@@ -27,10 +27,10 @@ class CommunicationInfo extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Text(
                     headerinfo,
-                    style: const TextStyle(
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary),
                   ),
                 ),
               ),
@@ -40,9 +40,9 @@ class CommunicationInfo extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 5),
                   child: Text(
                     info,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: "Poppins",
-                      color: Color.fromRGBO(82, 82, 82, 1),
+                      color: Theme.of(context).colorScheme.onSecondary,
                     ),
                   ),
                 ),

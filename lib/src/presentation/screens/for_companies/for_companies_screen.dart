@@ -15,7 +15,6 @@ class ForCompaniesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 240, 240, 240),
         drawer: const TBTDrawer(),
         body: CustomScrollView(
           slivers: [
@@ -117,12 +116,12 @@ class ForCompaniesScreen extends StatelessWidget {
                         margin: const EdgeInsets.symmetric(
                             horizontal: 25, vertical: 15),
                         padding: const EdgeInsets.all(15),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.background,
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(45),
                           ),
-                          border: GradientBoxBorder(
+                          border: const GradientBoxBorder(
                             width: 5, //border kalınlığı
                             gradient: SweepGradient(
                               startAngle:
@@ -145,14 +144,15 @@ class ForCompaniesScreen extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
                               child: Text(
                                 "Kurumlara özel eğitim paketleri ve bootcamp programları için bizimle iletişime geçin",
                                 style: TextStyle(
                                   fontFamily: "Poppins",
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
                                 textAlign: TextAlign.center,
                               ),

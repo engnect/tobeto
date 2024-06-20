@@ -20,7 +20,7 @@ class _AboutUsCarouselState extends State<AboutUsCarousel> {
       ), //Ekran ile card arasında ki mesafe için
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: Theme.of(context).colorScheme.background,
         borderRadius: const BorderRadius.all(
           Radius.circular(90),
         ),
@@ -45,19 +45,25 @@ class _AboutUsCarouselState extends State<AboutUsCarousel> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-                textAlign: TextAlign.center,
-                "TOBETO FARKI \n NEDİR?",
-                style: Theme.of(context).textTheme.displayMedium),
+              textAlign: TextAlign.center,
+              "TOBETO FARKI \n NEDİR?",
+              style: TextStyle(
+                fontFamily: "Poppins",
+                fontSize: 32,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
             CarouselSlider(
               carouselController: _controller,
-              items: const [
+              items: [
                 Text(
                   textAlign: TextAlign.center,
                   "Zengin Eğitim Kütüphanesi",
                   style: TextStyle(
                       fontFamily: "Poppins",
                       fontWeight: FontWeight.bold,
-                      fontSize: 24),
+                      fontSize: 24,
+                      color: Theme.of(context).colorScheme.primary),
                 ),
                 Text(
                   "Çeşitlendirilmiş değerlendirme araçlarıyla gelişim alanlarını tanıma",
@@ -65,6 +71,7 @@ class _AboutUsCarouselState extends State<AboutUsCarousel> {
                   style: TextStyle(
                       fontFamily: "Poppins",
                       fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 24),
                 ),
                 Text(
@@ -73,6 +80,7 @@ class _AboutUsCarouselState extends State<AboutUsCarousel> {
                   style: TextStyle(
                       fontFamily: "Poppins",
                       fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 24),
                 ),
                 Text(
@@ -81,6 +89,7 @@ class _AboutUsCarouselState extends State<AboutUsCarousel> {
                   style: TextStyle(
                       fontFamily: "Poppins",
                       fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 24),
                 ),
                 Text(
@@ -89,6 +98,7 @@ class _AboutUsCarouselState extends State<AboutUsCarousel> {
                   style: TextStyle(
                       fontFamily: "Poppins",
                       fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 24),
                 ),
                 Text(
@@ -97,6 +107,7 @@ class _AboutUsCarouselState extends State<AboutUsCarousel> {
                   style: TextStyle(
                       fontFamily: "Poppins",
                       fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
                       fontSize: 24),
                 ),
               ],
@@ -104,7 +115,7 @@ class _AboutUsCarouselState extends State<AboutUsCarousel> {
                   height: 300,
                   scrollDirection: Axis.vertical,
                   autoPlay: true,
-                  autoPlayInterval: const Duration(seconds: 6),
+                  autoPlayInterval: const Duration(seconds: 4),
                   enlargeCenterPage: true,
                   enlargeFactor: 0.5,
                   autoPlayCurve: Curves.easeIn,

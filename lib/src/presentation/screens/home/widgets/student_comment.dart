@@ -20,12 +20,12 @@ class _StudentCommentCardState extends State<StudentCommentCard> {
       margin: const EdgeInsets.symmetric(
           horizontal: 5, vertical: 5), //Ekran ile card arasında ki mesafe için
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        borderRadius: const BorderRadius.all(
           Radius.circular(90),
         ),
-        border: GradientBoxBorder(
+        border: const GradientBoxBorder(
           width: 5, //border kalınlığı
           gradient: SweepGradient(
             startAngle: 2.3561944902, //rad türünden 135 derece
@@ -49,9 +49,9 @@ class _StudentCommentCardState extends State<StudentCommentCard> {
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
               child: Text(
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                     fontFamily: "Poppins",
-                    color: Color.fromARGB(255, 130, 130, 130),
+                    color: Theme.of(context).colorScheme.onSecondary,
                     fontSize: 18),
                 widget.model.comment,
               ),
@@ -69,19 +69,19 @@ class _StudentCommentCardState extends State<StudentCommentCard> {
               child: Text(
                 widget.model.studentname,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontFamily: "Poppins",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26,
-                ),
+                style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 26,
+                    color: Theme.of(context).colorScheme.primary),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
               child: Text(
                 "Öğrenci",
                 style: TextStyle(
-                  color: Color.fromARGB(255, 130, 130, 130),
+                  color: Theme.of(context).colorScheme.onSecondary,
                   fontFamily: "Poppins",
                 ),
               ),

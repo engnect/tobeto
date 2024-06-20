@@ -9,13 +9,13 @@ class AboutUsText extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       textAlign: TextAlign.center,
-      text: const TextSpan(
+      text: TextSpan(
         style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             fontFamily: "Poppins",
-            color: Colors.black),
-        children: <TextSpan>[
+            color: Theme.of(context).colorScheme.primary),
+        children: const <TextSpan>[
           TextSpan(text: "Yeni Nesil \nMesleklere,\nYeni Nesil\n"),
           TextSpan(
             text: '"Platform!"',

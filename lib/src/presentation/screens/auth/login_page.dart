@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
+import 'package:tobeto/src/presentation/screens/auth/widgets/password_input.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -12,8 +13,6 @@ class LoginScreen extends StatefulWidget {
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
-
-bool showIcon = true;
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
@@ -78,72 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           // Şifre Kısmı
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: DecoratedBox(
-              decoration: const BoxDecoration(color: Colors.white),
-              child: TextField(
-                controller: _passwordController,
-                keyboardType: TextInputType.multiline,
-                style: const TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 15,
-                    color: Color.fromRGBO(60, 60, 60, 1)),
-                autocorrect: false,
-                obscureText: showIcon,
-                decoration: InputDecoration(
-                  prefixIcon: Image.asset(Assets.imagePassword),
-                  suffixIcon: showIcon
-                      ? IconButton(
-                          onPressed: () {
-                            setState(() {
-                              showIcon = !showIcon;
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.visibility_outlined,
-                          ),
-                        )
-                      : IconButton(
-                          onPressed: () {
-                            setState(() {
-                              showIcon = !showIcon;
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.visibility_off_outlined,
-                          ),
-                        ),
-                  hintText: "Şifre",
-                  hintStyle: const TextStyle(
-                    color: Color.fromRGBO(129, 129, 129, 1),
-                  ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(138, 138, 138, 0.4),
-                    ),
-                  ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(153, 51, 255, 0.4),
-                      width: 4,
-                    ),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(129, 129, 129, 1),
-                      width: 1,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          PasswordInput(controller: _passwordController),
           //Giriş Yap butonu
           Padding(
             padding: const EdgeInsets.symmetric(

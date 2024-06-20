@@ -49,7 +49,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             vertical: 20, horizontal: 8),
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).cardTheme.color,
+                          color: Theme.of(context).colorScheme.background,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(10),
                           ),
@@ -75,9 +75,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 ),
                               ),
                             ),
-                            Text("İletişim Bilgileri",
-                                style:
-                                    Theme.of(context).textTheme.headlineLarge),
+                            Text(
+                              "İletişim Bilgileri",
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w800,
+                                fontSize: 28,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
                             //----------------------------------
                             const CommunicationInfo(
                               headerinfo: "Firma Adı:",
@@ -118,7 +124,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             vertical: 20, horizontal: 8),
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).cardTheme.color,
+                          color: Theme.of(context).colorScheme.background,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
                         ),
@@ -126,10 +132,10 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                           children: [
                             Container(
                               margin: const EdgeInsets.symmetric(vertical: 20),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
-                                color: Theme.of(context).colorScheme.primary,
+                                    BorderRadius.all(Radius.circular(10)),
+                                color: Color.fromARGB(255, 153, 51, 255),
                               ),
                               child: const Padding(
                                 padding: EdgeInsets.all(8.0),
@@ -143,9 +149,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 ),
                               ),
                             ),
-                            Text("İletişim Formu",
-                                style:
-                                    Theme.of(context).textTheme.headlineLarge),
+                            Text(
+                              "İletişim Formu",
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w800,
+                                fontSize: 28,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 25, horizontal: 20),

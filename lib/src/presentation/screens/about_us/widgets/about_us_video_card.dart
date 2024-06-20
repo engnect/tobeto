@@ -17,7 +17,7 @@ class AboutUsVideoCard extends StatelessWidget {
           horizontal: 5, vertical: 5), //Ekran ile card arasında ki mesafe için
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
+        color: Theme.of(context).colorScheme.background,
         borderRadius: const BorderRadius.all(
           Radius.circular(90),
         ),

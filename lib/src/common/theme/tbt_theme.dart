@@ -5,8 +5,12 @@ class TBTPalette {
   static ThemeData lightTheme = ThemeData.light().copyWith(
 //ANA RENKLER
     colorScheme: const ColorScheme.light().copyWith(
-        primary: const Color.fromARGB(255, 153, 51, 255),
-        secondary: Colors.deepPurple),
+      primary: const Color.fromARGB(255, 153, 51, 255),
+      secondary: Colors.deepPurple,
+      background: Colors.white,
+      onPrimary: Colors.amber,
+    ),
+
     primaryColor: const Color.fromARGB(255, 153, 51, 255),
     canvasColor: Colors.purple,
     //VİDEO PLAY SEMBOLÜ
@@ -21,7 +25,7 @@ class TBTPalette {
 //İKON TEMA
       iconTheme: MaterialStatePropertyAll(
         IconThemeData(
-          color: Color.fromARGB(255, 153, 51, 255),
+          color: Colors.black,
         ),
       ),
     ),
@@ -190,9 +194,10 @@ class TBTPalette {
     canvasColor: Colors.purple, //VİDEO PLAY SEMBOLÜ
     cardColor: Colors.grey, //VİDEONUN NE KADARI İZLENDİ
     colorScheme: const ColorScheme.dark(
-      primary: Color.fromARGB(255, 126, 97, 175), //switch rengi ve isim
-      secondary: Colors.deepPurple,
-    ),
+        primary: Color.fromARGB(255, 126, 97, 175), //switch rengi ve isim
+        secondary: Colors.deepPurple,
+        onPrimary: Colors.blue,
+        background: Colors.black),
     primaryColor: Colors.deepPurple,
     scaffoldBackgroundColor: const Color.fromARGB(255, 45, 43, 46),
 
@@ -206,7 +211,9 @@ class TBTPalette {
 
 //İKON TEMA---- ETKİ ETMEDİ HAZIRI YA DA TEMADAN GELEN İYİ
       iconTheme: MaterialStatePropertyAll(
-        IconThemeData(color: Colors.brown, size: 40),
+        IconThemeData(
+          color: Colors.red,
+        ),
       ),
     ),
 

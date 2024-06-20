@@ -16,28 +16,27 @@ class _BlogScreenState extends State<BlogScreen> {
     return SafeArea(
       child: Scaffold(
         drawer: const TBTDrawer(),
-        backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
         body: CustomScrollView(
           slivers: [
             const TBTSliverAppBar(),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  const Column(
+                  Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
                           "Blog",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: Theme.of(context).colorScheme.primary,
                             fontSize: 35,
                           ),
                         ),
                       ),
-                      TBTBlogStream(
+                      const TBTBlogStream(
                         isBlog: true,
                       ),
                     ],

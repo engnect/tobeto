@@ -19,12 +19,12 @@ class AboutUsOurTeamCard extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width - 50,
         // height: MediaQuery.of(context).size.width - 50,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.background,
+          borderRadius: const BorderRadius.all(
             Radius.circular(90),
           ),
-          border: GradientBoxBorder(
+          border: const GradientBoxBorder(
             width: 5,
             gradient: SweepGradient(
               startAngle: 0.7853981634, //rad türünden 45 derece
@@ -55,11 +55,11 @@ class AboutUsOurTeamCard extends StatelessWidget {
                 teamName,
                 // maxLines: 1,
                 // overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontFamily: "Poppins",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
+                style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Theme.of(context).colorScheme.primary),
               ),
             ),
             Padding(
@@ -67,10 +67,10 @@ class AboutUsOurTeamCard extends StatelessWidget {
               child: Text(
                 textAlign: TextAlign.center,
                 teamTitle,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: "Poppins",
                   fontSize: 16,
-                  color: Color.fromRGBO(165, 165, 165, 1),
+                  color: Theme.of(context).colorScheme.onSecondary,
                 ),
               ),
             ),
