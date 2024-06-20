@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tobeto/src/models/course_model.dart';
 import 'package:tobeto/src/models/course_video_model.dart';
@@ -80,13 +81,11 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                        'Başlangıç Tarihi: ${widget.course.startDate}'),
+                                        'Başlangıç Tarihi: ${widget.course.courseStartDate}'),
                                     Text(
-                                        'Bitiş Tarihi: ${widget.course.endDate}'),
+                                        'Bitiş Tarihi: ${widget.course.courseEndDate}'),
                                     Text(
-                                        'Tahmini Süre: ${widget.course.estimatedTime}'),
-                                    Text(
-                                        'Üretici Firma: ${widget.course.manufacturer}'),
+                                        'Üretici Firma: ${widget.course.courseManufacturer}'),
                                   ],
                                 ),
                               )
@@ -105,12 +104,11 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                        'Start Date: ${widget.course.startDate}'),
-                                    Text('End Date: ${widget.course.endDate}'),
+                                        'Start Date: ${DateFormat('dd/MM/yyyy').format(widget.course.courseStartDate)}'),
                                     Text(
-                                        'Estimated Date: ${widget.course.estimatedTime}'),
+                                        'End Date: ${DateFormat('dd/MM/yyyy').format(widget.course.courseEndDate)}'),
                                     Text(
-                                        'Manufacturer: ${widget.course.manufacturer}'),
+                                        'Manufacturer: ${widget.course.courseManufacturer}'),
                                   ],
                                 ),
                                 titleTextStyle: const TextStyle(

@@ -4,69 +4,64 @@ import 'package:flutter/foundation.dart';
 
 class CourseModel {
   final String courseId;
-  final String courseThumbnail;
+  final String courseThumbnailUrl;
   final String courseName;
-  final String startDate;
-  final String endDate;
-  final String estimatedTime;
-  final String manufacturer;
-  final List<String> courseInstructors;
+  final DateTime courseStartDate;
+  final DateTime courseEndDate;
+
+  final String courseManufacturer;
+  final List<String> courseInstructorsIds;
   CourseModel({
     required this.courseId,
-    required this.courseThumbnail,
+    required this.courseThumbnailUrl,
     required this.courseName,
-    required this.startDate,
-    required this.endDate,
-    required this.estimatedTime,
-    required this.manufacturer,
-    required this.courseInstructors,
+    required this.courseStartDate,
+    required this.courseEndDate,
+    required this.courseManufacturer,
+    required this.courseInstructorsIds,
   });
 
   CourseModel copyWith({
     String? courseId,
-    String? courseThumbnail,
+    String? courseThumbnailUrl,
     String? courseName,
-    String? startDate,
-    String? endDate,
-    String? estimatedTime,
-    String? manufacturer,
-    List<String>? courseInstructors,
+    DateTime? courseStartDate,
+    DateTime? courseEndDate,
+    String? courseManufacturer,
+    List<String>? courseInstructorsIds,
   }) {
     return CourseModel(
       courseId: courseId ?? this.courseId,
-      courseThumbnail: courseThumbnail ?? this.courseThumbnail,
+      courseThumbnailUrl: courseThumbnailUrl ?? this.courseThumbnailUrl,
       courseName: courseName ?? this.courseName,
-      startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
-      estimatedTime: estimatedTime ?? this.estimatedTime,
-      manufacturer: manufacturer ?? this.manufacturer,
-      courseInstructors: courseInstructors ?? this.courseInstructors,
+      courseStartDate: courseStartDate ?? this.courseStartDate,
+      courseEndDate: courseEndDate ?? this.courseEndDate,
+      courseManufacturer: courseManufacturer ?? this.courseManufacturer,
+      courseInstructorsIds: courseInstructorsIds ?? this.courseInstructorsIds,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'courseId': courseId,
-      'courseThumbnail': courseThumbnail,
+      'courseThumbnailUrl': courseThumbnailUrl,
       'courseName': courseName,
-      'startDate': startDate,
-      'endDate': endDate,
-      'estimatedTime': estimatedTime,
-      'manufacturer': manufacturer,
-      'courseInstructors': courseInstructors,
+      'courseStartDate': courseStartDate,
+      'courseEndDate': courseEndDate,
+      'courseManufacturer': courseManufacturer,
+      'courseInstructorsIds': courseInstructorsIds,
     };
   }
 
   factory CourseModel.fromMap(Map<String, dynamic> map) {
     return CourseModel(
       courseId: map['courseId'] ?? '',
-      courseThumbnail: map['courseThumbnail'] ?? '',
+      courseThumbnailUrl: map['courseThumbnailUrl'] ?? '',
       courseName: map['courseName'] ?? '',
-      startDate: map['startDate'] ?? '',
-      endDate: map['endDate'] ?? '',
-      estimatedTime: map['estimatedTime'] ?? '',
-      manufacturer: map['manufacturer'] ?? '',
-      courseInstructors: List<String>.from(map['courseInstructors']),
+      courseStartDate: map['courseStartDate'].toDate() ?? DateTime.now(),
+      courseEndDate: map['courseEndDate'].toDate() ?? DateTime.now(),
+      courseManufacturer: map['courseManufacturer'] ?? '',
+      courseInstructorsIds: List<String>.from(map['courseInstructorsIds']),
     );
   }
 
@@ -77,7 +72,7 @@ class CourseModel {
 
   @override
   String toString() {
-    return 'CourseModel(courseId: $courseId, courseThumbnail: $courseThumbnail, courseName: $courseName, startDate: $startDate, endDate: $endDate, estimatedTime: $estimatedTime, manufacturer: $manufacturer, courseInstructors: $courseInstructors)';
+    return 'CourseModel(courseId: $courseId, courseThumbnailUrl: $courseThumbnailUrl, courseName: $courseName, courseStartDate: $courseStartDate, courseEndDate: $courseEndDate, courseManufacturer: $courseManufacturer, courseInstructorsIds: $courseInstructorsIds)';
   }
 
   @override
@@ -86,24 +81,22 @@ class CourseModel {
 
     return other is CourseModel &&
         other.courseId == courseId &&
-        other.courseThumbnail == courseThumbnail &&
+        other.courseThumbnailUrl == courseThumbnailUrl &&
         other.courseName == courseName &&
-        other.startDate == startDate &&
-        other.endDate == endDate &&
-        other.estimatedTime == estimatedTime &&
-        other.manufacturer == manufacturer &&
-        listEquals(other.courseInstructors, courseInstructors);
+        other.courseStartDate == courseStartDate &&
+        other.courseEndDate == courseEndDate &&
+        other.courseManufacturer == courseManufacturer &&
+        listEquals(other.courseInstructorsIds, courseInstructorsIds);
   }
 
   @override
   int get hashCode {
     return courseId.hashCode ^
-        courseThumbnail.hashCode ^
+        courseThumbnailUrl.hashCode ^
         courseName.hashCode ^
-        startDate.hashCode ^
-        endDate.hashCode ^
-        estimatedTime.hashCode ^
-        manufacturer.hashCode ^
-        courseInstructors.hashCode;
+        courseStartDate.hashCode ^
+        courseEndDate.hashCode ^
+        courseManufacturer.hashCode ^
+        courseInstructorsIds.hashCode;
   }
 }

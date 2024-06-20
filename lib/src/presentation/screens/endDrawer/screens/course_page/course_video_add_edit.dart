@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tobeto/src/domain/repositories/course_repository.dart';
+import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart';
 import 'package:tobeto/src/models/course_model.dart';
 import 'package:tobeto/src/models/course_video_model.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
@@ -45,11 +46,12 @@ class _CourseVideoAddEditState extends State<CourseVideoAddEdit> {
     _loadCourseNames();
   }
 
-  Future<void> _loadCourseNames() async {
-    List<CourseModel> courseList = await _courseRepository.fetchAllCourses();
-    setState(() {
-      courses = courseList;
-      courseNames = courseList.map((course) => course.courseName).toList();
+  void _loadCourseNames() {
+    _courseRepository.fetchAllCourses().listen((courseList) {
+      setState(() {
+        courses = courseList;
+        courseNames = courseList.map((course) => course.courseName).toList();
+      });
     });
   }
 
@@ -57,8 +59,8 @@ class _CourseVideoAddEditState extends State<CourseVideoAddEdit> {
     if (selectedVideo != null &&
         selectedCourseName != null &&
         _courseVideoNameController.text.isNotEmpty) {
-      String? videoUrl =
-          await _courseRepository.uploadVideoAndSaveUrl(selectedVideo!.path);
+      String? videoUrl = await FirebaseStorageRepository()
+          .uploadCourseVideoAndSaveUrl(selectedVideo!.path);
       if (videoUrl != null) {
         CourseVideoModel courseVideoModel = CourseVideoModel(
           videoId: const Uuid().v1(),
@@ -76,6 +78,7 @@ class _CourseVideoAddEditState extends State<CourseVideoAddEdit> {
           const SnackBar(content: Text('Video yüklenirken bir hata oluştu.')),
         );
       }
+      Navigator.pop(context);
     }
   }
 

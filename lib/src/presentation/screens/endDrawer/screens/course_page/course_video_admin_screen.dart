@@ -4,7 +4,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/domain/repositories/course_repository.dart';
+import 'package:tobeto/src/models/course_model.dart';
 import 'package:tobeto/src/models/course_video_model.dart';
+import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
 class AdminCourseVideoScreen extends StatefulWidget {
@@ -61,9 +63,14 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                         child: CircularProgressIndicator(),
                       );
                     } else {
+                      CourseRepository courseRepository = CourseRepository();
+                      TextEditingController _editCourseVideoNameController =
+                          TextEditingController();
+                      String? selectedCourseName;
+                      String selectedCourseId = "";
+
                       return ListView.builder(
                         shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: snapshot.data!.docs.length,
                         itemBuilder: (context, index) {
                           DocumentSnapshot documentSnapshot =
@@ -77,8 +84,6 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
 
                           void deleteVideoFunction() async {
                             try {
-                              CourseRepository courseRepository =
-                                  CourseRepository();
                               await courseRepository.deleteVideo(videoId);
 
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -97,14 +102,15 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                           // TODO: implement edilmedi
                           void editVideoFunction() async {
                             try {
-                              CourseRepository courseRepository =
-                                  CourseRepository();
-
-                              String newCourseName = "Yeni Ders Adı";
-                              String newCourseId = "Yeni Ders ID";
+                              String newCourseVideoName =
+                                  _editCourseVideoNameController.text;
+                              String newCourseId = selectedCourseId;
 
                               await courseRepository.editVideo(
-                                  videoId, newCourseName, newCourseId);
+                                  videoId,
+                                  newCourseVideoName,
+                                  newCourseId,
+                                  selectedCourseName!);
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -118,6 +124,90 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                         'Video güncellenirken bir hata oluştu: $e')),
                               );
                             }
+                          }
+
+                          void showEditDialog(BuildContext context) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text("Seçili Videoyu Düzenle"),
+                                  content: StreamBuilder<List<CourseModel>>(
+                                    stream: courseRepository.fetchAllCourses(),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Center(
+                                            child: CircularProgressIndicator());
+                                      } else if (snapshot.hasError) {
+                                        return Center(
+                                            child: Text(
+                                                'Error: ${snapshot.error}'));
+                                      } else if (!snapshot.hasData ||
+                                          snapshot.data!.isEmpty) {
+                                        return const Center(
+                                            child:
+                                                Text('No courses available.'));
+                                      } else {
+                                        List<CourseModel> courses =
+                                            snapshot.data!;
+                                        List<String> courseNames = courses
+                                            .map((course) => course.courseName)
+                                            .toList();
+
+                                        return Column(
+                                          children: [
+                                            TBTInputField(
+                                              hintText:
+                                                  'Yeni Video ismini girin.',
+                                              controller:
+                                                  _editCourseVideoNameController,
+                                              onSaved: (p0) {},
+                                              keyboardType:
+                                                  TextInputType.multiline,
+                                            ),
+                                            DropdownButtonFormField<String>(
+                                              isExpanded: true,
+                                              hint:
+                                                  const Text("Ders Kategorisi"),
+                                              value: selectedCourseName,
+                                              items: courseNames
+                                                  .map((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value),
+                                                );
+                                              }).toList(),
+                                              onChanged: (newValue) {
+                                                setState(() {
+                                                  selectedCourseName = newValue;
+
+                                                  selectedCourseId = courses
+                                                      .firstWhere((course) =>
+                                                          course.courseName ==
+                                                          newValue)
+                                                      .courseId;
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                    },
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        editVideoFunction();
+                                        Navigator.pop(context);
+                                      },
+                                      child:
+                                          const Text("Değişiklikleri Kaydet"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           }
 
                           return Slidable(
@@ -134,7 +224,9 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                   label: 'Sil',
                                 ),
                                 SlidableAction(
-                                  onPressed: (context) => editVideoFunction(),
+                                  onPressed: (context) {
+                                    showEditDialog(context);
+                                  },
                                   backgroundColor: const Color(0xFF21B7CA),
                                   foregroundColor: Colors.white,
                                   icon: Icons.edit,
@@ -144,7 +236,7 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                             ),
                             child: ListTile(
                               title: Text(
-                                  'Ders adı: ${courseVideoModel.courseVideoName}'),
+                                  'Video adı: ${courseVideoModel.courseVideoName}'),
                             ),
                           );
                         },
