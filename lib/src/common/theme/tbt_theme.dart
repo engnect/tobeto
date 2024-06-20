@@ -7,14 +7,16 @@ class TBTPalette {
     colorScheme: const ColorScheme.light().copyWith(
         primary: const Color.fromARGB(255, 153, 51, 255),
         secondary: Colors.deepPurple),
-    primaryColor: const Color.fromARGB(
-        255, 153, 51, 255), //Onlar Üstteki primaryle aynı yapmışlar.
+    primaryColor: const Color.fromARGB(255, 153, 51, 255),
+    canvasColor: Colors.purple,
+    //VİDEO PLAY SEMBOLÜ
+    cardColor: Colors.grey,
     scaffoldBackgroundColor: const Color.fromARGB(255, 240, 240, 240),
 
 //NAVİGASYON BARI TEMA
     navigationBarTheme: const NavigationBarThemeData(
-      backgroundColor: Color.fromARGB(255, 30, 19, 33),
-      indicatorColor: Colors.amber,
+      backgroundColor: Color.fromARGB(255, 240, 240, 240),
+      indicatorColor: Color.fromARGB(255, 235, 235, 235),
 
 //İKON TEMA
       iconTheme: MaterialStatePropertyAll(
@@ -24,10 +26,10 @@ class TBTPalette {
       ),
     ),
 
-//APPBAR TEMA
+//APPBAR TEMA  ---- AYARLI HER AYARI
     appBarTheme: const AppBarTheme(
       titleTextStyle: TextStyle(
-        color: Colors.black,
+        color: Color.fromARGB(255, 42, 42, 42),
         fontSize: 20,
       ), //Onlar vermiş vermeyebiliriz
       actionsIconTheme: IconThemeData(
@@ -45,86 +47,132 @@ class TBTPalette {
     ),
 
 //CARD TEMA
-    // cardTheme: CardTheme(
-    //   color: const Color.fromARGB(255, 221, 221, 221),
-    //   shadowColor: Colors.black,
-    //   elevation: 30,
-    //   shape: BeveledRectangleBorder(
-    //     borderRadius: BorderRadius.circular(20),
-    //   ),
-    // ),
+    cardTheme: CardTheme(
+      color: const Color.fromARGB(255, 255, 255, 255),
+      shadowColor: Colors.black,
+      elevation: 30,
+      shape: BeveledRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+    ),
+
+    elevatedButtonTheme: const ElevatedButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(
+          Color.fromARGB(255, 255, 255, 255),
+        ),
+      ),
+    ),
 
 //TEXT TEMA
-    textTheme: const TextTheme(
-      bodyLarge: TextStyle(
-        fontSize: 20,
-        color: Colors.black,
+    textTheme: TextTheme(
+      bodyLarge: GoogleFonts.poppins(
+        //ADRESTE KULLANDIM
+        textStyle: const TextStyle(
+          fontSize: 22,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
-      bodyMedium: TextStyle(
-        fontSize: 18,
-        color: Colors.black,
+      bodyMedium: GoogleFonts.poppins(
+        //HOCA İSİMLERİNİN ALTINDA KULLANDIM.
+        textStyle: const TextStyle(
+          fontSize: 19,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
-      bodySmall: TextStyle(
-        fontSize: 16,
-        color: Colors.black,
+      bodySmall: GoogleFonts.poppins(
+        textStyle: const TextStyle(
+          fontSize: 16,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
-      displayLarge: TextStyle(
-        fontSize: 45,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
+      displayLarge: GoogleFonts.poppins(
+        //EKİBİMİZ YAZISINDA KULLANDIM
+        textStyle: const TextStyle(
+          fontSize: 36,
+          fontWeight: FontWeight.w800,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
-      displayMedium: TextStyle(
-        fontSize: 40,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
+      displayMedium: GoogleFonts.poppins(
+        //OFİSİMİZ BAŞLIĞI-TOBETO FARKI NEDİR
+        textStyle: const TextStyle(
+          fontSize: 34,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
-      displaySmall: TextStyle(
-        fontSize: 30,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
+      displaySmall: GoogleFonts.poppins(
+        // EKİBİMİZ HOCA BAŞLIĞINDA KULLANDIM
+        textStyle: const TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
-      headlineLarge: TextStyle(
-        fontSize: 28,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
+      headlineLarge: GoogleFonts.poppins(
+        textStyle: const TextStyle(
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
-      headlineMedium: TextStyle(
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
+      headlineMedium: GoogleFonts.poppins(
+        //TOBETO FARKI NEDİRİN ALTINDA KULLANDIM
+        textStyle: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
-      headlineSmall: TextStyle(
-        fontSize: 21,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
+      headlineSmall: GoogleFonts.poppins(
+        //SAYFADAKİ GENEL YAZILARDA KULLANDIM
+        textStyle: const TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
-      labelLarge: TextStyle(
-        fontSize: 14,
-        color: Colors.black,
+      labelLarge: GoogleFonts.poppins(
+        textStyle: const TextStyle(
+          fontSize: 48,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
-      labelMedium: TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.w500,
-        color: Colors.black,
+      labelMedium: GoogleFonts.poppins(
+        textStyle: const TextStyle(
+          fontSize: 14,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
-      labelSmall: TextStyle(
-        fontSize: 10,
-        fontWeight: FontWeight.w500,
-        color: Colors.black,
+      labelSmall: GoogleFonts.poppins(
+        textStyle: const TextStyle(
+          fontSize: 10,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
-      titleLarge: TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
+      titleLarge: GoogleFonts.poppins(
+        //MOR RENK İÇİN KULLANDIM
+        textStyle: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 153, 51, 255),
+        ),
       ),
-      titleMedium: TextStyle(
-        fontSize: 17,
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
+      titleMedium: GoogleFonts.poppins(
+        //iletisim bilgileri sol taraf
+        textStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
-      titleSmall: TextStyle(
-        fontSize: 21,
-        color: Colors.black,
+      titleSmall: GoogleFonts.poppins(
+        textStyle: const TextStyle(
+          fontSize: 18,
+          color: Color.fromARGB(255, 42, 42, 42),
+        ),
       ),
     ),
 
@@ -138,20 +186,23 @@ class TBTPalette {
 //DARK TEMA
 
   static ThemeData darkTheme = ThemeData.dark().copyWith(
+    primaryColorLight: const Color.fromARGB(255, 153, 51, 255),
+    canvasColor: Colors.purple, //VİDEO PLAY SEMBOLÜ
+    cardColor: Colors.grey, //VİDEONUN NE KADARI İZLENDİ
     colorScheme: const ColorScheme.dark(
-      primary: Colors.deepPurple,
-      secondary: Color.fromARGB(255, 153, 51, 255),
+      primary: Color.fromARGB(255, 126, 97, 175), //switch rengi ve isim
+      secondary: Colors.deepPurple,
     ),
     primaryColor: Colors.deepPurple,
-    scaffoldBackgroundColor: const Color.fromARGB(255, 58, 54, 62),
+    scaffoldBackgroundColor: const Color.fromARGB(255, 45, 43, 46),
 
     // bottomNavigationBarTheme:
     //   const BottomNavigationBarThemeData(backgroundColor: Colors.transparent),
 
 //NAVİGASYON BARI TEMA
     navigationBarTheme: const NavigationBarThemeData(
-      backgroundColor: Color.fromARGB(255, 119, 31, 135),
-      indicatorColor: Color.fromARGB(255, 181, 23, 205),
+      backgroundColor: Color.fromARGB(255, 45, 43, 46),
+      indicatorColor: Color.fromARGB(255, 235, 235, 235),
 
 //İKON TEMA---- ETKİ ETMEDİ HAZIRI YA DA TEMADAN GELEN İYİ
       iconTheme: MaterialStatePropertyAll(
@@ -167,106 +218,147 @@ class TBTPalette {
         color: Color.fromARGB(255, 161, 157, 164),
       ), //END DRAWER DEĞİŞTİ
       foregroundColor: Color.fromARGB(255, 252, 246, 251),
-      backgroundColor: Color.fromARGB(137, 48, 46, 46), //ONLARDAN ALDIM
+      backgroundColor: Color.fromARGB(
+          255, 58, 54, 62), //Color.fromARGB(255, 79, 28, 118), //ONLARDAN ALDIM
       shadowColor: Color.fromARGB(255, 81, 79, 81),
       elevation: 20,
       centerTitle: true,
       iconTheme: IconThemeData(
-        color: Color.fromARGB(255, 174, 125, 211),
+        color: Color.fromARGB(255, 161, 157, 164),
       ), //DRAWER DEĞİŞTİ
     ),
 
 //CARD TEMA
-    cardTheme: CardTheme(
+    cardTheme: const CardTheme(
       //CARD TEMASI
-      color: const Color.fromARGB(255, 129, 127, 129),
-      shadowColor: const Color.fromARGB(255, 200, 195, 200),
-      shape: BeveledRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+      color: Color.fromARGB(255, 200, 191, 191), //EKİBİMİZİN ARKAPLANI
+      shadowColor: Color.fromARGB(255, 153, 51, 255),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(90)),
       ),
     ),
 
 //TEXT TEMA
 
     textTheme: TextTheme(
-      bodyLarge: const TextStyle(
-        fontSize: 20,
-        color: Colors.white,
+      bodyLarge: GoogleFonts.poppins(
+        //ADRESTE KULLANDIM
+        textStyle: const TextStyle(
+          fontSize: 22,
+          color: Colors.white,
+        ),
       ),
-      bodyMedium: const TextStyle(
-        fontSize: 18,
-        color: Colors.white,
+      bodyMedium: GoogleFonts.poppins(
+        //HOCA İSİMLERİNİN ALTINDA KULLANDIM.
+        textStyle: const TextStyle(
+          fontSize: 19,
+          color: Colors.white,
+        ),
       ),
-      bodySmall: const TextStyle(
-        fontSize: 16,
-        color: Colors.white,
+      bodySmall: GoogleFonts.poppins(
+        textStyle: const TextStyle(
+          fontSize: 16,
+          color: Colors.white,
+        ),
       ),
-      displayLarge: const TextStyle(
-        fontSize: 45,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
+      displayLarge: GoogleFonts.poppins(
+        //EKİBİMİZ YAZISINDA KULLANDIM
+        textStyle: const TextStyle(
+          fontSize: 36,
+          fontWeight: FontWeight.w800,
+          color: Colors.white,
+        ),
       ),
       displayMedium: GoogleFonts.poppins(
+        //OFİSİMİZ BAŞLIĞI-TOBETO FARKI NEDİR
         textStyle: const TextStyle(
-          fontSize: 40,
+          fontSize: 34,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ),
       ),
-      displaySmall: const TextStyle(
-        fontSize: 30,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
+      displaySmall: GoogleFonts.poppins(
+        // EKİBİMİZ HOCA BAŞLIĞINDA KULLANDIM
+        textStyle: const TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       ),
-      headlineLarge: const TextStyle(
-        fontSize: 28,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
+      headlineLarge: GoogleFonts.poppins(
+        textStyle: const TextStyle(
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       ),
-      headlineMedium: const TextStyle(
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
+      headlineMedium: GoogleFonts.poppins(
+        //TOBETO FARKI NEDİRİN ALTINDA KULLANDIM
+        textStyle: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       ),
-      headlineSmall: const TextStyle(
-        fontSize: 21,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
+      headlineSmall: GoogleFonts.poppins(
+        //SAYFADAKİ GENEL YAZILARDA KULLANDIM
+        textStyle: const TextStyle(
+          fontSize: 17,
+          //fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       ),
-      labelLarge: const TextStyle(
-        fontSize: 14,
-        color: Colors.white,
+      labelLarge: GoogleFonts.poppins(
+        //BOŞTA
+        textStyle: const TextStyle(
+          fontSize: 48,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       ),
-      labelMedium: const TextStyle(
-        fontSize: 12,
-        fontWeight: FontWeight.w500,
-        color: Colors.white,
+      labelMedium: GoogleFonts.poppins(
+        //TAKVİM TARAFINDA
+        textStyle: const TextStyle(
+          fontSize: 14,
+          color: Colors.white,
+        ),
       ),
-      labelSmall: const TextStyle(
-        fontSize: 10,
-        fontWeight: FontWeight.w500,
-        color: Colors.white,
+      labelSmall: GoogleFonts.poppins(
+        //BOŞTA DAHA KULLANMADIM
+        textStyle: const TextStyle(
+          fontSize: 10,
+          color: Colors.white,
+        ),
       ),
-      titleLarge: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
+      titleLarge: GoogleFonts.poppins(
+        //MOR RENK İÇİN KULLANDIM
+        textStyle: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Color.fromARGB(255, 153, 51, 255),
+        ),
       ),
-      titleMedium: const TextStyle(
-        fontSize: 17,
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
+      titleMedium: GoogleFonts.poppins(
+        //Takvimde etkinlik yazısında
+        textStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       ),
-      titleSmall: const TextStyle(
-        fontSize: 21,
-        color: Colors.white,
+      titleSmall: GoogleFonts.poppins(
+        textStyle: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
       ),
     ),
 
 //DRAWER TEMA
 
     drawerTheme: const DrawerThemeData(
-      backgroundColor: Color.fromARGB(255, 58, 54, 62),
+      backgroundColor: Color.fromARGB(255, 45, 43, 46),
     ),
   );
 }

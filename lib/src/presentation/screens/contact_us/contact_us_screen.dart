@@ -48,9 +48,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         margin: const EdgeInsets.symmetric(
                             vertical: 20, horizontal: 8),
                         width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardTheme.color,
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(10),
                           ),
                         ),
@@ -75,14 +75,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 ),
                               ),
                             ),
-                            const Text(
-                              "İletişime Bilgileri",
-                              style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w800,
-                                fontSize: 28,
-                              ),
-                            ),
+                            Text("İletişim Bilgileri",
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge),
                             //----------------------------------
                             const CommunicationInfo(
                               headerinfo: "Firma Adı:",
@@ -122,38 +117,35 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                         margin: const EdgeInsets.symmetric(
                             vertical: 20, horizontal: 8),
                         width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 229, 130, 130),
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardTheme.color,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(10)),
                         ),
                         child: Column(
                           children: [
                             Container(
                               margin: const EdgeInsets.symmetric(vertical: 20),
-                              decoration: const BoxDecoration(
+                              decoration: BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: Color.fromARGB(255, 153, 51, 255),
+                                    const BorderRadius.all(Radius.circular(10)),
+                                color: Theme.of(context).colorScheme.primary,
                               ),
                               child: const Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Text(
                                   "Mesaj Bırakın",
                                   style: TextStyle(
-                                      fontFamily: "Poppins",
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                                    fontFamily: "Poppins",
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ),
-                            const Text(
-                              "İletişim Formu",
-                              style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w800,
-                                fontSize: 28,
-                              ),
-                            ),
+                            Text("İletişim Formu",
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge),
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 25, horizontal: 20),
