@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/common/enums/application_status_enum.dart';
 import 'package:tobeto/src/common/enums/application_type_enum.dart';
 import 'package:tobeto/src/models/application_model.dart';
@@ -70,7 +71,24 @@ class _ApplicationCardState extends State<ApplicationCard> {
                   child: SizedBox(
                     width: _containerWidth * 0.2,
                     height: _containerWidth * 0.2,
-                    child: const Placeholder(),
+                    child: Center(
+                      child: widget.applicationModel.applicationType ==
+                              ApplicationType.admin
+                          ? const Icon(
+                              Icons.admin_panel_settings_outlined,
+                              size: 55,
+                            )
+                          : widget.applicationModel.applicationType ==
+                                  ApplicationType.instructor
+                              ? const Icon(
+                                  Icons.menu_book_outlined,
+                                  size: 55,
+                                )
+                              : Image.asset(
+                                  Assets.imagesIkLogo,
+                                  fit: BoxFit.contain,
+                                ),
+                    ),
                   ),
                 ),
                 Column(
