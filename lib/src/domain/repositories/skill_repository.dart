@@ -1,14 +1,14 @@
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/models/education_model.dart';
+import 'package:tobeto/src/models/skill_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
 
-class EducationRepository {
-  Future<String> addEducation(EducationModel educaitonModel) async {
+class SkillRepository {
+  Future<String> addSkill(SkillModel skillModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
-    if (userModel != null) {
+    if(userModel != null) {
       try {
-        userModel.schoolsList!.add(educaitonModel);
+        userModel.skillsList!.add(skillModel);
 
         UserModel updatedUser = userModel.copyWith();
         await UserRepository().updateUser(updatedUser);
@@ -20,14 +20,14 @@ class EducationRepository {
     return result;
   }
 
-  Future<String> updateEducation(EducationModel educationModel) async {
+   Future<String> updateSkill(SkillModel skillModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
     if (userModel != null) {
       try {
-        userModel.schoolsList![userModel.schoolsList!.indexWhere((element) =>
-                element.educationId == educationModel.educationId)] =
-            educationModel;
+        userModel.skillsList![userModel.skillsList!.indexWhere((element) =>
+                element.skillId == skillModel.skillId)] =
+            skillModel;
 
         UserModel updatedUser = userModel.copyWith();
         await UserRepository().updateUser(updatedUser);
@@ -39,15 +39,13 @@ class EducationRepository {
   }
 
 
-
-  
-  Future<String> deleteEducation(EducationModel educationModel) async {
+   Future<String> deleteSkill(SkillModel skillModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
     if (userModel != null) {
       try {
-        userModel.schoolsList!.removeWhere((element) {
-          return element.educationId == educationModel.educationId;
+        userModel.skillsList!.removeWhere((element) {
+          return element.skillId == skillModel.skillId;
         });
 
         UserModel updatedUser = userModel.copyWith();
@@ -59,4 +57,5 @@ class EducationRepository {
     }
     return result;
   }
+
 }

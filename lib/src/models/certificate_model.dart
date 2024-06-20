@@ -5,7 +5,7 @@ class CertificateModel {
   final String userId;
   final String certificateName;
   final DateTime certificateYear;
-  final String certificateFileUrl;
+  String certificateFileUrl;
   CertificateModel({
     required this.certificateId,
     required this.userId,

@@ -7,7 +7,11 @@ import 'package:tobeto/src/domain/repositories/experience_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/experience_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
+
+import 'package:tobeto/src/presentation/widgets/edit_experience_dialog.dart';
+
 import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
+
 import 'package:uuid/uuid.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
@@ -86,6 +90,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,84 +108,87 @@ class _ExperiencePageState extends State<ExperiencePage> {
                     if (state is Authenticated) {
                       UserModel currentUser = state.userModel;
 
-                      return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: currentUser.experiencesList!.length,
-                        itemBuilder: (context, index) {
-                          ExperienceModel experience =
-                              currentUser.experiencesList![index];
-                          return Card(
-                            child: ListTile(
-                              title: Text(experience.companyName),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(experience.experiencePosition),
-                                  Text(
-                                    'Başlangıç Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.startDate)}',
-                                  ),
-                                  Text(
-                                    experience.isCurrentlyWorking!
-                                        ? 'Devam Ediyor'
-                                        : 'Bitiş Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.endDate)}',
-                                  ),
-                                ],
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.edit),
-                                    onPressed: () async {
-                                      ExperienceModel experienceModel =
-                                          ExperienceModel(
-                                        experienceId:
-                                            'e9b1b5e0-962c-102e-8daa-2bf094a1a934',
-                                        userId: 'alperen',
-                                        companyName: 'alperen',
-                                        experiencePosition: 'alperen',
-                                        experienceType: 'alperen',
-                                        experienceSector: 'alperen',
-                                        experienceCity: 'alperen',
-                                        startDate: DateTime.now(),
-                                        endDate: DateTime.now(),
-                                        isCurrentlyWorking: true,
-                                        jobDescription:
-                                            _jobdescrbController.text,
-                                      );
 
-                                      String result =
-                                          await ExperienceRepository()
-                                              .updateExperience(
-                                                  experienceModel);
+                            return ListView.builder(
+                              itemCount: currentUser.experiencesList!.length,
+                              itemBuilder: (context, index) {
+                                ExperienceModel experience =
+                                    currentUser.experiencesList![index];
+                                return Card(
+                                  child: ListTile(
+                                    title: Text(experience.companyName),
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(experience.experiencePosition),
+                                        Text(
+                                          'Başlangıç Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.startDate)}',
+                                        ),
+                                        Text(
+                                          experience.isCurrentlyWorking!
+                                              ? 'Devam Ediyor'
+                                              : 'Bitiş Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.endDate)}',
+                                        ),
+                                      ],
+                                    ),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(Icons.edit),
+                                          onPressed: () async {
+                                            final updatedExperience =
+                                                await showDialog<
+                                                    ExperienceModel>(
+                                              context: context,
+                                              builder: (context) =>
+                                                  EditExperienceDialog(
+                                                      experience:experience),
+                                            );
+                                            if (updatedExperience != null) {
+                                              String result =
+                                                  await ExperienceRepository()
+                                                      .updateExperience(
+                                                updatedExperience,
+                                              );
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(result),
+                                                ),
+                                              );
+                                              setState(() {
+                                               
+                                              });
+                                            }
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.delete),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                title:
+                                                    const Text("Deneyimi sil"),
+                                                content: const Text(
+                                                    "Bu deneyimi silmek istediğinizden emin misiniz?"),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    child: const Text("İptal"),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      Navigator.pop(context);
+                                                      print(
+                                                          "Silmek istediğim fonksiyon: ${experience.experienceId}");
+                                                      // await _deleteExperience(
+                                                      //     experience
+                                                      //         .experienceId);
 
-                                      print(result);
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          title: const Text("Deneyimi sil"),
-                                          content: const Text(
-                                              "Bu deneyimi silmek istediğinizden emin misiniz?"),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              child: const Text("İptal"),
-                                            ),
-                                            TextButton(
-                                              onPressed: () async {
-                                                Navigator.pop(context);
-                                                print(
-                                                    "Silmek istediğim fonksiyon: ${experience.experienceId}");
-                                                // await _deleteExperience(
-                                                //     experience
-                                                //         .experienceId);
 
                                                 String result =
                                                     await ExperienceRepository()
@@ -374,12 +382,12 @@ class _ExperiencePageState extends State<ExperiencePage> {
                     experienceId: const Uuid().v1(),
                     userId: userModel!.userId,
                     companyName: _companyController.text,
-                    experiencePosition: _selectedExperienceType.toString(),
+                    experiencePosition: _positionController.text,
                     experienceType: _selectedExperienceType.toString(),
                     experienceSector: _sectorController.text,
                     experienceCity: _selectedCityName.toString(),
                     startDate: _selectedStartDate!,
-                    endDate: _selectedStartDate!,
+                    endDate: _isCurrentlyWorking ? DateTime.now() : _selectedEndDate!,
                     isCurrentlyWorking: _isCurrentlyWorking,
                     jobDescription: _jobdescrbController.text,
                   );

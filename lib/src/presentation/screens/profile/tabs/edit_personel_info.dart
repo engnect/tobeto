@@ -61,9 +61,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
             ? DateFormat('dd/MM/yyyy').format(user.userBirthDate!)
             : '';
         _aboutmeController.text = user.aboutMe ?? '';
+        _streetController.text = user.address ?? '';
         _selectedGender = user.gender;
         _selectedMilitaryStatus = user.militaryStatus;
         _selectedDisabilityStatus = user.disabilityStatus;
+        _selectedCountry = user.country;
+        _selectedCityName = user.city;
+        _selectedDistrictName = user.district;
       });
     } else {
       print("getUser returned null");
@@ -78,6 +82,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       });
     }
   }
+
+  
 
   Future<void> _selectDate(BuildContext context) async {
     final selectedDate = await PersonalInfoUtil.selectDate(context);
@@ -134,6 +140,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
           militaryStatus: _selectedMilitaryStatus,
           disabilityStatus: _selectedDisabilityStatus,
           aboutMe: _aboutmeController.text,
+          address: _streetController.text,
+          country: _selectedCountry,
+          city: _selectedCityName,
+          district: _selectedDistrictName,   
         );
         await _userRepository.addOrUpdateUser(updatedUser);
 
@@ -463,11 +473,11 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TBTPurpleButton(
                   buttonText: 'Kaydet',
-                  onPressed: _updateUser,
+                  onPressed: _updateUser, 
                 ),
               ),
               const SizedBox(
-                height: 50, // Bottom Navigation bar Yüksekliği için!
+                height: 50, 
               )
             ],
           ),
