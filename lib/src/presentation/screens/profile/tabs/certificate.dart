@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
-import 'package:tobeto/src/common/constants/utilities.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/certificate_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/certificate_model.dart';
@@ -19,7 +19,8 @@ class CertificatesPage extends StatefulWidget {
 }
 
 class _CertificatesPageState extends State<CertificatesPage> {
-  final TextEditingController _certificateNameController = TextEditingController();
+  final TextEditingController _certificateNameController =
+      TextEditingController();
   DateTime? _selectedYear;
   String? _filePath;
   bool isSelect = false;
@@ -31,7 +32,7 @@ class _CertificatesPageState extends State<CertificatesPage> {
   }
 
   Future<void> _selectYear(BuildContext context) async {
-    final DateTime? picked = await CertificateUtil.selectYear(context, _selectedYear);
+    final DateTime? picked = await Utilities.datePicker(context);
     if (picked != null && picked != _selectedYear) {
       setState(() {
         _selectedYear = picked;
@@ -40,7 +41,7 @@ class _CertificatesPageState extends State<CertificatesPage> {
   }
 
   Future<void> _pickPDF() async {
-    final String? path = await CertificateUtil.pickPDF();
+    final String? path = await Utilities.pickPDF();
     if (path != null) {
       setState(() {
         _filePath = path;
@@ -102,13 +103,13 @@ class _CertificatesPageState extends State<CertificatesPage> {
                                         icon: const Icon(Icons.edit),
                                         onPressed: () async {
                                           final updatedCertificate =
-                                              await showDialog<CertificateModel>(
+                                              await showDialog<
+                                                  CertificateModel>(
                                             context: context,
                                             builder: (context) =>
                                                 EditCertificateDialog(
-                                                  certificateModel: certificate,
-                                                  
-                                                ),
+                                              certificateModel: certificate,
+                                            ),
                                           );
                                           if (updatedCertificate != null) {
                                             String result =
@@ -132,7 +133,8 @@ class _CertificatesPageState extends State<CertificatesPage> {
                                           showDialog(
                                             context: context,
                                             builder: (context) => AlertDialog(
-                                              title: const Text("Sertifikayı sil"),
+                                              title:
+                                                  const Text("Sertifikayı sil"),
                                               content: const Text(
                                                   "Bu sertifikayı silmek istediğinizden emin misiniz?"),
                                               actions: [
@@ -226,16 +228,16 @@ class _CertificatesPageState extends State<CertificatesPage> {
               child: TBTPurpleButton(
                 buttonText: 'Kaydet',
                 onPressed: () async {
-                  UserModel? userModel = await UserRepository().getCurrentUser();
+                  UserModel? userModel =
+                      await UserRepository().getCurrentUser();
                   CertificateModel newCertificate = CertificateModel(
-                    certificateId: const Uuid().v1(),
-                    userId: userModel!.userId, 
-                    certificateName: _certificateNameController.text, 
-                    certificateYear: _selectedYear!, 
-                    certificateFileUrl: _filePath!
-                    );
-                  String result =
-                      await CertificateRepository().addCertificate(newCertificate, _filePath!);
+                      certificateId: const Uuid().v1(),
+                      userId: userModel!.userId,
+                      certificateName: _certificateNameController.text,
+                      certificateYear: _selectedYear!,
+                      certificateFileUrl: _filePath!);
+                  String result = await CertificateRepository()
+                      .addCertificate(newCertificate, _filePath!);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(result),

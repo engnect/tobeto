@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
-import 'package:tobeto/src/common/constants/utilities.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/experience_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/experience_model.dart';
@@ -54,7 +54,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
 
   Future<void> _loadCityData() async {
     // Verileri yükleme kodu burada olacak
-    final cities = await PersonalInfoUtil.loadCityData();
+    final cities = await Utilities.loadCityData();
     setState(() {
       _cities = cities;
     });
@@ -69,7 +69,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
   }
 
   Future<void> _selectStartDate(BuildContext context) async {
-    final selectedDate = await ExperienceUtil.selectStartDate(context);
+    final selectedDate = await Utilities.datePicker(context);
     if (selectedDate != null) {
       setState(() {
         _selectedStartDate = selectedDate;
@@ -78,7 +78,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
   }
 
   Future<void> _selectEndDate(BuildContext context) async {
-    final selectedDate = await ExperienceUtil.selectEndDate(context);
+    final selectedDate = await Utilities.datePicker(context);
     if (selectedDate != null) {
       setState(() {
         _selectedEndDate = selectedDate;

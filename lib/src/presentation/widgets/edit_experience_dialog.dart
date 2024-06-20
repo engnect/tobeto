@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tobeto/src/common/constants/utilities.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/models/experience_model.dart';
 
 class EditExperienceDialog extends StatefulWidget {
@@ -34,7 +34,6 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
     super.initState();
     _loadCityData();
 
-    
     _companyController.text = widget.experience.companyName;
     _positionController.text = widget.experience.experiencePosition;
     _sectorController.text = widget.experience.experienceSector;
@@ -44,7 +43,7 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
     _selectedStartDate = widget.experience.startDate;
     _selectedEndDate = widget.experience.endDate;
     _isCurrentlyWorking = widget.experience.isCurrentlyWorking!;
-    _selectedCityId = widget.experience.experienceCity;  
+    _selectedCityId = widget.experience.experienceCity;
     _selectedCityName = widget.experience.experienceCity;
   }
 
@@ -59,13 +58,11 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
   }
 
   Future<void> _loadCityData() async {
-    final cities = await PersonalInfoUtil.loadCityData();
+    final cities = await Utilities.loadCityData();
     setState(() {
       _cities = cities;
     });
   }
-
- 
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +76,8 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
               controller: _companyController,
               decoration: const InputDecoration(
                 labelText: "Kurum Adı",
-                contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
               ),
             ),
             Padding(
@@ -101,9 +99,11 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
                   });
                 },
                 child: ListTile(
-                  title: Text(_selectedExperienceType ?? 'Deneyim Türünü Seçin'),
+                  title:
+                      Text(_selectedExperienceType ?? 'Deneyim Türünü Seçin'),
                   trailing: const Icon(Icons.arrow_drop_down),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                  contentPadding: const EdgeInsets.symmetric(
+                      vertical: 2.0, horizontal: 2.0),
                 ),
               ),
             ),
@@ -111,14 +111,16 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
               controller: _sectorController,
               decoration: const InputDecoration(
                 labelText: "Sektör",
-                contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
               ),
             ),
             TextField(
               controller: _positionController,
               decoration: const InputDecoration(
                 labelText: "Pozisyon",
-                contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
               ),
             ),
             PopupMenuButton<String>(
@@ -134,13 +136,15 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
               onSelected: (String? newValue) {
                 setState(() {
                   _selectedCityId = newValue;
-                  _selectedCityName = _cities.firstWhere((city) => city["id"] == newValue)["name"];
+                  _selectedCityName = _cities
+                      .firstWhere((city) => city["id"] == newValue)["name"];
                 });
               },
               child: ListTile(
                 title: Text(_selectedCityName ?? 'Şehir Seçiniz'),
                 trailing: const Icon(Icons.arrow_drop_down),
-                contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
               ),
             ),
             Row(
@@ -148,7 +152,7 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () async {
-                      final selectedDate = await ExperienceUtil.selectStartDate(context);
+                      final selectedDate = await Utilities.datePicker(context);
                       if (selectedDate != null) {
                         setState(() {
                           _selectedStartDate = selectedDate;
@@ -159,9 +163,11 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
                       child: TextField(
                         decoration: InputDecoration(
                           labelText: _selectedStartDate != null
-                              ? DateFormat('dd/MM/yyyy').format(_selectedStartDate!)
+                              ? DateFormat('dd/MM/yyyy')
+                                  .format(_selectedStartDate!)
                               : 'Başlangıç Tarihi',
-                          contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 2.0, horizontal: 10.0),
                         ),
                       ),
                     ),
@@ -173,7 +179,8 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
                     onTap: _isCurrentlyWorking
                         ? null
                         : () async {
-                            final selectedDate = await ExperienceUtil.selectEndDate(context);
+                            final selectedDate =
+                                await Utilities.datePicker(context);
                             if (selectedDate != null) {
                               setState(() {
                                 _selectedEndDate = selectedDate;
@@ -186,9 +193,11 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
                           labelText: _isCurrentlyWorking
                               ? 'Devam Ediyor'
                               : _selectedEndDate != null
-                                  ? DateFormat('dd/MM/yyyy').format(_selectedEndDate!)
+                                  ? DateFormat('dd/MM/yyyy')
+                                      .format(_selectedEndDate!)
                                   : 'Bitiş Tarihi',
-                          contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 2.0, horizontal: 10.0),
                         ),
                       ),
                     ),
@@ -200,7 +209,8 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
               controller: _jobdescrbController,
               decoration: const InputDecoration(
                 labelText: "İş Tanımı / Açıklama",
-                contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
               ),
             ),
           ],
@@ -222,7 +232,9 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
               experienceSector: _sectorController.text,
               experienceCity: _selectedCityName ?? '',
               startDate: _selectedStartDate ?? widget.experience.startDate,
-              endDate: _isCurrentlyWorking ? DateTime.now() : _selectedEndDate ?? widget.experience.endDate,
+              endDate: _isCurrentlyWorking
+                  ? DateTime.now()
+                  : _selectedEndDate ?? widget.experience.endDate,
               isCurrentlyWorking: _isCurrentlyWorking,
               jobDescription: _jobdescrbController.text,
             );

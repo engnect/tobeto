@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/calendar_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/calendar_model.dart';
@@ -9,6 +10,7 @@ import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 
 import 'package:uuid/uuid.dart';
 
@@ -39,6 +41,27 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
     _eventDescriptionController.dispose();
   }
 
+  void addEvent(BuildContext context) async {
+    UserModel? currentUser = await UserRepository().getCurrentUser();
+
+    EventModel eventModel = EventModel(
+      eventId: const Uuid().v1(),
+      userId: currentUser!.userId,
+      eventTitle: _eventTitleController.text,
+      eventDescription: _eventDescriptionController.text,
+      eventDate: selectedDate!,
+    );
+
+    String result =
+        await CalendarRepository().addOrUpdateEvent(eventModel: eventModel);
+
+    if (!context.mounted) return;
+    Utilities.showSnackBar(
+      snackBarMessage: result,
+      context: context,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,18 +69,7 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
         backgroundColor: Colors.white,
         body: CustomScrollView(
           slivers: [
-            // appbar
-            SliverAppBar(
-              floating: true,
-              snap: true,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Image.asset(
-                  Assets.imagesTobetoLogo,
-                ),
-              ),
-            ),
-
-            // body
+            const TBTSliverAppBar(),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
@@ -97,11 +109,8 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                               TextButton.icon(
                                 icon: const Icon(Icons.calendar_today_outlined),
                                 onPressed: () async {
-                                  selectedDate = await showDatePicker(
-                                    context: context,
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2050),
-                                  );
+                                  selectedDate =
+                                      await Utilities.datePicker(context);
 
                                   setState(() {});
                                 },
@@ -114,22 +123,7 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                               ),
                               TBTPurpleButton(
                                 buttonText: 'Etkinliği Ekle',
-                                onPressed: () async {
-                                  UserModel? currentUser =
-                                      await UserRepository().getCurrentUser();
-
-                                  EventModel eventModel = EventModel(
-                                    eventId: const Uuid().v1(),
-                                    userId: currentUser!.userId,
-                                    eventTitle: _eventTitleController.text,
-                                    eventDescription:
-                                        _eventDescriptionController.text,
-                                    eventDate: selectedDate!,
-                                  );
-
-                                  await CalendarRepository()
-                                      .addOrUpdateEvent(eventModel: eventModel);
-                                },
+                                onPressed: () => addEvent(context),
                               ),
                             ],
                           ),

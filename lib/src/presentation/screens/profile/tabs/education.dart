@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
-import 'package:tobeto/src/common/constants/utilities.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/education_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/education_model.dart';
@@ -11,7 +11,6 @@ import 'package:tobeto/src/presentation/widgets/edit_education_dialog.dart';
 import 'package:uuid/uuid.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
-
 
 class EducationPage extends StatefulWidget {
   const EducationPage({super.key});
@@ -37,7 +36,7 @@ class _EducationPageState extends State<EducationPage> {
   }
 
   Future<void> _selectStartDate(BuildContext context) async {
-    final selectedDate = await EducationUtil.selectStartDate(context);
+    final selectedDate = await Utilities.datePicker(context);
     if (selectedDate != null) {
       setState(() {
         _selectedStartDate = selectedDate;
@@ -46,7 +45,7 @@ class _EducationPageState extends State<EducationPage> {
   }
 
   Future<void> _selectEndDate(BuildContext context) async {
-    final selectedDate = await EducationUtil.selectEndDate(context);
+    final selectedDate = await Utilities.datePicker(context);
     if (selectedDate != null) {
       setState(() {
         _selectedEndDate = selectedDate;
@@ -123,7 +122,8 @@ class _EducationPageState extends State<EducationPage> {
                                           icon: const Icon(Icons.edit),
                                           onPressed: () async {
                                             final updatedEducation =
-                                                await showDialog<EducationModel>(
+                                                await showDialog<
+                                                    EducationModel>(
                                               context: context,
                                               builder: (context) =>
                                                   EditEducationDialog(
@@ -150,7 +150,8 @@ class _EducationPageState extends State<EducationPage> {
                                             showDialog(
                                               context: context,
                                               builder: (context) => AlertDialog(
-                                                title: const Text("Eğitimi sil"),
+                                                title:
+                                                    const Text("Eğitimi sil"),
                                                 content: const Text(
                                                     "Bu eğitimi silmek istediğinizden emin misiniz?"),
                                                 actions: [
@@ -337,7 +338,8 @@ class _EducationPageState extends State<EducationPage> {
                 child: TBTPurpleButton(
                   buttonText: 'Kaydet',
                   onPressed: () async {
-                    UserModel? userModel = await UserRepository().getCurrentUser();
+                    UserModel? userModel =
+                        await UserRepository().getCurrentUser();
                     EducationModel newEducation = EducationModel(
                       educationId: const Uuid().v4(),
                       userId: userModel!.userId,
@@ -345,13 +347,15 @@ class _EducationPageState extends State<EducationPage> {
                       schoolBranch: _departmentController.text,
                       educationLevel: _selectedEducationLevel!,
                       schoolStartDate: _selectedStartDate!,
-                      schoolEndDate: _isCurrentlyStudied ? DateTime.now() : _selectedEndDate!,
+                      schoolEndDate: _isCurrentlyStudied
+                          ? DateTime.now()
+                          : _selectedEndDate!,
                       isCurrentlyStuding: _isCurrentlyStudied,
                     );
 
-                    String result = await EducationRepository().addEducation(newEducation);
+                    String result =
+                        await EducationRepository().addEducation(newEducation);
                     print(result);
-
                   },
                 ),
               ),

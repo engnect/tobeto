@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/course_repository.dart';
 import 'package:tobeto/src/models/course_model.dart';
 import 'package:tobeto/src/models/course_video_model.dart';
@@ -17,6 +18,9 @@ class AdminCourseVideoScreen extends StatefulWidget {
 }
 
 class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
+  final TextEditingController _editCourseVideoNameController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -64,8 +68,7 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                       );
                     } else {
                       CourseRepository courseRepository = CourseRepository();
-                      TextEditingController _editCourseVideoNameController =
-                          TextEditingController();
+
                       String? selectedCourseName;
                       String selectedCourseId = "";
 
@@ -86,20 +89,18 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                             try {
                               await courseRepository.deleteVideo(videoId);
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Video başarıyla silindi')),
-                              );
+                              if (!context.mounted) return;
+                              Utilities.showSnackBar(
+                                  snackBarMessage: 'Video başarıyla silindi',
+                                  context: context);
                             } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content: Text(
-                                        'Video silinirken bir hata oluştu: $e')),
-                              );
+                              Utilities.showSnackBar(
+                                  snackBarMessage:
+                                      'Video silinirken bir hata oluştu: $e',
+                                  context: context);
                             }
                           }
 
-                          // TODO: implement edilmedi
                           void editVideoFunction() async {
                             try {
                               String newCourseVideoName =
@@ -112,11 +113,11 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                   newCourseId,
                                   selectedCourseName!);
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content:
-                                        Text('Video başarıyla güncellendi')),
-                              );
+                              if (!context.mounted) return;
+                              Utilities.showSnackBar(
+                                  snackBarMessage:
+                                      'Video başarıyla güncellendi',
+                                  context: context);
                             } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

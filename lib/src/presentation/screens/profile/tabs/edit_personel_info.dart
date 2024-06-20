@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field2/intl_phone_field.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
-import 'package:tobeto/src/common/constants/utilities.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
@@ -75,7 +75,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   }
 
   Future<void> _getImageFromGallery() async {
-    final image = await PersonalInfoUtil.getImageFromGallery();
+    final image = await Utilities.getImageFromGallery();
     if (image != null) {
       setState(() {
         _image = image;
@@ -83,10 +83,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     }
   }
 
-  
-
   Future<void> _selectDate(BuildContext context) async {
-    final selectedDate = await PersonalInfoUtil.selectDate(context);
+    final selectedDate = await Utilities.datePicker(context);
     if (selectedDate != null) {
       setState(() {
         _selectedDate = selectedDate;
@@ -95,14 +93,14 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   }
 
   Future<void> _loadCityData() async {
-    final cities = await PersonalInfoUtil.loadCityData();
+    final cities = await Utilities.loadCityData();
     setState(() {
       _cities = cities;
     });
   }
 
   Future<void> _loadDistrictData() async {
-    final cityDistrictMap = await PersonalInfoUtil.loadDistrictData();
+    final cityDistrictMap = await Utilities.loadDistrictData();
     setState(() {
       _cityDistrictMap = cityDistrictMap;
     });
@@ -143,7 +141,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
           address: _streetController.text,
           country: _selectedCountry,
           city: _selectedCityName,
-          district: _selectedDistrictName,   
+          district: _selectedDistrictName,
         );
         await _userRepository.addOrUpdateUser(updatedUser);
 
@@ -473,11 +471,11 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TBTPurpleButton(
                   buttonText: 'Kaydet',
-                  onPressed: _updateUser, 
+                  onPressed: _updateUser,
                 ),
               ),
               const SizedBox(
-                height: 50, 
+                height: 50,
               )
             ],
           ),
