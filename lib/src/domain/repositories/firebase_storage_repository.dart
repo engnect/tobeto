@@ -45,4 +45,36 @@ class FirebaseStorageRepository {
     String downloadURL = await taskSnapshot.ref.getDownloadURL();
     return downloadURL;
   }
+
+  Future<String?> uploadCourseVideoAndSaveUrl(String filePath) async {
+    File file = File(filePath);
+    try {
+      TaskSnapshot snapshot = await _firebaseStorage
+          .ref(
+              '${FirebaseConstants.videosCollection}/${file.path.split('/').last}')
+          .putFile(file);
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+
+      return downloadUrl;
+    } catch (e) {
+      print("Error uploading video: $e");
+      return null;
+    }
+  }
+
+  Future<String?> uploadCourseThumbnailsAndSaveUrl(String filePath) async {
+    File file = File(filePath);
+    try {
+      TaskSnapshot snapshot = await _firebaseStorage
+          .ref(
+              '${FirebaseConstants.thumbnailsCollection}/${file.path.split('/').last}')
+          .putFile(file);
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+
+      return downloadUrl;
+    } catch (e) {
+      print("Error uploading video: $e");
+      return null;
+    }
+  }
 }

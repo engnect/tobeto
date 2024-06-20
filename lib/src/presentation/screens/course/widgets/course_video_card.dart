@@ -45,7 +45,7 @@ class _CourseVideoCardState extends State<CourseVideoCard> {
                         ),
                       ),
                       Text(
-                          'Instructors: ${widget.course.courseInstructors.join(', ')}'),
+                          'Instructors: ${widget.course.courseInstructorsIds.join(', ')}'),
                     ],
                   ),
                 ),

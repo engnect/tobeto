@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/screens/course_page/course_admin_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/course_page/course_video_admin_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/in_the_press_admin/in_the_press_admin_page.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_page.dart';
@@ -172,7 +173,13 @@ class TBTEndDrawer extends StatelessWidget {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     title: TBTPurpleButton(
                       buttonText: "Ders Ekle",
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const AdminCourseScreen(),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
