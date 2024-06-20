@@ -1,14 +1,14 @@
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/models/education_model.dart';
+import 'package:tobeto/src/models/social_media_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
 
-class EducationRepository {
-  Future<String> addEducation(EducationModel educaitonModel) async {
+class SocialMediaRepository {
+  Future<String> addSocialMedia(SocialMediaModel socialMediaModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
-    if (userModel != null) {
+    if(userModel != null) {
       try {
-        userModel.schoolsList!.add(educaitonModel);
+        userModel.socialMediaList!.add(socialMediaModel);
 
         UserModel updatedUser = userModel.copyWith();
         await UserRepository().updateUser(updatedUser);
@@ -20,14 +20,14 @@ class EducationRepository {
     return result;
   }
 
-  Future<String> updateEducation(EducationModel educationModel) async {
+    Future<String> updateSocialMedia(SocialMediaModel socialMediaModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
     if (userModel != null) {
       try {
-        userModel.schoolsList![userModel.schoolsList!.indexWhere((element) =>
-                element.educationId == educationModel.educationId)] =
-            educationModel;
+        userModel.socialMediaList![userModel.socialMediaList!.indexWhere((element) =>
+                element.socialMediaId == socialMediaModel.socialMediaId)] =
+            socialMediaModel;
 
         UserModel updatedUser = userModel.copyWith();
         await UserRepository().updateUser(updatedUser);
@@ -40,14 +40,13 @@ class EducationRepository {
 
 
 
-  
-  Future<String> deleteEducation(EducationModel educationModel) async {
+  Future<String> deleteSocialMedia(SocialMediaModel socialMediaModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
     if (userModel != null) {
       try {
-        userModel.schoolsList!.removeWhere((element) {
-          return element.educationId == educationModel.educationId;
+        userModel.socialMediaList!.removeWhere((element) {
+          return element.socialMediaId == socialMediaModel.socialMediaId;
         });
 
         UserModel updatedUser = userModel.copyWith();
@@ -59,4 +58,5 @@ class EducationRepository {
     }
     return result;
   }
+
 }

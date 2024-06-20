@@ -1,14 +1,14 @@
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/models/education_model.dart';
+import 'package:tobeto/src/models/language_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
 
-class EducationRepository {
-  Future<String> addEducation(EducationModel educaitonModel) async {
+class LanguageRepository {
+  Future<String> addLanguage(LanguageModel languageModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
-    if (userModel != null) {
+    if(userModel != null) {
       try {
-        userModel.schoolsList!.add(educaitonModel);
+        userModel.languageList!.add(languageModel);
 
         UserModel updatedUser = userModel.copyWith();
         await UserRepository().updateUser(updatedUser);
@@ -20,14 +20,14 @@ class EducationRepository {
     return result;
   }
 
-  Future<String> updateEducation(EducationModel educationModel) async {
+   Future<String> updateLanguage(LanguageModel languageModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
     if (userModel != null) {
       try {
-        userModel.schoolsList![userModel.schoolsList!.indexWhere((element) =>
-                element.educationId == educationModel.educationId)] =
-            educationModel;
+        userModel.languageList![userModel.languageList!.indexWhere((element) =>
+                element.languageId == languageModel.languageId)] =
+            languageModel;
 
         UserModel updatedUser = userModel.copyWith();
         await UserRepository().updateUser(updatedUser);
@@ -38,16 +38,13 @@ class EducationRepository {
     return result;
   }
 
-
-
-  
-  Future<String> deleteEducation(EducationModel educationModel) async {
+  Future<String> deleteLanguage(LanguageModel languageModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
     if (userModel != null) {
       try {
-        userModel.schoolsList!.removeWhere((element) {
-          return element.educationId == educationModel.educationId;
+        userModel.languageList!.removeWhere((element) {
+          return element.languageId == languageModel.languageId;
         });
 
         UserModel updatedUser = userModel.copyWith();
@@ -59,4 +56,9 @@ class EducationRepository {
     }
     return result;
   }
+
+
+
+
+
 }

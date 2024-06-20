@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/common/constants/utilities.dart';
+import 'package:tobeto/src/domain/repositories/education_repository.dart';
+import 'package:tobeto/src/domain/repositories/user_repository.dart';
+import 'package:tobeto/src/models/education_model.dart';
+import 'package:tobeto/src/models/user_model.dart';
+import 'package:tobeto/src/presentation/widgets/edit_education_dialog.dart';
+import 'package:uuid/uuid.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
+
 
 class EducationPage extends StatefulWidget {
   const EducationPage({super.key});
@@ -18,8 +27,7 @@ class _EducationPageState extends State<EducationPage> {
   DateTime? _selectedStartDate;
   DateTime? _selectedEndDate;
   bool _isCurrentlyStudied = false;
-
-  final List<Map<String, dynamic>> _educations = [];
+  bool isSelect = false;
 
   @override
   void dispose() {
@@ -46,26 +54,6 @@ class _EducationPageState extends State<EducationPage> {
     }
   }
 
-  void _addEducation() {
-    setState(() {
-      _educations.add({
-        'university': _universityController.text,
-        'department': _departmentController.text,
-        'educationLevel': _selectedEducationLevel,
-        'startDate': _selectedStartDate,
-        'endDate': _isCurrentlyStudied ? null : _selectedEndDate,
-        'currentlyStudied': _isCurrentlyStudied,
-      });
-
-      _universityController.clear();
-      _departmentController.clear();
-      _selectedEducationLevel = null;
-      _selectedStartDate = null;
-      _selectedEndDate = null;
-      _isCurrentlyStudied = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,8 +61,135 @@ class _EducationPageState extends State<EducationPage> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              TBTPurpleButton(
+                buttonText: "Düzenle",
+                onPressed: () {
+                  setState(() {
+                    isSelect = !isSelect;
+                  });
+                },
+              ),
+              AnimatedContainer(
+                decoration: BoxDecoration(
+                  borderRadius: isSelect
+                      ? const BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                        )
+                      : null,
+                  border: Border(
+                    bottom: BorderSide(
+                      width: isSelect ? 7 : 0,
+                      color: const Color.fromARGB(255, 153, 51, 255),
+                    ),
+                  ),
+                ),
+                height: isSelect ? 600 : 0,
+                duration: const Duration(seconds: 1),
+                child: isSelect
+                    ? BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, state) {
+                          if (state is Authenticated) {
+                            UserModel currentUser = state.userModel;
+
+                            return ListView.builder(
+                              itemCount: currentUser.schoolsList!.length,
+                              itemBuilder: (context, index) {
+                                EducationModel education =
+                                    currentUser.schoolsList![index];
+                                return Card(
+                                  child: ListTile(
+                                    title: Text(education.schoolName),
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(education.schoolBranch),
+                                        Text(
+                                          'Başlangıç Tarihi: ${DateFormat('dd/MM/yyyy').format(education.schoolStartDate)}',
+                                        ),
+                                        Text(
+                                          education.isCurrentlyStuding!
+                                              ? 'Devam Ediyor'
+                                              : 'Bitiş Tarihi: ${DateFormat('dd/MM/yyyy').format(education.schoolEndDate)}',
+                                        ),
+                                      ],
+                                    ),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(Icons.edit),
+                                          onPressed: () async {
+                                            final updatedEducation =
+                                                await showDialog<EducationModel>(
+                                              context: context,
+                                              builder: (context) =>
+                                                  EditEducationDialog(
+                                                      education: education),
+                                            );
+                                            if (updatedEducation != null) {
+                                              String result =
+                                                  await EducationRepository()
+                                                      .updateEducation(
+                                                          updatedEducation);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(result),
+                                                ),
+                                              );
+                                              setState(() {});
+                                            }
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.delete),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                title: const Text("Eğitimi sil"),
+                                                content: const Text(
+                                                    "Bu eğitimi silmek istediğinizden emin misiniz?"),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    child: const Text("İptal"),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      Navigator.pop(context);
+                                                      print(
+                                                          "Silmek istediğim fonksiyon: ${education.educationId}");
+                                                      String result =
+                                                          await EducationRepository()
+                                                              .deleteEducation(
+                                                                  education);
+                                                      print(result);
+                                                    },
+                                                    child: const Text('Sil'),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            return const SizedBox.shrink();
+                          }
+                        },
+                      )
+                    : const SizedBox.shrink(),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PopupMenuButton<String>(
@@ -122,7 +237,8 @@ class _EducationPageState extends State<EducationPage> {
                       style: const TextStyle(fontSize: 16),
                     ),
                     trailing: const Icon(Icons.arrow_drop_down),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 4.0, horizontal: 10.0),
                   ),
                 ),
               ),
@@ -146,100 +262,98 @@ class _EducationPageState extends State<EducationPage> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: TextEditingController(
-                    text: _selectedStartDate != null
-                        ? DateFormat('dd/MM/yyyy').format(_selectedStartDate!)
-                        : '',
-                  ),
-                  decoration: const InputDecoration(
-                    labelText: 'Başlangıç Tarihi',
-                    hintText: 'Başlangıç Tarihi Seçiniz',
-                    contentPadding: EdgeInsets.all(12),
-                    suffixIcon: Icon(Icons.calendar_today),
-                  ),
-                  readOnly: true,
-                  onTap: () {
-                    _selectStartDate(context);
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: TextEditingController(
-                    text: _selectedEndDate != null
-                        ? DateFormat('dd/MM/yyyy').format(_selectedEndDate!)
-                        : '',
-                  ),
-                  decoration: const InputDecoration(
-                    labelText: 'Bitiş Tarihi',
-                    hintText: 'Bitiş Tarihi Seçiniz',
-                    contentPadding: EdgeInsets.all(12),
-                    suffixIcon: Icon(Icons.calendar_today),
-                  ),
-                  readOnly: true,
-                  onTap: () {
-                    _selectEndDate(context);
-                  },
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => _selectStartDate(context),
+                        child: AbsorbPointer(
+                          child: TBTInputField(
+                            hintText: _selectedStartDate != null
+                                ? DateFormat('dd/MM/yyyy')
+                                    .format(_selectedStartDate!)
+                                : 'Başlangıç Tarihi',
+                            controller: TextEditingController(
+                              text: _selectedStartDate != null
+                                  ? DateFormat('dd/MM/yyyy')
+                                      .format(_selectedStartDate!)
+                                  : '',
+                            ),
+                            onSaved: (p0) {},
+                            keyboardType: TextInputType.datetime,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: _isCurrentlyStudied
+                            ? null
+                            : () => _selectEndDate(context),
+                        child: AbsorbPointer(
+                          child: TBTInputField(
+                            hintText: _isCurrentlyStudied
+                                ? 'Devam Ediyor'
+                                : _selectedEndDate != null
+                                    ? DateFormat('dd/MM/yyyy')
+                                        .format(_selectedEndDate!)
+                                    : 'Bitiş Tarihi',
+                            controller: TextEditingController(
+                              text: _isCurrentlyStudied
+                                  ? 'Devam Ediyor'
+                                  : _selectedEndDate != null
+                                      ? DateFormat('dd/MM/yyyy')
+                                          .format(_selectedEndDate!)
+                                      : '',
+                            ),
+                            onSaved: (p0) {},
+                            keyboardType: TextInputType.datetime,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Checkbox(
                       value: _isCurrentlyStudied,
-                      onChanged: (value) {
+                      onChanged: (bool? newValue) {
                         setState(() {
-                          _isCurrentlyStudied = value!;
-                          if (value) {
-                            _selectedEndDate = null;
-                          }
+                          _isCurrentlyStudied = newValue!;
                         });
                       },
                     ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      'Devam ediyorum',
-                      style: TextStyle(fontSize: 16),
-                    ),
+                    const Text('Devam ediyorum.'),
                   ],
                 ),
               ),
-              TBTPurpleButton(
-                buttonText: 'Kaydet',
-                onPressed: _addEducation,
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _educations.length,
-                itemBuilder: (context, index) {
-                  final education = _educations[index];
-                  return Card(
-                    child: ListTile(
-                      title: Text(education['university']),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(education['department']),
-                          Text(education['educationLevel']),
-                          Text(
-                            'Başlangıç: ${DateFormat('dd/MM/yyyy').format(education['startDate'])}',
-                          ),
-                          if (education['currentlyStudied'])
-                            const Text('Devam ediyor')
-                          else if (education['endDate'] != null)
-                            Text(
-                              'Bitiş: ${DateFormat('dd/MM/yyyy').format(education['endDate'])}',
-                            ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TBTPurpleButton(
+                  buttonText: 'Kaydet',
+                  onPressed: () async {
+                    UserModel? userModel = await UserRepository().getCurrentUser();
+                    EducationModel newEducation = EducationModel(
+                      educationId: const Uuid().v4(),
+                      userId: userModel!.userId,
+                      schoolName: _universityController.text,
+                      schoolBranch: _departmentController.text,
+                      educationLevel: _selectedEducationLevel!,
+                      schoolStartDate: _selectedStartDate!,
+                      schoolEndDate: _isCurrentlyStudied ? DateTime.now() : _selectedEndDate!,
+                      isCurrentlyStuding: _isCurrentlyStudied,
+                    );
+
+                    String result = await EducationRepository().addEducation(newEducation);
+                    print(result);
+
+                  },
+                ),
               ),
             ],
           ),

@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/common/constants/utilities.dart';
-import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/domain/repositories/experience_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/experience_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
+import 'package:tobeto/src/presentation/widgets/edit_experience_dialog.dart';
 import 'package:uuid/uuid.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
@@ -133,6 +133,184 @@ class _ExperiencePageState extends State<ExperiencePage> {
   //   }
   // }
 
+//  Widget _buildEditExperienceDialog(ExperienceModel experience) {
+//     DateTime? startDate = experience.startDate;
+//     DateTime? endDate = experience.endDate;
+
+//     return StatefulBuilder(
+//       builder: (BuildContext context, StateSetter setState) {
+//         return AlertDialog(
+//           title: const Text("Deneyimi Düzenle"),
+//           content: SingleChildScrollView(
+//             child: Column(
+//               mainAxisSize: MainAxisSize.min,
+//               children: [
+//                 TextField(
+//                   controller: _companyController..text = experience.companyName,
+//                   decoration: const InputDecoration(
+//                     labelText: "Kurum Adı",
+//                     contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+//                   ),
+//                 ),
+//                   TextField(
+//                   controller: _positionController..text = experience.experiencePosition,
+//                   decoration: const InputDecoration(
+//                     labelText: "Pozisyon",
+//                     contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+//                   ),
+//                 ),
+                
+//                 Padding(
+//                   padding: const EdgeInsets.all(8.0),
+//                   child: PopupMenuButton<String>(
+//                     initialValue: _selectedExperienceType ?? experience.experienceType,
+//                     itemBuilder: (BuildContext context) {
+//                       return ['Tam Zamanlı', 'Yarı Zamanlı', 'Staj']
+//                           .map((String value) {
+//                         return PopupMenuItem<String>(
+//                           value: value,
+//                           child: Text(value),
+//                         );
+//                       }).toList();
+//                     },
+//                     onSelected: (String? newValue) {
+//                       setState(() {
+//                         _selectedExperienceType = newValue;
+//                       });
+//                     },
+//                     child: ListTile(
+//                       title: Text(_selectedExperienceType ?? 'Deneyim Türünü Seçin'),
+//                       trailing: const Icon(Icons.arrow_drop_down),
+//                       contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+//                     ),
+//                   ),
+//                 ),
+//                 TextField(
+//                   controller: _sectorController..text = experience.experienceSector,
+//                   decoration: const InputDecoration(
+//                     labelText: "Sektör",
+//                     contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+//                   ),
+//                 ),
+              
+//                 PopupMenuButton<String>(
+//                   initialValue: _selectedCityId ?? experience.experienceCity,
+//                   itemBuilder: (BuildContext context) {
+//                     return _cities.map((city) {
+//                       return PopupMenuItem<String>(
+//                         value: city["id"],
+//                         child: Text(city["name"]!),
+//                       );
+//                     }).toList();
+//                   },
+//                   onSelected: (String? newValue) {
+//                     setState(() {
+//                       _selectedCityId = newValue;
+//                       _selectedCityName = _cities.firstWhere((city) => city["id"] == newValue)["name"];
+//                     });
+//                   },
+//                   child: ListTile(
+//                     title: Text(_selectedCityName ?? 'Şehir Seçiniz'),
+//                     trailing: const Icon(Icons.arrow_drop_down),
+//                     contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+//                   ),
+//                 ),
+//                 Row(
+//                   children: [
+//                     Expanded(
+//                       child: GestureDetector(
+//                         onTap: () async {
+//                           final selectedDate = await ExperienceUtil.selectStartDate(context);
+//                           if (selectedDate != null) {
+//                             setState(() {
+//                               startDate = selectedDate;
+//                             });
+//                           }
+//                         },
+//                         child: AbsorbPointer(
+//                           child: TextField(
+//                             decoration: InputDecoration(
+//                               labelText: startDate != null
+//                                   ? DateFormat('dd/MM/yyyy').format(startDate!)
+//                                   : 'Başlangıç Tarihi',
+//                               contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                     const SizedBox(width: 16),
+//                     Expanded(
+//                       child: GestureDetector(
+//                         onTap: _isCurrentlyWorking
+//                             ? null
+//                             : () async {
+//                                 final selectedDate = await ExperienceUtil.selectEndDate(context);
+//                                 if (selectedDate != null) {
+//                                   setState(() {
+//                                     endDate = selectedDate;
+//                                   });
+//                                 }
+//                               },
+//                         child: AbsorbPointer(
+//                           child: TextField(
+//                             decoration: InputDecoration(
+//                               labelText: _isCurrentlyWorking
+//                                   ? 'Devam Ediyor'
+//                                   : endDate != null
+//                                       ? DateFormat('dd/MM/yyyy').format(endDate!)
+//                                       : 'Bitiş Tarihi',
+//                               contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//                 TextField(
+//                   controller: _jobdescrbController..text = experience.jobDescription!,
+//                   decoration: const InputDecoration(
+//                     labelText: "İş Tanımı / Açıklama",
+//                     contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//           actions: [
+//             TextButton(
+//               onPressed: () => Navigator.pop(context),
+//               child: const Text("İptal"),
+//             ),
+//             TextButton(
+//               onPressed: () {
+//                 ExperienceModel updatedExperience = ExperienceModel(
+//                   experienceId: experience.experienceId,
+//                   userId: experience.userId,
+//                   companyName: _companyController.text,
+//                   experiencePosition: _positionController.text,
+//                   experienceType: _selectedExperienceType ?? '',
+//                   experienceSector: _sectorController.text,
+//                   experienceCity: _selectedCityName ?? '',
+//                   startDate: startDate ?? experience.startDate,
+//                   endDate: _isCurrentlyWorking ? DateTime.now() : endDate ?? experience.endDate,
+//                   isCurrentlyWorking: _isCurrentlyWorking,
+//                   jobDescription: _jobdescrbController.text,
+//                 );
+//                 Navigator.pop(context, updatedExperience);
+//               },
+//               child: const Text("Kaydet"),
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+
+
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -201,29 +379,30 @@ class _ExperiencePageState extends State<ExperiencePage> {
                                         IconButton(
                                           icon: const Icon(Icons.edit),
                                           onPressed: () async {
-                                            ExperienceModel experienceModel =
-                                                ExperienceModel(
-                                              experienceId:
-                                                  'e9b1b5e0-962c-102e-8daa-2bf094a1a934',
-                                              userId: 'alperen',
-                                              companyName: 'alperen',
-                                              experiencePosition: 'alperen',
-                                              experienceType: 'alperen',
-                                              experienceSector: 'alperen',
-                                              experienceCity: 'alperen',
-                                              startDate: DateTime.now(),
-                                              endDate: DateTime.now(),
-                                              isCurrentlyWorking: true,
-                                              jobDescription:
-                                                  _jobdescrbController.text,
+                                            final updatedExperience =
+                                                await showDialog<
+                                                    ExperienceModel>(
+                                              context: context,
+                                              builder: (context) =>
+                                                  EditExperienceDialog(
+                                                      experience:experience),
                                             );
-
-                                            String result =
-                                                await ExperienceRepository()
-                                                    .updateExperience(
-                                                        experienceModel);
-
-                                            print(result);
+                                            if (updatedExperience != null) {
+                                              String result =
+                                                  await ExperienceRepository()
+                                                      .updateExperience(
+                                                updatedExperience,
+                                              );
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(result),
+                                                ),
+                                              );
+                                              setState(() {
+                                               
+                                              });
+                                            }
                                           },
                                         ),
                                         IconButton(
@@ -444,12 +623,12 @@ class _ExperiencePageState extends State<ExperiencePage> {
                     experienceId: const Uuid().v1(),
                     userId: userModel!.userId,
                     companyName: _companyController.text,
-                    experiencePosition: _selectedExperienceType.toString(),
+                    experiencePosition: _positionController.text,
                     experienceType: _selectedExperienceType.toString(),
                     experienceSector: _sectorController.text,
                     experienceCity: _selectedCityName.toString(),
                     startDate: _selectedStartDate!,
-                    endDate: _selectedStartDate!,
+                    endDate: _isCurrentlyWorking ? DateTime.now() : _selectedEndDate!,
                     isCurrentlyWorking: _isCurrentlyWorking,
                     jobDescription: _jobdescrbController.text,
                   );
