@@ -10,6 +10,7 @@ import 'package:tobeto/src/presentation/screens/home/widgets/student_comment.dar
 
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../../../common/constants/assets.dart';
 import 'widgets/carousel_card.dart';
 
@@ -26,10 +27,39 @@ class _HomeScreenState extends State<HomeScreen> {
   final CarouselController _carouselController = CarouselController();
 
   AvatarModel _selected = data[0];
+
+  bool isSelect = false;
+  OverlayEntry? _overlayEntry;
+  late final WebViewController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..loadRequest(Uri.parse(
+          'https://mediafiles.botpress.cloud/d1265f28-5638-4830-bb0c-86bd18db99bc/webchat/bot.html'));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: const Color.fromARGB(255, 153, 51, 255),
+          shape: const CircleBorder(),
+          onPressed: () {
+            setState(() {
+              isSelect = !isSelect;
+              if (isSelect) {
+                _showOverlay(context, _controller);
+              } else {
+                _hideOverlay();
+              }
+            });
+          },
+          child: SizedBox(width: 40, child: Image.asset(Assets.imageChatBot)),
+        ),
         drawer: const TBTDrawer(),
         body: CustomScrollView(
           slivers: [
@@ -181,5 +211,38 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  void _showOverlay(BuildContext context, controller) {
+    _overlayEntry = OverlayEntry(
+      builder: (context) {
+        final bottomPadding = MediaQuery.of(context).viewInsets.bottom;
+        return Positioned(
+          top: MediaQuery.of(context).size.height * 0.05,
+          left: MediaQuery.of(context).size.width * 0.04,
+          right: MediaQuery.of(context).size.width * 0.19,
+          bottom: MediaQuery.of(context).size.height * 0.00001 + bottomPadding,
+          child: Material(
+            color: Colors.transparent,
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                height:
+                    MediaQuery.of(context).size.height * 0.85 - bottomPadding,
+                color: const Color.fromRGBO(1, 1, 1, 0.3),
+                child: WebViewWidget(controller: controller),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  void _hideOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
   }
 }

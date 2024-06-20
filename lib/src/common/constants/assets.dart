@@ -51,4 +51,5 @@ class Assets {
   static const String imageUser = "assets/images/userName.png";
   static const String imageEmail = "assets/images/email.png";
   static const String imagePassword = "assets/images/password.png";
+  static const String imageChatBot = "assets/images/launcher_button_1.png";
 }
