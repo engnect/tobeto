@@ -9,43 +9,25 @@ class CalendarRepository {
   CollectionReference get _events =>
       _firebaseFirestore.collection(FirebaseConstants.eventsCollection);
 
-  Future<List<EventModel>> fetchEventsFromFirestore() async {
-    List<EventModel> events = [];
-    var querySnapshot = await _events.get();
-    for (var doc in querySnapshot.docs) {
-      events.add(EventModel.fromMap(doc.data() as Map<String, dynamic>));
-    }
-    return events;
-  }
-
-  // Future<String> addEvent({
-  //   required EventModel eventModel,
-  // }) async {
-  //   String result = '';
-
-  //   try {
-  //     await _events.add(eventModel.toMap());
-  //     result = 'success';
-  //   } catch (error) {
-  //     result = error.toString();
-  //   }
-
-  //   return result;
-  // }
-
   Future<String> addOrUpdateEvent({
     required EventModel eventModel,
   }) async {
     String result = '';
 
     try {
-      await _events.doc(eventModel.eventId).set(eventModel);
+      await _events.doc(eventModel.eventId).set(eventModel.toMap());
       result = 'success';
     } catch (error) {
       result = error.toString();
     }
 
-    return result;
+    switch (result) {
+      case 'success':
+        return 'İşlem Başarılı';
+
+      default:
+        return 'Hata: $result';
+    }
   }
 
   Future<String> deleteEvent({
@@ -60,6 +42,12 @@ class CalendarRepository {
       result = error.toString();
     }
 
-    return result;
+    switch (result) {
+      case 'success':
+        return 'İşlem Başarılı';
+
+      default:
+        return 'Hata: $result';
+    }
   }
 }

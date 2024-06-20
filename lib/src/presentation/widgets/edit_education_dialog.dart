@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tobeto/src/common/constants/utilities.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/models/education_model.dart';
 
 class EditEducationDialog extends StatefulWidget {
@@ -39,7 +39,7 @@ class _EditEducationDialogState extends State<EditEducationDialog> {
   }
 
   Future<void> _selectStartDate(BuildContext context) async {
-    final selectedDate = await EducationUtil.selectStartDate(context);
+    final selectedDate = await Utilities.datePicker(context);
     if (selectedDate != null) {
       setState(() {
         _selectedStartDate = selectedDate;
@@ -48,7 +48,7 @@ class _EditEducationDialogState extends State<EditEducationDialog> {
   }
 
   Future<void> _selectEndDate(BuildContext context) async {
-    final selectedDate = await EducationUtil.selectEndDate(context);
+    final selectedDate = await Utilities.datePicker(context);
     if (selectedDate != null) {
       setState(() {
         _selectedEndDate = selectedDate;
@@ -108,22 +108,24 @@ class _EditEducationDialogState extends State<EditEducationDialog> {
                   _selectedEducationLevel ?? 'Eğitim Seviyesi Seçiniz',
                 ),
                 trailing: const Icon(Icons.arrow_drop_down),
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 4.0, horizontal: 10.0),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
               ),
             ),
             TextField(
               controller: _universityController,
               decoration: const InputDecoration(
                 labelText: "Üniversite",
-                contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
               ),
             ),
             TextField(
               controller: _departmentController,
               decoration: const InputDecoration(
                 labelText: "Bölüm",
-                contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
               ),
             ),
             Row(
@@ -135,9 +137,11 @@ class _EditEducationDialogState extends State<EditEducationDialog> {
                       child: TextField(
                         decoration: InputDecoration(
                           labelText: _selectedStartDate != null
-                              ? DateFormat('dd/MM/yyyy').format(_selectedStartDate!)
+                              ? DateFormat('dd/MM/yyyy')
+                                  .format(_selectedStartDate!)
                               : 'Başlangıç Tarihi',
-                          contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 2.0, horizontal: 10.0),
                         ),
                       ),
                     ),
@@ -155,9 +159,11 @@ class _EditEducationDialogState extends State<EditEducationDialog> {
                           labelText: _isCurrentlyStudied
                               ? 'Devam Ediyor'
                               : _selectedEndDate != null
-                                  ? DateFormat('dd/MM/yyyy').format(_selectedEndDate!)
+                                  ? DateFormat('dd/MM/yyyy')
+                                      .format(_selectedEndDate!)
                                   : 'Bitiş Tarihi',
-                          contentPadding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 2.0, horizontal: 10.0),
                         ),
                       ),
                     ),
@@ -181,8 +187,10 @@ class _EditEducationDialogState extends State<EditEducationDialog> {
               schoolName: _universityController.text,
               schoolBranch: _departmentController.text,
               educationLevel: _selectedEducationLevel ?? '',
-              schoolStartDate: _selectedStartDate ?? widget.education.schoolStartDate,
-              schoolEndDate: _isCurrentlyStudied ? DateTime.now() : _selectedEndDate!,
+              schoolStartDate:
+                  _selectedStartDate ?? widget.education.schoolStartDate,
+              schoolEndDate:
+                  _isCurrentlyStudied ? DateTime.now() : _selectedEndDate!,
               isCurrentlyStuding: _isCurrentlyStudied,
             );
             Navigator.pop(context, updatedEducation);

@@ -65,35 +65,6 @@ class CourseRepository {
     }
   }
 
-  // Admin panelinde video yüklemek için
-  // Future<void> uploadVideoAndSaveUrl(String courseId, File videoFile) async {
-  //   try {
-  //     // Upload video to Firebase Storage
-  //     String filePath =
-  //         'videos/$courseId/${DateTime.now().millisecondsSinceEpoch}.mp4';
-  //     UploadTask uploadTask = _storage.ref().child(filePath).putFile(videoFile);
-  //     TaskSnapshot snapshot = await uploadTask;
-  //     String videoUrl = await snapshot.ref.getDownloadURL();
-
-  //     // Save video URL to Firestore
-  //     await _firestore
-  //         .collection('courses')
-  //         .doc(courseId)
-  //         .collection('videos')
-  //         .add({
-  //       'videoUrl': videoUrl,
-  //       'courseVideoName': 'Video Name',
-  //       'courseInstructor': 'Instructor Name',
-  //       'startDate': '2024-01-01',
-  //       'endDate': '2024-02-01',
-  //       'estimatedDate': '2024-01-15',
-  //       'manufacturer': 'Manufacturer Name'
-  //     });
-  //   } catch (e) {
-  //     throw Exception('Error uploading video and saving URL: $e');
-  //   }
-  // }
-
   Future<void> editVideo(String videoId, String newCourseVideoName,
       String newCourseId, String newCourseName) async {
     try {
@@ -129,17 +100,6 @@ class CourseRepository {
     }
   }
 
-  // Future<void> editCourse(
-  //     String courseId, String newCourseName, String? newCourseId) async {
-  //   try {
-  //     await _firestore.collection('videos').doc(videoId).update({
-  //       'courseVideoName': newCourseVideoName,
-  //       'courseId': newCourseId,
-  //     });
-  //   } catch (e) {
-  //     throw Exception('Error updating video: $e');
-  //   }
-  // }
   Future<void> saveCourseVideo(CourseVideoModel courseVideoModel) async {
     await _firestore
         .collection(FirebaseConstants.videosCollection)

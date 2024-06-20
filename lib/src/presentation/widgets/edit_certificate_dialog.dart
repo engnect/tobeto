@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/models/certificate_model.dart';
-import 'package:tobeto/src/common/constants/utilities.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 
 class EditCertificateDialog extends StatefulWidget {
@@ -13,7 +13,8 @@ class EditCertificateDialog extends StatefulWidget {
 }
 
 class _EditCertificateDialogState extends State<EditCertificateDialog> {
-  final TextEditingController _certificateNameController = TextEditingController();
+  final TextEditingController _certificateNameController =
+      TextEditingController();
   DateTime? _selectedYear;
   String? _filePath;
 
@@ -26,7 +27,7 @@ class _EditCertificateDialogState extends State<EditCertificateDialog> {
   }
 
   Future<void> _selectYear(BuildContext context) async {
-    final DateTime? picked = await CertificateUtil.selectYear(context, _selectedYear);
+    final DateTime? picked = await Utilities.datePicker(context);
     if (picked != null && picked != _selectedYear) {
       setState(() {
         _selectedYear = picked;
@@ -35,7 +36,7 @@ class _EditCertificateDialogState extends State<EditCertificateDialog> {
   }
 
   Future<void> _pickPDF() async {
-    final String? path = await CertificateUtil.pickPDF();
+    final String? path = await Utilities.pickPDF();
     if (path != null) {
       setState(() {
         _filePath = path;
@@ -113,9 +114,9 @@ class _EditCertificateDialogState extends State<EditCertificateDialog> {
         TextButton(
           onPressed: () {
             CertificateModel updatedCertificate = CertificateModel(
-              certificateId: widget.certificateModel.certificateId, 
-              userId: widget.certificateModel.userId, 
-              certificateYear: _selectedYear!, 
+              certificateId: widget.certificateModel.certificateId,
+              userId: widget.certificateModel.userId,
+              certificateYear: _selectedYear!,
               certificateName: _certificateNameController.text,
               certificateFileUrl: _filePath!,
             );
