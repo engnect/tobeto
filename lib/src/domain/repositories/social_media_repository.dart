@@ -6,12 +6,12 @@ class SocialMediaRepository {
   Future<String> addSocialMedia(SocialMediaModel socialMediaModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
-    if(userModel != null) {
+    if (userModel != null) {
       try {
         userModel.socialMediaList!.add(socialMediaModel);
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -20,25 +20,24 @@ class SocialMediaRepository {
     return result;
   }
 
-    Future<String> updateSocialMedia(SocialMediaModel socialMediaModel) async {
+  Future<String> updateSocialMedia(SocialMediaModel socialMediaModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
     if (userModel != null) {
       try {
-        userModel.socialMediaList![userModel.socialMediaList!.indexWhere((element) =>
-                element.socialMediaId == socialMediaModel.socialMediaId)] =
+        userModel.socialMediaList![userModel.socialMediaList!.indexWhere(
+                (element) =>
+                    element.socialMediaId == socialMediaModel.socialMediaId)] =
             socialMediaModel;
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
       } catch (e) {
         result = e.toString();
       }
     }
     return result;
   }
-
-
 
   Future<String> deleteSocialMedia(SocialMediaModel socialMediaModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
@@ -50,7 +49,7 @@ class SocialMediaRepository {
         });
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -58,5 +57,4 @@ class SocialMediaRepository {
     }
     return result;
   }
-
 }
