@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
-import 'package:tobeto/src/common/router/app_router.dart';
+import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/data/datasource/theme_shared_pref.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import '../../common/constants/assets.dart';
@@ -145,7 +145,10 @@ class _TBTDrawerState extends State<TBTDrawer> {
                       ),
                       title: TBTPurpleButton(
                         buttonText: "Takvim",
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(AppRouteNames.calendarScreenRoute);
+                        },
                       ),
                     ),
                   ),
@@ -193,8 +196,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed(AppRouteNames.loginScreenRoute);
+                        Navigator.of(context).pushReplacementNamed(
+                            AppRouteNames.auhtScreenRoute);
                       },
                       child: const Text(
                         "Giriş yap",

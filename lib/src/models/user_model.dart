@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import 'package:tobeto/src/common/constants/enums.dart';
+import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/models/certificate_model.dart';
 import 'package:tobeto/src/models/education_model.dart';
 import 'package:tobeto/src/models/experience_model.dart';

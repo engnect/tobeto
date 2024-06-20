@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/models/user_model.dart';
 
 class UserRepository {
@@ -33,36 +34,37 @@ class UserRepository {
     });
   }
 
-  Future<String> updateUser(UserModel updatedUser) async {
-    UserModel? currentUser = await getCurrentUser();
+  Future<UserModel?> getSpecificUserById(String userId) async {
+    DocumentSnapshot documentSnapshot = await _users.doc(userId).get();
+    return UserModel.fromMap(documentSnapshot.data()! as Map<String, dynamic>);
+  }
+
+  Future<String> addOrUpdateUser(UserModel updatedUser) async {
     String result = '';
-    if (currentUser != null) {
-      try {
-        await _users.doc(currentUser.userId).update(updatedUser.toMap());
-        result = 'success';
-      } catch (e) {
-        result = e.toString();
-      }
+    try {
+      await _users.doc(updatedUser.userId).set(updatedUser.toMap());
+      result = 'success';
+    } catch (e) {
+      result = e.toString();
     }
     return result;
   }
 
-    Future<String> uploadImage(File imageFile) async {
+
+
+
+  Future<String> deleteUser(UserModel userModel) async {
+    String result = '';
+
     try {
-      String userId = _firebaseAuth.currentUser!.uid;
-      String fileName = "profile_${DateTime.now().millisecondsSinceEpoch}.jpg";
-      Reference reference = _firebaseStorage.ref().child("users").child(userId).child(fileName);
-
-      UploadTask uploadTask = reference.putFile(imageFile);
-      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() => null);
-      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
-
-      return downloadUrl;
+      await _users.doc(userModel.userId).delete();
+      await AuthRepository().deleteUser();
+      result = 'success';
     } catch (e) {
-      print("Error uploading image: $e");
-      return '';
+      result = e.toString();
     }
-  }
 
- 
+    return result;
+  }
 }
+

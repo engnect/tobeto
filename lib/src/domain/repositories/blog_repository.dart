@@ -30,50 +30,49 @@ class BlogRepository {
     return blogs;
   }
 
-  Future<String> addBlog({
+  // Future<String> addBlog({
+  //   required BlogModel blogModel,
+  // }) async {
+  //   String result = '';
+  //   if (isBlog == true) {
+  //     try {
+  //       await _blogs.add(blogModel.toMap());
+  //       result = 'success';
+  //     } catch (error) {
+  //       result = error.toString();
+  //     }
+  //   } else {
+  //     try {
+  //       await _inThePress.add(blogModel.toMap());
+  //       result = 'success';
+  //     } catch (error) {
+  //       result = error.toString();
+  //     }
+  //   }
+
+  //   return result;
+  // }
+
+  Future<String> addOrUpdateBlog({
     required BlogModel blogModel,
   }) async {
     String result = '';
+
     if (isBlog == true) {
       try {
-        await _blogs.add(blogModel.toMap());
+        await _blogs.doc(blogModel.blogId).set(blogModel.toMap());
         result = 'success';
       } catch (error) {
         result = error.toString();
       }
     } else {
       try {
-        await _inThePress.add(blogModel.toMap());
+        await _inThePress.doc(blogModel.blogId).set(blogModel.toMap());
         result = 'success';
       } catch (error) {
         result = error.toString();
       }
     }
-
-    return result;
-  }
-
-  Future<String> updateBlog({
-    required BlogModel blogModel,
-  }) async {
-    String result = '';
-
-    if (isBlog == true) {
-      try {
-        await _blogs.doc(blogModel.blogId).set(blogModel);
-        result = 'success';
-      } catch (error) {
-        result = error.toString();
-      }
-    } else {
-      try {
-        await _inThePress.doc(blogModel.blogId).set(blogModel);
-        result = 'success';
-      } catch (error) {
-        result = error.toString();
-      }
-    }
-
     return result;
   }
 
@@ -97,7 +96,6 @@ class BlogRepository {
         result = error.toString();
       }
     }
-
     return result;
   }
 }

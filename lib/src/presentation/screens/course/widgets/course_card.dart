@@ -38,7 +38,7 @@ class _CourseCardState extends State<CourseCard> {
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(15)),
-            child: Image.asset(
+            child: Image.network(
               widget.image,
               fit: BoxFit.cover,
             ),

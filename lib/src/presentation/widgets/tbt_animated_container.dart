@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 
 class TBTAnimatedContainer extends StatefulWidget {
   final double height;
-  bool isExpanded;
+  final String infoText;
   final Widget child;
-  TBTAnimatedContainer({
+
+  const TBTAnimatedContainer({
     super.key,
     required this.height,
-    required this.isExpanded,
+    required this.infoText,
     required this.child,
   });
 
@@ -18,29 +19,35 @@ class TBTAnimatedContainer extends StatefulWidget {
 }
 
 class _TBTAnimatedContainerState extends State<TBTAnimatedContainer> {
+  bool isExpanded = false;
+  ScrollController animatedContScrllCntrllr = ScrollController();
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool isExp = widget.isExpanded;
     return Column(
       children: [
         AnimatedContainer(
           decoration: BoxDecoration(
-            borderRadius: widget.isExpanded
+            borderRadius: isExpanded == false
                 ? const BorderRadius.only(
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),
                   )
                 : null,
-            border: isExp
+            border: isExpanded == false
                 ? Border(
                     bottom: BorderSide(
-                      width: widget.isExpanded ? 7 : 0,
+                      width: isExpanded == false ? 7 : 0,
                       color: const Color.fromARGB(255, 153, 51, 255),
                     ),
                   )
                 : null,
           ),
-          height: widget.isExpanded ? widget.height : 0,
+          height: isExpanded ? widget.height : 0,
           duration: const Duration(seconds: 1),
           child: ScrollbarTheme(
             data: ScrollbarThemeData(
@@ -51,9 +58,14 @@ class _TBTAnimatedContainerState extends State<TBTAnimatedContainer> {
                   const Color.fromARGB(255, 153, 51, 255)),
             ),
             child: Scrollbar(
+              controller: animatedContScrllCntrllr,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: SingleChildScrollView(child: widget.child),
+                child: SingleChildScrollView(
+                  controller: animatedContScrllCntrllr,
+                  primary: false,
+                  child: widget.child,
+                ),
               ),
             ),
           ),
@@ -62,19 +74,31 @@ class _TBTAnimatedContainerState extends State<TBTAnimatedContainer> {
         GestureDetector(
           onTap: () {
             setState(() {
-              widget.isExpanded = !widget.isExpanded;
+              isExpanded = !isExpanded;
             });
           },
-          child: widget.isExpanded
-              ? const Icon(
-                  Icons.keyboard_arrow_up_outlined,
-                  size: 50,
-                  color: Color.fromARGB(255, 153, 51, 255),
+          child: isExpanded == true
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.keyboard_arrow_up_outlined,
+                      size: 50,
+                      color: Color.fromARGB(255, 153, 51, 255),
+                    ),
+                    Text(widget.infoText),
+                  ],
                 )
-              : const Icon(
-                  Icons.keyboard_arrow_down_outlined,
-                  size: 50,
-                  color: Color.fromARGB(255, 153, 51, 255),
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.keyboard_arrow_down_outlined,
+                      size: 50,
+                      color: Color.fromARGB(255, 153, 51, 255),
+                    ),
+                    Text(widget.infoText),
+                  ],
                 ),
         ),
       ],

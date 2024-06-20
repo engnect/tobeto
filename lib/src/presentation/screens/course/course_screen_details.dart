@@ -75,8 +75,20 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
                                   ),
                                 ],
                                 title: const Text('Ders Hakkında'),
-                                content: const Text(
-                                    'Başlangıç \${course.startDate}\nBitiş \${course.endDate}\nTahmini Süre \${course.estimatedTime}\nÜretici Firma \${course.manufacturer}'),
+                                content: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                        'Başlangıç Tarihi: ${widget.course.startDate}'),
+                                    Text(
+                                        'Bitiş Tarihi: ${widget.course.endDate}'),
+                                    Text(
+                                        'Tahmini Süre: ${widget.course.estimatedTime}'),
+                                    Text(
+                                        'Üretici Firma: ${widget.course.manufacturer}'),
+                                  ],
+                                ),
                               )
                             : AlertDialog(
                                 actions: [
@@ -88,8 +100,19 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
                                   ),
                                 ],
                                 title: const Text('Ders Hakkında'),
-                                content: Text(
-                                    'Başlangıç: ${widget.course.startDate}\nTahmini Süre: ${widget.courseVideos[0].estimatedDate}\nÜretici Firma: ${widget.courseVideos[0].manufacturer}'),
+                                content: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                        'Start Date: ${widget.course.startDate}'),
+                                    Text('End Date: ${widget.course.endDate}'),
+                                    Text(
+                                        'Estimated Date: ${widget.course.estimatedTime}'),
+                                    Text(
+                                        'Manufacturer: ${widget.course.manufacturer}'),
+                                  ],
+                                ),
                                 titleTextStyle: const TextStyle(
                                   fontSize: 36,
                                   color: Colors.black,
@@ -133,6 +156,7 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
                               //     "izlenme süresi  ${snapshot.data!.roundToDouble()}");
                             },
                             watchedPercentage: snapshot.data!.roundToDouble(),
+                            course: widget.course,
                           );
                         } else {
                           return const CircularProgressIndicator();

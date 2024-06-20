@@ -48,4 +48,7 @@ class Assets {
   static const String imageLesson = "assets/images/lesson1.png";
   static const String imageCode = "assets/images/code1.png";
   static const String imageGoogle = "assets/images/google.png";
+  static const String imageUser = "assets/images/userName.png";
+  static const String imageEmail = "assets/images/email.png";
+  static const String imagePassword = "assets/images/password.png";
 }

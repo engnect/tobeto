@@ -29,10 +29,10 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
 
       try {
         if (event.isBlog == true) {
-          await _blogRepository.addBlog(blogModel: event.blogModel);
+          await _blogRepository.addOrUpdateBlog(blogModel: event.blogModel);
           emit(BlogSuccess());
         } else {
-          await _blogRepository.addBlog(blogModel: event.blogModel);
+          await _blogRepository.addOrUpdateBlog(blogModel: event.blogModel);
           emit(BlogSuccess());
         }
       } catch (_) {
@@ -45,10 +45,10 @@ class BlogBloc extends Bloc<BlogEvent, BlogState> {
 
       try {
         if (event.isBlog == true) {
-          await _blogRepository.updateBlog(blogModel: event.blogModel);
+          await _blogRepository.addOrUpdateBlog(blogModel: event.blogModel);
           emit(BlogSuccess());
         } else {
-          await _blogRepository.updateBlog(blogModel: event.blogModel);
+          await _blogRepository.addOrUpdateBlog(blogModel: event.blogModel);
           emit(BlogSuccess());
         }
       } catch (_) {

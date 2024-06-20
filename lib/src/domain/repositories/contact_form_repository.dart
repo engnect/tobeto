@@ -24,7 +24,7 @@ class ContactFromRepository {
   Future<String> deleteForm(String contactFormId) async {
     String result = '';
     try {
-      await _contactForms.doc().delete();
+      await _contactForms.doc(contactFormId).delete();
       result = 'success';
     } catch (_) {
       result = 'failure';

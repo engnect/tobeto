@@ -1,11 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field2/intl_phone_field.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/common/constants/utilities.dart';
-import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
@@ -147,7 +145,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
           city: _selectedCityName,
           district: _selectedDistrictName,   
         );
-        await _userRepository.updateUser(updatedUser);
+        await _userRepository.addOrUpdateUser(updatedUser);
 
         _loadUserData();
       } else {

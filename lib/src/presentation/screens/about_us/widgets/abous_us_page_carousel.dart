@@ -15,14 +15,16 @@ class _AboutUsCarouselState extends State<AboutUsCarousel> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(
-          horizontal: 5, vertical: 5), //Ekran ile card arasında ki mesafe için
+        horizontal: 5,
+        vertical: 5,
+      ), //Ekran ile card arasında ki mesafe için
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: const BorderRadius.all(
           Radius.circular(90),
         ),
-        border: GradientBoxBorder(
+        border: const GradientBoxBorder(
           width: 5, //border kalınlığı
           gradient: SweepGradient(
             startAngle: 2.3561944902, //rad türünden 135 derece
@@ -42,15 +44,10 @@ class _AboutUsCarouselState extends State<AboutUsCarousel> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Text(
-              textAlign: TextAlign.center,
-              "TOBETO FARKI \n NEDİR?",
-              style: TextStyle(
-                fontFamily: "Poppins",
-                fontSize: 34,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
+            Text(
+                textAlign: TextAlign.center,
+                "TOBETO FARKI \n NEDİR?",
+                style: Theme.of(context).textTheme.displayMedium),
             CarouselSlider(
               carouselController: _controller,
               items: const [
