@@ -36,6 +36,7 @@ class AuthRepository {
           userEmail: userEmail,
           userAvatarUrl: userAvatarUrl,
           userRank: UserRank.student,
+          usertitle: 'Öğrenci',
           userCreatedAt: DateTime.now(),
           userBirthDate: DateTime.now(),
           languageList: [],
@@ -72,11 +73,9 @@ class AuthRepository {
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
       );
-      print(credential);
 
       userCredential = await _firebaseAuth.signInWithCredential(credential);
 
-      print(userCredential);
       String? fullName = userCredential.user!.displayName!;
 
       // isim soyisim ayırma
@@ -91,6 +90,7 @@ class AuthRepository {
         userEmail: userCredential.user!.email!,
         userAvatarUrl: userCredential.user!.photoURL,
         userRank: UserRank.student,
+        usertitle: 'Öğrenci',
         userCreatedAt: DateTime.now(),
         userBirthDate: DateTime.now(),
         languageList: [],

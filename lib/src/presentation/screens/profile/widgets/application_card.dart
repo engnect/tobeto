@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:tobeto/src/common/enums/application_status_enum.dart';
 import 'package:tobeto/src/common/enums/application_type_enum.dart';
-
 import 'package:tobeto/src/models/application_model.dart';
 
 class ApplicationCard extends StatefulWidget {
@@ -99,13 +100,21 @@ class _ApplicationCardState extends State<ApplicationCard> {
                             horizontal: 8, vertical: 6),
                         child: Text(
                           widget.applicationModel.applicationContent,
-                          maxLines: 3,
+                          maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontFamily: "Poppins",
                             fontSize: 14,
                           ),
                         ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        DateFormat('dd/MM/yyyy').format(
+                            widget.applicationModel.applicationCreatedAt),
+                        style: const TextStyle(fontSize: 12),
                       ),
                     ),
                   ],
@@ -125,18 +134,26 @@ class _ApplicationCardState extends State<ApplicationCard> {
                 top: 2,
               ),
               decoration: BoxDecoration(
-                color: widget.applicationModel.didApplicationApproved == false
-                    ? Colors.grey
-                    : const Color.fromARGB(255, 7, 107, 52),
+                color: widget.applicationModel.applicationStatus ==
+                        ApplicationStatus.approved
+                    ? const Color.fromARGB(255, 7, 107, 52)
+                    : widget.applicationModel.applicationStatus ==
+                            ApplicationStatus.denied
+                        ? Colors.red
+                        : Colors.amber,
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(25),
                   topLeft: Radius.circular(25),
                 ),
               ),
               child: Text(
-                widget.applicationModel.didApplicationApproved == false
-                    ? 'Beklemede'
-                    : "Kabul Edildi",
+                widget.applicationModel.applicationStatus ==
+                        ApplicationStatus.approved
+                    ? 'Onaylandı!'
+                    : widget.applicationModel.applicationStatus ==
+                            ApplicationStatus.denied
+                        ? 'Reddedildi'
+                        : 'Beklemede',
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 13,

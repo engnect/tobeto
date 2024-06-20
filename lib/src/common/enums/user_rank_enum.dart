@@ -1,4 +1,8 @@
-enum UserRank { student, instructor, admin }
+enum UserRank {
+  student,
+  instructor,
+  admin,
+}
 
 extension UserRankExtension on UserRank {
   static UserRank fromName(String name) {

@@ -21,7 +21,7 @@ class UserModel {
 
   //enum
   final UserRank? userRank;
-
+  final String? usertitle;
   final DateTime? userCreatedAt;
   final String? gender;
   final String? militaryStatus;
@@ -37,7 +37,6 @@ class UserModel {
   final List<ExperienceModel>? experiencesList;
   final List<EducationModel>? schoolsList;
   final List<CertificateModel>? certeficatesList;
-
   UserModel({
     required this.userId,
     required this.userName,
@@ -47,15 +46,16 @@ class UserModel {
     this.userPhoneNumber,
     this.userBirthDate,
     this.userRank,
+    this.usertitle,
     this.userCreatedAt,
     this.gender,
     this.militaryStatus,
     this.disabilityStatus,
     this.aboutMe,
     this.address,
-    this.country, // Yeni eklenen country alanı
-    this.city, // Yeni eklenen city alanı
-    this.district, // Yeni eklenen district alanı
+    this.country,
+    this.city,
+    this.district,
     this.languageList,
     this.socialMediaList,
     this.skillsList,
@@ -73,15 +73,16 @@ class UserModel {
     String? userPhoneNumber,
     DateTime? userBirthDate,
     UserRank? userRank,
+    String? usertitle,
     DateTime? userCreatedAt,
     String? gender,
     String? militaryStatus,
     String? disabilityStatus,
     String? aboutMe,
     String? address,
-    String? country, // Yeni eklenen country alanı
-    String? city, // Yeni eklenen city alanı
-    String? district, // Yeni eklenen district alanı
+    String? country,
+    String? city,
+    String? district,
     List<LanguageModel>? languageList,
     List<SocialMediaModel>? socialMediaList,
     List<SkillModel>? skillsList,
@@ -98,15 +99,16 @@ class UserModel {
       userPhoneNumber: userPhoneNumber ?? this.userPhoneNumber,
       userBirthDate: userBirthDate ?? this.userBirthDate,
       userRank: userRank ?? this.userRank,
+      usertitle: usertitle ?? this.usertitle,
       userCreatedAt: userCreatedAt ?? this.userCreatedAt,
       gender: gender ?? this.gender,
       militaryStatus: militaryStatus ?? this.militaryStatus,
       disabilityStatus: disabilityStatus ?? this.disabilityStatus,
       aboutMe: aboutMe ?? this.aboutMe,
       address: address ?? this.address,
-      country: country ?? this.country, // Yeni eklenen country alanı
-      city: city ?? this.city, // Yeni eklenen city alanı
-      district: district ?? this.district, // Yeni eklenen district alanı
+      country: country ?? this.country,
+      city: city ?? this.city,
+      district: district ?? this.district,
       languageList: languageList ?? this.languageList,
       socialMediaList: socialMediaList ?? this.socialMediaList,
       skillsList: skillsList ?? this.skillsList,
@@ -125,16 +127,17 @@ class UserModel {
       'userAvatarUrl': userAvatarUrl,
       'userPhoneNumber': userPhoneNumber,
       'userBirthDate': userBirthDate,
-      'userRank': userRank?.name,
+      'userRank': userRank?.index,
+      'usertitle': usertitle,
       'userCreatedAt': userCreatedAt,
       'gender': gender,
       'militaryStatus': militaryStatus,
       'disabilityStatus': disabilityStatus,
       'aboutMe': aboutMe,
       'address': address,
-      'country': country, // Yeni eklenen country alanı
-      'city': city, // Yeni eklenen city alanı
-      'district': district, // Yeni eklenen district alanı
+      'country': country,
+      'city': city,
+      'district': district,
       'languageList': languageList?.map((x) => x.toMap()).toList(),
       'socialMediaList': socialMediaList?.map((x) => x.toMap()).toList(),
       'skillsList': skillsList?.map((x) => x.toMap()).toList(),
@@ -152,17 +155,20 @@ class UserModel {
       userEmail: map['userEmail'] ?? '',
       userAvatarUrl: map['userAvatarUrl'],
       userPhoneNumber: map['userPhoneNumber'],
-      userBirthDate: map['userBirthDate'].toDate(),
-      userRank: UserRankExtension.fromName(map['userRank']),
-      userCreatedAt: map['userCreatedAt'].toDate(),
+      userBirthDate: map['userBirthDate'].toDate() ?? DateTime.now(),
+      userRank: map['userRank'] != null
+          ? UserRank.values[map['userRank'] ?? 0]
+          : null,
+      usertitle: map['usertitle'],
+      userCreatedAt: map['userCreatedAt'].toDate() ?? DateTime.now(),
       gender: map['gender'],
       militaryStatus: map['militaryStatus'],
       disabilityStatus: map['disabilityStatus'],
       aboutMe: map['aboutMe'],
       address: map['address'],
-      country: map['country'], // Yeni eklenen country alanı
-      city: map['city'], // Yeni eklenen city alanı
-      district: map['district'], // Yeni eklenen district alanı
+      country: map['country'],
+      city: map['city'],
+      district: map['district'],
       languageList: map['languageList'] != null
           ? List<LanguageModel>.from(
               map['languageList']?.map((x) => LanguageModel.fromMap(x)))
@@ -197,7 +203,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(userId: $userId, userName: $userName, userSurname: $userSurname, userEmail: $userEmail, userAvatarUrl: $userAvatarUrl, userPhoneNumber: $userPhoneNumber, userBirthDate: $userBirthDate, userRank: $userRank, userCreatedAt: $userCreatedAt, gender: $gender, militaryStatus: $militaryStatus, disabilityStatus: $disabilityStatus, aboutMe: $aboutMe, address: $address, country: $country, city: $city, district: $district, languageList: $languageList, socialMediaList: $socialMediaList, skillsList: $skillsList, experiencesList: $experiencesList, schoolsList: $schoolsList, certeficatesList: $certeficatesList)';
+    return 'UserModel(userId: $userId, userName: $userName, userSurname: $userSurname, userEmail: $userEmail, userAvatarUrl: $userAvatarUrl, userPhoneNumber: $userPhoneNumber, userBirthDate: $userBirthDate, userRank: $userRank, usertitle: $usertitle, userCreatedAt: $userCreatedAt, gender: $gender, militaryStatus: $militaryStatus, disabilityStatus: $disabilityStatus, aboutMe: $aboutMe, address: $address, country: $country, city: $city, district: $district, languageList: $languageList, socialMediaList: $socialMediaList, skillsList: $skillsList, experiencesList: $experiencesList, schoolsList: $schoolsList, certeficatesList: $certeficatesList)';
   }
 
   @override
@@ -213,15 +219,16 @@ class UserModel {
         other.userPhoneNumber == userPhoneNumber &&
         other.userBirthDate == userBirthDate &&
         other.userRank == userRank &&
+        other.usertitle == usertitle &&
         other.userCreatedAt == userCreatedAt &&
         other.gender == gender &&
         other.militaryStatus == militaryStatus &&
         other.disabilityStatus == disabilityStatus &&
         other.aboutMe == aboutMe &&
         other.address == address &&
-        other.country == country && // Yeni eklenen country alanı
-        other.city == city && // Yeni eklenen city alanı
-        other.district == district && // Yeni eklenen district alanı
+        other.country == country &&
+        other.city == city &&
+        other.district == district &&
         listEquals(other.languageList, languageList) &&
         listEquals(other.socialMediaList, socialMediaList) &&
         listEquals(other.skillsList, skillsList) &&
@@ -240,15 +247,16 @@ class UserModel {
         userPhoneNumber.hashCode ^
         userBirthDate.hashCode ^
         userRank.hashCode ^
+        usertitle.hashCode ^
         userCreatedAt.hashCode ^
         gender.hashCode ^
         militaryStatus.hashCode ^
         disabilityStatus.hashCode ^
         aboutMe.hashCode ^
         address.hashCode ^
-        country.hashCode ^ // Yeni eklenen country alanı
-        city.hashCode ^ // Yeni eklenen city alanı
-        district.hashCode ^ // Yeni eklenen district alanı
+        country.hashCode ^
+        city.hashCode ^
+        district.hashCode ^
         languageList.hashCode ^
         socialMediaList.hashCode ^
         skillsList.hashCode ^

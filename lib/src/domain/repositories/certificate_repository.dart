@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/certificate_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
@@ -89,7 +90,9 @@ class CertificateRepository {
 
       return pdfUrl;
     } catch (e) {
-      print('Firebase Storage upload error: $e');
+      if (kDebugMode) {
+        print('Firebase Storage upload error: $e');
+      }
       throw Exception('Failed to upload PDF');
     }
   }

@@ -227,18 +227,19 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           GestureDetector(
-              onTap: () {
-                if (kDebugMode) {
-                  print("Şifremi unuttuma tıklandı");
-                }
-              },
-              child: const Text(
-                "Şifremi Unuttum",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color.fromRGBO(111, 111, 111, 1),
-                ),
-              ))
+            onTap: () {
+              if (kDebugMode) {
+                print("Şifremi unuttuma tıklandı");
+              }
+            },
+            child: const Text(
+              "Şifremi Unuttum",
+              style: TextStyle(
+                fontSize: 14,
+                color: Color.fromRGBO(111, 111, 111, 1),
+              ),
+            ),
+          ),
         ],
       ),
     );

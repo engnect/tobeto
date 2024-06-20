@@ -49,7 +49,7 @@ class _StaffPageState extends State<StaffPage> {
                       .collection(FirebaseConstants.usersCollection)
                       .where(
                         'userRank',
-                        isEqualTo: 'admin',
+                        isEqualTo: UserRank.admin.index,
                       )
                       .snapshots(),
                   builder: (context, snapshot) {

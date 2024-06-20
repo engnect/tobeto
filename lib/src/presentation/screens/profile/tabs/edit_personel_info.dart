@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field2/intl_phone_field.dart';
@@ -70,7 +71,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         _selectedDistrictName = user.district;
       });
     } else {
-      print("getUser returned null");
+      if (kDebugMode) {
+        print("getUser returned null");
+      }
     }
   }
 
