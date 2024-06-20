@@ -6,12 +6,12 @@ class LanguageRepository {
   Future<String> addLanguage(LanguageModel languageModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
-    if(userModel != null) {
+    if (userModel != null) {
       try {
         userModel.languageList!.add(languageModel);
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -20,17 +20,17 @@ class LanguageRepository {
     return result;
   }
 
-   Future<String> updateLanguage(LanguageModel languageModel) async {
+  Future<String> updateLanguage(LanguageModel languageModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
     if (userModel != null) {
       try {
-        userModel.languageList![userModel.languageList!.indexWhere((element) =>
-                element.languageId == languageModel.languageId)] =
+        userModel.languageList![userModel.languageList!.indexWhere(
+                (element) => element.languageId == languageModel.languageId)] =
             languageModel;
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
       } catch (e) {
         result = e.toString();
       }
@@ -48,7 +48,7 @@ class LanguageRepository {
         });
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -56,9 +56,4 @@ class LanguageRepository {
     }
     return result;
   }
-
-
-
-
-
 }

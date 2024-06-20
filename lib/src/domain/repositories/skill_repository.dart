@@ -6,12 +6,12 @@ class SkillRepository {
   Future<String> addSkill(SkillModel skillModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
-    if(userModel != null) {
+    if (userModel != null) {
       try {
         userModel.skillsList!.add(skillModel);
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -20,17 +20,16 @@ class SkillRepository {
     return result;
   }
 
-   Future<String> updateSkill(SkillModel skillModel) async {
+  Future<String> updateSkill(SkillModel skillModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
     if (userModel != null) {
       try {
-        userModel.skillsList![userModel.skillsList!.indexWhere((element) =>
-                element.skillId == skillModel.skillId)] =
-            skillModel;
+        userModel.skillsList![userModel.skillsList!.indexWhere(
+            (element) => element.skillId == skillModel.skillId)] = skillModel;
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
       } catch (e) {
         result = e.toString();
       }
@@ -38,8 +37,7 @@ class SkillRepository {
     return result;
   }
 
-
-   Future<String> deleteSkill(SkillModel skillModel) async {
+  Future<String> deleteSkill(SkillModel skillModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
     if (userModel != null) {
@@ -49,7 +47,7 @@ class SkillRepository {
         });
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -57,5 +55,4 @@ class SkillRepository {
     }
     return result;
   }
-
 }

@@ -11,7 +11,7 @@ class EducationRepository {
         userModel.schoolsList!.add(educaitonModel);
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -30,7 +30,7 @@ class EducationRepository {
             educationModel;
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
       } catch (e) {
         result = e.toString();
       }
@@ -38,9 +38,6 @@ class EducationRepository {
     return result;
   }
 
-
-
-  
   Future<String> deleteEducation(EducationModel educationModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
@@ -51,7 +48,7 @@ class EducationRepository {
         });
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();

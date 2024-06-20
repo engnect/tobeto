@@ -7,11 +7,7 @@ import 'package:tobeto/src/domain/repositories/experience_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/experience_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
-
 import 'package:tobeto/src/presentation/widgets/edit_experience_dialog.dart';
-
-import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
-
 import 'package:uuid/uuid.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
@@ -90,24 +86,44 @@ class _ExperiencePageState extends State<ExperiencePage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              TBTAnimatedContainer(
-                height: 370,
-                infoText: 'Yeni Tecrübe Ekleyin',
-                child: BlocBuilder<AuthBloc, AuthState>(
-                  builder: (context, state) {
-                    if (state is Authenticated) {
-                      UserModel currentUser = state.userModel;
-
+              TBTPurpleButton(
+                buttonText: "Düzenle",
+                onPressed: () {
+                  setState(() {
+                    isSelect = !isSelect;
+                  });
+                },
+              ),
+              AnimatedContainer(
+                decoration: BoxDecoration(
+                  borderRadius: isSelect
+                      ? const BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10),
+                        )
+                      : null,
+                  border: Border(
+                    bottom: BorderSide(
+                      width: isSelect ? 7 : 0,
+                      color: const Color.fromARGB(255, 153, 51, 255),
+                    ),
+                  ),
+                ),
+                height: isSelect ? 600 : 0,
+                duration: const Duration(seconds: 1),
+                child: isSelect
+                    ? BlocBuilder<AuthBloc, AuthState>(
+                        builder: (context, state) {
+                          if (state is Authenticated) {
+                            UserModel currentUser = state.userModel;
 
                             return ListView.builder(
                               itemCount: currentUser.experiencesList!.length,
@@ -144,7 +160,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
                                               context: context,
                                               builder: (context) =>
                                                   EditExperienceDialog(
-                                                      experience:experience),
+                                                      experience: experience),
                                             );
                                             if (updatedExperience != null) {
                                               String result =
@@ -158,9 +174,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
                                                   content: Text(result),
                                                 ),
                                               );
-                                              setState(() {
-                                               
-                                              });
+                                              setState(() {});
                                             }
                                           },
                                         ),
@@ -189,32 +203,32 @@ class _ExperiencePageState extends State<ExperiencePage> {
                                                       //     experience
                                                       //         .experienceId);
 
+                                                      String result =
+                                                          await ExperienceRepository()
+                                                              .deleteExperience(
+                                                                  experience);
 
-                                                String result =
-                                                    await ExperienceRepository()
-                                                        .deleteExperience(
-                                                            experience);
-
-                                                print(result);
-                                              },
-                                              child: const Text('Sil'),
-                                            ),
-                                          ],
+                                                      print(result);
+                                                    },
+                                                    child: const Text('Sil'),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
                                         ),
-                                      );
-                                    },
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          );
+                                );
+                              },
+                            );
+                          } else {
+                            return const SizedBox.shrink();
+                          }
                         },
-                      );
-                    } else {
-                      return const SizedBox.shrink();
-                    }
-                  },
-                ),
+                      )
+                    : const SizedBox.shrink(),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -387,7 +401,9 @@ class _ExperiencePageState extends State<ExperiencePage> {
                     experienceSector: _sectorController.text,
                     experienceCity: _selectedCityName.toString(),
                     startDate: _selectedStartDate!,
-                    endDate: _isCurrentlyWorking ? DateTime.now() : _selectedEndDate!,
+                    endDate: _isCurrentlyWorking
+                        ? DateTime.now()
+                        : _selectedEndDate!,
                     isCurrentlyWorking: _isCurrentlyWorking,
                     jobDescription: _jobdescrbController.text,
                   );
@@ -398,7 +414,6 @@ class _ExperiencePageState extends State<ExperiencePage> {
                   print(sonuc);
                 },
               ),
-              const SizedBox(height: 60),
             ],
           ),
         ),

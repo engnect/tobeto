@@ -6,9 +6,10 @@ import 'package:tobeto/src/models/certificate_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
 
 class CertificateRepository {
-   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
-  Future<String> addCertificate(CertificateModel certificateModel, String pdfPath) async {
+  Future<String> addCertificate(
+      CertificateModel certificateModel, String pdfPath) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
     if (userModel != null) {
@@ -21,7 +22,7 @@ class CertificateRepository {
 
           // Update user document in Firestore
           UserModel updatedUser = userModel.copyWith();
-          await UserRepository().updateUser(updatedUser);
+          await UserRepository().addOrUpdateUser(updatedUser);
           result = 'success';
         } else {
           result = 'Failed to upload PDF';
@@ -38,12 +39,13 @@ class CertificateRepository {
     String result = '';
     if (userModel != null) {
       try {
-        userModel.certeficatesList![userModel.certeficatesList!.indexWhere((element) =>
-                element.certificateId == certificateModel.certificateId)] =
+        userModel.certeficatesList![userModel.certeficatesList!.indexWhere(
+                (element) =>
+                    element.certificateId == certificateModel.certificateId)] =
             certificateModel;
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
       } catch (e) {
         result = e.toString();
       }
@@ -51,7 +53,7 @@ class CertificateRepository {
     return result;
   }
 
-   Future<String> deleteCertificate(CertificateModel certificateModel) async {
+  Future<String> deleteCertificate(CertificateModel certificateModel) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String result = '';
     if (userModel != null) {
@@ -61,7 +63,7 @@ class CertificateRepository {
         });
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().updateUser(updatedUser);
+        await UserRepository().addOrUpdateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -70,7 +72,7 @@ class CertificateRepository {
     return result;
   }
 
-   Future<String> _uploadPDF(String pdfPath, String userId) async {
+  Future<String> _uploadPDF(String pdfPath, String userId) async {
     try {
       File pdfFile = File(pdfPath);
       String fileName = pdfFile.path.split('/').last;
@@ -91,6 +93,4 @@ class CertificateRepository {
       throw Exception('Failed to upload PDF');
     }
   }
-
-
 }
