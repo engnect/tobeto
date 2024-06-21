@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 
-class PasswordInput extends StatefulWidget {
+class UserInput extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
-  const PasswordInput({
+  const UserInput({
     super.key,
     required this.controller,
     required this.hintText,
   });
 
-  @override
-  State<PasswordInput> createState() => _PasswordInputState();
-}
-
-bool showIcon = true;
-
-class _PasswordInputState extends State<PasswordInput> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -25,42 +18,20 @@ class _PasswordInputState extends State<PasswordInput> {
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(
-            Radius.circular(10),
+            Radius.circular(11),
           ),
         ),
         child: TextField(
-          controller: widget.controller,
-          keyboardType: TextInputType.multiline,
+          controller: controller,
+          keyboardType: TextInputType.name,
           style: const TextStyle(
-              fontFamily: "Poppins",
-              fontSize: 15,
-              color: Color.fromRGBO(60, 60, 60, 1)),
-          autocorrect: false,
-          obscureText: showIcon,
+            fontFamily: "Poppins",
+            fontSize: 15,
+            color: Color.fromRGBO(60, 60, 60, 1),
+          ),
           decoration: InputDecoration(
-            prefixIcon: Image.asset(Assets.imagePassword),
-            suffixIcon: showIcon
-                ? IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showIcon = !showIcon;
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.visibility_outlined,
-                    ),
-                  )
-                : IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showIcon = !showIcon;
-                      });
-                    },
-                    icon: const Icon(
-                      Icons.visibility_off_outlined,
-                    ),
-                  ),
-            hintText: widget.hintText,
+            prefixIcon: Image.asset(Assets.imageUser),
+            hintText: hintText,
             hintStyle: const TextStyle(
               color: Color.fromRGBO(129, 129, 129, 1),
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
+import 'package:tobeto/src/presentation/screens/auth/widgets/email_input.dart';
 import 'package:tobeto/src/presentation/screens/auth/widgets/password_input.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
@@ -107,51 +108,15 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         children: [
           // E-Mail Kısmı
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: DecoratedBox(
-              decoration: const BoxDecoration(color: Colors.white),
-              child: TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                style: const TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 15,
-                    color: Color.fromRGBO(60, 60, 60, 1)),
-                decoration: InputDecoration(
-                  prefixIcon: Image.asset(Assets.imageEmail),
-                  hintText: "E-posta",
-                  hintStyle: const TextStyle(
-                    color: Color.fromRGBO(129, 129, 129, 1),
-                  ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(138, 138, 138, 0.4),
-                    ),
-                  ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(153, 51, 255, 0.4),
-                      width: 4,
-                    ),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(129, 129, 129, 1),
-                      width: 1,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          EmailInput(
+            controller: _emailController,
+            hintText: "E-Posta",
           ),
           // Şifre Kısmı
-          PasswordInput(controller: _passwordController),
+          PasswordInput(
+            controller: _passwordController,
+            hintText: "Şifre",
+          ),
           //Giriş Yap butonu
           Padding(
             padding: const EdgeInsets.symmetric(
