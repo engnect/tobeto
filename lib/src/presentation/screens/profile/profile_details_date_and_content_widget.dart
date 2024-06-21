@@ -15,10 +15,10 @@ class DateAndContentWidget extends StatelessWidget {
       margin: const EdgeInsets.all(5),
       padding: const EdgeInsets.all(10),
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(25)),
-        boxShadow: [
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        borderRadius: const BorderRadius.all(Radius.circular(25)),
+        boxShadow: const [
           BoxShadow(
             color: Color.fromRGBO(0, 0, 0, 0.5),
             blurRadius: 8,
@@ -34,16 +34,18 @@ class DateAndContentWidget extends StatelessWidget {
               date,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                  fontFamily: "Poppins",
-                  fontSize: 12,
-                  color: Color.fromRGBO(111, 111, 111, 1)),
+              style: TextStyle(
+                fontFamily: "Poppins",
+                fontSize: 12,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
             ),
             Text(
               content,
-              style: const TextStyle(
+              style: TextStyle(
                 fontFamily: "Poppins",
                 fontSize: 16,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           ],

@@ -15,10 +15,10 @@ class LanguageWidget extends StatelessWidget {
       margin: const EdgeInsets.all(5),
       padding: const EdgeInsets.all(10),
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(25)),
-        boxShadow: [
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        borderRadius: const BorderRadius.all(Radius.circular(25)),
+        boxShadow: const [
           BoxShadow(
             color: Color.fromRGBO(0, 0, 0, 0.5),
             blurRadius: 8,
@@ -27,9 +27,9 @@ class LanguageWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(
+          Icon(
             Icons.language_outlined,
-            color: Color.fromRGBO(111, 111, 111, 1),
+            color: Theme.of(context).colorScheme.onSecondary,
             size: 40,
           ),
           Padding(
@@ -41,19 +41,20 @@ class LanguageWidget extends StatelessWidget {
                   language,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: "Poppins",
                     fontSize: 16,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 Text(
                   languageLevel,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontFamily: "Poppins",
                       fontSize: 12,
-                      color: Color.fromRGBO(111, 111, 111, 1)),
+                      color: Theme.of(context).colorScheme.onSecondary),
                 )
               ],
             ),
