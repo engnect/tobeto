@@ -108,7 +108,7 @@ class AboutUsScreen extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(10, 15, 10, 50),
+                          padding: const EdgeInsets.fromLTRB(10, 15, 10, 50),
                           child: Text(
                             textAlign: TextAlign.center,
                             "Kavacık, Rüzgarlıbahçe Mah. Çampınarı Sok. No:4 Smart Plaza B Blok Kat:3 34805, Beykoz,İstanbul",

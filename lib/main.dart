@@ -26,5 +26,5 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   Bloc.observer = SimpleBlocObserver();
-  runApp(MainApp());
+  runApp(const MainApp());
 }

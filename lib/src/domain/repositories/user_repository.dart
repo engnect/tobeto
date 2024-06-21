@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/models/user_model.dart';
@@ -43,6 +45,24 @@ class UserRepository {
       result = e.toString();
     }
     return Utilities.errorMessageChecker(result);
+  }
+
+  Future<List<String>> getAdminIds() async {
+    List<DocumentSnapshot> adminUsersDocumentSnapshots = [];
+    List<String> adminUsersIdsList = [];
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(FirebaseConstants.usersCollection)
+        .where('userRank', isEqualTo: UserRank.admin.index)
+        .get();
+
+    adminUsersDocumentSnapshots = querySnapshot.docs;
+    for (var i = 0; i < adminUsersDocumentSnapshots.length; i++) {
+      UserModel userModel = UserModel.fromMap(
+          adminUsersDocumentSnapshots[i].data() as Map<String, dynamic>);
+      adminUsersIdsList.add(userModel.userId);
+    }
+
+    return adminUsersIdsList;
   }
 
   Future<String> deleteUser(UserModel userModel) async {

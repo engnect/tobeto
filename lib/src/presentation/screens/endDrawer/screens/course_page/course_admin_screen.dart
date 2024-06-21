@@ -5,15 +5,17 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/course_repository.dart';
 import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart';
+import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/course_model.dart';
+import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_admin_sliver_app_bar.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 import 'package:uuid/uuid.dart';
 
 class AdminCourseScreen extends StatefulWidget {
@@ -61,18 +63,27 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
   }
 
   void addCourse(BuildContext context) async {
+    List<String> adminIdsList = await UserRepository().getAdminIds();
+    UserModel? currentUser = await UserRepository().getCurrentUser();
+    List<String?> courseInstructorsIds = [];
+    if (currentUser!.userRank == UserRank.instructor) {
+      courseInstructorsIds.add(currentUser.userId);
+    }
+    courseInstructorsIds += adminIdsList;
+
     String courseId = const Uuid().v1();
     String? courseThumbnailUrl = await FirebaseStorageRepository()
         .uploadCourseThumbnailsAndSaveUrl(
             selectedCourseThumbnail: selectedImage);
     CourseModel courseModel = CourseModel(
-        courseId: courseId,
-        courseThumbnailUrl: courseThumbnailUrl!,
-        courseName: _courseNameController.text,
-        courseStartDate: selectedStartDate!,
-        courseEndDate: selectedEndDate!,
-        courseManufacturer: _manufacturerController.text,
-        courseInstructorsIds: ["1", "2"]);
+      courseId: courseId,
+      courseThumbnailUrl: courseThumbnailUrl!,
+      courseName: _courseNameController.text,
+      courseStartDate: selectedStartDate!,
+      courseEndDate: selectedEndDate!,
+      courseManufacturer: _manufacturerController.text,
+      courseInstructorsIds: courseInstructorsIds,
+    );
 
     String result = await CourseRepository().addCourse(courseModel);
 
@@ -251,9 +262,6 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                   void editCourseFunction() async {
                                     String selectedCourseId =
                                         courseModel.courseId;
-
-                                    // TODO: Course Instructors kısmını ekle
-                                    // ve buradan gönder ayrıca courseRepository'de de ekleme ve düzenleme kısmına ekle
 
                                     String newCourseName =
                                         _editCourseNameController.text;

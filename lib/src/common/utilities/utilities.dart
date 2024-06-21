@@ -99,7 +99,7 @@ class Utilities {
       case 'email-already-in-use':
         return 'Bu e-posta sitemde kayıtlı!';
       case 'invalid-email':
-        return 'E-posta formalı hatalı!';
+        return 'E-posta formatı hatalı!';
       case 'weak-password':
         return 'Şifre yeterince güçlü değil!';
       case 'account-exists-with-different-credential':
