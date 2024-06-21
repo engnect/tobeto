@@ -60,7 +60,7 @@ class _CourseVideoAddEditState extends State<CourseVideoAddEdit> {
         selectedCourseName != null &&
         _courseVideoNameController.text.isNotEmpty) {
       String? videoUrl = await FirebaseStorageRepository()
-          .uploadCourseVideoAndSaveUrl(selectedVideo!.path);
+          .uploadCourseVideoAndSaveUrl(selectedVideo: selectedVideo);
       if (videoUrl != null) {
         CourseVideoModel courseVideoModel = CourseVideoModel(
           videoId: const Uuid().v1(),
