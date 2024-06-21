@@ -5,6 +5,7 @@ import 'package:tobeto/src/models/course_model.dart';
 import 'package:tobeto/src/presentation/screens/course/course_screen_details.dart';
 import 'package:tobeto/src/presentation/screens/course/widgets/course_card.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/end_drawer.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 
 class CourseScreen extends StatefulWidget {
@@ -36,6 +37,7 @@ class _CourseScreenState extends State<CourseScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        drawer: const TBTDrawer(),
         endDrawer: const TBTEndDrawer(),
         body: CustomScrollView(
           slivers: [

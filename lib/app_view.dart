@@ -6,15 +6,16 @@ import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
 import 'package:tobeto/src/common/router/app_route_generator.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
+import 'package:tobeto/src/common/theme/tbt_theme_new.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
 import 'package:tobeto/src/presentation/screens/platform/platform_screen.dart';
 
 class MainApp extends StatefulWidget {
-  final ThemeData themeData;
+  // final ThemeData themeData;
   const MainApp({
     super.key,
-    required this.themeData,
+    // required this.themeData,
   });
 
   @override
@@ -50,10 +51,10 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) =>
-              ThemeBloc(ThemeState(themeData: widget.themeData)),
-        ),
+        // BlocProvider(
+        //   create: (context) =>
+        //       ThemeBloc(ThemeState(themeData: widget.themeData)),
+        // ),
         BlocProvider(
           create: (context) => AuthBloc(
             userRepository: UserRepository(),
@@ -61,40 +62,36 @@ class _MainAppState extends State<MainApp> {
           ),
         ),
       ],
-      child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, state) {
-          return MaterialApp(
-            // theme: lightTheme,
-            // darkTheme: darkTheme,
-            theme: state.themeData,
-            debugShowCheckedModeBanner: false,
-            navigatorKey: _navigatorKey,
-            onGenerateRoute: AppRouter().generateRoute,
-            // initialRoute: initScreen == 0 || initScreen == null
-            //     ? AppRouteNames.onboardingRoute
-            //     : AppRouteNames.platformScreenRoute,
-            // initialRoute: FirebaseAuth.instance.currentUser == null
-            //     ? AppRouteNames.homeRoute
-            //     : AppRouteNames.platformScreenRoute,
+      child: MaterialApp(
+        // theme: lightTheme,
+        // darkTheme: darkTheme,
+        theme: TBTColosScheme.darkTheme,
+        debugShowCheckedModeBanner: false,
+        navigatorKey: _navigatorKey,
+        onGenerateRoute: AppRouter().generateRoute,
+        // initialRoute: initScreen == 0 || initScreen == null
+        //     ? AppRouteNames.onboardingRoute
+        //     : AppRouteNames.platformScreenRoute,
+        // initialRoute: FirebaseAuth.instance.currentUser == null
+        //     ? AppRouteNames.homeRoute
+        //     : AppRouteNames.platformScreenRoute,
 
-            home: BlocBuilder<AuthBloc, AuthState>(
-              builder: (context, state) {
-                if (state is AuthInitial || state is AuthLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state is Authenticated) {
-                  return const PlatformScreen();
-                } else if (state is Unauthenticated) {
-                  return const HomeScreen();
-                }
-                return const Center(
-                  child: Text('Hata!'),
-                );
-              },
-            ),
-          );
-        },
+        home: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            if (state is AuthInitial || state is AuthLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is Authenticated) {
+              return const PlatformScreen();
+            } else if (state is Unauthenticated) {
+              return const HomeScreen();
+            }
+            return const Center(
+              child: Text('Hata!'),
+            );
+          },
+        ),
       ),
     );
   }
