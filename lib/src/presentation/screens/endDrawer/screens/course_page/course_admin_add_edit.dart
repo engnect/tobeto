@@ -52,11 +52,12 @@ class _CourseAddEditState extends State<CourseAddEdit> {
   void _saveCourse() async {
     if (selectedImage != null &&
         _courseNameController.text.isNotEmpty &&
-        _courseStartDateController.text.isNotEmpty &&
-        _courseEndDateController.text.isNotEmpty &&
+        // _courseStartDateController.text.isNotEmpty &&
+        // _courseEndDateController.text.isNotEmpty &&
         _courseManufacturerController.text.isNotEmpty) {
       String? thumbnailUrl = await FirebaseStorageRepository()
-          .uploadCourseThumbnailsAndSaveUrl(selectedImage!.path);
+          .uploadCourseThumbnailsAndSaveUrl(
+              selectedCourseThumbnail: selectedImage);
       if (thumbnailUrl != null) {
         CourseModel courseModel = CourseModel(
             courseId: const Uuid().v1(),
