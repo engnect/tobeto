@@ -5,8 +5,6 @@ import 'package:tobeto/src/presentation/screens/auth/widgets/password_input.dart
 import 'package:tobeto/src/presentation/screens/auth/widgets/user_input.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
-import '../../../common/constants/assets.dart';
-
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({
     super.key,
