@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/end_drawer.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 import '../../../models/calendar_model.dart';
@@ -29,6 +30,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return SafeArea(
       child: Scaffold(
         drawer: const TBTDrawer(),
+        endDrawer: const TBTEndDrawer(),
         body: CustomScrollView(
           slivers: [
             const TBTSliverAppBar(),
@@ -120,6 +122,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                 (EventModel event) => Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Card(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
                                     child: Padding(
                                       padding: const EdgeInsets.all(12.0),
                                       child: Row(
@@ -133,17 +138,22 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                               children: [
                                                 Text(
                                                   event.eventTitle,
-                                                  style: const TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary),
                                                 ),
                                                 const SizedBox(height: 8),
                                                 Text(
                                                   'Eğitmen: ${event.eventId}',
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                  ),
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary),
                                                 ),
                                               ],
                                             ),
@@ -155,17 +165,21 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                               Text(
                                                 event.eventDate.day.toString(),
                                                 // '${event.eventDate.day.toString().padLeft(2, "0")}.${event.date.month.toString().padLeft(2, "0")}.${event.date.year}',
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                ),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
                                               ),
                                               const SizedBox(height: 8),
                                               Text(
                                                 event.eventDate.toString(),
                                                 //'${event.eventDate.toString().padLeft(2, "0")}:${event.minute.toString().padLeft(2, "0")}',
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                ),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
                                               ),
                                             ],
                                           ),

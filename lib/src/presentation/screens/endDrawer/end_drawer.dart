@@ -17,6 +17,7 @@ class TBTEndDrawer extends StatelessWidget {
     return FractionallySizedBox(
       widthFactor: 0.72, // Açılan ekranın genişliğini ayarlamak için
       child: Drawer(
+        backgroundColor: Theme.of(context).colorScheme.background,
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 1),
           children: [
@@ -26,7 +27,10 @@ class TBTEndDrawer extends StatelessWidget {
                 child: Row(
                   children: [
                     GestureDetector(
-                      child: const Icon(Icons.close),
+                      child: Icon(
+                        Icons.close,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       onTap: () {
                         Navigator.pop(context);
                       },
@@ -49,33 +53,65 @@ class TBTEndDrawer extends StatelessWidget {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: const Text('Takvim'),
+              title: Text(
+                'Takvim',
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
               onTap: () => Navigator.of(context)
                   .pushNamed(AppRouteNames.adminEventScreenRoute),
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: const Text('Kullanıcı Başvuruları'),
+              title: Text(
+                'Kullanıcı Başvuruları',
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
               onTap: () => Navigator.of(context)
                   .pushNamed(AppRouteNames.adminApplicationsScreenRoute),
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: const Text('İletişim Formları'),
+              title: Text(
+                'İletişim Formları',
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
               onTap: () => Navigator.of(context)
                   .pushNamed(AppRouteNames.adminContactFormScreenRoute),
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: const Text('Duyurular'),
+              title: Text(
+                'Duyurular',
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
               onTap: () => Navigator.of(context)
                   .pushNamed(AppRouteNames.adminAnnouncementsScreenRoute),
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: const Text(
+              title: Text(
                 "Kadro",
-                style: TextStyle(fontFamily: "Poppins"),
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               onTap: () {
                 Navigator.of(context).push(
@@ -86,9 +122,13 @@ class TBTEndDrawer extends StatelessWidget {
               },
             ),
             CustomExpansionTile(
-              title: const Text(
+              title: Text(
                 "Medya",
-                style: TextStyle(fontFamily: "Poppins"),
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               children: [
                 SizedBox(
@@ -120,9 +160,13 @@ class TBTEndDrawer extends StatelessWidget {
               ],
             ),
             CustomExpansionTile(
-              title: const Text(
+              title: Text(
                 "Kullanıcılar",
-                style: TextStyle(fontFamily: "Poppins"),
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               children: [
                 SizedBox(
@@ -171,7 +215,14 @@ class TBTEndDrawer extends StatelessWidget {
             ),
             // Dersler ve ders videoları ekleme
             CustomExpansionTile(
-              title: const Text("Dersler"),
+              title: Text(
+                "Dersler",
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 16,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
               children: [
                 SizedBox(
                   height: 50,

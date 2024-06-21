@@ -90,7 +90,7 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+
         body: CustomScrollView(
           slivers: [
             const TBTSliverAppBar(),
@@ -109,6 +109,7 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                 fontFamily: "Poppins",
                                 fontSize: 26,
                                 fontWeight: FontWeight.bold),
+                                color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                         TBTAnimatedContainer(

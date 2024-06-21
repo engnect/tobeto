@@ -9,6 +9,7 @@ import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_admin_sliver_app_bar.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_slideable_list_tile.dart';
 import 'package:uuid/uuid.dart';
@@ -58,156 +59,161 @@ class _AdminBlogScreenState extends State<AdminBlogScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Blog"),
-        ),
-        body: SingleChildScrollView(
-          primary: true,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  child: Text(
-                    "Blogları Düzenle",
-                    style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                TBTAnimatedContainer(
-                  height: 300,
-                  infoText: 'Yeni Blog Yazısı Ekle!',
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                      children: [
-                        // foto seçimi
-                        GestureDetector(
-                          onTap: () {
-                            _pickImage();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 50, top: 30),
-                            child: AspectRatio(
-                              aspectRatio: 1,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromRGBO(150, 150, 150, 0.2),
-                                  image: selected
-                                      ? DecorationImage(
-                                          image: FileImage(
-                                            File(selectedImage!.path),
+          body: CustomScrollView(
+        slivers: [
+          const TBTAdminSliverAppBar(),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        child: Text(
+                          "Blogları Düzenle",
+                          style: TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      TBTAnimatedContainer(
+                        height: 300,
+                        infoText: 'Yeni Blog Yazısı Ekle!',
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Column(
+                            children: [
+                              // foto seçimi
+                              GestureDetector(
+                                onTap: () {
+                                  _pickImage();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 50, top: 30),
+                                  child: Container(
+                                    width: 250,
+                                    height: 250,
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(
+                                          150, 150, 150, 0.2),
+                                      image: selected
+                                          ? DecorationImage(
+                                              image: FileImage(
+                                                File(selectedImage!.path),
+                                              ),
+                                            )
+                                          : null,
+                                    ),
+                                    child: selected
+                                        ? null
+                                        : const Icon(
+                                            Icons.camera_alt,
+                                            size: 50,
                                           ),
-                                        )
-                                      : null,
+                                  ),
                                 ),
-                                child: selected
-                                    ? null
-                                    : const Icon(
-                                        Icons.camera_alt,
-                                        size: 50,
-                                      ),
                               ),
-                            ),
+                              // inputlar
+                              TBTInputField(
+                                hintText: "Başlık",
+                                controller: _titleController,
+                                onSaved: (p0) {},
+                                keyboardType: TextInputType.multiline,
+                              ),
+                              TBTInputField(
+                                minLines: 5,
+                                hintText: "İçerik",
+                                controller: _contentController,
+                                onSaved: (p0) {},
+                                keyboardType: TextInputType.multiline,
+                              ),
+
+                              // buton
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: TBTPurpleButton(
+                                  buttonText: "Kaydet",
+                                  onPressed: () async {
+                                    UserModel? userModel =
+                                        await UserRepository().getCurrentUser();
+                                    String blogId = const Uuid().v1();
+                                    String blogImageUrl =
+                                        await FirebaseStorageRepository()
+                                            .putBlogPicToStorage(
+                                      isBlog: true,
+                                      blogId: blogId,
+                                      selectedImage: selectedImage,
+                                    );
+                                    BlogModel blogModel = BlogModel(
+                                      blogId: blogId,
+                                      userId: userModel!.userId,
+                                      userFullName:
+                                          '${userModel.userName} ${userModel.userSurname}',
+                                      blogCreatedAt: DateTime.now(),
+                                      blogTitle: _titleController.text,
+                                      blogContent: _contentController.text,
+                                      blogImageUrl: blogImageUrl,
+                                    );
+
+                                    String sonuc = await BlogRepository(
+                                            isBlog: true)
+                                        .addOrUpdateBlog(blogModel: blogModel);
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        // inputlar
-                        TBTInputField(
-                          hintText: "Başlık",
-                          controller: _titleController,
-                          onSaved: (p0) {},
-                          keyboardType: TextInputType.multiline,
-                        ),
-                        TBTInputField(
-                          minLines: 5,
-                          hintText: "İçerik",
-                          controller: _contentController,
-                          onSaved: (p0) {},
-                          keyboardType: TextInputType.multiline,
-                        ),
+                      ),
+                      StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection(FirebaseConstants.blogsCollection)
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else {
+                            return ListView.builder(
+                              controller: _scrollController,
+                              primary: false,
+                              shrinkWrap: true,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                DocumentSnapshot documentSnapshot =
+                                    snapshot.data!.docs[index];
 
-                        // buton
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: TBTPurpleButton(
-                            buttonText: "Kaydet",
-                            onPressed: () async {
-                              UserModel? userModel =
-                                  await UserRepository().getCurrentUser();
-                              String blogId = const Uuid().v1();
-                              String blogImageUrl =
-                                  await FirebaseStorageRepository()
-                                      .putBlogPicToStorage(
-                                isBlog: true,
-                                blogId: blogId,
-                                selectedImage: selectedImage,
-                              );
-                              BlogModel blogModel = BlogModel(
-                                blogId: blogId,
-                                userId: userModel!.userId,
-                                userFullName:
-                                    '${userModel.userName} ${userModel.userSurname}',
-                                blogCreatedAt: DateTime.now(),
-                                blogTitle: _titleController.text,
-                                blogContent: _contentController.text,
-                                blogImageUrl: blogImageUrl,
-                              );
-
-                              String sonuc = await BlogRepository(isBlog: true)
-                                  .addOrUpdateBlog(blogModel: blogModel);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection(FirebaseConstants.blogsCollection)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else {
-                      return ListView.builder(
-                        controller: _scrollController,
-                        primary: false,
-                        shrinkWrap: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context, index) {
-                          DocumentSnapshot documentSnapshot =
-                              snapshot.data!.docs[index];
-
-                          BlogModel blogModel = BlogModel.fromMap(
-                              documentSnapshot.data() as Map<String, dynamic>);
-                          return TBTSlideableListTile(
-                            imgUrl: blogModel.blogImageUrl,
-                            title: blogModel.blogTitle,
-                            subtitle: blogModel.blogContent,
-                            deleteOnPressed: (p0) {},
-                            editOnPressed: (p0) {},
-                          );
+                                BlogModel blogModel = BlogModel.fromMap(
+                                    documentSnapshot.data()
+                                        as Map<String, dynamic>);
+                                return TBTSlideableListTile(
+                                  imgUrl: blogModel.blogImageUrl,
+                                  title: blogModel.blogTitle,
+                                  subtitle: blogModel.blogContent,
+                                  deleteOnPressed: (p0) {},
+                                  editOnPressed: (p0) {},
+                                );
+                              },
+                            );
+                          }
                         },
-                      );
-                    }
-                  },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-        ),
-      ),
+        ],
+      )),
     );
   }
 }

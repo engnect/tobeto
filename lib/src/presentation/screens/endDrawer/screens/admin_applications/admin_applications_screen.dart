@@ -10,7 +10,7 @@ import 'package:tobeto/src/models/application_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/screens/profile/widgets/application_card.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_admin_sliver_app_bar.dart';
 
 class AdminApplicationsScreen extends StatefulWidget {
   const AdminApplicationsScreen({super.key});
@@ -161,26 +161,25 @@ class _AdminApplicationsScreenState extends State<AdminApplicationsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: CustomScrollView(
-            slivers: [
-              const TBTSliverAppBar(),
-              SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    Column(
+        body: CustomScrollView(
+          slivers: [
+            const TBTAdminSliverAppBar(),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 15),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
                           child: Text(
                             "Kullanıcı Başvuruları",
                             style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                            ),
+                                fontFamily: "Poppins",
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary),
                           ),
                         ),
                         StreamBuilder(
@@ -223,11 +222,11 @@ class _AdminApplicationsScreenState extends State<AdminApplicationsScreen> {
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

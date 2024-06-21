@@ -80,7 +80,6 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: CustomScrollView(
           slivers: [
             const TBTSliverAppBar(),
@@ -98,7 +97,9 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                             style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontSize: 26,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                              Theme.of(context).colorScheme.primary,
+                            ),
                           ),
                         ),
                         TBTAnimatedContainer(
@@ -166,7 +167,9 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                 ),
                               ),
                               TextButton.icon(
-                                icon: const Icon(Icons.calendar_today_outlined),
+                                icon: const Icon(Icons.calendar_today_outlined,
+                                                 color:Theme.of(context).colorScheme.primary,
+                                                ),
                                 onPressed: () async {
                                   selectedEndDate =
                                       await Utilities.datePicker(context);
@@ -220,6 +223,9 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                     try {
                                       await courseRepository
                                           .deleteCourse(courseModel.courseId);
+
+
+                              
 
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
@@ -279,6 +285,10 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                         return AlertDialog(
                                           title: const Text(
                                               "Seçili Dersi Düzenle"),
+                                          style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
                                           content:
                                               StreamBuilder<List<CourseModel>>(
                                             stream: courseRepository
@@ -342,10 +352,16 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                               },
                                               child: const Text(
                                                   "Değişiklikleri Kaydet"),
+                                                style: TextStyle(
+                                                color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
                                             ),
                                           ],
                                         );
                                       },
+
+
                                     );
                                   }
 
@@ -379,7 +395,11 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                     ),
                                     child: ListTile(
                                       title: Text(
-                                          'Ders adı: ${courseModel.courseName}'),
+                                          'Ders adı: ${courseModel.courseName}',
+                                        style: TextStyle(
+                                                color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,),
                                     ),
                                   );
                                 },

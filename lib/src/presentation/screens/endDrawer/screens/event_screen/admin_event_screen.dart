@@ -8,8 +8,8 @@ import 'package:tobeto/src/models/calendar_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_admin_sliver_app_bar.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 
 import 'package:uuid/uuid.dart';
 
@@ -65,10 +65,9 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: CustomScrollView(
           slivers: [
-            const TBTSliverAppBar(),
+            const TBTAdminSliverAppBar(),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
@@ -76,15 +75,15 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 15),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
                           child: Text(
                             "Takvim Düzenle",
                             style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                            ),
+                                fontFamily: "Poppins",
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary),
                           ),
                         ),
                         TBTAnimatedContainer(
@@ -151,10 +150,24 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                                       documentSnapshot.data()
                                           as Map<String, dynamic>);
                                   return ListTile(
-                                    title: Text(eventModel.eventTitle),
+                                    title: Text(
+                                      eventModel.eventTitle,
+                                      style: TextStyle(
+                                        fontFamily: "Poppins",
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                    ),
                                     subtitle: Text(
                                       DateFormat('dd/MM/yyyy')
                                           .format(eventModel.eventDate),
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
                                     ),
                                   );
                                 },
