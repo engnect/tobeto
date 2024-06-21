@@ -13,7 +13,6 @@ import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_admin_sliver_app_bar.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 import 'package:uuid/uuid.dart';
 import 'package:video_player/video_player.dart';
 
@@ -33,7 +32,7 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
   XFile? selectedVideo;
   bool selected = false;
   VideoPlayerController? _videoPlayerController;
-  List<String> courseNames = [];
+  List<String> courseNames = ['a', 'b', 'c'];
   List<CourseModel> courses = [];
   String? selectedCourseName;
   String? selectedCourseId;
