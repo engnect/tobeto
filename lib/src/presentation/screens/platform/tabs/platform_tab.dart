@@ -27,7 +27,6 @@ class PlatformTab extends StatelessWidget {
           ),
           drawer: const TBTDrawer(),
           endDrawer: const TBTEndDrawer(),
-          backgroundColor: const Color.fromARGB(255, 235, 235, 235),
           body: CustomScrollView(
             slivers: [
               const TBTSliverAppBar(),
@@ -39,12 +38,12 @@ class PlatformTab extends StatelessWidget {
                           horizontal: 20, vertical: 20),
                       child: Column(
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(0, 30, 0, 0),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   "TOBETO",
                                   style: TextStyle(
                                     fontSize: 29,
@@ -57,41 +56,45 @@ class PlatformTab extends StatelessWidget {
                                   "'ya Hoş Geldin",
                                   style: TextStyle(
                                     fontSize: 25,
-                                    color: Color.fromARGB(255, 77, 77, 77),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 30),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
                             child: Text(
                               "İsim!",
                               style: TextStyle(
                                 fontSize: 25,
-                                color: Color.fromARGB(255, 77, 77, 77),
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
                               ),
                             ),
                           ),
-                          const Text(
+                          Text(
                             "Yeni nesil öğrenme deneyimi ile Tobeto kariyer yolculuğunda senin yanında!",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: "Poppins",
-                              fontWeight: FontWeight.w500,
-                            ),
+                                fontSize: 18,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).colorScheme.primary),
                           ),
                           const SizedBox(height: 20), // Boşluk ekledik
                           Container(
-                            decoration: const BoxDecoration(
-                                borderRadius: BorderRadius.only(
+                            decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(35),
                                   topRight: Radius.circular(35),
                                   bottomLeft: Radius.circular(15),
                                   bottomRight: Radius.circular(15),
                                 ),
-                                color: Colors.white),
+                                color:
+                                    Theme.of(context).colorScheme.background),
                             width: MediaQuery.of(context).size.width,
                             child: Column(
                               children: [
@@ -107,28 +110,32 @@ class PlatformTab extends StatelessWidget {
                                           width: 200,
                                         ),
                                       ),
-                                      const Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(25, 10, 25, 10),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            25, 10, 25, 10),
                                         child: Text(
                                           "Ücretsiz eğitimlerle, \n geleceğin mesleklerinde \n sen  de yerini al.",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                            fontSize: 18,
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                              fontSize: 18,
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.w500,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary),
                                         ),
                                       ),
                                       RichText(
-                                        text: const TextSpan(
+                                        text: TextSpan(
                                           style: TextStyle(
                                             fontSize: 24,
                                             fontFamily: "Poppins",
                                             fontWeight: FontWeight.w800,
-                                            color: Colors.black,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
                                           ),
-                                          children: <TextSpan>[
+                                          children: const <TextSpan>[
                                             TextSpan(text: 'Aradığın '),
                                             TextSpan(
                                               text: '"',
@@ -161,6 +168,13 @@ class PlatformTab extends StatelessWidget {
                                 const TabBar(
                                   indicatorSize: TabBarIndicatorSize.tab,
                                   indicatorWeight: 3,
+                                  indicatorColor:
+                                      Color.fromARGB(255, 153, 51, 255),
+                                  dividerColor:
+                                      Color.fromARGB(255, 153, 51, 255),
+                                  unselectedLabelColor:
+                                      Color.fromARGB(255, 153, 51, 255),
+                                  labelColor: Color.fromARGB(255, 153, 51, 255),
                                   tabs: [
                                     Tab(text: 'Duyurular'),
                                     Tab(text: 'Anketler'),
@@ -218,12 +232,26 @@ class PlatformTab extends StatelessWidget {
                                         ),
                                       ),
                                       // Anketler içeriği
-                                      const Center(
-                                        child: Text('Anketler İçeriği'),
+                                      Center(
+                                        child: Text(
+                                          'Anketler İçeriği',
+                                          style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary),
+                                        ),
                                       ),
                                       // Sınavlar içeriği
-                                      const Center(
-                                        child: Text('Sınavlar İçeriği'),
+                                      Center(
+                                        child: Text(
+                                          'Sınavlar İçeriği',
+                                          style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary),
+                                        ),
                                       ),
                                     ],
                                   ),

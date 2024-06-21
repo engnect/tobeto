@@ -28,6 +28,7 @@ class _CourseVideoCardState extends State<CourseVideoCard> {
       child: SizedBox(
         width: double.infinity,
         child: Card(
+          color: Theme.of(context).colorScheme.background,
           margin: const EdgeInsets.all(10),
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -39,13 +40,18 @@ class _CourseVideoCardState extends State<CourseVideoCard> {
                     children: [
                       Text(
                         widget.courseVideo.courseVideoName,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
                       Text(
-                          'Instructors: ${widget.course.courseInstructorsIds.join(', ')}'),
+                        'Instructors: ${widget.course.courseInstructorsIds.join(', ')}',
+                        style: TextStyle(
+                            fontFamily: "Poppins",
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
                     ],
                   ),
                 ),

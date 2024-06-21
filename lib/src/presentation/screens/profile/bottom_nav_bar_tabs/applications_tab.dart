@@ -55,22 +55,40 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
                           height: 450,
                           infoText: 'Yeni Başvuru Yap!',
                           child: Container(
-                            color: Colors.white,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.background,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(24),
+                              ),
+                            ),
                             child: Padding(
                               padding: const EdgeInsets.all(5),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 20, top: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 20, top: 10),
                                     child: Text(
                                       "Başvuru Türünü Seçiniz",
-                                      style: TextStyle(fontFamily: "Poppins"),
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: "Poppins",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
                                     ),
                                   ),
                                   RadioListTile<ApplicationType>(
                                     toggleable: true,
-                                    title: const Text('Admin'),
+                                    title: Text(
+                                      'Admin',
+                                      style: TextStyle(
+                                          fontFamily: "Poppins",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
                                     value: ApplicationType.admin,
                                     groupValue: _selectedApplication,
                                     onChanged: (value) {
@@ -82,7 +100,14 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
                                   ),
                                   RadioListTile<ApplicationType>(
                                     toggleable: true,
-                                    title: const Text('Eğitmen'),
+                                    title: Text(
+                                      'Eğitmen',
+                                      style: TextStyle(
+                                          fontFamily: "Poppins",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
                                     value: ApplicationType.instructor,
                                     groupValue: _selectedApplication,
                                     onChanged: (value) {
@@ -94,7 +119,14 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
                                   ),
                                   RadioListTile<ApplicationType>(
                                     toggleable: true,
-                                    title: const Text('İstanbul Kodluyor'),
+                                    title: Text(
+                                      'İstanbul Kodluyor',
+                                      style: TextStyle(
+                                          fontFamily: "Poppins",
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
                                     value: ApplicationType.istanbulkodluyor,
                                     groupValue: _selectedApplication,
                                     onChanged: (value) {

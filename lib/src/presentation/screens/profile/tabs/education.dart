@@ -84,7 +84,7 @@ class _EducationPageState extends State<EducationPage> {
                     ),
                   ),
                 ),
-                height: isSelect ? 600 : 0,
+                height: isSelect ? 350 : 0,
                 duration: const Duration(seconds: 1),
                 child: isSelect
                     ? BlocBuilder<AuthBloc, AuthState>(
@@ -98,20 +98,42 @@ class _EducationPageState extends State<EducationPage> {
                                 EducationModel education =
                                     currentUser.schoolsList![index];
                                 return Card(
+                                  color:
+                                      Theme.of(context).colorScheme.background,
                                   child: ListTile(
-                                    title: Text(education.schoolName),
+                                    title: Text(
+                                      education.schoolName,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
                                     subtitle: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(education.schoolBranch),
+                                        Text(
+                                          education.schoolBranch,
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary),
+                                        ),
                                         Text(
                                           'Başlangıç Tarihi: ${DateFormat('dd/MM/yyyy').format(education.schoolStartDate)}',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary),
                                         ),
                                         Text(
                                           education.isCurrentlyStuding!
                                               ? 'Devam Ediyor'
                                               : 'Bitiş Tarihi: ${DateFormat('dd/MM/yyyy').format(education.schoolEndDate)}',
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary),
                                         ),
                                       ],
                                     ),
@@ -119,7 +141,12 @@ class _EducationPageState extends State<EducationPage> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         IconButton(
-                                          icon: const Icon(Icons.edit),
+                                          icon: Icon(
+                                            Icons.edit,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondary,
+                                          ),
                                           onPressed: () async {
                                             final updatedEducation =
                                                 await showDialog<
@@ -145,7 +172,12 @@ class _EducationPageState extends State<EducationPage> {
                                           },
                                         ),
                                         IconButton(
-                                          icon: const Icon(Icons.delete),
+                                          icon: Icon(
+                                            Icons.delete,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondary,
+                                          ),
                                           onPressed: () {
                                             showDialog(
                                               context: context,
@@ -194,34 +226,51 @@ class _EducationPageState extends State<EducationPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PopupMenuButton<String>(
+                  color: Theme.of(context).colorScheme.background,
                   initialValue: _selectedEducationLevel,
                   itemBuilder: (BuildContext context) {
                     return <PopupMenuEntry<String>>[
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'Lisans',
                         child: ListTile(
-                          title: Text('Lisans'),
+                          title: Text(
+                            'Lisans',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary),
+                          ),
                           contentPadding: EdgeInsets.zero,
                         ),
                       ),
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'Ön Lisans',
                         child: ListTile(
-                          title: Text('Ön Lisans'),
+                          title: Text(
+                            'Ön Lisans',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary),
+                          ),
                           contentPadding: EdgeInsets.zero,
                         ),
                       ),
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'Yüksek Lisans',
                         child: ListTile(
-                          title: Text('Yüksek Lisans'),
+                          title: Text(
+                            'Yüksek Lisans',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary),
+                          ),
                           contentPadding: EdgeInsets.zero,
                         ),
                       ),
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'Doktora',
                         child: ListTile(
-                          title: Text('Doktora'),
+                          title: Text(
+                            'Doktora',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary),
+                          ),
                           contentPadding: EdgeInsets.zero,
                         ),
                       ),
@@ -235,9 +284,14 @@ class _EducationPageState extends State<EducationPage> {
                   child: ListTile(
                     title: Text(
                       _selectedEducationLevel ?? 'Eğitim Seviyesi Seçiniz',
-                      style: const TextStyle(fontSize: 16),
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.primary),
                     ),
-                    trailing: const Icon(Icons.arrow_drop_down),
+                    trailing: Icon(
+                      Icons.arrow_drop_down,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 4.0, horizontal: 10.0),
                   ),
@@ -329,7 +383,11 @@ class _EducationPageState extends State<EducationPage> {
                         });
                       },
                     ),
-                    const Text('Devam ediyorum.'),
+                    Text(
+                      'Devam ediyorum.',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
                   ],
                 ),
               ),
@@ -359,6 +417,9 @@ class _EducationPageState extends State<EducationPage> {
                   },
                 ),
               ),
+              const SizedBox(
+                height: 50,
+              )
             ],
           ),
         ),

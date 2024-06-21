@@ -27,12 +27,12 @@ class _CourseCardState extends State<CourseCard> {
       margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
       padding: const EdgeInsets.all(15),
       width: MediaQuery.of(context).size.width,
-      decoration: const BoxDecoration(
-        boxShadow: <BoxShadow>[
+      decoration: BoxDecoration(
+        boxShadow: const <BoxShadow>[
           BoxShadow(color: Color.fromARGB(159, 0, 0, 0), blurRadius: 5),
         ],
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(30)),
+        color: Theme.of(context).colorScheme.background,
+        borderRadius: const BorderRadius.all(Radius.circular(30)),
       ),
       child: Column(
         children: [
@@ -49,7 +49,10 @@ class _CourseCardState extends State<CourseCard> {
               widget.title,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
           ),
           Padding(
@@ -57,8 +60,8 @@ class _CourseCardState extends State<CourseCard> {
             child: Text(
               widget.date,
               textAlign: TextAlign.start,
-              style: const TextStyle(
-                color: Colors.grey,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSecondary,
                 fontWeight: FontWeight.bold,
               ),
             ),

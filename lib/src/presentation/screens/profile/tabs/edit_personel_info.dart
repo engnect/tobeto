@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:intl_phone_field2/country_picker_dialog.dart';
 import 'package:intl_phone_field2/intl_phone_field.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/common/utilities/utilities.dart';
@@ -241,9 +242,19 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     const SizedBox(height: 8),
                     IntlPhoneField(
                       controller: _phoneController,
-                      decoration: const InputDecoration(
-                        labelText: 'Telefon Numaranız',
+                      pickerDialogStyle: PickerDialogStyle(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.background),
+                      dropdownTextStyle: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondary,
                       ),
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                      decoration: InputDecoration(
+                          labelText: 'Telefon Numaranız',
+                          labelStyle: TextStyle(
+                              color:
+                                  Theme.of(context).colorScheme.onSecondary)),
                       initialCountryCode: 'TR',
                       onChanged: (phone) {
                         print(phone.completeNumber);
@@ -255,17 +266,29 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                   controller: TextEditingController(
                     text: _selectedDate != null
                         ? DateFormat('dd/MM/yyyy').format(_selectedDate!)
                         : '',
                   ),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Doğum Tarihi',
+                    labelStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     hintText: 'Doğum Tarihi Seçiniz',
-                    contentPadding: EdgeInsets.all(12),
+                    hintStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    contentPadding: const EdgeInsets.all(12),
                     border: InputBorder.none,
-                    suffixIcon: Icon(Icons.calendar_today),
+                    suffixIcon: Icon(
+                      Icons.calendar_today,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                   readOnly: true,
                   onTap: () {
@@ -285,20 +308,33 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PopupMenuButton<String>(
+                  color: Theme.of(context).colorScheme.background,
                   initialValue: _selectedGender,
                   itemBuilder: (BuildContext context) {
                     return <PopupMenuEntry<String>>[
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'Erkek',
-                        child: Text('Erkek'),
+                        child: Text(
+                          'Erkek',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
                       ),
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'Kız',
-                        child: Text('Kız'),
+                        child: Text(
+                          'Kız',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
                       ),
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'Belirtmek istemiyorum',
-                        child: Text('Belirtmek istemiyorum'),
+                        child: Text(
+                          'Belirtmek istemiyorum',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
                       ),
                     ];
                   },
@@ -308,8 +344,15 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     });
                   },
                   child: ListTile(
-                    title: Text(_selectedGender ?? 'Cinsiyet Seçiniz'),
-                    trailing: const Icon(Icons.arrow_drop_down),
+                    title: Text(
+                      _selectedGender ?? 'Cinsiyet Seçiniz',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_drop_down,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 4.0, horizontal: 8.0),
                   ),
@@ -318,20 +361,29 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PopupMenuButton<String>(
+                  color: Theme.of(context).colorScheme.background,
                   initialValue: _selectedMilitaryStatus,
                   itemBuilder: (BuildContext context) {
                     return <PopupMenuEntry<String>>[
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'Yaptı',
-                        child: Text('Yaptı'),
+                        child: Text(
+                          'Yaptı',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
                       ),
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'Muaf',
-                        child: Text('Muaf'),
+                        child: Text('Muaf',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary)),
                       ),
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'Tecilli',
-                        child: Text('Tecilli'),
+                        child: Text('Tecilli',
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary)),
                       ),
                     ];
                   },
@@ -342,8 +394,14 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   },
                   child: ListTile(
                     title: Text(
-                        _selectedMilitaryStatus ?? 'Askerlik Durumu Seçiniz'),
-                    trailing: const Icon(Icons.arrow_drop_down),
+                      _selectedMilitaryStatus ?? 'Askerlik Durumu Seçiniz',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_drop_down,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 4.0, horizontal: 8.0),
                   ),
@@ -352,16 +410,25 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PopupMenuButton<String>(
+                  color: Theme.of(context).colorScheme.background,
                   initialValue: _selectedDisabilityStatus,
                   itemBuilder: (BuildContext context) {
                     return <PopupMenuEntry<String>>[
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'Yok',
-                        child: Text('Yok'),
+                        child: Text(
+                          'Yok',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
                       ),
-                      const PopupMenuItem<String>(
+                      PopupMenuItem<String>(
                         value: 'Var',
-                        child: Text('Var'),
+                        child: Text(
+                          'Var',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
                       ),
                     ];
                   },
@@ -372,8 +439,14 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   },
                   child: ListTile(
                     title: Text(
-                        _selectedDisabilityStatus ?? 'Engel Durumu Seçiniz'),
-                    trailing: const Icon(Icons.arrow_drop_down),
+                      _selectedDisabilityStatus ?? 'Engel Durumu Seçiniz',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_drop_down,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 4.0, horizontal: 8.0),
                   ),
@@ -382,6 +455,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PopupMenuButton<String>(
+                  color: Theme.of(context).colorScheme.background,
                   initialValue: _selectedCountry,
                   itemBuilder: (BuildContext context) {
                     return _countries.map((country) {
@@ -397,8 +471,15 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                     });
                   },
                   child: ListTile(
-                    title: Text(_selectedCountry ?? 'Ülke Seçiniz'),
-                    trailing: const Icon(Icons.arrow_drop_down),
+                    title: Text(
+                      _selectedCountry ?? 'Ülke Seçiniz',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_drop_down,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 4.0, horizontal: 8.0),
                   ),
@@ -407,19 +488,31 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PopupMenuButton<String>(
+                  color: Theme.of(context).colorScheme.background,
                   initialValue: _selectedCityId,
                   itemBuilder: (BuildContext context) {
                     return _cities.map((city) {
                       return PopupMenuItem<String>(
                         value: city["id"],
-                        child: Text(city["name"]!),
+                        child: Text(
+                          city["name"]!,
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
                       );
                     }).toList();
                   },
                   onSelected: _onCitySelected,
                   child: ListTile(
-                    title: Text(_selectedCityName ?? 'İl Seçiniz'),
-                    trailing: const Icon(Icons.arrow_drop_down),
+                    title: Text(
+                      _selectedCityName ?? 'İl Seçiniz',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_drop_down,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 4.0, horizontal: 8.0),
                   ),
@@ -428,20 +521,32 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PopupMenuButton<String>(
+                  color: Theme.of(context).colorScheme.background,
                   initialValue: _selectedDistrictId,
                   itemBuilder: (BuildContext context) {
                     return (_cityDistrictMap[_selectedCityId] ?? [])
                         .map((district) {
                       return PopupMenuItem<String>(
                         value: district["id"],
-                        child: Text(district["name"]!),
+                        child: Text(
+                          district["name"]!,
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
                       );
                     }).toList();
                   },
                   onSelected: _onDistrictSelected,
                   child: ListTile(
-                    title: Text(_selectedDistrictName ?? 'İlçe Seçiniz'),
-                    trailing: const Icon(Icons.arrow_drop_down),
+                    title: Text(
+                      _selectedDistrictName ?? 'İlçe Seçiniz',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_drop_down,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 4.0, horizontal: 8.0),
                   ),

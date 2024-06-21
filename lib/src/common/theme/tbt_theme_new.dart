@@ -28,7 +28,7 @@ class TBTColosScheme {
           onPrimary: const Color.fromARGB(255, 129, 125, 161),
           secondary: const Color.fromRGBO(160, 160, 160, 1),
           onSecondary: const Color.fromRGBO(180, 180, 180, 1),
-          background: Colors.black,
+          background: const Color.fromARGB(255, 20, 20, 20),
         ),
     drawerTheme: const DrawerThemeData(
       backgroundColor: Color.fromRGBO(30, 30, 30, 1),

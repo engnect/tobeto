@@ -26,30 +26,72 @@ class AnnouncementCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Duyuru'),
-              Text('İstanbul Kodluyor'),
+              Padding(
+                padding: const EdgeInsets.only(top: 3, left: 6),
+                child: Text(
+                  'Duyuru',
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 3, right: 6),
+                child: Text(
+                  'İstanbul Kodluyor',
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+              ),
             ],
           ),
-          Text(announcementModel.announcementTitle),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text(
+              announcementModel.announcementTitle,
+              style: TextStyle(
+                fontFamily: "Poppins",
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  const Icon(Icons.calendar_month_outlined),
-                  Text(
-                    DateFormat('dd/MM/yyyy')
-                        .format(announcementModel.announcementDate),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 3, bottom: 6),
+                    child: Icon(Icons.calendar_month_outlined),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 3),
+                    child: Text(
+                      DateFormat('dd/MM/yyyy')
+                          .format(announcementModel.announcementDate),
+                      style: TextStyle(
+                        fontFamily: "Poppins",
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
                   ),
                 ],
               ),
               TextButton(
                 onPressed: () {},
-                child: const Text(
+                child: Text(
                   "Devamını Oku",
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ),
             ],
