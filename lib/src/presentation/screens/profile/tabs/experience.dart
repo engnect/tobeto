@@ -117,7 +117,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
                     ),
                   ),
                 ),
-                height: isSelect ? 600 : 0,
+                height: isSelect ? 350 : 0,
                 duration: const Duration(seconds: 1),
                 child: isSelect
                     ? BlocBuilder<AuthBloc, AuthState>(
@@ -131,20 +131,46 @@ class _ExperiencePageState extends State<ExperiencePage> {
                                 ExperienceModel experience =
                                     currentUser.experiencesList![index];
                                 return Card(
+                                  color:
+                                      Theme.of(context).colorScheme.background,
                                   child: ListTile(
-                                    title: Text(experience.companyName),
+                                    title: Text(
+                                      experience.companyName,
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                    ),
                                     subtitle: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(experience.experiencePosition),
+                                        Text(
+                                          experience.experiencePosition,
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
+                                        ),
                                         Text(
                                           'Başlangıç Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.startDate)}',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
                                         ),
                                         Text(
                                           experience.isCurrentlyWorking!
                                               ? 'Devam Ediyor'
                                               : 'Bitiş Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.endDate)}',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -152,7 +178,12 @@ class _ExperiencePageState extends State<ExperiencePage> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         IconButton(
-                                          icon: const Icon(Icons.edit),
+                                          icon: Icon(
+                                            Icons.edit,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondary,
+                                          ),
                                           onPressed: () async {
                                             final updatedExperience =
                                                 await showDialog<
@@ -179,15 +210,28 @@ class _ExperiencePageState extends State<ExperiencePage> {
                                           },
                                         ),
                                         IconButton(
-                                          icon: const Icon(Icons.delete),
+                                          icon: Icon(Icons.delete,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSecondary),
                                           onPressed: () {
                                             showDialog(
                                               context: context,
                                               builder: (context) => AlertDialog(
-                                                title:
-                                                    const Text("Deneyimi sil"),
-                                                content: const Text(
-                                                    "Bu deneyimi silmek istediğinizden emin misiniz?"),
+                                                title: Text(
+                                                  "Deneyimi sil",
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary),
+                                                ),
+                                                content: Text(
+                                                  "Bu deneyimi silmek istediğinizden emin misiniz?",
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary),
+                                                ),
                                                 actions: [
                                                   TextButton(
                                                     onPressed: () =>
@@ -251,13 +295,18 @@ class _ExperiencePageState extends State<ExperiencePage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PopupMenuButton<String>(
+                  color: Theme.of(context).colorScheme.background,
                   initialValue: _selectedExperienceType,
                   itemBuilder: (BuildContext context) {
                     return ['Tam Zamanlı', 'Yarı Zamanlı', 'Staj']
                         .map((String value) {
                       return PopupMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
                       );
                     }).toList();
                   },
@@ -267,9 +316,15 @@ class _ExperiencePageState extends State<ExperiencePage> {
                     });
                   },
                   child: ListTile(
-                    title:
-                        Text(_selectedExperienceType ?? 'Deneyim Türünü Seçin'),
-                    trailing: const Icon(Icons.arrow_drop_down),
+                    title: Text(
+                      _selectedExperienceType ?? 'Deneyim Türünü Seçin',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_drop_down,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 4.0, horizontal: 8.0),
                   ),
@@ -287,19 +342,31 @@ class _ExperiencePageState extends State<ExperiencePage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PopupMenuButton<String>(
+                  color: Theme.of(context).colorScheme.background,
                   initialValue: _selectedCityId,
                   itemBuilder: (BuildContext context) {
                     return _cities.map((city) {
                       return PopupMenuItem<String>(
                         value: city["id"],
-                        child: Text(city["name"]!),
+                        child: Text(
+                          city["name"]!,
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
                       );
                     }).toList();
                   },
                   onSelected: _onCitySelected,
                   child: ListTile(
-                    title: Text(_selectedCityName ?? 'Şehir Seçiniz'),
-                    trailing: const Icon(Icons.arrow_drop_down),
+                    title: Text(
+                      _selectedCityName ?? 'Şehir Seçiniz',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_drop_down,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 4.0, horizontal: 8.0),
                   ),
@@ -373,7 +440,11 @@ class _ExperiencePageState extends State<ExperiencePage> {
                         });
                       },
                     ),
-                    const Text('Çalışmaya devam ediyorum.'),
+                    Text(
+                      'Çalışmaya devam ediyorum.',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
                   ],
                 ),
               ),
@@ -414,6 +485,9 @@ class _ExperiencePageState extends State<ExperiencePage> {
                   print(sonuc);
                 },
               ),
+              const SizedBox(
+                height: 50,
+              )
             ],
           ),
         ),

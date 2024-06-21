@@ -72,6 +72,10 @@ class _ProfileScreenState extends State<ProfileScreen>
               ),
               backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
               bottom: TabBar(
+                indicatorColor: const Color.fromARGB(255, 153, 51, 255),
+                dividerColor: const Color.fromARGB(255, 153, 51, 255),
+                unselectedLabelColor: const Color.fromARGB(255, 153, 51, 255),
+                labelColor: const Color.fromARGB(255, 153, 51, 255),
                 controller: _tabController,
                 isScrollable: true,
                 tabs: List<Widget>.generate(_icons.length, (int index) {

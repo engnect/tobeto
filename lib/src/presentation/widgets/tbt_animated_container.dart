@@ -86,7 +86,12 @@ class _TBTAnimatedContainerState extends State<TBTAnimatedContainer> {
                       size: 50,
                       color: Color.fromARGB(255, 153, 51, 255),
                     ),
-                    Text(widget.infoText),
+                    Text(
+                      widget.infoText,
+                      style: TextStyle(
+                          fontFamily: "Poppins",
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
                   ],
                 )
               : Row(
@@ -97,7 +102,12 @@ class _TBTAnimatedContainerState extends State<TBTAnimatedContainer> {
                       size: 50,
                       color: Color.fromARGB(255, 153, 51, 255),
                     ),
-                    Text(widget.infoText),
+                    Text(
+                      widget.infoText,
+                      style: TextStyle(
+                          fontFamily: "Poppins",
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
                   ],
                 ),
         ),

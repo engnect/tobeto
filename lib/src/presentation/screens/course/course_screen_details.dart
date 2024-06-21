@@ -98,17 +98,47 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
                                     child: const Text('Kapat'),
                                   ),
                                 ],
-                                title: const Text('Ders Hakkında'),
+                                title: Text(
+                                  'Ders Hakkında',
+                                  style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 26,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
+                                ),
                                 content: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                        'Start Date: ${DateFormat('dd/MM/yyyy').format(widget.course.courseStartDate)}'),
+                                      'Start Date: ${DateFormat('dd/MM/yyyy').format(widget.course.courseStartDate)}',
+                                      style: TextStyle(
+                                          fontFamily: "Poppins",
+                                          fontSize: 18,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
                                     Text(
-                                        'End Date: ${DateFormat('dd/MM/yyyy').format(widget.course.courseEndDate)}'),
+                                      'End Date: ${DateFormat('dd/MM/yyyy').format(widget.course.courseEndDate)}',
+                                      style: TextStyle(
+                                          fontFamily: "Poppins",
+                                          fontSize: 18,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
                                     Text(
-                                        'Manufacturer: ${widget.course.courseManufacturer}'),
+                                      'Manufacturer: ${widget.course.courseManufacturer}',
+                                      style: TextStyle(
+                                          fontFamily: "Poppins",
+                                          fontSize: 18,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
                                   ],
                                 ),
                                 titleTextStyle: const TextStyle(

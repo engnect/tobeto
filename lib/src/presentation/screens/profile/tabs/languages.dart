@@ -22,18 +22,40 @@ class _LanguagesPageState extends State<LanguagesPage> {
   bool isSelect = false;
 
   final List<String> _languages = [
-    'Almanca', 'Arapça', 'Çekçe', 'Çince(Mandarin)', 'Danca',
-    'Fince', 'Fransızca', 'Hindi', 'Hollandaca', 'İbranice',
-    'İngilizce', 'İspanyolca', 'İsveççe', 'İtalyanca', 'Japonca',
-    'Korece', 'Lehçe', 'Macarca', 'Norveççe', 'Portekizce',
-    'Romence', 'Rusça', 'Türkçe', 'Vietnamca', 'Yunanca',
+    'Almanca',
+    'Arapça',
+    'Çekçe',
+    'Çince(Mandarin)',
+    'Danca',
+    'Fince',
+    'Fransızca',
+    'Hindi',
+    'Hollandaca',
+    'İbranice',
+    'İngilizce',
+    'İspanyolca',
+    'İsveççe',
+    'İtalyanca',
+    'Japonca',
+    'Korece',
+    'Lehçe',
+    'Macarca',
+    'Norveççe',
+    'Portekizce',
+    'Romence',
+    'Rusça',
+    'Türkçe',
+    'Vietnamca',
+    'Yunanca',
   ];
 
   final List<String> _levels = [
-    'Temel Seviye(A1,A2)', 'Orta Seviye(B1,B2)', 'İleri Seviye(C1,C2)', 'Ana Dil',
+    'Temel Seviye(A1,A2)',
+    'Orta Seviye(B1,B2)',
+    'İleri Seviye(C1,C2)',
+    'Ana Dil',
   ];
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +88,7 @@ class _LanguagesPageState extends State<LanguagesPage> {
                   ),
                 ),
               ),
-              height: isSelect ? 600 : 0,
+              height: isSelect ? 350 : 0,
               duration: const Duration(seconds: 1),
               child: isSelect
                   ? BlocBuilder<AuthBloc, AuthState>(
@@ -80,24 +102,42 @@ class _LanguagesPageState extends State<LanguagesPage> {
                               LanguageModel language =
                                   currentUser.languageList![index];
                               return Card(
+                                color: Theme.of(context).colorScheme.background,
                                 child: ListTile(
-                                  title: Text(language.languageName!),
-                                  subtitle: Text(language.languageLevel!),
+                                  title: Text(
+                                    language.languageName!,
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                  ),
+                                  subtitle: Text(
+                                    language.languageLevel!,
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                  ),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       IconButton(
-                                        icon: const Icon(Icons.edit),
+                                        icon: Icon(
+                                          Icons.edit,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSecondary,
+                                        ),
                                         onPressed: () async {
                                           final updatedLanguage =
                                               await showDialog<LanguageModel>(
                                             context: context,
-                                           builder: (context) =>
+                                            builder: (context) =>
                                                 EditLanguageDialog(
-                                                  languageModel: language,
-                                                  languages: _languages,
-                                                  levels: _levels,
-                                                ),
+                                              languageModel: language,
+                                              languages: _languages,
+                                              levels: _levels,
+                                            ),
                                           );
                                           if (updatedLanguage != null) {
                                             String result =
@@ -116,19 +156,39 @@ class _LanguagesPageState extends State<LanguagesPage> {
                                         },
                                       ),
                                       IconButton(
-                                        icon: const Icon(Icons.delete),
+                                        icon: Icon(Icons.delete,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondary),
                                         onPressed: () {
                                           showDialog(
                                             context: context,
                                             builder: (context) => AlertDialog(
-                                              title: const Text("Dili sil"),
-                                              content: const Text(
-                                                  "Bu dili silmek istediğinizden emin misiniz?"),
+                                              title: Text(
+                                                "Dili sil",
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                              ),
+                                              content: Text(
+                                                "Bu dili silmek istediğinizden emin misiniz?",
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                              ),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () =>
                                                       Navigator.pop(context),
-                                                  child: const Text("İptal"),
+                                                  child: Text(
+                                                    "İptal",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .primary),
+                                                  ),
                                                 ),
                                                 TextButton(
                                                   onPressed: () async {
@@ -139,7 +199,13 @@ class _LanguagesPageState extends State<LanguagesPage> {
                                                                 language);
                                                     print(result);
                                                   },
-                                                  child: const Text('Sil'),
+                                                  child: Text(
+                                                    'Sil',
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .primary),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -162,6 +228,7 @@ class _LanguagesPageState extends State<LanguagesPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: PopupMenuButton<String>(
+                color: Theme.of(context).colorScheme.background,
                 initialValue: _selectedLanguage,
                 itemBuilder: (BuildContext context) {
                   return _languages.map<PopupMenuItem<String>>((String value) {
@@ -179,9 +246,14 @@ class _LanguagesPageState extends State<LanguagesPage> {
                 child: ListTile(
                   title: Text(
                     _selectedLanguage ?? 'Yabancı Dil Seçiniz',
-                    style: const TextStyle(fontSize: 16),
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.primary),
                   ),
-                  trailing: const Icon(Icons.arrow_drop_down),
+                  trailing: Icon(
+                    Icons.arrow_drop_down,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                   contentPadding: const EdgeInsets.symmetric(
                       vertical: 4.0, horizontal: 8.0),
                 ),
@@ -190,12 +262,17 @@ class _LanguagesPageState extends State<LanguagesPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: PopupMenuButton<String>(
+                color: Theme.of(context).colorScheme.background,
                 initialValue: _selectedLevel,
                 itemBuilder: (BuildContext context) {
                   return _levels.map<PopupMenuItem<String>>((String value) {
                     return PopupMenuItem<String>(
                       value: value,
-                      child: Text(value),
+                      child: Text(
+                        value,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
                     );
                   }).toList();
                 },
@@ -207,9 +284,14 @@ class _LanguagesPageState extends State<LanguagesPage> {
                 child: ListTile(
                   title: Text(
                     _selectedLevel ?? 'Seviye Seçiniz',
-                    style: const TextStyle(fontSize: 16),
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.primary),
                   ),
-                  trailing: const Icon(Icons.arrow_drop_down),
+                  trailing: Icon(
+                    Icons.arrow_drop_down,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                   contentPadding: const EdgeInsets.symmetric(
                       vertical: 4.0, horizontal: 8.0),
                 ),
@@ -238,6 +320,9 @@ class _LanguagesPageState extends State<LanguagesPage> {
                 },
               ),
             ),
+            const SizedBox(
+              height: 50,
+            )
           ],
         ),
       ),

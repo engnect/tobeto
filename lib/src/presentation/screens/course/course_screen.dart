@@ -35,7 +35,6 @@ class _CourseScreenState extends State<CourseScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 240, 240, 240),
         body: CustomScrollView(
           slivers: [
             const TBTSliverAppBar(),

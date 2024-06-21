@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class TBTInputField extends StatefulWidget {
   final String hintText;
@@ -36,6 +37,7 @@ class _TBTInputFieldState extends State<TBTInputField> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextField(
+        style: TextStyle(color: Theme.of(context).colorScheme.primary),
         maxLines: widget.maxLines,
         minLines: widget.minLines,
 
@@ -75,6 +77,9 @@ class _TBTInputFieldState extends State<TBTInputField> {
                       ),
                     ),
           hintText: widget.hintText,
+          hintStyle: TextStyle(
+              fontFamily: "Poppins",
+              color: Theme.of(context).colorScheme.onSecondary),
           contentPadding:
               const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           border: const OutlineInputBorder(

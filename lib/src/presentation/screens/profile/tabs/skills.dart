@@ -68,7 +68,7 @@ class _SkillsPageState extends State<SkillsPage> {
                       ),
                     ),
                   ),
-                  height: 400,
+                  height: 350,
                   duration: const Duration(seconds: 1),
                   child: BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {
@@ -80,19 +80,25 @@ class _SkillsPageState extends State<SkillsPage> {
                           itemBuilder: (context, index) {
                             SkillModel skill = currentUser.skillsList![index];
                             return Card(
+                              color: Theme.of(context).colorScheme.background,
                               child: ListTile(
                                 title: Text(skill.skillName!),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     IconButton(
-                                      icon: const Icon(Icons.edit),
+                                      icon: Icon(
+                                        Icons.edit,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary,
+                                      ),
                                       onPressed: () async {
                                         SkillModel updatedSkill =
                                             await showDialog(
                                           context: context,
                                           builder: (context) =>
-                                              EditSkillDialog(skill:skill),
+                                              EditSkillDialog(skill: skill),
                                         );
 
                                         if (updatedSkill != null) {
@@ -108,19 +114,41 @@ class _SkillsPageState extends State<SkillsPage> {
                                       },
                                     ),
                                     IconButton(
-                                      icon: const Icon(Icons.delete),
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSecondary,
+                                      ),
                                       onPressed: () async {
                                         showDialog(
                                           context: context,
                                           builder: (context) => AlertDialog(
-                                            title: const Text("Yeteneği sil"),
-                                            content: const Text(
-                                                "Bu yeteneği silmek istediğinizden emin misiniz?"),
+                                            title: Text(
+                                              "Yeteneği sil",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary),
+                                            ),
+                                            content: Text(
+                                              "Bu yeteneği silmek istediğinizden emin misiniz?",
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary),
+                                            ),
                                             actions: [
                                               TextButton(
                                                 onPressed: () =>
                                                     Navigator.pop(context),
-                                                child: const Text("İptal"),
+                                                child: Text(
+                                                  "İptal",
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary),
+                                                ),
                                               ),
                                               TextButton(
                                                 onPressed: () async {
@@ -137,7 +165,13 @@ class _SkillsPageState extends State<SkillsPage> {
 
                                                   setState(() {});
                                                 },
-                                                child: const Text('Sil'),
+                                                child: Text(
+                                                  'Sil',
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -179,11 +213,19 @@ class _SkillsPageState extends State<SkillsPage> {
                 padding: const EdgeInsets.all(14.0),
                 child: DropdownButtonFormField<String>(
                   value: null,
-                  hint: const Text('Mevcut yetkinlik Seç',),
+                  hint: Text(
+                    'Mevcut yetkinlik Seç',
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.primary),
+                  ),
                   items: _availableSkills.map((String skill) {
                     return DropdownMenuItem<String>(
                       value: skill,
-                      child: Text(skill),
+                      child: Text(
+                        skill,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
                     );
                   }).toList(),
                   onChanged: (selectedSkill) {
@@ -249,14 +291,15 @@ class _SkillsPageState extends State<SkillsPage> {
                   },
                 ),
               ),
+              const SizedBox(
+                height: 50,
+              )
             ],
           ),
         ),
       ),
     );
   }
-
-
 
 //   Widget _buildEditSkillDialog(SkillModel skill) {
 //     TextEditingController editingController =
