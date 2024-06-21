@@ -7,17 +7,11 @@ import 'package:tobeto/src/models/course_video_model.dart';
 class CourseRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
+  CollectionReference get _courses =>
+      _firestore.collection(FirebaseConstants.coursesCollection);
+  CollectionReference get _videos =>
+      _firestore.collection(FirebaseConstants.videosCollection);
 
-  // Future<List<CourseModel>> fetchAllCourses() async {
-  //   try {
-  //     final querySnapshot = await _firestore.collection('courses').get();
-  //     return querySnapshot.docs
-  //         .map((doc) => CourseModel.fromMap(doc.data()))
-  //         .toList();
-  //   } catch (e) {
-  //     throw Exception('Error fetching courses: $e');
-  //   }
-  // }
   Stream<List<CourseModel>> fetchAllCourses() {
     return _firestore
         .collection(FirebaseConstants.coursesCollection)
@@ -25,7 +19,11 @@ class CourseRepository {
         .map(
       (snapshot) {
         return snapshot.docs
-            .map((doc) => CourseModel.fromMap(doc.data()))
+            .map(
+              (doc) => CourseModel.fromMap(
+                doc.data(),
+              ),
+            )
             .toList();
       },
     );
@@ -48,92 +46,153 @@ class CourseRepository {
           .get();
 
       return querySnapshot.docs
-          .map((doc) => CourseVideoModel.fromMap(doc.data()))
+          .map(
+            (doc) => CourseVideoModel.fromMap(
+              doc.data(),
+            ),
+          )
           .toList();
     } catch (e) {
       throw Exception('Error fetching course videos: $e');
     }
   }
 
-  Future<void> addCourse(CourseModel course) async {
+  Future<String> addCourse(CourseModel courseModel) async {
+    String result = '';
     try {
-      //await _firestore.collection('courses').doc(course.).set(course.toMap());
-    } catch (e) {
-      throw Exception('Error adding course: $e');
+      await _courses.doc(courseModel.courseId).set(courseModel.toMap());
+      result = 'success';
+    } catch (error) {
+      result = error.toString();
+    }
+
+    switch (result) {
+      case 'success':
+        return 'Ders başarıyla eklendi';
+
+      default:
+        return 'Hata $result';
     }
   }
 
-  Future<void> editVideo(String videoId, String newCourseVideoName,
+  Future<String> editVideo(String videoId, String newCourseVideoName,
       String newCourseId, String newCourseName) async {
+    String result = '';
     try {
-      await _firestore
-          .collection(FirebaseConstants.videosCollection)
-          .doc(videoId)
-          .update(
+      await _videos.doc(videoId).update(
         {
           'courseVideoName': newCourseVideoName,
           'courseId': newCourseId,
           'courseName': newCourseName,
         },
       );
-    } catch (e) {
-      throw Exception('Ders videosunu güncellerken hata: $e');
+      result = 'success';
+    } catch (error) {
+      result = error.toString();
+    }
+
+    switch (result) {
+      case 'success':
+        return 'Ders videosu başarıyla düzenlendi';
+
+      default:
+        return 'Hata: $result';
     }
   }
 
-  Future<void> editCourse(
-      String courseId, String newCourseName, String manufacturer) async {
+  Future<String> editCourse(
+    String courseId,
+    String newCourseName,
+    String manufacturer,
+  ) async {
+    String result = '';
     try {
-      await _firestore
-          .collection(FirebaseConstants.coursesCollection)
-          .doc(courseId)
-          .update(
+      await _videos.doc(courseId).update(
         {
           'courseName': newCourseName,
           'manufacturer': manufacturer,
         },
       );
-    } catch (e) {
-      throw Exception('Dersi güncellerken hata: $e');
+      result = 'success';
+    } catch (error) {
+      result = error.toString();
+    }
+    switch (result) {
+      case 'success':
+        return 'Ders başarıyla düzenlendi';
+
+      default:
+        return 'Hata: $result';
     }
   }
 
-  Future<void> saveCourseVideo(CourseVideoModel courseVideoModel) async {
-    await _firestore
-        .collection(FirebaseConstants.videosCollection)
-        .doc(courseVideoModel.videoId)
-        .set(courseVideoModel.toMap());
+  Future<String> saveCourseVideo(CourseVideoModel courseVideoModel) async {
+    String result = '';
+    try {
+      await _videos.doc(courseVideoModel.videoId).set(courseVideoModel.toMap());
+      result = 'success';
+    } catch (error) {
+      result = error.toString();
+    }
+    switch (result) {
+      case 'success':
+        return 'Ders videosu başarıyla kaydedildi';
+
+      default:
+        return 'Hata: $result';
+    }
   }
 
-  Future<void> saveCourse(CourseModel courseModel) async {
-    await _firestore
-        .collection(FirebaseConstants.coursesCollection)
-        .doc(courseModel.courseId)
-        .set(courseModel.toMap());
+  Future<String> saveCourse(CourseModel courseModel) async {
+    String result = '';
+    try {
+      await _courses.doc(courseModel.courseId).set(courseModel.toMap());
+      result = 'success';
+    } catch (error) {
+      result = error.toString();
+    }
+    switch (result) {
+      case 'success':
+        return 'Ders başarıyla kaydedildi';
+
+      default:
+        return 'Hata: $result';
+    }
   }
 
   // Admin panelinden ders silmek için
-  Future<void> deleteCourse(String courseId) async {
+  Future<String> deleteCourse(String courseId) async {
+    String result = '';
     try {
-      await _firestore
-          .collection(FirebaseConstants.coursesCollection)
-          .doc(courseId)
-          .delete();
-    } catch (e) {
-      throw Exception('Error deleting course: $e');
+      await _courses.doc(courseId).delete();
+      result = 'success';
+    } catch (error) {
+      result = error.toString();
+    }
+    switch (result) {
+      case 'success':
+        return 'Ders başarıyla silindi';
+
+      default:
+        return 'Hata: $result';
     }
   }
 
-  Future<void> deleteVideo(String videoId) async {
+  Future<String> deleteVideo(String videoId) async {
+    String result = '';
     try {
-      await _firestore
-          .collection(FirebaseConstants.videosCollection)
-          .doc(videoId)
-          .delete();
-
+      await _videos.doc(videoId).delete();
       await _storage.ref('videos/$videoId').delete();
-    } catch (e) {
-      throw Exception('Error deleting course: $e');
+      result = 'success';
+    } catch (error) {
+      result = error.toString();
+    }
+    switch (result) {
+      case 'success':
+        return 'Ders videosu başarıyla silindi';
+
+      default:
+        return 'Hata: $result';
     }
   }
 }

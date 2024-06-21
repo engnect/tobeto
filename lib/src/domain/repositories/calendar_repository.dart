@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 
 import '../../models/calendar_model.dart';
 
@@ -21,13 +22,7 @@ class CalendarRepository {
       result = error.toString();
     }
 
-    switch (result) {
-      case 'success':
-        return 'İşlem Başarılı';
-
-      default:
-        return 'Hata: $result';
-    }
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> deleteEvent({
@@ -42,12 +37,6 @@ class CalendarRepository {
       result = error.toString();
     }
 
-    switch (result) {
-      case 'success':
-        return 'İşlem Başarılı';
-
-      default:
-        return 'Hata: $result';
-    }
+    return Utilities.errorMessageChecker(result);
   }
 }

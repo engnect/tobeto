@@ -1,3 +1,4 @@
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/education_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
@@ -17,7 +18,7 @@ class EducationRepository {
         result = e.toString();
       }
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> updateEducation(EducationModel educationModel) async {
@@ -31,11 +32,12 @@ class EducationRepository {
 
         UserModel updatedUser = userModel.copyWith();
         await UserRepository().addOrUpdateUser(updatedUser);
+        result = 'success';
       } catch (e) {
         result = e.toString();
       }
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> deleteEducation(EducationModel educationModel) async {
@@ -54,6 +56,6 @@ class EducationRepository {
         result = e.toString();
       }
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 }

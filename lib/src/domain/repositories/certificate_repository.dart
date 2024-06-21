@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/certificate_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
@@ -32,7 +33,7 @@ class CertificateRepository {
         result = e.toString();
       }
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> updateCertificate(CertificateModel certificateModel) async {
@@ -51,7 +52,7 @@ class CertificateRepository {
         result = e.toString();
       }
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> deleteCertificate(CertificateModel certificateModel) async {
@@ -70,7 +71,7 @@ class CertificateRepository {
         result = e.toString();
       }
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> _uploadPDF(String pdfPath, String userId) async {

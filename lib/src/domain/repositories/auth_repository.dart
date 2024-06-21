@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:tobeto/src/common/enums/user_rank_enum.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import '../../models/user_model.dart';
@@ -49,13 +49,10 @@ class AuthRepository {
 
         result = await UserRepository().addOrUpdateUser(userModel);
       }
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-      result = e.toString();
+    } on FirebaseAuthException catch (e) {
+      result = e.code;
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> signInWithGoogle() async {
@@ -103,10 +100,10 @@ class AuthRepository {
 
       result = await UserRepository().addOrUpdateUser(userModel);
     } on FirebaseException catch (e) {
-      result = e.toString();
+      result = e.code;
     }
 
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> singInUser({
@@ -115,27 +112,59 @@ class AuthRepository {
   }) async {
     String result = '';
     try {
-      if (userEmail.isNotEmpty && userPassword.isNotEmpty) {
-        await _firebaseAuth.signInWithEmailAndPassword(
-          email: userEmail,
-          password: userPassword,
-        );
-        result = 'success';
-      } else {}
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-      result = e.toString();
+      await _firebaseAuth.signInWithEmailAndPassword(
+        email: userEmail,
+        password: userPassword,
+      );
+      result = 'success';
+    } on FirebaseAuthException catch (e) {
+      result = e.code;
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
-  Future<void> signOutUser() async {
-    await _firebaseAuth.signOut();
+  Future<String> updatePassword({required String newPassword}) async {
+    String result = '';
+    _firebaseAuth.currentUser!.updatePassword(newPassword);
+    try {
+      result = 'success';
+    } on FirebaseAuthException catch (e) {
+      result = e.code;
+    }
+    return Utilities.errorMessageChecker(result);
   }
 
-  Future<void> deleteUser() async {
-    await _firebaseAuth.currentUser!.delete();
+  Future<String> forgetPassword({required String email}) async {
+    String result = '';
+
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      result = 'success';
+    } on FirebaseAuthException catch (e) {
+      result = e.code;
+    }
+    return Utilities.errorMessageChecker(result);
+  }
+
+  Future<String> signOutUser() async {
+    String result = '';
+    try {
+      await _firebaseAuth.signOut();
+      result = 'success';
+    } on FirebaseAuthException catch (e) {
+      result = e.code;
+    }
+    return Utilities.errorMessageChecker(result);
+  }
+
+  Future<String> deleteUser() async {
+    String result = '';
+    try {
+      await _firebaseAuth.currentUser!.delete();
+      result = 'success';
+    } on FirebaseAuthException catch (e) {
+      result = e.code;
+    }
+    return Utilities.errorMessageChecker(result);
   }
 }
