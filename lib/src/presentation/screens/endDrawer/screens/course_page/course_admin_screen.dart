@@ -11,6 +11,7 @@ import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart'
 import 'package:tobeto/src/models/course_model.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_admin_sliver_app_bar.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 import 'package:uuid/uuid.dart';
@@ -31,12 +32,18 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
 
   final TextEditingController _courseNameController = TextEditingController();
   final TextEditingController _manufacturerController = TextEditingController();
+  final TextEditingController _editCourseNameController =
+      TextEditingController();
+  final TextEditingController _editManufacturerController =
+      TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     _courseNameController.dispose();
     _manufacturerController.dispose();
+    _editCourseNameController.dispose();
+    _editManufacturerController.dispose();
   }
 
   void _pickImage() async {
@@ -82,7 +89,7 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            const TBTSliverAppBar(),
+            const TBTAdminSliverAppBar(),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
@@ -90,15 +97,15 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 15),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
                           child: Text(
                             "Ders Ekle & Düzenle",
                             style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                              Theme.of(context).colorScheme.primary,
+                              fontFamily: "Poppins",
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                         ),
@@ -167,9 +174,10 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                 ),
                               ),
                               TextButton.icon(
-                                icon: const Icon(Icons.calendar_today_outlined,
-                                                 color:Theme.of(context).colorScheme.primary,
-                                                ),
+                                icon: Icon(
+                                  Icons.calendar_today_outlined,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                                 onPressed: () async {
                                   selectedEndDate =
                                       await Utilities.datePicker(context);
@@ -224,9 +232,6 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                       await courseRepository
                                           .deleteCourse(courseModel.courseId);
 
-
-                              
-
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
@@ -244,38 +249,27 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                   }
 
                                   void editCourseFunction() async {
-                                    // String selectedCourseId =
-                                    //     courseModel.courseId;
+                                    String selectedCourseId =
+                                        courseModel.courseId;
 
                                     // TODO: Course Instructors kısmını ekle
                                     // ve buradan gönder ayrıca courseRepository'de de ekleme ve düzenleme kısmına ekle
 
-                                    try {
-                                      String newCourseName =
-                                          _courseNameController.text;
+                                    String newCourseName =
+                                        _editCourseNameController.text;
 
-                                      String manufacturer =
-                                          _manufacturerController.text;
+                                    String manufacturer =
+                                        _editManufacturerController.text;
 
-                                      await courseRepository.editCourse(
-                                          courseId,
-                                          newCourseName,
-                                          manufacturer);
-
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                            content: Text(
-                                                'Ders başarıyla güncellendi')),
-                                      );
-                                    } catch (e) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                            content: Text(
-                                                'Ders güncellenirken bir hata oluştu: $e')),
-                                      );
-                                    }
+                                    String result =
+                                        await courseRepository.editCourse(
+                                            selectedCourseId,
+                                            newCourseName,
+                                            manufacturer);
+                                    if (!context.mounted) return;
+                                    Utilities.showSnackBar(
+                                        snackBarMessage: result,
+                                        context: context);
                                   }
 
                                   void showEditDialog(BuildContext context) {
@@ -283,12 +277,13 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: const Text(
-                                              "Seçili Dersi Düzenle"),
-                                          style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary),
+                                          title: Text(
+                                            "Seçili Dersi Düzenle",
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                          ),
                                           content:
                                               StreamBuilder<List<CourseModel>>(
                                             stream: courseRepository
@@ -309,21 +304,13 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                                     child: Text(
                                                         'No courses available.'));
                                               } else {
-                                                List<CourseModel> courses =
-                                                    snapshot.data!;
-                                                List<String> courseNames =
-                                                    courses
-                                                        .map((course) =>
-                                                            course.courseName)
-                                                        .toList();
-
                                                 return Column(
                                                   children: [
                                                     TBTInputField(
                                                       hintText:
                                                           'Yeni Ders ismini girin.',
                                                       controller:
-                                                          _courseNameController,
+                                                          _editCourseNameController,
                                                       onSaved: (p0) {},
                                                       keyboardType:
                                                           TextInputType
@@ -333,7 +320,7 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                                       hintText:
                                                           'Ders üretici firma ismini girin.',
                                                       controller:
-                                                          _manufacturerController,
+                                                          _editManufacturerController,
                                                       onSaved: (p0) {},
                                                       keyboardType:
                                                           TextInputType
@@ -350,18 +337,17 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                                 editCourseFunction();
                                                 Navigator.pop(context);
                                               },
-                                              child: const Text(
-                                                  "Değişiklikleri Kaydet"),
-                                                style: TextStyle(
-                                                color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                            ),
+                                              child:
+                                                  Text("Değişiklikleri Kaydet",
+                                                      style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .primary,
+                                                      )),
+                                            )
                                           ],
                                         );
                                       },
-
-
                                     );
                                   }
 
@@ -395,11 +381,13 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                     ),
                                     child: ListTile(
                                       title: Text(
-                                          'Ders adı: ${courseModel.courseName}',
+                                        'Ders adı: ${courseModel.courseName}',
                                         style: TextStyle(
-                                                color: Theme.of(context)
+                                          color: Theme.of(context)
                                               .colorScheme
-                                              .primary,),
+                                              .primary,
+                                        ),
+                                      ),
                                     ),
                                   );
                                 },

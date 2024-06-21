@@ -15,6 +15,7 @@ import 'package:tobeto/src/presentation/screens/profile/widgets/application_card
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 import 'package:uuid/uuid.dart';
 
@@ -42,6 +43,7 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
     return SafeArea(
       child: Scaffold(
         endDrawer: const TBTEndDrawer(),
+        drawer: const TBTDrawer(),
         body: CustomScrollView(
           slivers: [
             const TBTSliverAppBar(),
