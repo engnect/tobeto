@@ -97,7 +97,6 @@ class _CourseAddEditState extends State<CourseAddEdit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(235, 235, 235, 1),
       appBar: AppBar(
         centerTitle: true,
         title: const Text("Ders Ekle & Düzenle"),
@@ -112,15 +111,15 @@ class _CourseAddEditState extends State<CourseAddEdit> {
                 margin: const EdgeInsets.all(8),
                 padding: const EdgeInsets.all(8),
                 width: MediaQuery.of(context).size.width,
-                decoration: const BoxDecoration(
-                    boxShadow: <BoxShadow>[
+                decoration: BoxDecoration(
+                    boxShadow: const <BoxShadow>[
                       BoxShadow(
                         color: Color.fromRGBO(0, 0, 0, 0.6),
                         blurRadius: 20,
                       )
                     ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(25))),
+                    color: Theme.of(context).colorScheme.background,
+                    borderRadius: const BorderRadius.all(Radius.circular(25))),
                 child: Column(
                   children: <Widget>[
                     GestureDetector(

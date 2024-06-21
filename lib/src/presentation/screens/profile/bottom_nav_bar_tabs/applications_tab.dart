@@ -10,6 +10,7 @@ import 'package:tobeto/src/domain/repositories/applications_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/application_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/end_drawer.dart';
 import 'package:tobeto/src/presentation/screens/profile/widgets/application_card.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
@@ -40,6 +41,7 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        endDrawer: const TBTEndDrawer(),
         body: CustomScrollView(
           slivers: [
             const TBTSliverAppBar(),

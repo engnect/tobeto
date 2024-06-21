@@ -23,7 +23,6 @@ class _StaffPageState extends State<StaffPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
           title: const Text("Kadro"),
@@ -31,14 +30,16 @@ class _StaffPageState extends State<StaffPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 15),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15),
                 child: Text(
                   "Kadro Düzenle",
                   style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold),
+                    fontFamily: "Poppins",
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ),
               SizedBox(
@@ -106,9 +107,17 @@ class _StaffPageState extends State<StaffPage> {
                                 ),
                               ),
                               title: Text(
-                                  '${userModel.userName} ${userModel.userSurname}'),
-                              subtitle:
-                                  Text(userModel.userRank!.toNameCapitalize()),
+                                '${userModel.userName} ${userModel.userSurname}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              subtitle: Text(
+                                userModel.userRank!.toNameCapitalize(),
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
                             ),
                           );
                         },

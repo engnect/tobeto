@@ -25,7 +25,6 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
           title: const Text("Dersler"),
@@ -33,14 +32,16 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 15),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15),
                 child: Text(
                   "Ders Videosu Ekle",
                   style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold),
+                    fontFamily: "Poppins",
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ),
               Padding(
@@ -132,7 +133,15 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: const Text("Seçili Videoyu Düzenle"),
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.background,
+                                  title: Text(
+                                    "Seçili Videoyu Düzenle",
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                  ),
                                   content: StreamBuilder<List<CourseModel>>(
                                     stream: courseRepository.fetchAllCourses(),
                                     builder: (context, snapshot) {

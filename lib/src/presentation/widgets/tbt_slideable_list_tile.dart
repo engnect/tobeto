@@ -48,11 +48,17 @@ class TBTSlideableListTile extends StatelessWidget {
           title,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
         subtitle: Text(
           subtitle,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       ),
     );

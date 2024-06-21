@@ -20,22 +20,28 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
-          title: const Text("Dersler"),
+          title: Text(
+            "Dersler",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 15),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15),
                 child: Text(
                   "Ders Ekle",
                   style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold),
+                    fontFamily: "Poppins",
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ),
               Padding(
@@ -129,7 +135,15 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: const Text("Seçili Dersi Düzenle"),
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.background,
+                                  title: Text(
+                                    "Seçili Dersi Düzenle",
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                  ),
                                   content: StreamBuilder<List<CourseModel>>(
                                     stream: courseRepository.fetchAllCourses(),
                                     builder: (context, snapshot) {
@@ -183,8 +197,14 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                         editCourseFunction();
                                         Navigator.pop(context);
                                       },
-                                      child:
-                                          const Text("Değişiklikleri Kaydet"),
+                                      child: Text(
+                                        "Değişiklikleri Kaydet",
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 );
@@ -219,8 +239,12 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                               ],
                             ),
                             child: ListTile(
-                              title:
-                                  Text('Ders adı: ${courseModel.courseName}'),
+                              title: Text(
+                                'Ders adı: ${courseModel.courseName}',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
                             ),
                           );
                         },
