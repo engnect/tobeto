@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/models/application_model.dart';
 
 class ApplicationsRepository {
@@ -22,13 +23,7 @@ class ApplicationsRepository {
       result = e.toString();
     }
 
-    switch (result) {
-      case 'success':
-        return 'İşlem Başarılı';
-
-      default:
-        return 'Hata: $result';
-    }
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> deleteAnnouncement({
@@ -43,12 +38,6 @@ class ApplicationsRepository {
       result = e.toString();
     }
 
-    switch (result) {
-      case 'success':
-        return 'İşlem Başarılı';
-
-      default:
-        return 'Hata: $result';
-    }
+    return Utilities.errorMessageChecker(result);
   }
 }

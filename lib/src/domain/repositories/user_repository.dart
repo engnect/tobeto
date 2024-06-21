@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/models/user_model.dart';
 
@@ -38,10 +39,10 @@ class UserRepository {
     try {
       await _users.doc(updatedUser.userId).set(updatedUser.toMap());
       result = 'success';
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       result = e.toString();
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> deleteUser(UserModel userModel) async {
@@ -55,6 +56,6 @@ class UserRepository {
       result = e.toString();
     }
 
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 }

@@ -94,9 +94,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 controller: _surnameController,
                 keyboardType: TextInputType.name,
                 style: const TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 15,
-                    color: Color.fromRGBO(60, 60, 60, 1)),
+                  fontFamily: "Poppins",
+                  fontSize: 15,
+                  color: Color.fromRGBO(60, 60, 60, 1),
+                ),
                 decoration: InputDecoration(
                   prefixIcon: Image.asset(Assets.imageUser),
                   hintText: "Soyisim",
@@ -317,14 +318,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
               buttonText: "Kayıt ol",
               onPressed: () async {
                 await AuthRepository().registerUser(
-                  userName: _nameController.text,
-                  userSurname: _surnameController.text,
-                  userEmail: _emailController.text,
-                  userPassword: _passwordController.text,
+                  userName: _nameController.text.trim(),
+                  userSurname: _surnameController.text.trim(),
+                  userEmail: _emailController.text.trim(),
+                  userPassword: _passwordController.text.trim(),
                 );
               },
             ),
           ),
+          const SizedBox(height: kTextTabBarHeight),
         ],
       ),
     );
