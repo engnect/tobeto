@@ -1,3 +1,4 @@
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/social_media_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
@@ -17,7 +18,7 @@ class SocialMediaRepository {
         result = e.toString();
       }
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> updateSocialMedia(SocialMediaModel socialMediaModel) async {
@@ -36,7 +37,7 @@ class SocialMediaRepository {
         result = e.toString();
       }
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> deleteSocialMedia(SocialMediaModel socialMediaModel) async {
@@ -55,6 +56,6 @@ class SocialMediaRepository {
         result = e.toString();
       }
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 }

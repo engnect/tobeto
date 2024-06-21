@@ -1,3 +1,4 @@
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/skill_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
@@ -17,7 +18,7 @@ class SkillRepository {
         result = e.toString();
       }
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> updateSkill(SkillModel skillModel) async {
@@ -34,7 +35,7 @@ class SkillRepository {
         result = e.toString();
       }
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> deleteSkill(SkillModel skillModel) async {
@@ -53,6 +54,6 @@ class SkillRepository {
         result = e.toString();
       }
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 }

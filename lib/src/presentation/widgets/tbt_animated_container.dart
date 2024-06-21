@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 
 class TBTAnimatedContainer extends StatefulWidget {
@@ -32,20 +30,20 @@ class _TBTAnimatedContainerState extends State<TBTAnimatedContainer> {
       children: [
         AnimatedContainer(
           decoration: BoxDecoration(
-            borderRadius: isExpanded == false
+            borderRadius: isExpanded == true
                 ? const BorderRadius.only(
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),
                   )
                 : null,
-            border: isExpanded == false
-                ? Border(
-                    bottom: BorderSide(
-                      width: isExpanded == false ? 7 : 0,
+            border: Border(
+              bottom: isExpanded
+                  ? BorderSide(
+                      width: isExpanded == true ? 7 : 0,
                       color: const Color.fromARGB(255, 153, 51, 255),
-                    ),
-                  )
-                : null,
+                    )
+                  : BorderSide.none,
+            ),
           ),
           height: isExpanded ? widget.height : 0,
           duration: const Duration(seconds: 1),

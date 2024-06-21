@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/models/announcement_model.dart';
 
 class AnnouncementRepository {
@@ -21,7 +22,7 @@ class AnnouncementRepository {
     } catch (e) {
       result = e.toString();
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> deleteAnnouncement({
@@ -35,6 +36,6 @@ class AnnouncementRepository {
     } catch (e) {
       result = e.toString();
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 }

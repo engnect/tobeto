@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -86,5 +87,32 @@ class Utilities {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(snackBarMessage)),
     );
+  }
+
+  static String errorMessageChecker(String result) {
+    if (kDebugMode) {
+      print('gelen kod : $result');
+    }
+    switch (result) {
+      case 'success':
+        return 'İşlem Başarılı!';
+      case 'email-already-in-use':
+        return 'Bu e-posta sitemde kayıtlı!';
+      case 'invalid-email':
+        return 'E-posta formalı hatalı!';
+      case 'weak-password':
+        return 'Şifre yeterince güçlü değil!';
+      case 'account-exists-with-different-credential':
+        return 'Bu e-posta sitemde kayıtlı!';
+      case 'user-disabled':
+        return 'Bu hesap aktif değil!';
+      case 'wrong-password':
+        return 'Yanlış şifre!';
+      case 'user-not-found':
+        return 'Böyle bir kullanıcı bulunamadı!';
+
+      default:
+        return 'Hata: $result';
+    }
   }
 }

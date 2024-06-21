@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/presentation/screens/auth/widgets/password_input.dart';
+import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -17,12 +19,85 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _forgetPasswordController =
+      TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _forgetPasswordController.dispose();
+  }
+
+  void _signinUser({
+    required String userEmail,
+    required String userPassword,
+    required BuildContext context,
+  }) async {
+    String result = await AuthRepository().singInUser(
+      userEmail: userEmail,
+      userPassword: userPassword,
+    );
+
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  void _signinWithGoogle({
+    required BuildContext context,
+  }) async {
+    String result = await AuthRepository().signInWithGoogle();
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  void _forgetPassword({
+    required TextEditingController forgetPasswordController,
+    required BuildContext context,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          scrollable: true,
+          title: const Text('E-posta adresinizi giriniz!'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TBTInputField(
+                hintText: 'E-posta',
+                controller: forgetPasswordController,
+                onSaved: (p0) {},
+                keyboardType: TextInputType.emailAddress,
+              ),
+              const Text(
+                  'Eğer e-posta adresiniz sistemde kayıtlı ise e-posta 10dk içerisinde size ulaşır.'),
+              const Text('Spam klasörünü kontrol edin!'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                String result = await AuthRepository().forgetPassword(
+                    email: forgetPasswordController.text.trim());
+                forgetPasswordController.clear();
+                if (!context.mounted) return;
+                Utilities.showSnackBar(
+                    snackBarMessage: result, context: context);
+              },
+              child: const Text('Gönder'),
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.close),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -86,12 +161,11 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             child: TBTPurpleButton(
               buttonText: "Giriş Yap",
-              onPressed: () async {
-                await AuthRepository().singInUser(
-                  userEmail: _emailController.text,
-                  userPassword: _passwordController.text,
-                );
-              },
+              onPressed: () => _signinUser(
+                userEmail: _emailController.text,
+                userPassword: _passwordController.text,
+                context: context,
+              ),
             ),
           ),
           const Row(
@@ -125,12 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
-              onPressed: () {
-                // signInWithGoogle();
-                if (kDebugMode) {
-                  print("giriş yapa tıklandı");
-                }
-              },
+              onPressed: () => _signinWithGoogle(context: context),
               child: Stack(
                 children: [
                   Align(
@@ -161,11 +230,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              if (kDebugMode) {
-                print("Şifremi unuttuma tıklandı");
-              }
-            },
+            onTap: () => _forgetPassword(
+              forgetPasswordController: _forgetPasswordController,
+              context: context,
+            ),
             child: const Text(
               "Şifremi Unuttum",
               style: TextStyle(
@@ -174,6 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+          const SizedBox(height: kTextTabBarHeight),
         ],
       ),
     );
