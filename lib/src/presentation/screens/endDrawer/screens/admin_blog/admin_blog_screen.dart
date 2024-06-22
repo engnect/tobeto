@@ -48,6 +48,35 @@ class _AdminBlogScreenState extends State<AdminBlogScreen> {
     }
   }
 
+  _addNewBlog({
+    required XFile? selectedImage,
+    required String blogTitle,
+    required String blogContent,
+    required BuildContext context,
+  }) async {
+    UserModel? userModel = await UserRepository().getCurrentUser();
+    String blogId = const Uuid().v1();
+    String blogImageUrl = await FirebaseStorageRepository().putBlogPicToStorage(
+      isBlog: true,
+      blogId: blogId,
+      selectedImage: selectedImage,
+    );
+    BlogModel blogModel = BlogModel(
+      blogId: blogId,
+      userId: userModel!.userId,
+      userFullName: '${userModel.userName} ${userModel.userSurname}',
+      blogCreatedAt: DateTime.now(),
+      blogTitle: blogTitle,
+      blogContent: blogContent,
+      blogImageUrl: blogImageUrl,
+    );
+
+    String result = await BlogRepository(isBlog: true)
+        .addOrUpdateBlog(blogModel: blogModel);
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -140,36 +169,12 @@ class _AdminBlogScreenState extends State<AdminBlogScreen> {
                                     const EdgeInsets.symmetric(vertical: 20),
                                 child: TBTPurpleButton(
                                   buttonText: "Kaydet",
-                                  onPressed: () async {
-                                    UserModel? userModel =
-                                        await UserRepository().getCurrentUser();
-                                    String blogId = const Uuid().v1();
-                                    String blogImageUrl =
-                                        await FirebaseStorageRepository()
-                                            .putBlogPicToStorage(
-                                      isBlog: true,
-                                      blogId: blogId,
-                                      selectedImage: selectedImage,
-                                    );
-                                    BlogModel blogModel = BlogModel(
-                                      blogId: blogId,
-                                      userId: userModel!.userId,
-                                      userFullName:
-                                          '${userModel.userName} ${userModel.userSurname}',
-                                      blogCreatedAt: DateTime.now(),
-                                      blogTitle: _titleController.text,
-                                      blogContent: _contentController.text,
-                                      blogImageUrl: blogImageUrl,
-                                    );
-
-                                    String result = await BlogRepository(
-                                            isBlog: true)
-                                        .addOrUpdateBlog(blogModel: blogModel);
-
-                                    Utilities.showSnackBar(
-                                        snackBarMessage: result,
-                                        context: context);
-                                  },
+                                  onPressed: () => _addNewBlog(
+                                    selectedImage: selectedImage,
+                                    blogTitle: _titleController.text,
+                                    blogContent: _contentController.text,
+                                    context: context,
+                                  ),
                                 ),
                               ),
                             ],

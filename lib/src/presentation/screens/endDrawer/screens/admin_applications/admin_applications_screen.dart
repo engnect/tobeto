@@ -25,7 +25,6 @@ void _approveApplication(
   String userTitle,
   BuildContext context,
 ) async {
-  print(applicationModel);
   UserModel? currentUser = await UserRepository().getCurrentUser();
 
   UserModel? applicationOwner =

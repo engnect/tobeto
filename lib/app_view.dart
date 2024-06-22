@@ -94,11 +94,14 @@ class _MainAppState extends State<MainApp> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is Authenticated) {
-              return const PlatformScreen();
-            } else if (state is Unauthenticated) {
+            }
+            if (state is Unauthenticated) {
               return const HomeScreen();
             }
+            if (state is Authenticated) {
+              return const PlatformScreen();
+            }
+
             return const Center(
               child: Text('Hata!'),
             );

@@ -4,7 +4,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/domain/repositories/contact_form_repository.dart';
+import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/contact_form_model.dart';
+import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_admin_sliver_app_bar.dart';
 
 class AdminContactFormsScreen extends StatefulWidget {
@@ -13,6 +15,70 @@ class AdminContactFormsScreen extends StatefulWidget {
   @override
   State<AdminContactFormsScreen> createState() =>
       _AdminContactFormsScreenState();
+}
+
+_markAsRead({
+  required ContactFormModel contactFormModel,
+  required BuildContext context,
+}) async {
+  UserModel? currentUser = await UserRepository().getCurrentUser();
+  ContactFormModel updatedContactFormModel = contactFormModel.copyWith(
+    contactFormClosedAt: DateTime.now(),
+    contactFormIsClosed: true,
+    contactFormClosedBy: currentUser!.userId,
+  );
+
+  await ContactFromRepository().sendOrUpdateForm(updatedContactFormModel);
+  if (!context.mounted) return;
+  Navigator.of(context).pop();
+}
+
+_markAsUnread({
+  required ContactFormModel contactFormModel,
+  required BuildContext context,
+}) async {
+  UserModel? currentUser = await UserRepository().getCurrentUser();
+  ContactFormModel updatedContactFormModel = contactFormModel.copyWith(
+    contactFormClosedAt: DateTime.now(),
+    contactFormIsClosed: false,
+    contactFormClosedBy: currentUser!.userId,
+  );
+
+  await ContactFromRepository().sendOrUpdateForm(updatedContactFormModel);
+
+  if (!context.mounted) return;
+  Navigator.of(context).pop();
+}
+
+_showFormDetails({
+  required ContactFormModel contactFormModel,
+  required BuildContext context,
+}) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(contactFormModel.contactFormFullName),
+        content: Text(contactFormModel.contactFormMessage),
+        actions: [
+          TextButton(
+            onPressed: () => _markAsRead(
+              contactFormModel: contactFormModel,
+              context: context,
+            ),
+            child: const Text('Okundu Olarak İşaretle'),
+          ),
+          TextButton(
+            onPressed: () => _markAsUnread(
+              contactFormModel: contactFormModel,
+              context: context,
+            ),
+            child: const Text('Okunmadı Olarak İşaretle'),
+          ),
+        ],
+      );
+    },
+  );
 }
 
 class _AdminContactFormsScreenState extends State<AdminContactFormsScreen> {
@@ -33,10 +99,11 @@ class _AdminContactFormsScreenState extends State<AdminContactFormsScreen> {
                         child: Text(
                           "İletişim Formları",
                           style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary),
+                            fontFamily: "Poppins",
+                            fontSize: 26,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -144,73 +211,10 @@ class _AdminContactFormsScreenState extends State<AdminContactFormsScreen> {
                                                   .primary,
                                             ),
                                           ),
-                                          onTap: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return AlertDialog(
-                                                  title: Text(contactFormModel
-                                                      .contactFormFullName),
-                                                  content: Text(contactFormModel
-                                                      .contactFormMessage),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () async {
-                                                        ContactFormModel
-                                                            updatedContactFormModel =
-                                                            contactFormModel
-                                                                .copyWith(
-                                                          contactFormClosedAt:
-                                                              DateTime.now(),
-                                                          contactFormIsClosed:
-                                                              true,
-                                                          contactFormClosedBy:
-                                                              'alperen',
-                                                        );
-
-                                                        await ContactFromRepository()
-                                                            .sendOrUpdateForm(
-                                                                updatedContactFormModel);
-                                                        if (!context.mounted)
-                                                          return;
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: const Text(
-                                                          'Okundu Olarak İşaretle'),
-                                                    ),
-                                                    TextButton(
-                                                      onPressed: () async {
-                                                        ContactFormModel
-                                                            updatedContactFormModel =
-                                                            contactFormModel
-                                                                .copyWith(
-                                                          contactFormClosedAt:
-                                                              DateTime.now(),
-                                                          contactFormIsClosed:
-                                                              false,
-                                                          contactFormClosedBy:
-                                                              'muhammed',
-                                                        );
-
-                                                        await ContactFromRepository()
-                                                            .sendOrUpdateForm(
-                                                                updatedContactFormModel);
-
-                                                        if (!context.mounted)
-                                                          return;
-
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child: const Text(
-                                                          'Okunmadı Olarak İşaretle'),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            );
-                                          },
+                                          onTap: () => _showFormDetails(
+                                            contactFormModel: contactFormModel,
+                                            context: context,
+                                          ),
                                         ),
                                       ),
                                     ),

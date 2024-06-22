@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/common/utilities/utilities.dart';
@@ -38,6 +39,38 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
 
     _announcementTitleController.dispose();
     _announcementContentController.dispose();
+  }
+
+  _addNewAnnouncement({
+    required String announcementTitle,
+    required String announcementContent,
+    required BuildContext context,
+  }) async {
+    UserModel? currentUser = await UserRepository().getCurrentUser();
+
+    AnnouncementModel announcementModel = AnnouncementModel(
+      announcementId: const Uuid().v1(),
+      userId: currentUser!.userId,
+      announcementTitle: announcementTitle,
+      announcementContent: announcementContent,
+      announcementDate: DateTime.now(),
+    );
+
+    String result = await AnnouncementRepository()
+        .addOrUpdateAnnouncement(announcementModel: announcementModel);
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  _deleteAnnouncement({
+    required AnnouncementModel announcementModel,
+    required BuildContext context,
+  }) async {
+    String result = await AnnouncementRepository()
+        .deleteAnnouncement(announcementModel: announcementModel);
+
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
   }
 
   @override
@@ -87,29 +120,13 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
                               ),
                               TBTPurpleButton(
                                 buttonText: 'Duyuruyu Ekle',
-                                onPressed: () async {
-                                  UserModel? currentUser =
-                                      await UserRepository().getCurrentUser();
-
-                                  AnnouncementModel announcementModel =
-                                      AnnouncementModel(
-                                    announcementId: const Uuid().v1(),
-                                    userId: currentUser!.userId,
-                                    announcementTitle:
-                                        _announcementTitleController.text,
-                                    announcementContent:
-                                        _announcementContentController.text,
-                                    announcementDate: DateTime.now(),
-                                  );
-
-                                  String result = await AnnouncementRepository()
-                                      .addOrUpdateAnnouncement(
-                                          announcementModel: announcementModel);
-
-                                  Utilities.showSnackBar(
-                                      snackBarMessage: result,
-                                      context: context);
-                                },
+                                onPressed: () => _addNewAnnouncement(
+                                  announcementTitle:
+                                      _announcementTitleController.text,
+                                  announcementContent:
+                                      _announcementContentController.text,
+                                  context: context,
+                                ),
                               ),
                             ],
                           ),
@@ -137,26 +154,54 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
                                   AnnouncementModel announcementModel =
                                       AnnouncementModel.fromMap(documentSnapshot
                                           .data() as Map<String, dynamic>);
-                                  return ListTile(
-                                    title: Text(
-                                      announcementModel.announcementTitle,
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 15,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                      ),
+                                  return Slidable(
+                                    endActionPane: ActionPane(
+                                      extentRatio: 0.55,
+                                      motion: const DrawerMotion(),
+                                      children: [
+                                        SlidableAction(
+                                          onPressed: (_) => _deleteAnnouncement(
+                                            announcementModel:
+                                                announcementModel,
+                                            context: context,
+                                          ),
+                                          backgroundColor:
+                                              const Color(0xFFFE4A49),
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.delete,
+                                          label: 'Sil',
+                                        ),
+                                        SlidableAction(
+                                          onPressed: (_) {},
+                                          backgroundColor:
+                                              const Color(0xFF21B7CA),
+                                          foregroundColor: Colors.white,
+                                          icon: Icons.edit,
+                                          label: 'Düzenle',
+                                        ),
+                                      ],
                                     ),
-                                    subtitle: Text(
-                                      DateFormat('dd/MM/yyyy').format(
-                                          announcementModel.announcementDate),
-                                      style: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 14,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
+                                    child: ListTile(
+                                      title: Text(
+                                        announcementModel.announcementTitle,
+                                        style: TextStyle(
+                                          fontFamily: "Poppins",
+                                          fontSize: 15,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
+                                      subtitle: Text(
+                                        DateFormat('dd/MM/yyyy').format(
+                                            announcementModel.announcementDate),
+                                        style: TextStyle(
+                                          fontFamily: "Poppins",
+                                          fontSize: 14,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
                                       ),
                                     ),
                                   );
