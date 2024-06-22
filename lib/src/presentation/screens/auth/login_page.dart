@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
@@ -35,13 +37,15 @@ class _LoginScreenState extends State<LoginScreen> {
     required String userPassword,
     required BuildContext context,
   }) async {
-    String result = await AuthRepository().singInUser(
-      userEmail: userEmail,
-      userPassword: userPassword,
-    );
+    // String result = await AuthRepository().singInUser(
+    //   userEmail: userEmail,
+    //   userPassword: userPassword,
+    // );
 
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    context.read<AuthBloc>().add(SignInRequested(userEmail, userPassword));
+
+    // if (!context.mounted) return;
+    // Utilities.showSnackBar(snackBarMessage: result, context: context);
   }
 
   void _signinWithGoogle({

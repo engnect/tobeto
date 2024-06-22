@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -20,7 +21,7 @@ class ExperiencePage extends StatefulWidget {
 }
 
 class _ExperiencePageState extends State<ExperiencePage> {
-  final TextEditingController _companyController = TextEditingController();
+  final TextEditingController _companyNameController = TextEditingController();
   final TextEditingController _positionController = TextEditingController();
   final TextEditingController _sectorController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
@@ -40,16 +41,6 @@ class _ExperiencePageState extends State<ExperiencePage> {
   void initState() {
     super.initState();
     _loadCityData();
-  }
-
-  @override
-  void dispose() {
-    _companyController.dispose();
-    _positionController.dispose();
-    _sectorController.dispose();
-    _cityController.dispose();
-    _jobdescrbController.dispose();
-    super.dispose();
   }
 
   Future<void> _loadCityData() async {
@@ -84,6 +75,104 @@ class _ExperiencePageState extends State<ExperiencePage> {
         _selectedEndDate = selectedDate;
       });
     }
+  }
+
+  void _saveExperience({
+    required String companyName,
+    required String experiencePosition,
+    required String experienceType,
+    required String experienceSector,
+    required String experienceCity,
+    required DateTime startDate,
+    required DateTime endDate,
+    required bool isCurrentlyWorking,
+    required String jobDescription,
+    required BuildContext context,
+  }) async {
+    UserModel? userModel = await UserRepository().getCurrentUser();
+
+    ExperienceModel experienceModel = ExperienceModel(
+      experienceId: const Uuid().v1(),
+      userId: userModel!.userId,
+      companyName: companyName,
+      experiencePosition: experiencePosition,
+      experienceType: experienceType,
+      experienceSector: experienceSector,
+      experienceCity: experienceCity,
+      startDate: startDate,
+      endDate: endDate,
+      isCurrentlyWorking: isCurrentlyWorking,
+      jobDescription: jobDescription,
+    );
+
+    String result = await ExperienceRepository().addExperience(experienceModel);
+
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  void _deleteExperience({
+    required ExperienceModel experienceModel,
+    required BuildContext context,
+  }) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          "Deneyimi sil",
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        ),
+        content: Text(
+          "Bu deneyimi silmek istediğinizden emin misiniz?",
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("İptal"),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+
+              String result = await ExperienceRepository()
+                  .deleteExperience(experienceModel);
+              if (!context.mounted) return;
+              Utilities.showSnackBar(
+                snackBarMessage: result,
+                context: context,
+              );
+            },
+            child: const Text('Sil'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _editExperience({
+    required ExperienceModel experienceModel,
+    required BuildContext context,
+  }) async {
+    ExperienceModel? updatedExperience = await showDialog<ExperienceModel>(
+      context: context,
+      builder: (context) => EditExperienceDialog(experience: experienceModel),
+    );
+    String result =
+        await ExperienceRepository().updateExperience(updatedExperience!);
+
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  @override
+  void dispose() {
+    _companyNameController.dispose();
+    _positionController.dispose();
+    _sectorController.dispose();
+    _cityController.dispose();
+    _jobdescrbController.dispose();
+    super.dispose();
   }
 
   @override
@@ -184,80 +273,20 @@ class _ExperiencePageState extends State<ExperiencePage> {
                                                 .colorScheme
                                                 .onSecondary,
                                           ),
-                                          onPressed: () async {
-                                            final updatedExperience =
-                                                await showDialog<
-                                                    ExperienceModel>(
-                                              context: context,
-                                              builder: (context) =>
-                                                  EditExperienceDialog(
-                                                      experience: experience),
-                                            );
-                                            if (updatedExperience != null) {
-                                              String result =
-                                                  await ExperienceRepository()
-                                                      .updateExperience(
-                                                updatedExperience,
-                                              );
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(result),
-                                                ),
-                                              );
-                                              setState(() {});
-                                            }
-                                          },
+                                          onPressed: () => _editExperience(
+                                            experienceModel: experience,
+                                            context: context,
+                                          ),
                                         ),
                                         IconButton(
                                           icon: Icon(Icons.delete,
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .onSecondary),
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) => AlertDialog(
-                                                title: Text(
-                                                  "Deneyimi sil",
-                                                  style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .primary),
-                                                ),
-                                                content: Text(
-                                                  "Bu deneyimi silmek istediğinizden emin misiniz?",
-                                                  style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .primary),
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(context),
-                                                    child: const Text("İptal"),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      Navigator.pop(context);
-
-                                                      String result =
-                                                          await ExperienceRepository()
-                                                              .deleteExperience(
-                                                                  experience);
-
-                                                      Utilities.showSnackBar(
-                                                          snackBarMessage:
-                                                              result,
-                                                          context: context);
-                                                    },
-                                                    child: const Text('Sil'),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          },
+                                          onPressed: () => _deleteExperience(
+                                            experienceModel: experience,
+                                            context: context,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -276,7 +305,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TBTInputField(
                   hintText: "Kurum Adı",
-                  controller: _companyController,
+                  controller: _companyNameController,
                   onSaved: (p0) {},
                   keyboardType: TextInputType.name,
                 ),
@@ -317,14 +346,17 @@ class _ExperiencePageState extends State<ExperiencePage> {
                     title: Text(
                       _selectedExperienceType ?? 'Deneyim Türünü Seçin',
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary),
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
                     trailing: Icon(
                       Icons.arrow_drop_down,
                       color: Theme.of(context).colorScheme.primary,
                     ),
                     contentPadding: const EdgeInsets.symmetric(
-                        vertical: 4.0, horizontal: 8.0),
+                      vertical: 4.0,
+                      horizontal: 8.0,
+                    ),
                   ),
                 ),
               ),
@@ -349,7 +381,8 @@ class _ExperiencePageState extends State<ExperiencePage> {
                         child: Text(
                           city["name"]!,
                           style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary),
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
                       );
                     }).toList();
@@ -359,14 +392,17 @@ class _ExperiencePageState extends State<ExperiencePage> {
                     title: Text(
                       _selectedCityName ?? 'Şehir Seçiniz',
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary),
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
                     trailing: Icon(
                       Icons.arrow_drop_down,
                       color: Theme.of(context).colorScheme.primary,
                     ),
                     contentPadding: const EdgeInsets.symmetric(
-                        vertical: 4.0, horizontal: 8.0),
+                      vertical: 4.0,
+                      horizontal: 8.0,
+                    ),
                   ),
                 ),
               ),
@@ -441,7 +477,8 @@ class _ExperiencePageState extends State<ExperiencePage> {
                     Text(
                       'Çalışmaya devam ediyorum.',
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary),
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
                   ],
                 ),
@@ -457,36 +494,23 @@ class _ExperiencePageState extends State<ExperiencePage> {
               ),
               TBTPurpleButton(
                 buttonText: 'Kaydet',
-                onPressed: () async {
-                  UserModel? userModel =
-                      await UserRepository().getCurrentUser();
-
-                  ExperienceModel experienceModel = ExperienceModel(
-                    experienceId: const Uuid().v1(),
-                    userId: userModel!.userId,
-                    companyName: _companyController.text,
-                    experiencePosition: _positionController.text,
-                    experienceType: _selectedExperienceType.toString(),
-                    experienceSector: _sectorController.text,
-                    experienceCity: _selectedCityName.toString(),
-                    startDate: _selectedStartDate!,
-                    endDate: _isCurrentlyWorking
-                        ? DateTime.now()
-                        : _selectedEndDate!,
-                    isCurrentlyWorking: _isCurrentlyWorking,
-                    jobDescription: _jobdescrbController.text,
-                  );
-
-                  String result = await ExperienceRepository()
-                      .addExperience(experienceModel);
-
-                  Utilities.showSnackBar(
-                      snackBarMessage: result, context: context);
-                },
+                onPressed: () => _saveExperience(
+                  companyName: _companyNameController.text,
+                  endDate:
+                      _isCurrentlyWorking ? DateTime.now() : _selectedEndDate!,
+                  startDate: _selectedStartDate!,
+                  jobDescription: _jobdescrbController.text,
+                  experienceCity: _selectedCityName!,
+                  isCurrentlyWorking: _isCurrentlyWorking,
+                  experienceType: _selectedExperienceType!,
+                  experiencePosition: _positionController.text,
+                  experienceSector: _sectorController.text,
+                  context: context,
+                ),
               ),
               const SizedBox(
                 height: 50,
-              )
+              ),
             ],
           ),
         ),

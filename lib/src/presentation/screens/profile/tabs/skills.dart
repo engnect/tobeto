@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/skill_repository.dart';
 import 'package:tobeto/src/presentation/screens/profile/widgets/edit_skillls_dialog.dart';
 import 'package:uuid/uuid.dart';
@@ -28,8 +29,94 @@ class _SkillsPageState extends State<SkillsPage> {
     'React',
     'Python',
   ];
-
   bool isEditing = false;
+
+  void _saveSkill({
+    required List<String> selectedSkills,
+    required String skillName,
+    required BuildContext context,
+  }) async {
+    UserModel? userModel = await UserRepository().getCurrentUser();
+
+    for (String skillName in selectedSkills) {
+      SkillModel skillModel = SkillModel(
+        skillId: const Uuid().v1(),
+        userId: userModel!.userId,
+        skillName: skillName,
+      );
+
+      String result = await SkillRepository().addSkill(skillModel);
+      if (!context.mounted) return;
+      Utilities.showSnackBar(snackBarMessage: result, context: context);
+    }
+
+    if (skillName.isNotEmpty) {
+      SkillModel skillModel = SkillModel(
+        skillId: const Uuid().v1(),
+        userId: userModel!.userId,
+        skillName: skillName,
+      );
+
+      String result = await SkillRepository().addSkill(skillModel);
+
+      if (!context.mounted) return;
+      Utilities.showSnackBar(snackBarMessage: result, context: context);
+    }
+  }
+
+  void _editSkill({
+    required SkillModel skill,
+    required BuildContext context,
+  }) async {
+    SkillModel updatedSkill = await showDialog(
+      context: context,
+      builder: (context) => EditSkillDialog(skill: skill),
+    );
+
+    String result = await SkillRepository().updateSkill(updatedSkill);
+
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  void _deleteSkill(
+      {required SkillModel skill, required BuildContext context}) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          "Yeteneği sil",
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        ),
+        content: Text(
+          "Bu yeteneği silmek istediğinizden emin misiniz?",
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              "İptal",
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              String result = await SkillRepository().deleteSkill(skill);
+
+              if (!context.mounted) return;
+              Utilities.showSnackBar(snackBarMessage: result, context: context);
+            },
+            child: Text(
+              'Sil',
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -94,18 +181,9 @@ class _SkillsPageState extends State<SkillsPage> {
                                             .onSecondary,
                                       ),
                                       onPressed: () async {
-                                        SkillModel updatedSkill =
-                                            await showDialog(
+                                        _editSkill(
+                                          skill: skill,
                                           context: context,
-                                          builder: (context) =>
-                                              EditSkillDialog(skill: skill),
-                                        );
-
-                                        String result = await SkillRepository()
-                                            .updateSkill(updatedSkill);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(content: Text(result)),
                                         );
                                         setState(() {});
                                       },
@@ -118,61 +196,11 @@ class _SkillsPageState extends State<SkillsPage> {
                                             .onSecondary,
                                       ),
                                       onPressed: () async {
-                                        showDialog(
+                                        _deleteSkill(
+                                          skill: skill,
                                           context: context,
-                                          builder: (context) => AlertDialog(
-                                            title: Text(
-                                              "Yeteneği sil",
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary),
-                                            ),
-                                            content: Text(
-                                              "Bu yeteneği silmek istediğinizden emin misiniz?",
-                                              style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary),
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: Text(
-                                                  "İptal",
-                                                  style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .primary),
-                                                ),
-                                              ),
-                                              TextButton(
-                                                onPressed: () async {
-                                                  Navigator.pop(context);
-                                                  String result =
-                                                      await SkillRepository()
-                                                          .deleteSkill(skill);
-
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                        content: Text(result)),
-                                                  );
-
-                                                  setState(() {});
-                                                },
-                                                child: Text(
-                                                  'Sil',
-                                                  style: TextStyle(
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .primary),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
                                         );
+                                        setState(() {});
                                       },
                                     ),
                                   ],
@@ -247,40 +275,12 @@ class _SkillsPageState extends State<SkillsPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TBTPurpleButton(
                   buttonText: 'Kaydet',
-                  onPressed: () async {
-                    UserModel? userModel =
-                        await UserRepository().getCurrentUser();
-
-                    for (String skillName in _selectedSkills) {
-                      SkillModel skillModel = SkillModel(
-                        skillId: const Uuid().v1(),
-                        userId: userModel!.userId,
-                        skillName: skillName,
-                      );
-
-                      String result =
-                          await SkillRepository().addSkill(skillModel);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(result)),
-                      );
-                    }
-
-                    if (_skillController.text.isNotEmpty) {
-                      SkillModel skillModel = SkillModel(
-                        skillId: const Uuid().v1(),
-                        userId: userModel!.userId,
-                        skillName: _skillController.text,
-                      );
-
-                      String result =
-                          await SkillRepository().addSkill(skillModel);
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(result)),
-                      );
-                    }
-
+                  onPressed: () {
+                    _saveSkill(
+                      selectedSkills: _selectedSkills,
+                      skillName: _skillController.text,
+                      context: context,
+                    );
                     setState(() {
                       _selectedSkills.clear();
                       _skillController.clear();
@@ -290,46 +290,11 @@ class _SkillsPageState extends State<SkillsPage> {
               ),
               const SizedBox(
                 height: 50,
-              )
+              ),
             ],
           ),
         ),
       ),
     );
   }
-
-//   Widget _buildEditSkillDialog(SkillModel skill) {
-//     TextEditingController editingController =
-//         TextEditingController(text: skill.skillName);
-//     return AlertDialog(
-//       title: const Text("Yetenek Düzenle"),
-//       content: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           TextField(
-//             controller: editingController,
-//             decoration: const InputDecoration(labelText: "Yetenek Adı"),
-//           ),
-//         ],
-//       ),
-//       actions: [
-//         TextButton(
-//           onPressed: () => Navigator.pop(context),
-//           child: const Text("İptal"),
-//         ),
-//         TextButton(
-//           onPressed: () {
-//             SkillModel updatedSkill = SkillModel(
-//               skillId: skill.skillId,
-//               userId: skill.userId,
-//               skillName: editingController.text,
-//             );
-//             Navigator.pop(context, updatedSkill);
-//           },
-//           child: const Text("Kaydet"),
-//         ),
-//       ],
-//     );
-//   }
-// }
 }

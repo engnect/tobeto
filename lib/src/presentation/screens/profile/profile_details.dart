@@ -45,7 +45,7 @@ class ProfilDetails extends StatelessWidget {
                                     child: CircleAvatar(
                                       backgroundImage:
                                           AssetImage(Assets.imagesMhProfil),
-                                      radius: 40,
+                                      radius: 35,
                                     ),
                                   ),
                                   Padding(

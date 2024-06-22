@@ -18,7 +18,7 @@ class ExperienceRepository {
         result = e.toString();
       }
     }
-    return result;
+    return Utilities.errorMessageChecker(result);
   }
 
   Future<String> updateExperience(ExperienceModel experienceModel) async {

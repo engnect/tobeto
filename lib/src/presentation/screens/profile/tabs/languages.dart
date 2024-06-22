@@ -57,6 +57,92 @@ class _LanguagesPageState extends State<LanguagesPage> {
     'Ana Dil',
   ];
 
+  void _saveLanguage({
+    required String languageName,
+    required String languageLevel,
+    required BuildContext context,
+  }) async {
+    UserModel? userModel = await UserRepository().getCurrentUser();
+    LanguageModel newLanguage = LanguageModel(
+      languageId: const Uuid().v1(),
+      userId: userModel!.userId,
+      languageName: languageName,
+      languageLevel: languageLevel,
+    );
+    String result = await LanguageRepository().addLanguage(newLanguage);
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  void _deleteLanguage(
+      {required LanguageModel languageModel, required BuildContext context}) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          "Dili sil",
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        ),
+        content: Text(
+          "Bu dili silmek istediğinizden emin misiniz?",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              "İptal",
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () async {
+              Navigator.pop(context);
+              String result =
+                  await LanguageRepository().deleteLanguage(languageModel);
+
+              if (!context.mounted) return;
+              Utilities.showSnackBar(snackBarMessage: result, context: context);
+            },
+            child: Text(
+              'Sil',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _editLanguage({
+    required List<String> languages,
+    required List<String> levels,
+    required LanguageModel languageModel,
+    required BuildContext context,
+  }) async {
+    final updatedLanguage = await showDialog<LanguageModel>(
+      context: context,
+      builder: (context) => EditLanguageDialog(
+        languageModel: languageModel,
+        languages: languages,
+        levels: levels,
+      ),
+    );
+    if (updatedLanguage != null) {
+      String result = await LanguageRepository().updateLanguage(
+        updatedLanguage,
+      );
+      if (!context.mounted) return;
+      Utilities.showSnackBar(snackBarMessage: result, context: context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,30 +216,13 @@ class _LanguagesPageState extends State<LanguagesPage> {
                                               .onSecondary,
                                         ),
                                         onPressed: () async {
-                                          final updatedLanguage =
-                                              await showDialog<LanguageModel>(
+                                          _editLanguage(
+                                            languageModel: language,
+                                            languages: _languages,
+                                            levels: _levels,
                                             context: context,
-                                            builder: (context) =>
-                                                EditLanguageDialog(
-                                              languageModel: language,
-                                              languages: _languages,
-                                              levels: _levels,
-                                            ),
                                           );
-                                          if (updatedLanguage != null) {
-                                            String result =
-                                                await LanguageRepository()
-                                                    .updateLanguage(
-                                              updatedLanguage,
-                                            );
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(result),
-                                              ),
-                                            );
-                                            setState(() {});
-                                          }
+                                          setState(() {});
                                         },
                                       ),
                                       IconButton(
@@ -161,60 +230,10 @@ class _LanguagesPageState extends State<LanguagesPage> {
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .onSecondary),
-                                        onPressed: () {
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) => AlertDialog(
-                                              title: Text(
-                                                "Dili sil",
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary),
-                                              ),
-                                              content: Text(
-                                                "Bu dili silmek istediğinizden emin misiniz?",
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary),
-                                              ),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                  child: Text(
-                                                    "İptal",
-                                                    style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .primary),
-                                                  ),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () async {
-                                                    Navigator.pop(context);
-                                                    String result =
-                                                        await LanguageRepository()
-                                                            .deleteLanguage(
-                                                                language);
-
-                                                    Utilities.showSnackBar(
-                                                        snackBarMessage: result,
-                                                        context: context);
-                                                  },
-                                                  child: Text(
-                                                    'Sil',
-                                                    style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .primary),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
+                                        onPressed: () => _deleteLanguage(
+                                          languageModel: language,
+                                          context: context,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -251,15 +270,18 @@ class _LanguagesPageState extends State<LanguagesPage> {
                   title: Text(
                     _selectedLanguage ?? 'Yabancı Dil Seçiniz',
                     style: TextStyle(
-                        fontSize: 16,
-                        color: Theme.of(context).colorScheme.primary),
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                   trailing: Icon(
                     Icons.arrow_drop_down,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   contentPadding: const EdgeInsets.symmetric(
-                      vertical: 4.0, horizontal: 8.0),
+                    vertical: 4.0,
+                    horizontal: 8.0,
+                  ),
                 ),
               ),
             ),
@@ -275,7 +297,8 @@ class _LanguagesPageState extends State<LanguagesPage> {
                       child: Text(
                         value,
                         style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary),
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                       ),
                     );
                   }).toList();
@@ -289,15 +312,18 @@ class _LanguagesPageState extends State<LanguagesPage> {
                   title: Text(
                     _selectedLevel ?? 'Seviye Seçiniz',
                     style: TextStyle(
-                        fontSize: 16,
-                        color: Theme.of(context).colorScheme.primary),
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
                   trailing: Icon(
                     Icons.arrow_drop_down,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   contentPadding: const EdgeInsets.symmetric(
-                      vertical: 4.0, horizontal: 8.0),
+                    vertical: 4.0,
+                    horizontal: 8.0,
+                  ),
                 ),
               ),
             ),
@@ -305,23 +331,11 @@ class _LanguagesPageState extends State<LanguagesPage> {
               padding: const EdgeInsets.all(8.0),
               child: TBTPurpleButton(
                 buttonText: 'Kaydet',
-                onPressed: () async {
-                  UserModel? userModel =
-                      await UserRepository().getCurrentUser();
-                  LanguageModel newLanguage = LanguageModel(
-                    languageId: const Uuid().v1(),
-                    userId: userModel!.userId,
-                    languageName: _selectedLanguage,
-                    languageLevel: _selectedLevel,
-                  );
-                  String result =
-                      await LanguageRepository().addLanguage(newLanguage);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(result),
-                    ),
-                  );
-                },
+                onPressed: () => _saveLanguage(
+                  languageLevel: _selectedLevel!,
+                  languageName: _selectedLanguage!,
+                  context: context,
+                ),
               ),
             ),
             const SizedBox(
