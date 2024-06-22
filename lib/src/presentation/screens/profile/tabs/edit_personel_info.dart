@@ -153,9 +153,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       } else {
         throw Exception('Kullanıcı oturumu açmamış.');
       }
-    } catch (e) {
-      print('Hata: $e');
-    }
+    } catch (e) {}
   }
 
   @override
@@ -256,9 +254,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                               color:
                                   Theme.of(context).colorScheme.onSecondary)),
                       initialCountryCode: 'TR',
-                      onChanged: (phone) {
-                        print(phone.completeNumber);
-                      },
+                      onChanged: (phone) {},
                     ),
                   ],
                 ),

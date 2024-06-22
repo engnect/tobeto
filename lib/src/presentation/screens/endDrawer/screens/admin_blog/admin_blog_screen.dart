@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/blog_repository.dart';
 import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
@@ -161,9 +162,13 @@ class _AdminBlogScreenState extends State<AdminBlogScreen> {
                                       blogImageUrl: blogImageUrl,
                                     );
 
-                                    String sonuc = await BlogRepository(
+                                    String result = await BlogRepository(
                                             isBlog: true)
                                         .addOrUpdateBlog(blogModel: blogModel);
+
+                                    Utilities.showSnackBar(
+                                        snackBarMessage: result,
+                                        context: context);
                                   },
                                 ),
                               ),

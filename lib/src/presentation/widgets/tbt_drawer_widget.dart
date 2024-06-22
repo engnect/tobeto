@@ -18,7 +18,6 @@ class TBTDrawer extends StatefulWidget {
 }
 
 class _TBTDrawerState extends State<TBTDrawer> {
-  
   final prefs = ThemePreferences();
   @override
   Widget build(BuildContext context) {
@@ -58,17 +57,9 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-
-              title:  Text(localizations.translate('menu.who_we_are'),
-                
-                style: const TextStyle(fontFamily: "Poppins"),
-
               title: Text(
-                "Biz Kimiz?",
-                style: TextStyle(
-                    fontFamily: "Poppins",
-                    color: Theme.of(context).colorScheme.primary),
-
+                localizations.translate('menu.who_we_are'),
+                style: const TextStyle(fontFamily: "Poppins"),
               ),
               onTap: () {
                 Navigator.of(context)
@@ -237,7 +228,6 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
 
             // theme switch
-
             // BlocBuilder<ThemeBloc, ThemeState>(
             //   builder: (context, state) {
             //     final isDarkTheme =

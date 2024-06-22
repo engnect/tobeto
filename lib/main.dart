@@ -27,16 +27,5 @@ Future<void> main() async {
   );
   Bloc.observer = SimpleBlocObserver();
 
-
- 
-  
-  
-
   runApp(const MainApp());
-
 }
-
-
-
-
-

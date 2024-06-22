@@ -19,7 +19,7 @@ dependencies:
   glowy_borders: ^1.0.2
   curved_navigation_bar: ^1.0.6
   page_transition: ^2.1.0
-  intl: ^0.18.1
+  intl: any
   file_picker: ^8.0.5
   image_picker: ^1.1.2
   intl_phone_field2: ^3.3.4
@@ -35,9 +35,7 @@ dependencies:
   shared_preferences: ^2.2.3
   uuid: ^4.4.0
   google_fonts: ^6.2.1
-  webview_flutter: ^4.0.8
-
- 
+  webview_flutter: ^4.8.0
 
 dev_dependencies:
   flutter_test:

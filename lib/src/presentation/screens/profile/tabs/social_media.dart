@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/social_media_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/social_media_model.dart';
@@ -251,18 +252,16 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                                                   TextButton(
                                                     onPressed: () async {
                                                       Navigator.pop(context);
-                                                      print(
-                                                          "Silmek istediğim fonksiyon: ${socialMedia.socialMediaId}");
-                                                      // await _deleteExperience(
-                                                      //     experience
-                                                      //         .experienceId);
 
                                                       String result =
                                                           await SocialMediaRepository()
                                                               .deleteSocialMedia(
                                                                   socialMedia);
 
-                                                      print(result);
+                                                      Utilities.showSnackBar(
+                                                          snackBarMessage:
+                                                              result,
+                                                          context: context);
                                                     },
                                                     child: Text(
                                                       'Sil',
@@ -356,10 +355,10 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                     socialMedialink: _linkController.text,
                   );
 
-                  String sonuc = await SocialMediaRepository()
+                  String result = await SocialMediaRepository()
                       .addSocialMedia(socialMediaModel);
-
-                  print(sonuc);
+                  Utilities.showSnackBar(
+                      snackBarMessage: result, context: context);
                 },
               ),
               const SizedBox(

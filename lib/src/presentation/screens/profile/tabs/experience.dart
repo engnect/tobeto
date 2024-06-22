@@ -241,18 +241,16 @@ class _ExperiencePageState extends State<ExperiencePage> {
                                                   TextButton(
                                                     onPressed: () async {
                                                       Navigator.pop(context);
-                                                      print(
-                                                          "Silmek istediğim fonksiyon: ${experience.experienceId}");
-                                                      // await _deleteExperience(
-                                                      //     experience
-                                                      //         .experienceId);
 
                                                       String result =
                                                           await ExperienceRepository()
                                                               .deleteExperience(
                                                                   experience);
 
-                                                      print(result);
+                                                      Utilities.showSnackBar(
+                                                          snackBarMessage:
+                                                              result,
+                                                          context: context);
                                                     },
                                                     child: const Text('Sil'),
                                                   ),
@@ -479,10 +477,11 @@ class _ExperiencePageState extends State<ExperiencePage> {
                     jobDescription: _jobdescrbController.text,
                   );
 
-                  String sonuc = await ExperienceRepository()
+                  String result = await ExperienceRepository()
                       .addExperience(experienceModel);
 
-                  print(sonuc);
+                  Utilities.showSnackBar(
+                      snackBarMessage: result, context: context);
                 },
               ),
               const SizedBox(

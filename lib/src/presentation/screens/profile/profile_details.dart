@@ -399,16 +399,17 @@ class ProfilDetails extends StatelessWidget {
                                   ),
                                   const Spacer(),
                                   IconButton(
-                                      onPressed: () {
-                                        //ShowDialog Açılacak!
-                                        //TODO:Armağan Kardeş Buraya Bütün yetkinliklerin açılacağı bir Popup yapacak!
-                                      },
-                                      icon: Icon(
-                                        Icons.visibility_outlined,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary,
-                                      ))
+                                    onPressed: () {
+                                      //ShowDialog Açılacak!
+                                      //TODO:Armağan Kardeş Buraya Bütün yetkinliklerin açılacağı bir Popup yapacak!
+                                    },
+                                    icon: Icon(
+                                      Icons.visibility_outlined,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSecondary,
+                                    ),
+                                  ),
                                 ],
                               ),
                               Divider(

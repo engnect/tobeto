@@ -101,16 +101,13 @@ class _SkillsPageState extends State<SkillsPage> {
                                               EditSkillDialog(skill: skill),
                                         );
 
-                                        if (updatedSkill != null) {
-                                          String result =
-                                              await SkillRepository()
-                                                  .updateSkill(updatedSkill);
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(content: Text(result)),
-                                          );
-                                          setState(() {});
-                                        }
+                                        String result = await SkillRepository()
+                                            .updateSkill(updatedSkill);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(content: Text(result)),
+                                        );
+                                        setState(() {});
                                       },
                                     ),
                                     IconButton(

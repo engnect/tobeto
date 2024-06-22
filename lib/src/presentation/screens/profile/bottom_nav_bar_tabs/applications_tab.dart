@@ -6,6 +6,7 @@ import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/common/enums/application_status_enum.dart';
 import 'package:tobeto/src/common/enums/application_type_enum.dart';
 import 'package:tobeto/src/common/enums/user_rank_enum.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/applications_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/application_model.dart';
@@ -181,6 +182,10 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
                                                 .addOrUpdateApplication(
                                                     applicationModel:
                                                         applicationModel);
+
+                                        Utilities.showSnackBar(
+                                            snackBarMessage: result,
+                                            context: context);
                                       },
                                     ),
                                   ),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/announcement_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/announcement_model.dart';
@@ -104,6 +105,10 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
                                   String result = await AnnouncementRepository()
                                       .addOrUpdateAnnouncement(
                                           announcementModel: announcementModel);
+
+                                  Utilities.showSnackBar(
+                                      snackBarMessage: result,
+                                      context: context);
                                 },
                               ),
                             ],

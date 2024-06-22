@@ -8,7 +8,6 @@ import 'package:tobeto/src/presentation/screens/profile/tabs/languages.dart';
 import 'package:tobeto/src/presentation/screens/profile/tabs/settings.dart';
 import 'package:tobeto/src/presentation/screens/profile/tabs/skills.dart';
 import 'package:tobeto/src/presentation/screens/profile/tabs/social_media.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});

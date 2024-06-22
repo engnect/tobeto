@@ -67,7 +67,7 @@ class _InThePressAdminState extends State<InThePressAdmin> {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
                     child: Text(
                       "İçeriği Düzenle",
                       style: TextStyle(

@@ -195,13 +195,15 @@ class _EducationPageState extends State<EducationPage> {
                                                   TextButton(
                                                     onPressed: () async {
                                                       Navigator.pop(context);
-                                                      print(
-                                                          "Silmek istediğim fonksiyon: ${education.educationId}");
                                                       String result =
                                                           await EducationRepository()
                                                               .deleteEducation(
                                                                   education);
-                                                      print(result);
+
+                                                      Utilities.showSnackBar(
+                                                          snackBarMessage:
+                                                              result,
+                                                          context: context);
                                                     },
                                                     child: const Text('Sil'),
                                                   ),
@@ -413,7 +415,9 @@ class _EducationPageState extends State<EducationPage> {
 
                     String result =
                         await EducationRepository().addEducation(newEducation);
-                    print(result);
+
+                    Utilities.showSnackBar(
+                        snackBarMessage: result, context: context);
                   },
                 ),
               ),

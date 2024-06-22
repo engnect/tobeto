@@ -166,6 +166,11 @@ class _CertificatesPageState extends State<CertificatesPage> {
                                                         await CertificateRepository()
                                                             .deleteCertificate(
                                                                 certificate);
+
+                                                    Utilities.showSnackBar(
+                                                      snackBarMessage: result,
+                                                      context: context,
+                                                    );
                                                   },
                                                   child: Text(
                                                     'Sil',

@@ -63,35 +63,18 @@ class _MainAppState extends State<MainApp> {
           ),
         ),
       ],
-
-      child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, state) {
-          return MaterialApp(
-            locale: Locale('tr'), // Başlangıç dili
-      supportedLocales: [
-        Locale('en', ''),
-        Locale('tr', ''),
-      ],
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-            // theme: lightTheme,
-            // darkTheme: darkTheme,
-            theme: state.themeData,
-            debugShowCheckedModeBanner: false,
-            navigatorKey: _navigatorKey,
-            onGenerateRoute: AppRouter().generateRoute,
-            // initialRoute: initScreen == 0 || initScreen == null
-            //     ? AppRouteNames.onboardingRoute
-            //     : AppRouteNames.platformScreenRoute,
-            // initialRoute: FirebaseAuth.instance.currentUser == null
-            //     ? AppRouteNames.homeRoute
-            //     : AppRouteNames.platformScreenRoute,
-
       child: MaterialApp(
+        locale: const Locale('tr'), // Başlangıç dili
+        supportedLocales: const [
+          Locale('en', ''),
+          Locale('tr', ''),
+        ],
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
         // theme: lightTheme,
         // darkTheme: darkTheme,
         theme: TBTColosScheme.darkTheme,
@@ -104,7 +87,6 @@ class _MainAppState extends State<MainApp> {
         // initialRoute: FirebaseAuth.instance.currentUser == null
         //     ? AppRouteNames.homeRoute
         //     : AppRouteNames.platformScreenRoute,
-
 
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/language_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/language_model.dart';
@@ -197,7 +198,10 @@ class _LanguagesPageState extends State<LanguagesPage> {
                                                         await LanguageRepository()
                                                             .deleteLanguage(
                                                                 language);
-                                                    print(result);
+
+                                                    Utilities.showSnackBar(
+                                                        snackBarMessage: result,
+                                                        context: context);
                                                   },
                                                   child: Text(
                                                     'Sil',

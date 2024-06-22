@@ -57,7 +57,8 @@ class _PlatformTabState extends State<PlatformTab> {
                 delegate: SliverChildListDelegate(
                   [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 20),
                       child: Column(
                         children: [
                           Padding(
@@ -88,7 +89,6 @@ class _PlatformTabState extends State<PlatformTab> {
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
-
                             child: isLoading
                                 ? const CircularProgressIndicator()
                                 : Text(
@@ -98,16 +98,6 @@ class _PlatformTabState extends State<PlatformTab> {
                                       color: Color.fromARGB(255, 77, 77, 77),
                                     ),
                                   ),
-
-                            child: Text(
-                              "İsim!",
-                              style: TextStyle(
-                                fontSize: 25,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
-                              ),
-                            ),
-
                           ),
                           Text(
                             "Yeni nesil öğrenme deneyimi ile Tobeto kariyer yolculuğunda senin yanında!",
@@ -120,17 +110,6 @@ class _PlatformTabState extends State<PlatformTab> {
                           ),
                           const SizedBox(height: 20), // Boşluk ekledik
                           Container(
-
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(35),
-                                topRight: Radius.circular(35),
-                                bottomLeft: Radius.circular(15),
-                                bottomRight: Radius.circular(15),
-                              ),
-                              color: Colors.white,
-                            ),
-
                             decoration: BoxDecoration(
                                 borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(35),
@@ -140,7 +119,6 @@ class _PlatformTabState extends State<PlatformTab> {
                                 ),
                                 color:
                                     Theme.of(context).colorScheme.background),
-
                             width: MediaQuery.of(context).size.width,
                             child: Column(
                               children: [
@@ -149,30 +127,27 @@ class _PlatformTabState extends State<PlatformTab> {
                                   child: Column(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 30, 0, 30),
                                         child: Image.asset(
                                           Assets.imagesIkLogo,
                                           width: 200,
                                         ),
                                       ),
-
-                                      const Padding(
-                                        padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
-
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             25, 10, 25, 10),
-
                                         child: Text(
                                           "Ücretsiz eğitimlerle, \n geleceğin mesleklerinde \n sen  de yerini al.",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
-                                              fontSize: 18,
-                                              fontFamily: "Poppins",
-                                              fontWeight: FontWeight.w500,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary),
+                                            fontSize: 18,
+                                            fontFamily: "Poppins",
+                                            fontWeight: FontWeight.w500,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
                                         ),
                                       ),
                                       RichText(
@@ -191,7 +166,8 @@ class _PlatformTabState extends State<PlatformTab> {
                                               text: '"',
                                               style: TextStyle(
                                                 fontSize: 26,
-                                                color: Color.fromARGB(255, 0, 210, 155),
+                                                color: Color.fromARGB(
+                                                    255, 0, 210, 155),
                                                 fontWeight: FontWeight.w900,
                                               ),
                                             ),
@@ -202,7 +178,8 @@ class _PlatformTabState extends State<PlatformTab> {
                                               text: '" ',
                                               style: TextStyle(
                                                 fontSize: 26,
-                                                color: Color.fromARGB(255, 0, 210, 155),
+                                                color: Color.fromARGB(
+                                                    255, 0, 210, 155),
                                                 fontWeight: FontWeight.w900,
                                               ),
                                             ),
@@ -239,26 +216,40 @@ class _PlatformTabState extends State<PlatformTab> {
                                         width: 300,
                                         child: StreamBuilder(
                                           stream: FirebaseFirestore.instance
-                                              .collection(FirebaseConstants.announcementsCollection)
+                                              .collection(FirebaseConstants
+                                                  .announcementsCollection)
                                               .snapshots(),
                                           builder: (context, snapshot) {
                                             if (!snapshot.hasData) {
                                               return const Center(
-                                                child: CircularProgressIndicator(),
+                                                child:
+                                                    CircularProgressIndicator(),
                                               );
                                             } else {
                                               return ListView.builder(
                                                 primary: false,
                                                 shrinkWrap: true,
-                                                physics: const NeverScrollableScrollPhysics(),
-                                                itemCount: snapshot.data!.docs.length,
+                                                physics:
+                                                    const NeverScrollableScrollPhysics(),
+                                                itemCount:
+                                                    snapshot.data!.docs.length,
                                                 itemBuilder: (context, index) {
-                                                  DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
+                                                  DocumentSnapshot
+                                                      documentSnapshot =
+                                                      snapshot
+                                                          .data!.docs[index];
 
-                                                  AnnouncementModel announcementModel = AnnouncementModel.fromMap(
-                                                      documentSnapshot.data() as Map<String, dynamic>);
+                                                  AnnouncementModel
+                                                      announcementModel =
+                                                      AnnouncementModel.fromMap(
+                                                          documentSnapshot
+                                                                  .data()
+                                                              as Map<String,
+                                                                  dynamic>);
 
-                                                  return AnnouncementCard(announcementModel: announcementModel);
+                                                  return AnnouncementCard(
+                                                      announcementModel:
+                                                          announcementModel);
                                                 },
                                               );
                                             }
