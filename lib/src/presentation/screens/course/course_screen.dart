@@ -10,7 +10,6 @@ import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 
 class CourseScreen extends StatefulWidget {
   const CourseScreen({super.key});
-  // Course modeli oluşturup buraya çek
 
   @override
   State<CourseScreen> createState() => _CourseScreenState();
@@ -64,6 +63,7 @@ class _CourseScreenState extends State<CourseScreen> {
                           ontap: () async {
                             final courseVideos = await _courseRepository
                                 .fetchCourseVideos(course.courseId);
+                            if (!context.mounted) return;
                             Navigator.push(
                               context,
                               MaterialPageRoute(

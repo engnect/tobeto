@@ -42,6 +42,12 @@ class Utilities {
     return pickedFile != null ? File(pickedFile.path) : null;
   }
 
+  static Future<XFile?> getVideoFromGallery() async {
+    final imagePicker = ImagePicker();
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    return pickedFile != null ? XFile(pickedFile.path) : null;
+  }
+
   static Future<List<Map<String, String>>> loadCityData() async {
     final String response = await rootBundle.loadString(Assets.filesCitiesJson);
     final List<dynamic> data = json.decode(response);

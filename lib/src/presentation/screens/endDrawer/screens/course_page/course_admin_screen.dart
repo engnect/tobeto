@@ -29,7 +29,7 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
   CourseRepository courseRepository = CourseRepository();
   DateTime? selectedStartDate;
   DateTime? selectedEndDate;
-  XFile? selectedImage;
+  XFile? _selectedImage;
   bool selected = false;
 
   final TextEditingController _courseNameController = TextEditingController();
@@ -53,16 +53,21 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
     XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (file != null) {
-      setState(() {
-        selectedImage = file;
-        if (selectedImage != null) {
+      setState(
+        () {
+          _selectedImage = file;
           selected = true;
-        }
-      });
+        },
+      );
     }
   }
 
-  void addCourse(BuildContext context) async {
+  void _addCourse(
+      {required BuildContext context,
+      required String courseName,
+      required DateTime startDate,
+      required DateTime endDate,
+      required String manufacturer}) async {
     List<String> adminIdsList = await UserRepository().getAdminIds();
     UserModel? currentUser = await UserRepository().getCurrentUser();
     List<String?> courseInstructorsIds = [];
@@ -74,14 +79,14 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
     String courseId = const Uuid().v1();
     String? courseThumbnailUrl = await FirebaseStorageRepository()
         .uploadCourseThumbnailsAndSaveUrl(
-            selectedCourseThumbnail: selectedImage);
+            selectedCourseThumbnail: _selectedImage);
     CourseModel courseModel = CourseModel(
       courseId: courseId,
       courseThumbnailUrl: courseThumbnailUrl!,
-      courseName: _courseNameController.text,
+      courseName: courseName,
       courseStartDate: selectedStartDate!,
       courseEndDate: selectedEndDate!,
-      courseManufacturer: _manufacturerController.text,
+      courseManufacturer: manufacturer,
       courseInstructorsIds: courseInstructorsIds,
     );
 
@@ -91,6 +96,87 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
     Utilities.showSnackBar(
       snackBarMessage: result,
       context: context,
+    );
+  }
+
+  void _deleteCourse(
+      {required BuildContext context, required String videoId}) async {
+    String result = await courseRepository.deleteCourse(videoId);
+
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  void _editCourseFunction(
+      {required BuildContext context,
+      required String selectedCourseId,
+      required String newCourseName,
+      required String newManufacturer}) async {
+    String result = await courseRepository.editCourse(
+        selectedCourseId, newCourseName, newManufacturer);
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  void _showEditDialog(
+      {required BuildContext context, required String courseId}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Seçili Dersi Düzenle",
+            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+          ),
+          content: StreamBuilder<List<CourseModel>>(
+            stream: courseRepository.fetchAllCourses(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text('No courses available.'));
+              } else {
+                return Column(
+                  children: [
+                    TBTInputField(
+                      hintText: 'Yeni Ders ismini girin.',
+                      controller: _editCourseNameController,
+                      onSaved: (p0) {},
+                      keyboardType: TextInputType.multiline,
+                    ),
+                    TBTInputField(
+                      hintText: 'Ders üretici firma ismini girin.',
+                      controller: _editManufacturerController,
+                      onSaved: (p0) {},
+                      keyboardType: TextInputType.multiline,
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                _editCourseFunction(
+                    selectedCourseId: courseId,
+                    newCourseName: _editCourseNameController.text,
+                    newManufacturer: _editManufacturerController.text,
+                    context: context);
+                Navigator.pop(context);
+              },
+              child: Text(
+                "Değişiklikleri Kaydet",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 
@@ -142,7 +228,7 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                         image: selected
                                             ? DecorationImage(
                                                 image: FileImage(
-                                                  File(selectedImage!.path),
+                                                  File(_selectedImage!.path),
                                                 ),
                                               )
                                             : null,
@@ -174,7 +260,6 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                 onPressed: () async {
                                   selectedStartDate =
                                       await Utilities.datePicker(context);
-
                                   setState(() {});
                                 },
                                 label: Text(
@@ -192,7 +277,6 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                 onPressed: () async {
                                   selectedEndDate =
                                       await Utilities.datePicker(context);
-
                                   setState(() {});
                                 },
                                 label: Text(
@@ -202,15 +286,15 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                           .format(selectedEndDate!),
                                 ),
                               ),
-                              // TBTInputField(
-                              //   hintText: 'Kurs Eğitmenleri',
-                              //   controller: _manufacturerController,
-                              //   onSaved: (p0) {},
-                              //   keyboardType: TextInputType.multiline,
-                              // ),
                               TBTPurpleButton(
                                 buttonText: "Ders Ekle",
-                                onPressed: () => addCourse(context),
+                                onPressed: () => _addCourse(
+                                  courseName: _courseNameController.text,
+                                  startDate: selectedStartDate!,
+                                  endDate: selectedEndDate!,
+                                  manufacturer: _manufacturerController.text,
+                                  context: context,
+                                ),
                               ),
                             ],
                           ),
@@ -236,129 +320,6 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                       documentSnapshot.data()
                                           as Map<String, dynamic>);
 
-                                  String courseId = documentSnapshot.id;
-
-                                  void deleteCourse() async {
-                                    try {
-                                      await courseRepository
-                                          .deleteCourse(courseModel.courseId);
-
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                            content:
-                                                Text('Ders başarıyla silindi')),
-                                      );
-                                    } catch (e) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                            content: Text(
-                                                'Ders silinirken bir hata oluştu: $e')),
-                                      );
-                                    }
-                                  }
-
-                                  void editCourseFunction() async {
-                                    String selectedCourseId =
-                                        courseModel.courseId;
-
-                                    String newCourseName =
-                                        _editCourseNameController.text;
-
-                                    String manufacturer =
-                                        _editManufacturerController.text;
-
-                                    String result =
-                                        await courseRepository.editCourse(
-                                            selectedCourseId,
-                                            newCourseName,
-                                            manufacturer);
-                                    if (!context.mounted) return;
-                                    Utilities.showSnackBar(
-                                        snackBarMessage: result,
-                                        context: context);
-                                  }
-
-                                  void showEditDialog(BuildContext context) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text(
-                                            "Seçili Dersi Düzenle",
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary),
-                                          ),
-                                          content:
-                                              StreamBuilder<List<CourseModel>>(
-                                            stream: courseRepository
-                                                .fetchAllCourses(),
-                                            builder: (context, snapshot) {
-                                              if (snapshot.connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return const Center(
-                                                    child:
-                                                        CircularProgressIndicator());
-                                              } else if (snapshot.hasError) {
-                                                return Center(
-                                                    child: Text(
-                                                        'Error: ${snapshot.error}'));
-                                              } else if (!snapshot.hasData ||
-                                                  snapshot.data!.isEmpty) {
-                                                return const Center(
-                                                    child: Text(
-                                                        'No courses available.'));
-                                              } else {
-                                                return Column(
-                                                  children: [
-                                                    TBTInputField(
-                                                      hintText:
-                                                          'Yeni Ders ismini girin.',
-                                                      controller:
-                                                          _editCourseNameController,
-                                                      onSaved: (p0) {},
-                                                      keyboardType:
-                                                          TextInputType
-                                                              .multiline,
-                                                    ),
-                                                    TBTInputField(
-                                                      hintText:
-                                                          'Ders üretici firma ismini girin.',
-                                                      controller:
-                                                          _editManufacturerController,
-                                                      onSaved: (p0) {},
-                                                      keyboardType:
-                                                          TextInputType
-                                                              .multiline,
-                                                    ),
-                                                  ],
-                                                );
-                                              }
-                                            },
-                                          ),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () {
-                                                editCourseFunction();
-                                                Navigator.pop(context);
-                                              },
-                                              child:
-                                                  Text("Değişiklikleri Kaydet",
-                                                      style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .primary,
-                                                      )),
-                                            )
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  }
-
                                   return Slidable(
                                     key: ValueKey(index),
                                     endActionPane: ActionPane(
@@ -366,9 +327,10 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                       motion: const DrawerMotion(),
                                       children: [
                                         SlidableAction(
-                                          onPressed: (context) {
-                                            deleteCourse();
-                                          },
+                                          onPressed: (context) => _deleteCourse(
+                                            videoId: courseModel.courseId,
+                                            context: context,
+                                          ),
                                           backgroundColor:
                                               const Color(0xFFFE4A49),
                                           foregroundColor: Colors.white,
@@ -376,9 +338,11 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                           label: 'Sil',
                                         ),
                                         SlidableAction(
-                                          onPressed: (context) {
-                                            showEditDialog(context);
-                                          },
+                                          onPressed: (context) =>
+                                              _showEditDialog(
+                                                  courseId:
+                                                      courseModel.courseId,
+                                                  context: context),
                                           backgroundColor:
                                               const Color(0xFF21B7CA),
                                           foregroundColor: Colors.white,
