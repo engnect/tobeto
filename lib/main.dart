@@ -26,5 +26,14 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   Bloc.observer = SimpleBlocObserver();
+
+  
   runApp(MainApp(themeData: initialTheme));
+  
+  
 }
+
+
+
+
+

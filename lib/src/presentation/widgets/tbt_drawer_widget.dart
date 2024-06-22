@@ -4,6 +4,7 @@ import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/data/datasource/theme_shared_pref.dart';
+import 'package:tobeto/src/lang/lang.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import '../../common/constants/assets.dart';
 
@@ -17,9 +18,12 @@ class TBTDrawer extends StatefulWidget {
 }
 
 class _TBTDrawerState extends State<TBTDrawer> {
+  
   final prefs = ThemePreferences();
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return FractionallySizedBox(
       widthFactor: 0.70, // Açılan ekranın genişliğini ayarlamak için
       child: Drawer(
@@ -54,9 +58,9 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: const Text(
-                "Biz Kimiz?",
-                style: TextStyle(fontFamily: "Poppins"),
+              title:  Text(localizations.translate('menu.who_we_are'),
+                
+                style: const TextStyle(fontFamily: "Poppins"),
               ),
               onTap: () {
                 Navigator.of(context)

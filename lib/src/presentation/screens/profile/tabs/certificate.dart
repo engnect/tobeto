@@ -9,7 +9,7 @@ import 'package:tobeto/src/models/user_model.dart';
 import 'package:uuid/uuid.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';
-import '../../../widgets/edit_certificate_dialog.dart';
+import '../widgets/edit_certificate_dialog.dart';
 
 class CertificatesPage extends StatefulWidget {
   const CertificatesPage({super.key});

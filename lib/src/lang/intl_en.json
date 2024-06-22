@@ -1,19 +1,9 @@
 {
-  "educationPage": {
-    "title": "Education Information",
-    "universityHint": "University",
-    "departmentHint": "Department",
-    "startDateLabel": "Start Date",
-    "endDateLabel": "End Date",
-    "currentlyStudying": "Currently Studying",
-    "saveButton": "Save",
-    "noEducation": "No education added",
-    "selectEducationLevel": "Select Education Level",
-    "educationLevels": {
-      "Lisans": "Bachelor",
-      "Ön Lisans": "Associate",
-      "Yüksek Lisans": "Master",
-      "Doktora": "Doctorate"
-    }
+  "menu": {
+    "who_we_are": "Who We Are?",
+    "what_we_offer": "What We Offer?",
+    "our_trainings": "Our Trainings",
+    "whats_happening_at_tobeto": "What's Happening at Tobeto?",
+    "contact_us": "Contact Us"
   }
 }
