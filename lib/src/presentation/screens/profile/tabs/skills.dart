@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobeto/src/domain/repositories/skill_repository.dart';
-import 'package:tobeto/src/presentation/widgets/edit_skillls_dialog.dart';
+import 'package:tobeto/src/presentation/screens/profile/widgets/edit_skillls_dialog.dart';
 import 'package:uuid/uuid.dart';
 import '../../../widgets/input_field.dart';
 import '../../../widgets/purple_button.dart';

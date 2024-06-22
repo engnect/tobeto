@@ -2,11 +2,13 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/common/router/app_route_generator.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/common/theme/tbt_theme_new.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
+import 'package:tobeto/src/lang/lang.dart';
 import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
 import 'package:tobeto/src/presentation/screens/platform/platform_screen.dart';
 
@@ -61,6 +63,34 @@ class _MainAppState extends State<MainApp> {
           ),
         ),
       ],
+
+      child: BlocBuilder<ThemeBloc, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp(
+            locale: Locale('tr'), // Başlangıç dili
+      supportedLocales: [
+        Locale('en', ''),
+        Locale('tr', ''),
+      ],
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+            // theme: lightTheme,
+            // darkTheme: darkTheme,
+            theme: state.themeData,
+            debugShowCheckedModeBanner: false,
+            navigatorKey: _navigatorKey,
+            onGenerateRoute: AppRouter().generateRoute,
+            // initialRoute: initScreen == 0 || initScreen == null
+            //     ? AppRouteNames.onboardingRoute
+            //     : AppRouteNames.platformScreenRoute,
+            // initialRoute: FirebaseAuth.instance.currentUser == null
+            //     ? AppRouteNames.homeRoute
+            //     : AppRouteNames.platformScreenRoute,
+
       child: MaterialApp(
         // theme: lightTheme,
         // darkTheme: darkTheme,
@@ -74,6 +104,7 @@ class _MainAppState extends State<MainApp> {
         // initialRoute: FirebaseAuth.instance.currentUser == null
         //     ? AppRouteNames.homeRoute
         //     : AppRouteNames.platformScreenRoute,
+
 
         home: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {

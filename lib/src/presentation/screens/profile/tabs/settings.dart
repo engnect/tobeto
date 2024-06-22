@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/domain/repositories/user_repository.dart';
+import 'package:tobeto/src/models/user_model.dart';
+import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -11,12 +14,13 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmNewPasswordController =
-      TextEditingController();
+  final TextEditingController _confirmNewPasswordController = TextEditingController();
+  
+  
 
-  bool _obscureOldPassword = true;
-  bool _obscureNewPassword = true;
-  bool _obscureConfirmNewPassword = true;
+  final bool _obscureOldPassword = true;
+  final bool _obscureNewPassword = true;
+  final bool _obscureConfirmNewPassword = true;
 
   @override
   void dispose() {
@@ -26,87 +30,73 @@ class _SettingsPageState extends State<SettingsPage> {
     super.dispose();
   }
 
-  Widget buildTextFieldWithoutBorder({
-    required TextEditingController controller,
-    required String labelText,
-    required bool obscureText,
-    required VoidCallback toggleObscureText,
-  }) {
-    return TextField(
-      controller: controller,
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        labelText: labelText,
-        contentPadding: const EdgeInsets.all(8),
-        border: InputBorder.none,
-        suffixIcon: IconButton(
-          icon: Icon(obscureText ? Icons.visibility_off : Icons.visibility),
-          onPressed: toggleObscureText,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Settings'),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 8),
-            buildTextFieldWithoutBorder(
-              controller: _oldPasswordController,
-              labelText: 'Eski Şifre',
-              obscureText: _obscureOldPassword,
-              toggleObscureText: () {
-                setState(() {
-                  _obscureOldPassword = !_obscureOldPassword;
-                });
-              },
-            ),
-            const SizedBox(height: 24),
-            buildTextFieldWithoutBorder(
-              controller: _newPasswordController,
-              labelText: 'Yeni Şifre',
-              obscureText: _obscureNewPassword,
-              toggleObscureText: () {
-                setState(() {
-                  _obscureNewPassword = !_obscureNewPassword;
-                });
-              },
-            ),
-            const SizedBox(height: 24),
-            buildTextFieldWithoutBorder(
-              controller: _confirmNewPasswordController,
-              labelText: 'Yeni Şifre Tekrar',
-              obscureText: _obscureConfirmNewPassword,
-              toggleObscureText: () {
-                setState(() {
-                  _obscureConfirmNewPassword = !_obscureConfirmNewPassword;
-                });
-              },
-            ),
-            const SizedBox(height: 24),
-            TBTPurpleButton(
-              buttonText: 'Kaydet',
-              onPressed: () {},
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: TBTInputField(
+                hintText: 'Eski Şifre',
+                controller: _oldPasswordController,
+                isObscure: _obscureOldPassword,
+                onSaved: (p) {},
+                keyboardType: TextInputType.text,
+                maxLines: 1,
+                minLines: 1,
               ),
-              child: const Text(
-                "Üyeliği Sonlandır",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              child: TBTInputField(
+                hintText: 'Yeni Şifre',
+                controller: _newPasswordController,
+                isObscure: _obscureNewPassword,
+                onSaved: (p) {},
+                keyboardType: TextInputType.text,
+                maxLines: 1,
+                minLines: 1,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              child: TBTInputField(
+                hintText: 'Yeni Şifre Tekrar',
+                controller: _confirmNewPasswordController,
+                isObscure: _obscureConfirmNewPassword,
+                onSaved: (p) {},
+                keyboardType: TextInputType.text,
+                maxLines: 1,
+                minLines: 1,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              child: TBTPurpleButton(
+                buttonText: 'Kaydet',
+                onPressed: () {},
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 24.0),
+              child: ElevatedButton(
+                onPressed: () async {
+                  UserModel? user = await  UserRepository().getCurrentUser();
+                  UserRepository().deleteUser(user!);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                ),
+                child: const Text(
+                  "Üyeliği Sonlandır",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

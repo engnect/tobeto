@@ -5,7 +5,7 @@ import 'package:tobeto/src/domain/repositories/language_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/language_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
-import 'package:tobeto/src/presentation/widgets/edit_language_dialog.dart';
+import 'package:tobeto/src/presentation/screens/profile/widgets/edit_language_dialog.dart';
 import 'package:uuid/uuid.dart';
 import '../../../widgets/purple_button.dart';
 

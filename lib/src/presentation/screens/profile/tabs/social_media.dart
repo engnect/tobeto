@@ -5,7 +5,7 @@ import 'package:tobeto/src/domain/repositories/social_media_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/social_media_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
-import 'package:tobeto/src/presentation/widgets/edit_social_media_dialog.dart';
+import 'package:tobeto/src/presentation/screens/profile/widgets/edit_social_media_dialog.dart';
 import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import 'package:uuid/uuid.dart';

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -12,14 +11,12 @@ class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   Map<String, dynamic>? _localizedStrings;
 
   Future<bool> load() async {
-    String jsonString = await rootBundle
-        .loadString('lib/lang/intl_${locale.languageCode}.json');
+    String jsonString = await rootBundle.loadString('lib/src/lang/intl_${locale.languageCode}.json');
     _localizedStrings = json.decode(jsonString);
     return true;
   }
@@ -32,17 +29,14 @@ class AppLocalizations {
         value = value![k];
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Error translating key: $key');
-      }
+      print('Error translating key: $key');
       return '';
     }
     return value.toString();
   }
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override

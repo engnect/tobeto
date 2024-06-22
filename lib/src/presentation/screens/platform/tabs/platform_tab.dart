@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
+import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/announcement_model.dart';
+import 'package:tobeto/src/models/user_model.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/end_drawer.dart';
 import 'package:tobeto/src/presentation/screens/platform/tabs/announcement_card.dart';
 import 'package:tobeto/src/presentation/screens/platform/widgets/purple_card.dart';
@@ -10,8 +12,29 @@ import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 import '../../../../common/constants/assets.dart';
 
-class PlatformTab extends StatelessWidget {
+class PlatformTab extends StatefulWidget {
   const PlatformTab({super.key});
+
+  @override
+  State<PlatformTab> createState() => _PlatformTabState();
+}
+
+class _PlatformTabState extends State<PlatformTab> {
+  UserModel? userModel;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserData();
+  }
+
+  Future<void> _fetchUserData() async {
+    userModel = await UserRepository().getCurrentUser();
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +57,7 @@ class PlatformTab extends StatelessWidget {
                 delegate: SliverChildListDelegate(
                   [
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                       child: Column(
                         children: [
                           Padding(
@@ -66,6 +88,17 @@ class PlatformTab extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 0, 30),
+
+                            child: isLoading
+                                ? const CircularProgressIndicator()
+                                : Text(
+                                    "${userModel?.userName ?? "İsim"} ${userModel?.userSurname ?? "Soyisim"}",
+                                    style: const TextStyle(
+                                      fontSize: 25,
+                                      color: Color.fromARGB(255, 77, 77, 77),
+                                    ),
+                                  ),
+
                             child: Text(
                               "İsim!",
                               style: TextStyle(
@@ -74,6 +107,7 @@ class PlatformTab extends StatelessWidget {
                                     Theme.of(context).colorScheme.onSecondary,
                               ),
                             ),
+
                           ),
                           Text(
                             "Yeni nesil öğrenme deneyimi ile Tobeto kariyer yolculuğunda senin yanında!",
@@ -86,6 +120,17 @@ class PlatformTab extends StatelessWidget {
                           ),
                           const SizedBox(height: 20), // Boşluk ekledik
                           Container(
+
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(35),
+                                topRight: Radius.circular(35),
+                                bottomLeft: Radius.circular(15),
+                                bottomRight: Radius.circular(15),
+                              ),
+                              color: Colors.white,
+                            ),
+
                             decoration: BoxDecoration(
                                 borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(35),
@@ -95,6 +140,7 @@ class PlatformTab extends StatelessWidget {
                                 ),
                                 color:
                                     Theme.of(context).colorScheme.background),
+
                             width: MediaQuery.of(context).size.width,
                             child: Column(
                               children: [
@@ -103,16 +149,20 @@ class PlatformTab extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            0, 30, 0, 30),
+                                        padding: const EdgeInsets.fromLTRB(0, 30, 0, 30),
                                         child: Image.asset(
                                           Assets.imagesIkLogo,
                                           width: 200,
                                         ),
                                       ),
+
+                                      const Padding(
+                                        padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
+
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
                                             25, 10, 25, 10),
+
                                         child: Text(
                                           "Ücretsiz eğitimlerle, \n geleceğin mesleklerinde \n sen  de yerini al.",
                                           textAlign: TextAlign.center,
@@ -141,8 +191,7 @@ class PlatformTab extends StatelessWidget {
                                               text: '"',
                                               style: TextStyle(
                                                 fontSize: 26,
-                                                color: Color.fromARGB(
-                                                    255, 0, 210, 155),
+                                                color: Color.fromARGB(255, 0, 210, 155),
                                                 fontWeight: FontWeight.w900,
                                               ),
                                             ),
@@ -153,8 +202,7 @@ class PlatformTab extends StatelessWidget {
                                               text: '" ',
                                               style: TextStyle(
                                                 fontSize: 26,
-                                                color: Color.fromARGB(
-                                                    255, 0, 210, 155),
+                                                color: Color.fromARGB(255, 0, 210, 155),
                                                 fontWeight: FontWeight.w900,
                                               ),
                                             ),
@@ -191,40 +239,26 @@ class PlatformTab extends StatelessWidget {
                                         width: 300,
                                         child: StreamBuilder(
                                           stream: FirebaseFirestore.instance
-                                              .collection(FirebaseConstants
-                                                  .announcementsCollection)
+                                              .collection(FirebaseConstants.announcementsCollection)
                                               .snapshots(),
                                           builder: (context, snapshot) {
                                             if (!snapshot.hasData) {
                                               return const Center(
-                                                child:
-                                                    CircularProgressIndicator(),
+                                                child: CircularProgressIndicator(),
                                               );
                                             } else {
                                               return ListView.builder(
                                                 primary: false,
                                                 shrinkWrap: true,
-                                                physics:
-                                                    const NeverScrollableScrollPhysics(),
-                                                itemCount:
-                                                    snapshot.data!.docs.length,
+                                                physics: const NeverScrollableScrollPhysics(),
+                                                itemCount: snapshot.data!.docs.length,
                                                 itemBuilder: (context, index) {
-                                                  DocumentSnapshot
-                                                      documentSnapshot =
-                                                      snapshot
-                                                          .data!.docs[index];
+                                                  DocumentSnapshot documentSnapshot = snapshot.data!.docs[index];
 
-                                                  AnnouncementModel
-                                                      announcementModel =
-                                                      AnnouncementModel.fromMap(
-                                                          documentSnapshot
-                                                                  .data()
-                                                              as Map<String,
-                                                                  dynamic>);
+                                                  AnnouncementModel announcementModel = AnnouncementModel.fromMap(
+                                                      documentSnapshot.data() as Map<String, dynamic>);
 
-                                                  return AnnouncementCard(
-                                                      announcementModel:
-                                                          announcementModel);
+                                                  return AnnouncementCard(announcementModel: announcementModel);
                                                 },
                                               );
                                             }
@@ -263,12 +297,10 @@ class PlatformTab extends StatelessWidget {
                             cardText: 'Profilini Oluştur',
                             onPressed: () {},
                           ),
-
                           TBTPurpleCard(
                             cardText: "Kendini değerlendir",
                             onPressed: () {},
                           ),
-
                           TBTPurpleCard(
                             cardText: 'Öğrenmeye Başla!',
                             onPressed: () {},
