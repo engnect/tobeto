@@ -35,8 +35,8 @@ class ForIndividualsImageCard extends StatelessWidget {
             padding: const EdgeInsets.only(top: 20),
             child: Text(
               title,
-              style: const TextStyle(
-                color: Color.fromRGBO(110, 110, 110, 1),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.secondary,
                 fontFamily: "Poppins",
                 fontWeight: FontWeight.w800,
                 fontSize: 24,
@@ -46,8 +46,8 @@ class ForIndividualsImageCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
             child: Text(
-              style: const TextStyle(
-                color: Color.fromARGB(255, 131, 131, 131),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSecondary,
                 fontFamily: "Poppins",
                 fontWeight: FontWeight.bold,
                 fontSize: 18,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tobeto/src/domain/repositories/contact_form_repository.dart';
 import 'package:tobeto/src/models/contact_form_model.dart';
 import 'package:tobeto/src/presentation/screens/contact_us/widgets/communication_info.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/end_drawer.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 import 'package:uuid/uuid.dart';
@@ -35,6 +36,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     return SafeArea(
       child: Scaffold(
         drawer: const TBTDrawer(),
+        endDrawer: const TBTEndDrawer(),
         body: CustomScrollView(
           slivers: [
             const TBTSliverAppBar(),
@@ -49,7 +51,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             vertical: 20, horizontal: 8),
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).cardTheme.color,
+                          color: Theme.of(context).colorScheme.background,
                           borderRadius: const BorderRadius.all(
                             Radius.circular(10),
                           ),
@@ -75,9 +77,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 ),
                               ),
                             ),
-                            Text("İletişim Bilgileri",
-                                style:
-                                    Theme.of(context).textTheme.headlineLarge),
+                            Text(
+                              "İletişim Bilgileri",
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w800,
+                                fontSize: 28,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
                             //----------------------------------
                             const CommunicationInfo(
                               headerinfo: "Firma Adı:",
@@ -118,7 +126,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             vertical: 20, horizontal: 8),
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).cardTheme.color,
+                          color: Theme.of(context).colorScheme.background,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
                         ),
@@ -126,10 +134,10 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                           children: [
                             Container(
                               margin: const EdgeInsets.symmetric(vertical: 20),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 borderRadius:
-                                    const BorderRadius.all(Radius.circular(10)),
-                                color: Theme.of(context).colorScheme.primary,
+                                    BorderRadius.all(Radius.circular(10)),
+                                color: Color.fromARGB(255, 153, 51, 255),
                               ),
                               child: const Padding(
                                 padding: EdgeInsets.all(8.0),
@@ -143,9 +151,15 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 ),
                               ),
                             ),
-                            Text("İletişim Formu",
-                                style:
-                                    Theme.of(context).textTheme.headlineLarge),
+                            Text(
+                              "İletişim Formu",
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w800,
+                                fontSize: 28,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 25, horizontal: 20),

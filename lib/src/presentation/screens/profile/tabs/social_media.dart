@@ -110,7 +110,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
   //   );
   // }
   // );
-   
+
   // }
 
   @override
@@ -144,7 +144,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                     ),
                   ),
                 ),
-                height: isSelect ? 600 : 0,
+                height: isSelect ? 350 : 0,
                 duration: const Duration(seconds: 1),
                 child: isSelect
                     ? BlocBuilder<AuthBloc, AuthState>(
@@ -158,14 +158,33 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                                 SocialMediaModel socialMedia =
                                     currentUser.socialMediaList![index];
                                 return Card(
+                                  color:
+                                      Theme.of(context).colorScheme.background,
                                   child: ListTile(
-                                    title: Text(socialMedia.socialMediaPlatform),
-                                    subtitle: Text(socialMedia.socialMedialink),
-                                   trailing: Row(
+                                    title: Text(
+                                      socialMedia.socialMediaPlatform,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
+                                    subtitle: Text(
+                                      socialMedia.socialMedialink,
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary),
+                                    ),
+                                    trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         IconButton(
-                                          icon: const Icon(Icons.edit),
+                                          icon: Icon(
+                                            Icons.edit,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondary,
+                                          ),
                                           onPressed: () async {
                                             final updatedSocialMedia =
                                                 await showDialog<
@@ -173,7 +192,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                                               context: context,
                                               builder: (context) =>
                                                   EditSocialMediaDialog(
-                                                      socialMedia:socialMedia),
+                                                      socialMedia: socialMedia),
                                             );
                                             if (updatedSocialMedia != null) {
                                               String result =
@@ -187,27 +206,47 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                                                   content: Text(result),
                                                 ),
                                               );
-                                              setState(() {
-                                               
-                                              });
+                                              setState(() {});
                                             }
                                           },
                                         ),
                                         IconButton(
-                                          icon: const Icon(Icons.delete),
+                                          icon: Icon(
+                                            Icons.delete,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondary,
+                                          ),
                                           onPressed: () {
                                             showDialog(
                                               context: context,
                                               builder: (context) => AlertDialog(
-                                                title:
-                                                    const Text("Sosyal medya ehsabını sil "),
-                                                content: const Text(
-                                                    "Bu Sosyal Medya hesabını silmek istediğinizden emin misiniz?"),
+                                                title: Text(
+                                                  "Sosyal medya ehsabını sil ",
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary),
+                                                ),
+                                                content: Text(
+                                                  "Bu Sosyal Medya hesabını silmek istediğinizden emin misiniz?",
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary),
+                                                ),
                                                 actions: [
                                                   TextButton(
                                                     onPressed: () =>
                                                         Navigator.pop(context),
-                                                    child: const Text("İptal"),
+                                                    child: Text(
+                                                      "İptal",
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary),
+                                                    ),
                                                   ),
                                                   TextButton(
                                                     onPressed: () async {
@@ -225,7 +264,14 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
 
                                                       print(result);
                                                     },
-                                                    child: const Text('Sil'),
+                                                    child: Text(
+                                                      'Sil',
+                                                      style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -245,17 +291,26 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                       )
                     : const SizedBox.shrink(),
               ),
-    
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: PopupMenuButton<String>(
+                  color: Theme.of(context).colorScheme.background,
                   initialValue: _selectedSocialMedia,
                   itemBuilder: (BuildContext context) {
-                    return ['Instagram', 'Twitter', 'LinkedIn', 'Dribble', 'Behance']
-                        .map((String value) {
+                    return [
+                      'Instagram',
+                      'Twitter',
+                      'LinkedIn',
+                      'Dribble',
+                      'Behance'
+                    ].map((String value) {
                       return PopupMenuItem<String>(
                         value: value,
-                        child: Text(value),
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
                       );
                     }).toList();
                   },
@@ -265,9 +320,15 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                     });
                   },
                   child: ListTile(
-                    title:
-                        Text(_selectedSocialMedia ?? 'Sosyal medya hesabı seçiniz'),
-                    trailing: const Icon(Icons.arrow_drop_down),
+                    title: Text(
+                      _selectedSocialMedia ?? 'Sosyal medya hesabı seçiniz',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                    trailing: Icon(
+                      Icons.arrow_drop_down,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                    ),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 4.0, horizontal: 8.0),
                   ),
@@ -291,9 +352,9 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                   SocialMediaModel socialMediaModel = SocialMediaModel(
                     socialMediaId: const Uuid().v1(),
                     userId: userModel!.userId,
-                    socialMediaPlatform: _selectedSocialMedia.toString(), 
+                    socialMediaPlatform: _selectedSocialMedia.toString(),
                     socialMedialink: _linkController.text,
-                    );
+                  );
 
                   String sonuc = await SocialMediaRepository()
                       .addSocialMedia(socialMediaModel);
@@ -301,8 +362,9 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                   print(sonuc);
                 },
               ),
-              
-
+              const SizedBox(
+                height: 50,
+              )
             ],
           ),
         ),
@@ -310,4 +372,3 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
     );
   }
 }
-

@@ -7,14 +7,14 @@ class TextForPersonPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       textAlign: TextAlign.center,
-      text: const TextSpan(
+      text: TextSpan(
         style: TextStyle(
           fontFamily: "Poppins",
           fontSize: 48,
-          color: Colors.black,
+          color: Theme.of(context).colorScheme.primary,
           fontWeight: FontWeight.bold,
         ),
-        children: <TextSpan>[
+        children: const <TextSpan>[
           TextSpan(text: "Kontrol\nSende\n"),
           TextSpan(
               text: "adım at,\n",

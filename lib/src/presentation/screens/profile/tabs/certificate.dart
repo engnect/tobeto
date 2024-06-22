@@ -80,7 +80,7 @@ class _CertificatesPageState extends State<CertificatesPage> {
                   ),
                 ),
               ),
-              height: isSelect ? 600 : 0,
+              height: isSelect ? 350 : 0,
               duration: const Duration(seconds: 1),
               child: isSelect
                   ? BlocBuilder<AuthBloc, AuthState>(
@@ -133,15 +133,31 @@ class _CertificatesPageState extends State<CertificatesPage> {
                                           showDialog(
                                             context: context,
                                             builder: (context) => AlertDialog(
-                                              title:
-                                                  const Text("Sertifikayı sil"),
-                                              content: const Text(
-                                                  "Bu sertifikayı silmek istediğinizden emin misiniz?"),
+                                              title: Text(
+                                                "Sertifikayı sil",
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                              ),
+                                              content: Text(
+                                                "Bu sertifikayı silmek istediğinizden emin misiniz?",
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary),
+                                              ),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () =>
                                                       Navigator.pop(context),
-                                                  child: const Text("İptal"),
+                                                  child: Text(
+                                                    "İptal",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .primary),
+                                                  ),
                                                 ),
                                                 TextButton(
                                                   onPressed: () async {
@@ -151,7 +167,13 @@ class _CertificatesPageState extends State<CertificatesPage> {
                                                             .deleteCertificate(
                                                                 certificate);
                                                   },
-                                                  child: const Text('Sil'),
+                                                  child: Text(
+                                                    'Sil',
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .primary),
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -198,11 +220,14 @@ class _CertificatesPageState extends State<CertificatesPage> {
                 },
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Text(
                 'PDF Yükle',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
             ),
             Padding(
@@ -212,9 +237,16 @@ class _CertificatesPageState extends State<CertificatesPage> {
                   _pickPDF();
                 },
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
+                    backgroundColor: Theme.of(context).colorScheme.onPrimary),
+                child: Text(
+                  'PDF Yükle',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontFamily: "Poppins",
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                child: const Text('PDF Yükle'),
               ),
             ),
             if (_filePath != null)
@@ -239,12 +271,21 @@ class _CertificatesPageState extends State<CertificatesPage> {
                       .addCertificate(newCertificate, _filePath!);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(result),
+                      backgroundColor:
+                          Theme.of(context).colorScheme.onSecondary,
+                      content: Text(
+                        result,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary),
+                      ),
                     ),
                   );
                 },
               ),
             ),
+            const SizedBox(
+              height: 50,
+            )
           ],
         ),
       ),

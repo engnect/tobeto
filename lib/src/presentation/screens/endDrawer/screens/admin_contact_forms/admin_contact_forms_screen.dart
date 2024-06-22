@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/domain/repositories/contact_form_repository.dart';
 import 'package:tobeto/src/models/contact_form_model.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_admin_sliver_app_bar.dart';
 
 class AdminContactFormsScreen extends StatefulWidget {
   const AdminContactFormsScreen({super.key});
@@ -20,24 +20,23 @@ class _AdminContactFormsScreenState extends State<AdminContactFormsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: CustomScrollView(
           slivers: [
-            const TBTSliverAppBar(),
+            const TBTAdminSliverAppBar(),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
                   Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 15),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
                         child: Text(
                           "İletişim Formları",
                           style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              fontFamily: "Poppins",
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary),
                         ),
                       ),
                       SizedBox(
@@ -85,10 +84,10 @@ class _AdminContactFormsScreenState extends State<AdminContactFormsScreen> {
                                       color: contactFormModel
                                                   .contactFormIsClosed ==
                                               false
-                                          ? const Color.fromRGBO(
-                                              200, 255, 0, 0.13)
-                                          : const Color.fromRGBO(
-                                              60, 255, 0, 0.188),
+                                          ? const Color.fromARGB(
+                                              200, 255, 193, 7)
+                                          : const Color.fromARGB(
+                                              200, 7, 107, 7),
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                           horizontal: 10,
@@ -102,22 +101,49 @@ class _AdminContactFormsScreenState extends State<AdminContactFormsScreen> {
                                                     .mark_email_unread_outlined
                                                 : Icons
                                                     .mark_email_read_outlined,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSecondary,
                                           ),
                                           title: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Text(contactFormModel
-                                                  .contactFormFullName),
+                                              Text(
+                                                contactFormModel
+                                                    .contactFormFullName,
+                                                style: TextStyle(
+                                                  fontFamily: "Poppins",
+                                                  fontSize: 16,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                ),
+                                              ),
                                               Text(
                                                 DateFormat('dd/MM/yyyy').format(
                                                     contactFormModel
                                                         .contactFormCreatedAt),
+                                                style: TextStyle(
+                                                  fontFamily: "Poppins",
+                                                  fontSize: 14,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                ),
                                               ),
                                             ],
                                           ),
-                                          subtitle: Text(contactFormModel
-                                              .contactFormEmail),
+                                          subtitle: Text(
+                                            contactFormModel.contactFormEmail,
+                                            style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              fontSize: 12,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                            ),
+                                          ),
                                           onTap: () {
                                             showDialog(
                                               context: context,

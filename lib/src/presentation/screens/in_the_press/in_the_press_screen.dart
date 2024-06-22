@@ -23,7 +23,6 @@ class _InThePressScreenState extends State<InThePressScreen> {
     return SafeArea(
       child: Scaffold(
         drawer: const TBTDrawer(),
-        backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
         body: CustomScrollView(
           slivers: [
             const TBTSliverAppBar(),
@@ -32,21 +31,21 @@ class _InThePressScreenState extends State<InThePressScreen> {
                 [
                   SingleChildScrollView(
                     controller: _controller,
-                    child: const Column(
+                    child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Text(
                             "Basında Biz",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color: Theme.of(context).colorScheme.primary,
                               fontSize: 35,
                             ),
                           ),
                         ),
-                        TBTBlogStream(isBlog: false),
+                        const TBTBlogStream(isBlog: false),
                       ],
                     ),
                   ),

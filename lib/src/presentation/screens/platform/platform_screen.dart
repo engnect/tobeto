@@ -4,6 +4,7 @@ import 'package:tobeto/src/presentation/screens/calendar/calendar_screen.dart';
 import 'package:tobeto/src/presentation/screens/course/course_screen.dart';
 import 'package:tobeto/src/presentation/screens/platform/tabs/platform_tab.dart';
 import 'package:tobeto/src/presentation/screens/profile/bottom_nav_bar_tabs/applications_tab.dart';
+import 'package:tobeto/src/presentation/screens/profile/profile_details.dart';
 import 'package:tobeto/src/presentation/screens/profile/profile_screen.dart';
 
 class PlatformScreen extends StatefulWidget {
@@ -21,7 +22,7 @@ class _PlatformScreenState extends State<PlatformScreen> {
     const ApplicationsTab(),
     const CourseScreen(),
     const CalendarScreen(),
-    const ProfileScreen()
+    const ProfilDetails(),
   ];
 
   final items = <Widget>[

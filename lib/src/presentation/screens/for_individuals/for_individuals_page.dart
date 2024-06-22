@@ -15,7 +15,7 @@ class ForIndividualsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 240, 240, 240),
+        // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         drawer: const TBTDrawer(),
         body: CustomScrollView(
           slivers: [
@@ -29,8 +29,8 @@ class ForIndividualsScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 30, horizontal: 10),
                         width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(
-                          color: Color.fromRGBO(233, 232, 255, 1.00),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.background,
                         ),
                         child: Column(
                           children: [

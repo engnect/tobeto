@@ -27,10 +27,13 @@ Future<void> main() async {
   );
   Bloc.observer = SimpleBlocObserver();
 
+
+ 
   
-  runApp(MainApp(themeData: initialTheme));
   
-  
+
+  runApp(const MainApp());
+
 }
 
 

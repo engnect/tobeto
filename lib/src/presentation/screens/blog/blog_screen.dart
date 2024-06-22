@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/end_drawer.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 import '../../widgets/tbt_blog_stream.dart';
 import '../../widgets/tbt_drawer_widget.dart';
@@ -16,28 +17,28 @@ class _BlogScreenState extends State<BlogScreen> {
     return SafeArea(
       child: Scaffold(
         drawer: const TBTDrawer(),
-        backgroundColor: const Color.fromRGBO(240, 240, 240, 1),
+        endDrawer: const TBTEndDrawer(),
         body: CustomScrollView(
           slivers: [
             const TBTSliverAppBar(),
             SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  const Column(
+                  Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
                           "Blog",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: Theme.of(context).colorScheme.primary,
                             fontSize: 35,
                           ),
                         ),
                       ),
-                      TBTBlogStream(
+                      const TBTBlogStream(
                         isBlog: true,
                       ),
                     ],

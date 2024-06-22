@@ -74,9 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         margin: const EdgeInsets.symmetric(
                             horizontal: 5, vertical: 10),
                         padding: const EdgeInsets.all(10),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.background,
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(20),
                           ),
                         ),
@@ -114,18 +114,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                   onTap: () {
                                     _carouselController.previousPage();
                                   },
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.navigate_before,
                                     size: 50,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                   ),
                                 ),
                                 GestureDetector(
                                   onTap: () {
                                     _carouselController.nextPage();
                                   },
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.navigate_next,
                                     size: 50,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                   ),
                                 ),
                               ],
@@ -162,26 +166,26 @@ class _HomeScreenState extends State<HomeScreen> {
                         b: 230,
                       ),
                       const HomeScreenGif(),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(10, 70, 10, 10),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 70, 10, 10),
                         child: Text(
                           "Öğrenci Görüşleri",
                           style: TextStyle(
-                            fontSize: 28,
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.bold,
-                          ),
+                              fontSize: 28,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onSecondary),
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(30, 15, 30, 20),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(30, 15, 30, 20),
                         child: Text(
                           "Tobeto'yu öğrencilerimizin gözünden keşfedin",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: "Poppins",
-                          ),
+                              fontSize: 18,
+                              fontFamily: "Poppins",
+                              color: Theme.of(context).colorScheme.onSecondary),
                         ),
                       ),
                       Row(

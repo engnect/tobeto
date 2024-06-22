@@ -24,11 +24,12 @@ class AboutUsImageCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 35),
             child: Text(
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Color.fromARGB(255, 129, 129, 129),
-                  fontFamily: "Poppins",
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSecondary,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
               content,
             ),
           ),

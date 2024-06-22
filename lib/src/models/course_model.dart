@@ -10,7 +10,7 @@ class CourseModel {
   final DateTime courseEndDate;
 
   final String courseManufacturer;
-  final List<String> courseInstructorsIds;
+  final List<String?> courseInstructorsIds;
   CourseModel({
     required this.courseId,
     required this.courseThumbnailUrl,
@@ -28,7 +28,7 @@ class CourseModel {
     DateTime? courseStartDate,
     DateTime? courseEndDate,
     String? courseManufacturer,
-    List<String>? courseInstructorsIds,
+    List<String?>? courseInstructorsIds,
   }) {
     return CourseModel(
       courseId: courseId ?? this.courseId,
@@ -61,7 +61,7 @@ class CourseModel {
       courseStartDate: map['courseStartDate'].toDate() ?? DateTime.now(),
       courseEndDate: map['courseEndDate'].toDate() ?? DateTime.now(),
       courseManufacturer: map['courseManufacturer'] ?? '',
-      courseInstructorsIds: List<String>.from(map['courseInstructorsIds']),
+      courseInstructorsIds: List<String?>.from(map['courseInstructorsIds']),
     );
   }
 

@@ -1,7 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
+import 'package:tobeto/src/presentation/screens/auth/widgets/email_input.dart';
+import 'package:tobeto/src/presentation/screens/auth/widgets/password_input.dart';
+import 'package:tobeto/src/presentation/widgets/input_field.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -13,17 +16,88 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-bool showIcon = true;
-
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _forgetPasswordController =
+      TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _forgetPasswordController.dispose();
+  }
+
+  void _signinUser({
+    required String userEmail,
+    required String userPassword,
+    required BuildContext context,
+  }) async {
+    String result = await AuthRepository().singInUser(
+      userEmail: userEmail,
+      userPassword: userPassword,
+    );
+
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  void _signinWithGoogle({
+    required BuildContext context,
+  }) async {
+    String result = await AuthRepository().signInWithGoogle();
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  void _forgetPassword({
+    required TextEditingController forgetPasswordController,
+    required BuildContext context,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          scrollable: true,
+          title: const Text('E-posta adresinizi giriniz!'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TBTInputField(
+                hintText: 'E-posta',
+                controller: forgetPasswordController,
+                onSaved: (p0) {},
+                keyboardType: TextInputType.emailAddress,
+              ),
+              const Text(
+                  'Eğer e-posta adresiniz sistemde kayıtlı ise e-posta 10dk içerisinde size ulaşır.'),
+              const Text('Spam klasörünü kontrol edin!'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                String result = await AuthRepository().forgetPassword(
+                    email: forgetPasswordController.text.trim());
+                forgetPasswordController.clear();
+                if (!context.mounted) return;
+                Utilities.showSnackBar(
+                    snackBarMessage: result, context: context);
+              },
+              child: const Text('Gönder'),
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.close),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -34,115 +108,14 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Column(
         children: [
           // E-Mail Kısmı
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: DecoratedBox(
-              decoration: const BoxDecoration(color: Colors.white),
-              child: TextField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                style: const TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 15,
-                    color: Color.fromRGBO(60, 60, 60, 1)),
-                decoration: InputDecoration(
-                  prefixIcon: Image.asset(Assets.imageEmail),
-                  hintText: "E-posta",
-                  hintStyle: const TextStyle(
-                    color: Color.fromRGBO(129, 129, 129, 1),
-                  ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(138, 138, 138, 0.4),
-                    ),
-                  ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(153, 51, 255, 0.4),
-                      width: 4,
-                    ),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(129, 129, 129, 1),
-                      width: 1,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          EmailInput(
+            controller: _emailController,
+            hintText: "E-Posta",
           ),
           // Şifre Kısmı
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: DecoratedBox(
-              decoration: const BoxDecoration(color: Colors.white),
-              child: TextField(
-                controller: _passwordController,
-                keyboardType: TextInputType.multiline,
-                style: const TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 15,
-                    color: Color.fromRGBO(60, 60, 60, 1)),
-                autocorrect: false,
-                obscureText: showIcon,
-                decoration: InputDecoration(
-                  prefixIcon: Image.asset(Assets.imagePassword),
-                  suffixIcon: showIcon
-                      ? IconButton(
-                          onPressed: () {
-                            setState(() {
-                              showIcon = !showIcon;
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.visibility_outlined,
-                          ),
-                        )
-                      : IconButton(
-                          onPressed: () {
-                            setState(() {
-                              showIcon = !showIcon;
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.visibility_off_outlined,
-                          ),
-                        ),
-                  hintText: "Şifre",
-                  hintStyle: const TextStyle(
-                    color: Color.fromRGBO(129, 129, 129, 1),
-                  ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(138, 138, 138, 0.4),
-                    ),
-                  ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(153, 51, 255, 0.4),
-                      width: 4,
-                    ),
-                  ),
-                  enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Color.fromRGBO(129, 129, 129, 1),
-                      width: 1,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          PasswordInput(
+            controller: _passwordController,
+            hintText: "Şifre",
           ),
           //Giriş Yap butonu
           Padding(
@@ -152,12 +125,11 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             child: TBTPurpleButton(
               buttonText: "Giriş Yap",
-              onPressed: () async {
-                await AuthRepository().singInUser(
-                  userEmail: _emailController.text,
-                  userPassword: _passwordController.text,
-                );
-              },
+              onPressed: () => _signinUser(
+                userEmail: _emailController.text,
+                userPassword: _passwordController.text,
+                context: context,
+              ),
             ),
           ),
           const Row(
@@ -191,12 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
-              onPressed: () {
-                // signInWithGoogle();
-                if (kDebugMode) {
-                  print("giriş yapa tıklandı");
-                }
-              },
+              onPressed: () => _signinWithGoogle(context: context),
               child: Stack(
                 children: [
                   Align(
@@ -227,11 +194,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              if (kDebugMode) {
-                print("Şifremi unuttuma tıklandı");
-              }
-            },
+            onTap: () => _forgetPassword(
+              forgetPasswordController: _forgetPasswordController,
+              context: context,
+            ),
             child: const Text(
               "Şifremi Unuttum",
               style: TextStyle(
@@ -240,6 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+          const SizedBox(height: kTextTabBarHeight),
         ],
       ),
     );

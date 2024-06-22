@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/common/enums/application_status_enum.dart';
 import 'package:tobeto/src/common/enums/application_type_enum.dart';
 import 'package:tobeto/src/models/application_model.dart';
@@ -44,21 +45,21 @@ class _ApplicationCardState extends State<ApplicationCard> {
         clipBehavior: Clip.none,
         children: [
           Container(
-            decoration: const BoxDecoration(
-              boxShadow: <BoxShadow>[
+            decoration: BoxDecoration(
+              boxShadow: const <BoxShadow>[
                 BoxShadow(
                   color: Color.fromRGBO(0, 0, 0, 0.4),
                   blurRadius: 5,
                 ),
               ],
-              border: Border(
+              border: const Border(
                 left: BorderSide(
                   color: Color.fromARGB(255, 7, 107, 52),
                   width: 10,
                 ),
               ),
-              color: Colors.white,
-              borderRadius: BorderRadius.all(
+              color: Theme.of(context).colorScheme.background,
+              borderRadius: const BorderRadius.all(
                 Radius.circular(15),
               ),
             ),
@@ -70,7 +71,26 @@ class _ApplicationCardState extends State<ApplicationCard> {
                   child: SizedBox(
                     width: _containerWidth * 0.2,
                     height: _containerWidth * 0.2,
-                    child: const Placeholder(),
+                    child: Center(
+                      child: widget.applicationModel.applicationType ==
+                              ApplicationType.admin
+                          ? Icon(
+                              Icons.admin_panel_settings_outlined,
+                              size: 55,
+                              color: Theme.of(context).colorScheme.primary,
+                            )
+                          : widget.applicationModel.applicationType ==
+                                  ApplicationType.instructor
+                              ? Icon(
+                                  Icons.menu_book_outlined,
+                                  size: 55,
+                                  color: Theme.of(context).colorScheme.primary,
+                                )
+                              : Image.asset(
+                                  Assets.imagesIkLogo,
+                                  fit: BoxFit.contain,
+                                ),
+                    ),
                   ),
                 ),
                 Column(
@@ -85,10 +105,11 @@ class _ApplicationCardState extends State<ApplicationCard> {
                               .toNameCapitalize(),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontFamily: "Poppins",
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ),
@@ -102,9 +123,10 @@ class _ApplicationCardState extends State<ApplicationCard> {
                           widget.applicationModel.applicationContent,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontFamily: "Poppins",
                             fontSize: 14,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ),
@@ -114,7 +136,10 @@ class _ApplicationCardState extends State<ApplicationCard> {
                       child: Text(
                         DateFormat('dd/MM/yyyy').format(
                             widget.applicationModel.applicationCreatedAt),
-                        style: const TextStyle(fontSize: 12),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                       ),
                     ),
                   ],
