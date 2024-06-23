@@ -61,6 +61,7 @@ class _MainAppState extends State<MainApp> {
           ),
         ),
       ],
+
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
           return MaterialApp(

@@ -28,9 +28,9 @@ class UserModel {
   final String? disabilityStatus;
   final String? aboutMe;
   final String? address;
-  final String? country; // Yeni eklenen country alanı
-  final String? city; // Yeni eklenen city alanı
-  final String? district; // Yeni eklenen district alanı
+  final String? country; 
+  final String? city; 
+  final String? district; 
   final List<LanguageModel>? languageList;
   final List<SocialMediaModel>? socialMediaList;
   final List<SkillModel>? skillsList;

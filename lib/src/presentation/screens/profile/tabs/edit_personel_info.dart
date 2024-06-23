@@ -128,7 +128,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
   void _updateUser() async {
     UserModel? usermodel = await UserRepository().getCurrentUser();
-
     UserModel updatedUser = usermodel!.copyWith(
       userName: _nameController.text,
       userSurname: _surnameController.text,
