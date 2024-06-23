@@ -64,10 +64,10 @@ class _MainAppState extends State<MainApp> {
         ),
       ],
       child: MaterialApp(
-        locale: const Locale('tr'), // Başlangıç dili
+        locale: const Locale('tr', 'TR'), // Başlangıç dili
         supportedLocales: const [
-          Locale('en', ''),
-          Locale('tr', ''),
+          Locale('en', 'US'),
+          Locale('tr', 'TR'),
         ],
         localizationsDelegates: const [
           AppLocalizations.delegate,

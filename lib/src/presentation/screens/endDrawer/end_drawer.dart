@@ -15,7 +15,7 @@ class TBTEndDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
-      widthFactor: 0.72, // Açılan ekranın genişliğini ayarlamak için
+      widthFactor: 0.72,
       child: Drawer(
         backgroundColor: Theme.of(context).colorScheme.background,
         child: ListView(
@@ -295,9 +295,6 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
         ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 30),
           title: widget.title,
-          // trailing: Icon(
-          //   _isExpanded ? Icons.expand_less : Icons.expand_more,
-          // ),
           onTap: () {
             setState(() {
               _isExpanded = !_isExpanded;

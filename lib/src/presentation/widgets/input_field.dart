@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class TBTInputField extends StatefulWidget {
@@ -39,7 +38,6 @@ class _TBTInputFieldState extends State<TBTInputField> {
         style: TextStyle(color: Theme.of(context).colorScheme.primary),
         maxLines: widget.maxLines,
         minLines: widget.minLines,
-
         readOnly: widget.readOnly ?? false,
         keyboardType: widget.keyboardType,
         controller: widget.controller,
@@ -51,10 +49,6 @@ class _TBTInputFieldState extends State<TBTInputField> {
                       onPressed: () {
                         setState(() {
                           showPassword = !showPassword;
-
-                          if (kDebugMode) {
-                            print(showPassword);
-                          }
                         });
                       },
                       icon: const Icon(
@@ -65,10 +59,6 @@ class _TBTInputFieldState extends State<TBTInputField> {
                       onPressed: () {
                         setState(() {
                           showPassword = !showPassword;
-
-                          if (kDebugMode) {
-                            print(showPassword);
-                          }
                         });
                       },
                       icon: const Icon(
