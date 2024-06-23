@@ -33,6 +33,31 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
   ApplicationType _selectedApplication = ApplicationType.admin;
   UserRank _selectedUserRank = UserRank.admin;
 
+  _makeNewApplication({
+    required String applicationContent,
+    required ApplicationType applicationType,
+    required UserRank userRank,
+    required BuildContext context,
+  }) async {
+    UserModel? userModel = await UserRepository().getCurrentUser();
+    ApplicationModel applicationModel = ApplicationModel(
+      applicationId: const Uuid().v1(),
+      userId: userModel!.userId,
+      applicationContent: applicationContent,
+      applicationType: applicationType,
+      userRank: userRank,
+      applicationStatus: ApplicationStatus.waiting,
+      applicationCreatedAt: DateTime.now(),
+      applicationClosedBy: 'applicationClosedBy',
+      applicationClosedAt: DateTime.now(),
+    );
+
+    String result = await ApplicationsRepository()
+        .addOrUpdateApplication(applicationModel: applicationModel);
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -156,37 +181,13 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: TBTPurpleButton(
                                       buttonText: "Başvur",
-                                      onPressed: () async {
-                                        UserModel? userModel =
-                                            await UserRepository()
-                                                .getCurrentUser();
-                                        ApplicationModel applicationModel =
-                                            ApplicationModel(
-                                          applicationId: const Uuid().v1(),
-                                          userId: userModel!.userId,
-                                          applicationContent:
-                                              _applicationContentController
-                                                  .text,
-                                          applicationType: _selectedApplication,
-                                          userRank: _selectedUserRank,
-                                          applicationStatus:
-                                              ApplicationStatus.waiting,
-                                          applicationCreatedAt: DateTime.now(),
-                                          applicationClosedBy:
-                                              'applicationClosedBy',
-                                          applicationClosedAt: DateTime.now(),
-                                        );
-
-                                        String result =
-                                            await ApplicationsRepository()
-                                                .addOrUpdateApplication(
-                                                    applicationModel:
-                                                        applicationModel);
-
-                                        Utilities.showSnackBar(
-                                            snackBarMessage: result,
-                                            context: context);
-                                      },
+                                      onPressed: () => _makeNewApplication(
+                                        applicationContent:
+                                            _applicationContentController.text,
+                                        applicationType: _selectedApplication,
+                                        userRank: _selectedUserRank,
+                                        context: context,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -194,8 +195,6 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
                             ),
                           ),
                         ),
-                        // stream
-
                         BlocBuilder<AuthBloc, AuthState>(
                           builder: (context, state) {
                             if (state is Authenticated) {
@@ -239,7 +238,6 @@ class _ApplicationsTabState extends State<ApplicationsTab> {
                             return const SizedBox.shrink();
                           },
                         ),
-
                         const SizedBox(
                           height: 200,
                         ),

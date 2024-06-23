@@ -49,8 +49,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     'İngiltere'
   ];
 
-  final UserRepository _userRepository = UserRepository();
-
   Future<void> _loadUserData() async {
     UserModel? user = await UserRepository().getCurrentUser();
     if (user != null) {
@@ -130,31 +128,24 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
   void _updateUser() async {
     UserModel? usermodel = await UserRepository().getCurrentUser();
-    try {
-      if (usermodel != null) {
-        UserModel updatedUser = usermodel.copyWith(
-          userName: _nameController.text,
-          userSurname: _surnameController.text,
-          userEmail: _emailController.text,
-          userPhoneNumber: _phoneController.text,
-          userBirthDate: _selectedDate,
-          gender: _selectedGender,
-          militaryStatus: _selectedMilitaryStatus,
-          disabilityStatus: _selectedDisabilityStatus,
-          aboutMe: _aboutmeController.text,
-          address: _streetController.text,
-          country: _selectedCountry,
-          city: _selectedCityName,
-          district: _selectedDistrictName,
-          userAvatarUrl: _image.toString(),
-        );
-        await _userRepository.addOrUpdateUser(updatedUser);
+    UserModel updatedUser = usermodel!.copyWith(
+      userName: _nameController.text,
+      userSurname: _surnameController.text,
+      userEmail: _emailController.text,
+      userPhoneNumber: _phoneController.text,
+      userBirthDate: _selectedDate,
+      gender: _selectedGender,
+      militaryStatus: _selectedMilitaryStatus,
+      disabilityStatus: _selectedDisabilityStatus,
+      aboutMe: _aboutmeController.text,
+      address: _streetController.text,
+      country: _selectedCountry,
+      city: _selectedCityName,
+      district: _selectedDistrictName,
+    );
+    await UserRepository().addOrUpdateUser(updatedUser);
 
-        _loadUserData();
-      } else {
-        throw Exception('Kullanıcı oturumu açmamış.');
-      }
-    } catch (e) {}
+    _loadUserData();
   }
 
   @override
@@ -250,10 +241,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                       style: TextStyle(
                           color: Theme.of(context).colorScheme.primary),
                       decoration: InputDecoration(
-                          labelText: 'Telefon Numaranız',
-                          labelStyle: TextStyle(
-                              color:
-                                  Theme.of(context).colorScheme.onSecondary)),
+                        labelText: 'Telefon Numaranız',
+                        labelStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.onSecondary),
+                      ),
                       initialCountryCode: 'TR',
                       onChanged: (phone) {},
                     ),

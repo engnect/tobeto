@@ -6,7 +6,6 @@ class CourseVideoModel {
   final String courseVideoName;
   final String courseName;
   final String videoUrl;
-
   CourseVideoModel({
     required this.videoId,
     required this.courseId,
@@ -16,22 +15,24 @@ class CourseVideoModel {
   });
 
   CourseVideoModel copyWith({
+    String? videoId,
     String? courseId,
     String? courseVideoName,
     String? courseName,
     String? videoUrl,
   }) {
     return CourseVideoModel(
+      videoId: videoId ?? this.videoId,
       courseId: courseId ?? this.courseId,
       courseVideoName: courseVideoName ?? this.courseVideoName,
       courseName: courseName ?? this.courseName,
       videoUrl: videoUrl ?? this.videoUrl,
-      videoId: '',
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
+      'videoId': videoId,
       'courseId': courseId,
       'courseVideoName': courseVideoName,
       'courseName': courseName,
@@ -41,11 +42,11 @@ class CourseVideoModel {
 
   factory CourseVideoModel.fromMap(Map<String, dynamic> map) {
     return CourseVideoModel(
+      videoId: map['videoId'] ?? '',
       courseId: map['courseId'] ?? '',
       courseVideoName: map['courseVideoName'] ?? '',
       courseName: map['courseName'] ?? '',
       videoUrl: map['videoUrl'] ?? '',
-      videoId: '',
     );
   }
 
@@ -56,7 +57,7 @@ class CourseVideoModel {
 
   @override
   String toString() {
-    return 'CourseVideoModel(courseId: $courseId, courseVideoName: $courseVideoName, courseName: $courseName, videoUrl: $videoUrl)';
+    return 'CourseVideoModel(videoId: $videoId, courseId: $courseId, courseVideoName: $courseVideoName, courseName: $courseName, videoUrl: $videoUrl)';
   }
 
   @override
@@ -64,6 +65,7 @@ class CourseVideoModel {
     if (identical(this, other)) return true;
 
     return other is CourseVideoModel &&
+        other.videoId == videoId &&
         other.courseId == courseId &&
         other.courseVideoName == courseVideoName &&
         other.courseName == courseName &&
@@ -72,7 +74,8 @@ class CourseVideoModel {
 
   @override
   int get hashCode {
-    return courseId.hashCode ^
+    return videoId.hashCode ^
+        courseId.hashCode ^
         courseVideoName.hashCode ^
         courseName.hashCode ^
         videoUrl.hashCode;

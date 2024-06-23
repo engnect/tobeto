@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/common/constants/assets.dart';
 
-class UserInput extends StatelessWidget {
-  final TextEditingController controller;
+class AuthInput extends StatefulWidget {
+  final String assetImagePath;
   final String hintText;
-  const UserInput({
+  final TextEditingController controller;
+  final TextInputType? keyboardType;
+  final bool? isObscure;
+  const AuthInput({
     super.key,
-    required this.controller,
+    required this.assetImagePath,
     required this.hintText,
+    required this.controller,
+    this.keyboardType,
+    this.isObscure,
   });
 
+  @override
+  State<AuthInput> createState() => _AuthInputState();
+}
+
+class _AuthInputState extends State<AuthInput> {
+  bool showPassword = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,16 +33,41 @@ class UserInput extends StatelessWidget {
           ),
         ),
         child: TextField(
-          controller: controller,
-          keyboardType: TextInputType.name,
+          controller: widget.controller,
+          keyboardType: widget.keyboardType,
           style: const TextStyle(
             fontFamily: "Poppins",
             fontSize: 15,
             color: Color.fromRGBO(60, 60, 60, 1),
           ),
+          autocorrect: false,
+          obscureText: widget.isObscure != null ? !showPassword : showPassword,
           decoration: InputDecoration(
-            prefixIcon: Image.asset(Assets.imageUser),
-            hintText: hintText,
+            prefixIcon: Image.asset(widget.assetImagePath),
+            suffixIcon: widget.isObscure == null
+                ? null
+                : showPassword
+                    ? IconButton(
+                        onPressed: () {
+                          setState(() {
+                            showPassword = !showPassword;
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.visibility_off_outlined,
+                        ),
+                      )
+                    : IconButton(
+                        onPressed: () {
+                          setState(() {
+                            showPassword = !showPassword;
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.visibility_outlined,
+                        ),
+                      ),
+            hintText: widget.hintText,
             hintStyle: const TextStyle(
               color: Color.fromRGBO(129, 129, 129, 1),
             ),

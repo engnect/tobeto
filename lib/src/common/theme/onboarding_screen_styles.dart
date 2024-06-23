@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-class AppStyles {
+class OnBoardingScreenStyles {
   static const Color primaryColor = Color.fromARGB(255, 153, 51, 255);
 
   static const TextStyle titleTextStyle = TextStyle(

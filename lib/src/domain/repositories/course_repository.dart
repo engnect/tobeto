@@ -39,6 +39,23 @@ class CourseRepository {
     });
   }
 
+  Future<List<String>> fetchCourseNamesList() async {
+    List<DocumentSnapshot> courseNamesDocumentSnapshots = [];
+    List<String> courseNamesList = [];
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(FirebaseConstants.coursesCollection)
+        .get();
+
+    courseNamesDocumentSnapshots = querySnapshot.docs;
+    for (var i = 0; i < courseNamesDocumentSnapshots.length; i++) {
+      CourseModel courseModel = CourseModel.fromMap(
+          courseNamesDocumentSnapshots[i].data() as Map<String, dynamic>);
+      courseNamesList.add(courseModel.courseName);
+    }
+
+    return courseNamesList;
+  }
+
   Future<List<CourseVideoModel>> fetchCourseVideos(String courseId) async {
     try {
       final querySnapshot = await _firestore
@@ -57,6 +74,7 @@ class CourseRepository {
       throw Exception('Error fetching course videos: $e');
     }
   }
+  // Admin panelinde ders eklemek için
 
   Future<String> addCourse(CourseModel courseModel) async {
     String result = '';
@@ -69,18 +87,12 @@ class CourseRepository {
     return Utilities.errorMessageChecker(result);
   }
 
-  Future<String> editVideo(String videoId, String newCourseVideoName,
-      String newCourseId, String newCourseName) async {
+  // Admin panelinden video eklemek ve düzenlemek için
+  Future<String> addOrUpdateCourseVideo(
+      CourseVideoModel courseVideoModel) async {
     String result = '';
     try {
-      await _videos.doc(videoId).update(
-        {
-          'courseVideoName': newCourseVideoName,
-          'courseId': newCourseId,
-          'courseName': newCourseName,
-        },
-      );
-
+      await _videos.doc(courseVideoModel.videoId).set(courseVideoModel.toMap());
       result = 'success';
     } catch (error) {
       result = error.toString();
@@ -88,6 +100,7 @@ class CourseRepository {
     return Utilities.errorMessageChecker(result);
   }
 
+  // Admin panelinde ders düzenlemek için
   Future<String> editCourse(
     String courseId,
     String newCourseName,
@@ -114,21 +127,19 @@ class CourseRepository {
     }
   }
 
-  Future<String> saveCourseVideo(CourseVideoModel courseVideoModel) async {
+  // Admin panelinde video düzenlemek için
+  Future<String> editVideo(String videoId, String newCourseVideoName,
+      String newCourseId, String newCourseName) async {
     String result = '';
     try {
-      await _videos.doc(courseVideoModel.videoId).set(courseVideoModel.toMap());
-      result = 'success';
-    } catch (error) {
-      result = error.toString();
-    }
-    return Utilities.errorMessageChecker(result);
-  }
+      await _videos.doc(videoId).update(
+        {
+          'courseVideoName': newCourseVideoName,
+          'courseId': newCourseId,
+          'courseName': newCourseName,
+        },
+      );
 
-  Future<String> saveCourse(CourseModel courseModel) async {
-    String result = '';
-    try {
-      await _courses.doc(courseModel.courseId).set(courseModel.toMap());
       result = 'success';
     } catch (error) {
       result = error.toString();
@@ -148,6 +159,7 @@ class CourseRepository {
     return Utilities.errorMessageChecker(result);
   }
 
+  // Admin panelinden video silmek için
   Future<String> deleteVideo(String videoId) async {
     String result = '';
     try {

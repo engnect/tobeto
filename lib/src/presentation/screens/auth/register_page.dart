@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
-import 'package:tobeto/src/presentation/screens/auth/widgets/email_input.dart';
-import 'package:tobeto/src/presentation/screens/auth/widgets/password_input.dart';
-import 'package:tobeto/src/presentation/screens/auth/widgets/user_input.dart';
+import 'package:tobeto/src/presentation/screens/auth/widgets/auth_input_widget.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -13,9 +12,6 @@ class RegisterScreen extends StatefulWidget {
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
-
-bool showIcon = true;
-bool showIcon2 = true;
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _nameController = TextEditingController();
@@ -42,18 +38,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
       alignment: Alignment.center,
       child: Column(
         children: [
-          //İsim Kısmı
-          UserInput(controller: _nameController, hintText: "İsim"),
-          //Soyisim Kısmı
-          UserInput(controller: _surnameController, hintText: "Soyisim"),
-          // E-Mail Kısmı
-          EmailInput(controller: _emailController, hintText: "E-Posta"),
-          // Şifre Kısmı
-          PasswordInput(controller: _passwordController, hintText: "Şifre"),
-          //Şifre Tekrar
-          PasswordInput(
-              controller: _confirmPasswordController, hintText: "Şifre Tekrar"),
-          //Giriş Yap butonu
+          AuthInput(
+            assetImagePath: Assets.imageUser,
+            hintText: 'İsim',
+            controller: _nameController,
+            keyboardType: TextInputType.name,
+          ),
+          AuthInput(
+            assetImagePath: Assets.imageUser,
+            hintText: 'Soyisim',
+            controller: _surnameController,
+            keyboardType: TextInputType.name,
+          ),
+          AuthInput(
+            assetImagePath: Assets.imageEmail,
+            hintText: 'E-Posta',
+            controller: _emailController,
+            keyboardType: TextInputType.emailAddress,
+          ),
+          AuthInput(
+            assetImagePath: Assets.imagePassword,
+            hintText: 'Şifre',
+            controller: _passwordController,
+            isObscure: true,
+            keyboardType: TextInputType.multiline,
+          ),
+          AuthInput(
+            assetImagePath: Assets.imagePassword,
+            hintText: 'Şifre',
+            controller: _confirmPasswordController,
+            isObscure: true,
+            keyboardType: TextInputType.multiline,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 3,

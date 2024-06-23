@@ -29,14 +29,20 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
   final TextEditingController _editCourseVideoNameController =
       TextEditingController();
 
-  XFile? selectedVideo;
+  XFile? _selectedVideo;
   bool selected = false;
   VideoPlayerController? _videoPlayerController;
-  List<String> courseNames = ['a', 'b', 'c'];
+  List<String> courseNames = [];
   List<CourseModel> courses = [];
   String? selectedCourseName;
   String? selectedCourseId;
   final CourseRepository _courseRepository = CourseRepository();
+
+  @override
+  void initState() {
+    fetchCourseNames();
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -44,15 +50,35 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
     super.dispose();
   }
 
-  void _pickVideo() async {
-    final videoPicker = ImagePicker();
-    XFile? file = await videoPicker.pickVideo(source: ImageSource.gallery);
+  Future<void> fetchCourseNames() async {
+    List<String> names = await _courseRepository.fetchCourseNamesList();
+    setState(() {
+      courseNames = names;
+    });
+  }
 
-    if (file != null) {
-      _videoPlayerController = VideoPlayerController.file(File(file.path))
+  // void _pickVideo() async {
+  //   final videoPicker = ImagePicker();
+  //   XFile? file = await videoPicker.pickVideo(source: ImageSource.gallery);
+
+  //   if (file != null) {
+  //     _videoPlayerController = VideoPlayerController.file(File(file.path))
+  //       ..initialize().then((_) {
+  //         setState(() {
+  //           selectedVideo = file;
+  //           selected = true;
+  //         });
+  //         _videoPlayerController!.play();
+  //       });
+  //   }
+  // }
+  Future<void> _getVideoFromGallery() async {
+    final video = await Utilities.getVideoFromGallery();
+    if (video != null) {
+      _videoPlayerController = VideoPlayerController.file(File(video.path))
         ..initialize().then((_) {
           setState(() {
-            selectedVideo = file;
+            _selectedVideo = video;
             selected = true;
           });
           _videoPlayerController!.play();
@@ -60,22 +86,24 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
     }
   }
 
-  void _saveCourseVideo() async {
-    if (selectedVideo != null &&
-        selectedCourseName != null &&
-        _courseVideoNameController.text.isNotEmpty) {
+  void _addCourseVideo(
+      {required BuildContext context,
+      required String selectedCourseId,
+      required String courseVideoName,
+      required String selectedCourseName}) async {
+    if (_selectedVideo != null && _courseVideoNameController.text.isNotEmpty) {
       String? videoUrl = await FirebaseStorageRepository()
-          .uploadCourseVideoAndSaveUrl(selectedVideo: selectedVideo);
+          .uploadCourseVideoAndSaveUrl(selectedVideo: _selectedVideo);
       if (videoUrl != null) {
         CourseVideoModel courseVideoModel = CourseVideoModel(
           videoId: const Uuid().v1(),
-          courseId: selectedCourseId!,
+          courseId: selectedCourseId,
           courseVideoName: _courseVideoNameController.text,
-          courseName: selectedCourseName!,
+          courseName: selectedCourseName,
           videoUrl: videoUrl,
         );
         String result =
-            await _courseRepository.saveCourseVideo(courseVideoModel);
+            await _courseRepository.addOrUpdateCourseVideo(courseVideoModel);
 
         if (!context.mounted) return;
         Utilities.showSnackBar(
@@ -84,6 +112,110 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
         );
       }
     }
+  }
+
+  void _deleteVideoFunction(
+      {required BuildContext context, required String videoId}) async {
+    String result = await _courseRepository.deleteVideo(videoId);
+
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  void _editVideoFunction({
+    required BuildContext context,
+    required String videoId,
+    required String selectedCourseId,
+    required String newCourseVideoName,
+  }) async {
+    String newCourseVideoName = _editCourseVideoNameController.text;
+    String newCourseId = selectedCourseId;
+
+    String result = await _courseRepository.editVideo(
+        videoId, newCourseVideoName, newCourseId, selectedCourseName!);
+
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  void _showEditDialog(
+      {required BuildContext context, required String videoId}) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Seçili Videoyu Düzenle"),
+          content: StreamBuilder<List<CourseModel>>(
+            stream: _courseRepository.fetchAllCourses(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text('No courses available.'));
+              } else {
+                List<CourseModel> courses = snapshot.data!;
+                List<String> courseNames =
+                    courses.map((course) => course.courseName).toList();
+
+                return Column(
+                  children: [
+                    TBTInputField(
+                      hintText: 'Yeni Video ismini girin.',
+                      controller: _editCourseVideoNameController,
+                      onSaved: (p0) {},
+                      keyboardType: TextInputType.multiline,
+                    ),
+                    DropdownButtonFormField<String>(
+                      isExpanded: true,
+                      hint: const Text("Ders Kategorisi"),
+                      value: selectedCourseName,
+                      items: courseNames.map(
+                        (String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        },
+                      ).toList(),
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedCourseName = newValue;
+
+                          selectedCourseId = courses
+                              .firstWhere(
+                                  (course) => course.courseName == newValue)
+                              .courseId;
+                        });
+                      },
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                _editVideoFunction(
+                    context: context,
+                    videoId: videoId,
+                    selectedCourseId: selectedCourseId!,
+                    newCourseVideoName: _editCourseVideoNameController.text);
+                Navigator.pop(context);
+              },
+              child: Text(
+                "Değişiklikleri Kaydet",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -120,7 +252,7 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                             child: Column(
                               children: [
                                 GestureDetector(
-                                  onTap: _pickVideo,
+                                  onTap: _getVideoFromGallery,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                       bottom: 50,
@@ -135,7 +267,7 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                           image: selected
                                               ? DecorationImage(
                                                   image: FileImage(
-                                                    File(selectedVideo!.path),
+                                                    File(_selectedVideo!.path),
                                                   ),
                                                 )
                                               : null,
@@ -167,13 +299,15 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                     );
                                   }).toList(),
                                   onChanged: (newValue) {
-                                    setState(() {
-                                      selectedCourseName = newValue;
-                                      selectedCourseId = courses
-                                          .firstWhere((course) =>
-                                              course.courseName == newValue)
-                                          .courseId;
-                                    });
+                                    setState(
+                                      () {
+                                        selectedCourseName = newValue;
+                                        selectedCourseId = courses
+                                            .firstWhere((course) =>
+                                                course.courseName == newValue)
+                                            .courseId;
+                                      },
+                                    );
                                   },
                                 ),
                                 Padding(
@@ -182,7 +316,12 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                   child: TBTPurpleButton(
                                     buttonText: "Kaydet",
                                     onPressed: () {
-                                      _saveCourseVideo();
+                                      _addCourseVideo(
+                                          context: context,
+                                          selectedCourseId: selectedCourseId!,
+                                          selectedCourseName:
+                                              selectedCourseName!,
+                                          courseVideoName: selectedCourseName!);
                                     },
                                   ),
                                 )
@@ -200,12 +339,6 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                 child: CircularProgressIndicator(),
                               );
                             } else {
-                              CourseRepository courseRepository =
-                                  CourseRepository();
-
-                              String? selectedCourseName;
-                              String selectedCourseId = "";
-
                               return ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: snapshot.data!.docs.length,
@@ -217,141 +350,6 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                       CourseVideoModel.fromMap(documentSnapshot
                                           .data() as Map<String, dynamic>);
 
-                                  String videoId = documentSnapshot.id;
-
-                                  void deleteVideoFunction() async {
-                                    try {
-                                      await courseRepository
-                                          .deleteVideo(videoId);
-
-                                      if (!context.mounted) return;
-                                      Utilities.showSnackBar(
-                                          snackBarMessage:
-                                              'Video başarıyla silindi',
-                                          context: context);
-                                    } catch (e) {
-                                      Utilities.showSnackBar(
-                                          snackBarMessage:
-                                              'Video silinirken bir hata oluştu: $e',
-                                          context: context);
-                                    }
-                                  }
-
-                                  void editVideoFunction() async {
-                                    String newCourseVideoName =
-                                        _editCourseVideoNameController.text;
-                                    String newCourseId = selectedCourseId;
-
-                                    String result =
-                                        await courseRepository.editVideo(
-                                            videoId,
-                                            newCourseVideoName,
-                                            newCourseId,
-                                            selectedCourseName!);
-
-                                    if (!context.mounted) return;
-                                    Utilities.showSnackBar(
-                                        snackBarMessage: result,
-                                        context: context);
-                                  }
-
-                                  void showEditDialog(BuildContext context) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: const Text(
-                                              "Seçili Videoyu Düzenle"),
-                                          content:
-                                              StreamBuilder<List<CourseModel>>(
-                                            stream: courseRepository
-                                                .fetchAllCourses(),
-                                            builder: (context, snapshot) {
-                                              if (snapshot.connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return const Center(
-                                                    child:
-                                                        CircularProgressIndicator());
-                                              } else if (snapshot.hasError) {
-                                                return Center(
-                                                    child: Text(
-                                                        'Error: ${snapshot.error}'));
-                                              } else if (!snapshot.hasData ||
-                                                  snapshot.data!.isEmpty) {
-                                                return const Center(
-                                                    child: Text(
-                                                        'No courses available.'));
-                                              } else {
-                                                List<CourseModel> courses =
-                                                    snapshot.data!;
-                                                List<String> courseNames =
-                                                    courses
-                                                        .map((course) =>
-                                                            course.courseName)
-                                                        .toList();
-
-                                                return Column(
-                                                  children: [
-                                                    TBTInputField(
-                                                      hintText:
-                                                          'Yeni Video ismini girin.',
-                                                      controller:
-                                                          _editCourseVideoNameController,
-                                                      onSaved: (p0) {},
-                                                      keyboardType:
-                                                          TextInputType
-                                                              .multiline,
-                                                    ),
-                                                    DropdownButtonFormField<
-                                                        String>(
-                                                      isExpanded: true,
-                                                      hint: const Text(
-                                                          "Ders Kategorisi"),
-                                                      value: selectedCourseName,
-                                                      items: courseNames.map(
-                                                        (String value) {
-                                                          return DropdownMenuItem<
-                                                              String>(
-                                                            value: value,
-                                                            child: Text(value),
-                                                          );
-                                                        },
-                                                      ).toList(),
-                                                      onChanged: (newValue) {
-                                                        setState(() {
-                                                          selectedCourseName =
-                                                              newValue;
-
-                                                          selectedCourseId = courses
-                                                              .firstWhere(
-                                                                  (course) =>
-                                                                      course
-                                                                          .courseName ==
-                                                                      newValue)
-                                                              .courseId;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ],
-                                                );
-                                              }
-                                            },
-                                          ),
-                                          actions: <Widget>[
-                                            TextButton(
-                                              onPressed: () {
-                                                editVideoFunction();
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text(
-                                                  "Değişiklikleri Kaydet"),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                  }
-
                                   return Slidable(
                                     key: ValueKey(index),
                                     endActionPane: ActionPane(
@@ -360,7 +358,10 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                       children: [
                                         SlidableAction(
                                           onPressed: (context) =>
-                                              deleteVideoFunction(),
+                                              _deleteVideoFunction(
+                                            context: context,
+                                            videoId: courseVideoModel.videoId,
+                                          ),
                                           backgroundColor:
                                               const Color(0xFFFE4A49),
                                           foregroundColor: Colors.white,
@@ -369,7 +370,10 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                         ),
                                         SlidableAction(
                                           onPressed: (context) {
-                                            showEditDialog(context);
+                                            _showEditDialog(
+                                                context: context,
+                                                videoId:
+                                                    courseVideoModel.videoId);
                                           },
                                           backgroundColor:
                                               const Color(0xFF21B7CA),

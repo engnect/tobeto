@@ -49,6 +49,59 @@ class _CertificatesPageState extends State<CertificatesPage> {
     }
   }
 
+  _saveCerteficate({
+    required String certificateName,
+    required DateTime certificateYear,
+    required String certificateFileUrl,
+    required BuildContext context,
+  }) async {
+    UserModel? userModel = await UserRepository().getCurrentUser();
+    CertificateModel newCertificate = CertificateModel(
+      certificateId: const Uuid().v1(),
+      userId: userModel!.userId,
+      certificateName: certificateName,
+      certificateYear: certificateYear,
+      certificateFileUrl: certificateFileUrl,
+    );
+    String result = await CertificateRepository().addCertificate(
+      newCertificate,
+      certificateFileUrl,
+    );
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
+  void _editCertificate({
+    required CertificateModel certificate,
+    required BuildContext context,
+  }) async {
+    final updatedCertificate = await showDialog<CertificateModel>(
+      context: context,
+      builder: (context) => EditCertificateDialog(
+        certificateModel: certificate,
+      ),
+    );
+    if (updatedCertificate != null) {
+      String result = await CertificateRepository().updateCertificate(
+        updatedCertificate,
+      );
+      if (!context.mounted) return;
+      Utilities.showSnackBar(snackBarMessage: result, context: context);
+    }
+  }
+
+  _deleteCertificate({
+    required CertificateModel certificate,
+    required BuildContext context,
+  }) async {
+    Navigator.pop(context);
+    String result =
+        await CertificateRepository().deleteCertificate(certificate);
+
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,29 +155,11 @@ class _CertificatesPageState extends State<CertificatesPage> {
                                       IconButton(
                                         icon: const Icon(Icons.edit),
                                         onPressed: () async {
-                                          final updatedCertificate =
-                                              await showDialog<
-                                                  CertificateModel>(
+                                          _editCertificate(
+                                            certificate: certificate,
                                             context: context,
-                                            builder: (context) =>
-                                                EditCertificateDialog(
-                                              certificateModel: certificate,
-                                            ),
                                           );
-                                          if (updatedCertificate != null) {
-                                            String result =
-                                                await CertificateRepository()
-                                                    .updateCertificate(
-                                              updatedCertificate,
-                                            );
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(result),
-                                              ),
-                                            );
-                                            setState(() {});
-                                          }
+                                          setState(() {});
                                         },
                                       ),
                                       IconButton(
@@ -160,24 +195,18 @@ class _CertificatesPageState extends State<CertificatesPage> {
                                                   ),
                                                 ),
                                                 TextButton(
-                                                  onPressed: () async {
-                                                    Navigator.pop(context);
-                                                    String result =
-                                                        await CertificateRepository()
-                                                            .deleteCertificate(
-                                                                certificate);
-
-                                                    Utilities.showSnackBar(
-                                                      snackBarMessage: result,
-                                                      context: context,
-                                                    );
-                                                  },
+                                                  onPressed: () =>
+                                                      _deleteCertificate(
+                                                    certificate: certificate,
+                                                    context: context,
+                                                  ),
                                                   child: Text(
                                                     'Sil',
                                                     style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .colorScheme
-                                                            .primary),
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .primary,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -263,29 +292,12 @@ class _CertificatesPageState extends State<CertificatesPage> {
               padding: const EdgeInsets.all(8.0),
               child: TBTPurpleButton(
                 buttonText: 'Kaydet',
-                onPressed: () async {
-                  UserModel? userModel =
-                      await UserRepository().getCurrentUser();
-                  CertificateModel newCertificate = CertificateModel(
-                      certificateId: const Uuid().v1(),
-                      userId: userModel!.userId,
-                      certificateName: _certificateNameController.text,
-                      certificateYear: _selectedYear!,
-                      certificateFileUrl: _filePath!);
-                  String result = await CertificateRepository()
-                      .addCertificate(newCertificate, _filePath!);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor:
-                          Theme.of(context).colorScheme.onSecondary,
-                      content: Text(
-                        result,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary),
-                      ),
-                    ),
-                  );
-                },
+                onPressed: () => _saveCerteficate(
+                  certificateName: _certificateNameController.text,
+                  certificateYear: _selectedYear!,
+                  certificateFileUrl: _filePath!,
+                  context: context,
+                ),
               ),
             ),
             const SizedBox(

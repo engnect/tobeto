@@ -5,6 +5,8 @@ sealed class AuthState {}
 
 class AuthInitial extends AuthState {}
 
+class AuthLoading extends AuthState {}
+
 class Authenticated extends AuthState {
   final UserModel userModel;
 
@@ -18,5 +20,3 @@ class AuthError extends AuthState {
 
   AuthError(this.error);
 }
-
-class AuthLoading extends AuthState {}

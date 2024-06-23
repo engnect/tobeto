@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/data/datasource/avatar_fake_data.dart';
+import 'package:tobeto/src/data/datasource/user_commends_data.dart';
 import 'package:tobeto/src/models/avatar_model.dart';
 import 'package:tobeto/src/presentation/screens/home/widgets/animated_avatar.dart';
 import 'package:tobeto/src/presentation/screens/home/widgets/info_card.dart';
@@ -26,7 +26,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final CarouselController _carouselController = CarouselController();
 
-  AvatarModel _selected = data[0];
+  UserCommendsModel _selected = data[0];
 
   bool isSelect = false;
   OverlayEntry? _overlayEntry;

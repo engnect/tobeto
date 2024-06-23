@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-class TBTColosScheme {
+class TBTColorScheme {
   static ThemeData lightTheme = ThemeData(
     primaryColor: Colors.black,
-    // brightness: Brightness.light,
+    brightness: Brightness.light,
     scaffoldBackgroundColor: const Color.fromRGBO(235, 235, 235, 1),
     colorScheme: ThemeData.dark().colorScheme.copyWith(
+          brightness: Brightness.light,
           primary: const Color.fromARGB(250, 24, 24, 24),
           onPrimary: const Color.fromARGB(255, 79, 75, 104),
           secondary: const Color.fromRGBO(110, 110, 110, 1),
@@ -21,9 +22,10 @@ class TBTColosScheme {
 
   static ThemeData darkTheme = ThemeData(
     primaryColor: Colors.black,
-    // brightness: Brightness.dark,
+    brightness: Brightness.dark,
     scaffoldBackgroundColor: const Color.fromRGBO(40, 40, 40, 1),
     colorScheme: ThemeData.dark().colorScheme.copyWith(
+          brightness: Brightness.dark,
           primary: Colors.white,
           onPrimary: const Color.fromARGB(255, 129, 125, 161),
           secondary: const Color.fromRGBO(160, 160, 160, 1),

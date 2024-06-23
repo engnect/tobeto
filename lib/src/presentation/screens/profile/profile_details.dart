@@ -149,102 +149,14 @@ class _ProfilDetailsState extends State<ProfilDetails> {
                               ),
                               child: Column(
                                 children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Image.asset(
-                                          Assets.imagesDefaultAvatar,
-                                          width: 70,
-                                          height: 70,
-                                          fit: BoxFit.contain,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 8),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Ad Soyad",
-                                              style: TextStyle(
-                                                fontFamily: "Poppins",
-                                                fontSize: 16,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .onSecondary,
-                                              ),
-                                            ),
-                                            Text(
-                                              "${_user!.userName} ${_user!.userSurname}",
-                                              style: TextStyle(
-                                                fontFamily: "Poppins",
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.60,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 12),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    if (_scl != null &&
-                                                        _scl!.isNotEmpty)
-                                                      Column(
-                                                        children: _scl!
-                                                            .map((socialMedia) {
-                                                          return Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    vertical:
-                                                                        4),
-                                                            child: Text(
-                                                              socialMedia
-                                                                  .socialMedialink,
-                                                              style:
-                                                                  const TextStyle(
-                                                                color: Color
-                                                                    .fromRGBO(
-                                                                        11,
-                                                                        87,
-                                                                        208,
-                                                                        1),
-                                                                fontSize: 14,
-                                                              ),
-                                                            ),
-                                                          );
-                                                        }).toList(),
-                                                      )
-                                                    else
-                                                      const Text(
-                                                        "Sosyal medya bilgisi bulunamadı.",
-                                                        style: TextStyle(
-                                                          color: Colors.grey,
-                                                          fontSize: 14,
-                                                        ),
-                                                      ),
-                                                  ],
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    ],
+
+                                  const Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: CircleAvatar(
+                                      backgroundImage:
+                                          AssetImage(Assets.imagesMhProfil),
+                                      radius: 35,
+                                    ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
