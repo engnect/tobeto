@@ -38,7 +38,7 @@ class ForCompaniesScreen extends StatelessWidget {
                               ],
                             ).createShader(bounds);
                           },
-                          child:  Text(
+                          child: Text(
                             textAlign: TextAlign.center,
                             localizations.translate('menu.tobeto_mission'),
                             style: const TextStyle(
@@ -68,49 +68,57 @@ class ForCompaniesScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                       ForCompaniesCard(
-                        header: localizations.translate('menu.reach_right_talent'),
+                      ForCompaniesCard(
+                        header:
+                            localizations.translate('menu.reach_right_talent'),
                         content:
                             localizations.translate('menu.ready_candidates'),
-                        color: Color.fromARGB(255, 97, 4, 190),
+                        color: const Color.fromARGB(255, 97, 4, 190),
                         cardContentList: [
                           ForCompaniesCardContent(
-                            header: localizations.translate('menu.evaluation_header'),
-                            content:
-                                localizations.translate('menu.evaluation_content'),
+                            header: localizations
+                                .translate('menu.evaluation_header'),
+                            content: localizations
+                                .translate('menu.evaluation_content'),
                           ),
                           ForCompaniesCardContent(
-                            header: localizations.translate('menu.bootcamp_header'),
-                            content:
-                                localizations.translate('menu.bootcamp_content'),
+                            header:
+                                localizations.translate('menu.bootcamp_header'),
+                            content: localizations
+                                .translate('menu.bootcamp_content'),
                           ),
                           ForCompaniesCardContent(
-                            header: localizations.translate('menu.matching_header'),
-                            content:
-                                localizations.translate('menu.matching_content'),
+                            header:
+                                localizations.translate('menu.matching_header'),
+                            content: localizations
+                                .translate('menu.matching_content'),
                           ),
                         ],
                       ),
-                       ForCompaniesCard(
-                        header: localizations.translate('menu.for_employees_tobeto'),
-                        content:
-                            localizations.translate('menu.support_existing_skills'),
+                      ForCompaniesCard(
+                        header: localizations
+                            .translate('menu.for_employees_tobeto'),
+                        content: localizations
+                            .translate('menu.support_existing_skills'),
                         color: const Color.fromRGBO(29, 68, 153, 1),
                         cardContentList: [
                           ForCompaniesCardContent(
-                            header: localizations.translate('menu.assessment_tools_header'),
-                            content:
-                                localizations.translate('menu.assessment_tools_content'),
+                            header: localizations
+                                .translate('menu.assessment_tools_header'),
+                            content: localizations
+                                .translate('menu.assessment_tools_content'),
                           ),
                           ForCompaniesCardContent(
-                            header: localizations.translate('menu.training_header'),
-                            content:
-                                localizations.translate('menu.training_content'),
+                            header:
+                                localizations.translate('menu.training_header'),
+                            content: localizations
+                                .translate('menu.training_content'),
                           ),
                           ForCompaniesCardContent(
-                            header: localizations.translate('menu.development_header'),
-                            content:
-                                localizations.translate('menu.development_content'),
+                            header: localizations
+                                .translate('menu.development_header'),
+                            content: localizations
+                                .translate('menu.development_content'),
                           ),
                         ],
                       ),
@@ -149,7 +157,8 @@ class ForCompaniesScreen extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 20),
                               child: Text(
-                                localizations.translate('menu.contact_us_title'),
+                                localizations
+                                    .translate('menu.contact_us_title'),
                                 style: TextStyle(
                                   fontFamily: "Poppins",
                                   fontSize: 20,
@@ -161,7 +170,8 @@ class ForCompaniesScreen extends StatelessWidget {
                             ),
                             TBTPurpleButton(
                               width: 150,
-                              buttonText: localizations.translate('menu.contact_us_button'),
+                              buttonText: localizations
+                                  .translate('menu.contact_us_button'),
                               onPressed: () {},
                             ),
                           ],
