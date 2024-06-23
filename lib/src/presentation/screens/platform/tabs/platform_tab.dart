@@ -92,10 +92,12 @@ class _PlatformTabState extends State<PlatformTab> {
                             child: isLoading
                                 ? const CircularProgressIndicator()
                                 : Text(
-                                    "${userModel?.userName ?? "İsim"} ${userModel?.userSurname ?? "Soyisim"}",
-                                    style: const TextStyle(
+                                    "${userModel?.userName ?? "İsim"} ${userModel?.userSurname ?? "Soyisim"}!",
+                                    style: TextStyle(
                                       fontSize: 25,
-                                      color: Color.fromARGB(255, 77, 77, 77),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSecondary,
                                     ),
                                   ),
                           ),
