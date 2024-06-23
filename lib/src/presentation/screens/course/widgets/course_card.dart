@@ -38,9 +38,12 @@ class _CourseCardState extends State<CourseCard> {
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(15)),
-            child: Image.network(
-              widget.image,
-              fit: BoxFit.cover,
+            child: AspectRatio(
+              aspectRatio: 2,
+              child: Image.network(
+                widget.image,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Padding(

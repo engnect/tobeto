@@ -57,21 +57,6 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
     });
   }
 
-  // void _pickVideo() async {
-  //   final videoPicker = ImagePicker();
-  //   XFile? file = await videoPicker.pickVideo(source: ImageSource.gallery);
-
-  //   if (file != null) {
-  //     _videoPlayerController = VideoPlayerController.file(File(file.path))
-  //       ..initialize().then((_) {
-  //         setState(() {
-  //           selectedVideo = file;
-  //           selected = true;
-  //         });
-  //         _videoPlayerController!.play();
-  //       });
-  //   }
-  // }
   Future<void> _getVideoFromGallery() async {
     final video = await Utilities.getVideoFromGallery();
     if (video != null) {
@@ -144,7 +129,12 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Seçili Videoyu Düzenle"),
+          title: Text(
+            "Seçili Videoyu Düzenle",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
           content: StreamBuilder<List<CourseModel>>(
             stream: _courseRepository.fetchAllCourses(),
             builder: (context, snapshot) {
@@ -169,13 +159,23 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                     ),
                     DropdownButtonFormField<String>(
                       isExpanded: true,
-                      hint: const Text("Ders Kategorisi"),
+                      hint: Text(
+                        "Ders Kategorisi",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
                       value: selectedCourseName,
                       items: courseNames.map(
                         (String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(
+                              value,
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
                           );
                         },
                       ).toList(),
@@ -290,12 +290,25 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                 ),
                                 DropdownButtonFormField<String>(
                                   isExpanded: true,
-                                  hint: const Text("Ders Kategorisi"),
+                                  hint: Text(
+                                    "Ders Kategorisi",
+                                    style: TextStyle(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
                                   value: selectedCourseName,
                                   items: courseNames.map((String value) {
                                     return DropdownMenuItem<String>(
                                       value: value,
-                                      child: Text(value),
+                                      child: Text(
+                                        value,
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
                                     );
                                   }).toList(),
                                   onChanged: (newValue) {
@@ -385,7 +398,13 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                     ),
                                     child: ListTile(
                                       title: Text(
-                                          'Video adı: ${courseVideoModel.courseVideoName}'),
+                                        'Video adı: ${courseVideoModel.courseVideoName}',
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
                                     ),
                                   );
                                 },

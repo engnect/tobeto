@@ -81,9 +81,9 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                        'Başlangıç Tarihi: ${widget.course.courseStartDate}'),
+                                        'Başlangıç Tarihi: ${DateFormat('dd/MM/yyyy').format(widget.course.courseStartDate)}'),
                                     Text(
-                                        'Bitiş Tarihi: ${widget.course.courseEndDate}'),
+                                        'Bitiş Tarihi: ${DateFormat('dd/MM/yyyy').format(widget.course.courseEndDate)}'),
                                     Text(
                                         'Üretici Firma: ${widget.course.courseManufacturer}'),
                                   ],
@@ -113,7 +113,7 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      'Start Date: ${DateFormat('dd/MM/yyyy').format(widget.course.courseStartDate)}',
+                                      'Başlangıç Tarihi: ${DateFormat('dd/MM/yyyy').format(widget.course.courseStartDate)}',
                                       style: TextStyle(
                                           fontFamily: "Poppins",
                                           fontSize: 18,
@@ -122,7 +122,7 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
                                               .primary),
                                     ),
                                     Text(
-                                      'End Date: ${DateFormat('dd/MM/yyyy').format(widget.course.courseEndDate)}',
+                                      'Bitiş Tarihi: ${DateFormat('dd/MM/yyyy').format(widget.course.courseEndDate)}',
                                       style: TextStyle(
                                           fontFamily: "Poppins",
                                           fontSize: 18,
@@ -131,7 +131,7 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
                                               .primary),
                                     ),
                                     Text(
-                                      'Manufacturer: ${widget.course.courseManufacturer}',
+                                      'Üretici Firma: ${widget.course.courseManufacturer}',
                                       style: TextStyle(
                                           fontFamily: "Poppins",
                                           fontSize: 18,
@@ -178,10 +178,6 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
                             courseVideo: courseVideo,
                             onTap: () {
                               _updateVideoUrl(courseVideo.videoUrl);
-                              // print(courseVideo.videoUrl);
-                              // print(courseVideo.courseName);
-                              // print(
-                              //     "izlenme süresi  ${snapshot.data!.roundToDouble()}");
                             },
                             watchedPercentage: snapshot.data!.roundToDouble(),
                             course: widget.course,

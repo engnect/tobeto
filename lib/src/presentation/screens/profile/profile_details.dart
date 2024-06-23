@@ -88,15 +88,23 @@ class _ProfilDetailsState extends State<ProfilDetails> {
                                                 .onSecondary,
                                           ),
                                         ),
-                                        Text(
-                                          "${state.userModel.userName} ${state.userModel.userSurname}",
-                                          style: TextStyle(
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.60,
+                                          child: Text(
+                                            "${state.userModel.userName} ${state.userModel.userSurname}",
+                                            maxLines: 2,
+                                            style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              overflow: TextOverflow.ellipsis,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                            ),
                                           ),
                                         ),
                                         SizedBox(
