@@ -47,7 +47,7 @@ class _CourseVideoCardState extends State<CourseVideoCard> {
                         ),
                       ),
                       Text(
-                        'Instructors: ${widget.course.courseInstructorsIds.join(', ')}',
+                        'Eğitmenler: ${widget.course.courseInstructorsIds.join(', ')}',
                         style: TextStyle(
                             fontFamily: "Poppins",
                             color: Theme.of(context).colorScheme.primary),

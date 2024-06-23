@@ -255,36 +255,47 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                 onSaved: (p0) {},
                                 keyboardType: TextInputType.multiline,
                               ),
-                              TextButton.icon(
-                                icon: const Icon(Icons.calendar_today_outlined),
-                                onPressed: () async {
-                                  selectedStartDate =
-                                      await Utilities.datePicker(context);
-                                  setState(() {});
-                                },
-                                label: Text(
-                                  selectedStartDate == null
-                                      ? 'Başlangıç Tarihi Seç'
-                                      : DateFormat('dd/MM/yyyy')
-                                          .format(selectedStartDate!),
-                                ),
-                              ),
-                              TextButton.icon(
-                                icon: Icon(
-                                  Icons.calendar_today_outlined,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                onPressed: () async {
-                                  selectedEndDate =
-                                      await Utilities.datePicker(context);
-                                  setState(() {});
-                                },
-                                label: Text(
-                                  selectedEndDate == null
-                                      ? 'Bitiş Tarihi Seç'
-                                      : DateFormat('dd/MM/yyyy')
-                                          .format(selectedEndDate!),
-                                ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  TextButton.icon(
+                                    icon: const Icon(
+                                        Icons.calendar_today_outlined),
+                                    onPressed: () async {
+                                      selectedStartDate =
+                                          await Utilities.datePicker(context);
+                                      setState(() {});
+                                    },
+                                    label: Text(
+                                      style: const TextStyle(fontSize: 10),
+                                      selectedStartDate == null
+                                          ? 'Başlangıç Tarihi Seç'
+                                          : DateFormat('dd/MM/yyyy')
+                                              .format(selectedStartDate!),
+                                    ),
+                                  ),
+                                  TextButton.icon(
+                                    icon: Icon(
+                                      Icons.calendar_today_outlined,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                    onPressed: () async {
+                                      selectedEndDate =
+                                          await Utilities.datePicker(context);
+                                      setState(() {});
+                                    },
+                                    label: Text(
+                                      style: const TextStyle(fontSize: 10),
+                                      selectedEndDate == null
+                                          ? 'Bitiş Tarihi Seç'
+                                          : DateFormat('dd/MM/yyyy')
+                                              .format(selectedEndDate!),
+                                    ),
+                                  ),
+                                ],
                               ),
                               TBTPurpleButton(
                                 buttonText: "Ders Ekle",

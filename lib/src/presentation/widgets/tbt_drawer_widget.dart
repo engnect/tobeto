@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
@@ -203,7 +202,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                           Padding(
                             padding: const EdgeInsets.only(left: 10),
                             child: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.38,
+                              width: MediaQuery.of(context).size.width * 0.35,
                               child: Text(
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
