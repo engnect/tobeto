@@ -6,6 +6,7 @@ import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/common/theme/tbt_theme_new.dart';
 import 'package:tobeto/src/data/datasource/theme_shared_pref.dart';
+import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/lang/lang.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import '../../common/constants/assets.dart';
@@ -190,18 +191,76 @@ class _TBTDrawerState extends State<TBTDrawer> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (state is Authenticated) {
-                  return TextButton.icon(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(AppRouteNames.platformScreenRoute);
-                    },
-                    icon: CircleAvatar(
-                      backgroundImage:
-                          NetworkImage(state.userModel.userAvatarUrl!),
-                    ),
-                    label: Text(
-                        '${state.userModel.userName} ${state.userModel.userSurname}'),
-                  );
+                  return CustomExpansionTile(
+                      title: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 25,
+                            backgroundImage:
+                                NetworkImage(state.userModel.userAvatarUrl!),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.38,
+                              child: Text(
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                '${state.userModel.userName} ${state.userModel.userSurname}',
+                                style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontSize: 14,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          child: ListTile(
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 30),
+                            title: TBTPurpleButton(
+                              buttonText: "Platform",
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(
+                                    AppRouteNames.platformScreenRoute);
+                              },
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 60,
+                          child: ListTile(
+                            onTap: () {},
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 30),
+                            title: ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  Colors.red,
+                                ),
+                              ),
+                              onPressed: () async {
+                                AuthRepository().signOutUser();
+                              },
+                              child: const Text(
+                                "Çıkış Yap",
+                                style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]);
                 } else if (state is Unauthenticated) {
                   return Padding(
                     padding:
@@ -309,3 +368,20 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
     );
   }
 }
+
+
+// TextButton.icon(
+//                     onLongPress: () {
+//                       print("uzunnn basıldıı");
+//                     },
+//                     onPressed: () {
+//                       Navigator.of(context)
+//                           .pushNamed(AppRouteNames.platformScreenRoute);
+//                     },
+//                     icon: CircleAvatar(
+//                       backgroundImage:
+//                           NetworkImage(state.userModel.userAvatarUrl!),
+//                     ),
+//                     label: Text(
+//                         '${state.userModel.userName} ${state.userModel.userSurname}'),
+//                   );
