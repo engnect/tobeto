@@ -11,7 +11,6 @@ import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_announce
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_applications/admin_applications_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_contact_forms/admin_contact_forms_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_blog/admin_blog_screen.dart';
-
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/event_screen/admin_event_screen.dart';
 import 'package:tobeto/src/presentation/screens/error/error_screen.dart';
 import 'package:tobeto/src/presentation/screens/for_companies/for_companies_screen.dart';

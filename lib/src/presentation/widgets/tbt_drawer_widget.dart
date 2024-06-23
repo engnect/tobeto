@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
+import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
 // import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
+import 'package:tobeto/src/common/theme/tbt_theme_new.dart';
 import 'package:tobeto/src/data/datasource/theme_shared_pref.dart';
 import 'package:tobeto/src/lang/lang.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
@@ -59,7 +61,10 @@ class _TBTDrawerState extends State<TBTDrawer> {
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
               title: Text(
                 localizations.translate('menu.who_we_are'),
-                style: const TextStyle(fontFamily: "Poppins"),
+                style: TextStyle(
+                  fontFamily: "Poppins",
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               onTap: () {
                 Navigator.of(context)
@@ -177,6 +182,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                     .pushNamed(AppRouteNames.contactUsScreenRoute);
               },
             ),
+
             BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
                 if (state is AuthInitial || state is AuthLoading) {
@@ -228,26 +234,27 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
 
             // theme switch
-            // BlocBuilder<ThemeBloc, ThemeState>(
-            //   builder: (context, state) {
-            //     final isDarkTheme =
-            //         state.themeData.brightness == Brightness.dark;
+            BlocBuilder<ThemeBloc, ThemeState>(
+              builder: (context, state) {
+                final isDarkTheme =
+                    state.themeData.brightness == Brightness.dark;
 
-            //     return Switch(
-            //       value: isDarkTheme,
-            //       onChanged: (value) async {
-            //         final newTheme =
-            //             value ? ThemeData.dark() : ThemeData.light();
+                return Switch(
+                  value: isDarkTheme,
+                  onChanged: (value) async {
+                    final newTheme = value
+                        ? TBTColorScheme.darkTheme
+                        : TBTColorScheme.lightTheme;
 
-            //         context.read<ThemeBloc>().add(
-            //               ThemeChanged(themeData: newTheme),
-            //             );
+                    context.read<ThemeBloc>().add(
+                          ThemeChanged(themeData: newTheme),
+                        );
 
-            //         await prefs.saveTheme(value);
-            //       },
-            //     );
-            //   },
-            // ),
+                    await prefs.saveTheme(value);
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),

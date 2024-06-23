@@ -75,26 +75,49 @@ void _showApplicationDetails(
 ) async {
   UserModel? userModel =
       await UserRepository().getSpecificUserById(applicationModel.userId);
-  UserModel? applicationClosedBy = await UserRepository()
-      .getSpecificUserById(applicationModel.applicationClosedBy);
+
+  UserModel? applicationClosedBy = await UserRepository().getCurrentUser();
 
   if (!context.mounted) return;
   showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Text('${userModel!.userName} ${userModel.userSurname}'),
+        backgroundColor: Theme.of(context).colorScheme.background,
+        title: Text(
+          '${userModel!.userName} ${userModel.userSurname}',
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(applicationModel.applicationContent),
             Text(
-                'B.T.: ${DateFormat('dd/MM/yyyy').format(applicationModel.applicationCreatedAt)}'),
+              applicationModel.applicationContent,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
             Text(
-                'G.T.: ${DateFormat('dd/MM/yyyy').format(applicationModel.applicationClosedAt)}'),
+              'B.T.: ${DateFormat('dd/MM/yyyy').format(applicationModel.applicationCreatedAt)}',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
             Text(
-                'Başvuruyu Cevaplayan: ${applicationClosedBy!.userName} ${applicationClosedBy.userSurname}'),
+              'G.T.: ${DateFormat('dd/MM/yyyy').format(applicationModel.applicationClosedAt)}',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            Text(
+              'Başvuruyu Cevaplayan: ${applicationClosedBy!.userName} ${applicationClosedBy.userSurname}',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
           ],
         ),
         actions: [
@@ -105,7 +128,13 @@ void _showApplicationDetails(
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: const Text('Kullanıcıya Ünvan Yazın!'),
+                    backgroundColor: Theme.of(context).colorScheme.background,
+                    title: Text(
+                      'Kullanıcıya Ünvan Yazın!',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -205,11 +234,13 @@ class _AdminApplicationsScreenState extends State<AdminApplicationsScreen> {
                                           .data() as Map<String, dynamic>);
 
                                   return GestureDetector(
-                                    onTap: () => _showApplicationDetails(
-                                      applicationModel,
-                                      _userTitleController,
-                                      context,
-                                    ),
+                                    onTap: () {
+                                      _showApplicationDetails(
+                                        applicationModel,
+                                        _userTitleController,
+                                        context,
+                                      );
+                                    },
                                     child: ApplicationCard(
                                       applicationModel: applicationModel,
                                     ),

@@ -65,11 +65,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               calendarFormat: CalendarFormat.month,
                               startingDayOfWeek: StartingDayOfWeek.monday,
                               daysOfWeekVisible: true,
-                              daysOfWeekStyle: const DaysOfWeekStyle(
-                                weekdayStyle:
-                                    TextStyle(fontWeight: FontWeight.bold),
-                                weekendStyle:
-                                    TextStyle(fontWeight: FontWeight.bold),
+                              daysOfWeekStyle: DaysOfWeekStyle(
+                                weekdayStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                weekendStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
                               daysOfWeekHeight: 25,
                               onDaySelected:
@@ -84,6 +88,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               },
                               eventLoader: _getEventsfromDay,
                               calendarStyle: CalendarStyle(
+                                outsideTextStyle: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondary),
+                                defaultTextStyle: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                                weekendTextStyle: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary),
                                 isTodayHighlighted: true,
                                 selectedDecoration: BoxDecoration(
                                   color: Colors.blue,
@@ -106,9 +121,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   borderRadius: BorderRadius.circular(5.0),
                                 ),
                               ),
-                              headerStyle: const HeaderStyle(
+                              headerStyle: HeaderStyle(
                                 formatButtonVisible: false,
                                 titleCentered: true,
+                                titleTextStyle: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
                             );
                           }
@@ -176,10 +194,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                                 event.eventDate.toString(),
                                                 //'${event.eventDate.toString().padLeft(2, "0")}:${event.minute.toString().padLeft(2, "0")}',
                                                 style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary),
+                                                  fontSize: 14,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .primary,
+                                                ),
                                               ),
                                             ],
                                           ),

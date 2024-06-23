@@ -120,13 +120,18 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
                               ),
                               TBTPurpleButton(
                                 buttonText: 'Duyuruyu Ekle',
-                                onPressed: () => _addNewAnnouncement(
-                                  announcementTitle:
-                                      _announcementTitleController.text,
-                                  announcementContent:
-                                      _announcementContentController.text,
-                                  context: context,
-                                ),
+                                onPressed: () {
+                                  _addNewAnnouncement(
+                                    announcementTitle:
+                                        _announcementTitleController.text,
+                                    announcementContent:
+                                        _announcementContentController.text,
+                                    context: context,
+                                  );
+
+                                  _announcementContentController.clear();
+                                  _announcementTitleController.clear();
+                                },
                               ),
                             ],
                           ),
