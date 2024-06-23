@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tobeto/app_view.dart';
 import 'package:tobeto/firebase_options.dart';
 import 'package:tobeto/simple_bloc_observer.dart';
-import 'package:tobeto/src/common/theme/tbt_theme_new.dart';
+import 'package:tobeto/src/common/theme/tbt_theme.dart';
 
 int? initScreen;
 
