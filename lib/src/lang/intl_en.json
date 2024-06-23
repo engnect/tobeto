@@ -4,6 +4,49 @@
     "what_we_offer": "What We Offer?",
     "our_trainings": "Our Trainings",
     "whats_happening_at_tobeto": "What's Happening at Tobeto?",
-    "contact_us": "Contact Us"
+    "contact_us": "Contact Us",
+    "for_individuals": "For Individuals",
+    "for_companies": "For Companies",
+    "blog": "Blog",
+    "in_the_press": "In the Press",
+    "calendar": "Calendar",
+    "get_in_touch": "Get in Touch",
+    "contact_info": "Contact Information",
+
+    "company_name": "Company Name",
+    "company_title": "Company Title",
+    "tax_office": "Tax Office",
+    "tax_number": "Tax Number",
+    "phone": "Phone",
+    "email": "E-mail",
+    "address": "Address", 
+
+    "text_message": "Text a Message",
+    "contact_form": "Contact Form", 
+
+    "name_surname": "Name Surname",
+    "message": "Message",
+    "send": "Send", 
+    "tobeto_mission": "Tobeto; discovers talents, develops them, and prepares them for new jobs.", 
+    "reach_right_talent": "To Reach the Right Talent",
+    "ready_candidates": "Trains candidates ready for employment to meet the changing talent needs of organizations.", 
+
+    "evaluation_header": "EVALUATION",
+    "evaluation_content": "Access to a large pool of evaluated and trained talents, along with assessment, selection, and reporting services.",
+    "bootcamp_header": "BOOTCAMP",
+    "bootcamp_content": "Access to a large pool of evaluated and trained talents, along with assessment, selection, and reporting services.",
+    "matching_header": "MATCHING",
+    "matching_content": "Fast and accurate hiring for flexible, remote, full-time workforce.", 
+
+    "for_employees_tobeto": "Tobeto for Your Employees",
+    "support_existing_skills": "Supports updating existing skills or gaining new ones according to the needs of employees.",
+    "assessment_tools_header": "ASSESSMENT TOOLS",
+    "assessment_tools_content": "Technical and competency assessment tools for candidates who want to gain new skills (reskill) or start a new role (upskill).",
+    "training_header": "TRAINING",
+    "training_content": "Participation in trainings opened according to the needs of gaining new expertise skills and competencies for a new role, and the possibility of opening special classes for the institution.",
+    "development_header": "DEVELOPMENT",
+    "development_content": "Support for the development and positioning of the existing talent pool in line with corporate goals.", 
+    "contact_us_title": "Contact us for custom training packages and bootcamp programs for companies",
+    "contact_us_button": "Contact Us"
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:tobeto/src/lang/lang.dart';
 import 'package:tobeto/src/presentation/screens/for_companies/widgets/for_companies_card_content.dart';
 import 'package:tobeto/src/presentation/screens/for_companies/widgets/for_companies_card.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
@@ -13,6 +14,7 @@ class ForCompaniesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return SafeArea(
       child: Scaffold(
         drawer: const TBTDrawer(),
@@ -36,10 +38,10 @@ class ForCompaniesScreen extends StatelessWidget {
                               ],
                             ).createShader(bounds);
                           },
-                          child: const Text(
+                          child:  Text(
                             textAlign: TextAlign.center,
-                            'Tobeto; yetenekleri keşfeder, geliştirir ve yeni işine hazırlar.',
-                            style: TextStyle(
+                            localizations.translate('menu.tobeto_mission'),
+                            style: const TextStyle(
                               fontSize: 36,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -66,49 +68,49 @@ class ForCompaniesScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const ForCompaniesCard(
-                        header: "Doğru yeteneğe ulaşmak için",
+                       ForCompaniesCard(
+                        header: localizations.translate('menu.reach_right_talent'),
                         content:
-                            "Kurumların değişen yetenek ihtiyaçları için istihdama hazır adaylar yetiştirir.",
+                            localizations.translate('menu.ready_candidates'),
                         color: Color.fromARGB(255, 97, 4, 190),
                         cardContentList: [
                           ForCompaniesCardContent(
-                            header: "DEĞERLENDİRME",
+                            header: localizations.translate('menu.evaluation_header'),
                             content:
-                                "Değerlendirilmiş ve yetişmiş geniş yetenek havuzuna erişim olanağı ve ölçme, değerlendirme, seçme ve raporlama hizmeti.",
+                                localizations.translate('menu.evaluation_content'),
                           ),
                           ForCompaniesCardContent(
-                            header: "BOOTCAMP",
+                            header: localizations.translate('menu.bootcamp_header'),
                             content:
-                                "Değerlendirilmiş ve yetişmiş geniş yetenek havuzuna erişim olanağı ve ölçme, değerlendirme, seçme ve raporlama hizmeti.",
+                                localizations.translate('menu.bootcamp_content'),
                           ),
                           ForCompaniesCardContent(
-                            header: "EŞLEŞTİRME",
+                            header: localizations.translate('menu.matching_header'),
                             content:
-                                "Esnek, uzaktan, tam zamanlı iş gücü için doğru ve hızlı işe alım.",
+                                localizations.translate('menu.matching_content'),
                           ),
                         ],
                       ),
-                      const ForCompaniesCard(
-                        header: "Çalışanlarınız için Tobeto",
+                       ForCompaniesCard(
+                        header: localizations.translate('menu.for_employees_tobeto'),
                         content:
-                            "Çalışanların ihtiyaçları doğrultusunda, mevcut becerilerini güncellemelerine veya yeni beceriler kazanmalarına destek olur.",
-                        color: Color.fromRGBO(29, 68, 153, 1),
+                            localizations.translate('menu.support_existing_skills'),
+                        color: const Color.fromRGBO(29, 68, 153, 1),
                         cardContentList: [
                           ForCompaniesCardContent(
-                            header: "ÖLÇME ARAÇLARI",
+                            header: localizations.translate('menu.assessment_tools_header'),
                             content:
-                                "Uzmanlaşmak için yeni beceriler kazanmak (reskill) veya yeni bir role başlamak (upskill) isteyen adaylar için, teknik ve yetkinlik ölçme araçları.",
+                                localizations.translate('menu.assessment_tools_content'),
                           ),
                           ForCompaniesCardContent(
-                            header: "EĞİTİM",
+                            header: localizations.translate('menu.training_header'),
                             content:
-                                "Yeni uzmanlık becerileri ve yeni bir rol için gerekli yetkinlik kazınımı ihtiyaçlarına bağlı olarak açılan eğitimlere katılım ve kuruma özel sınıf açma olanakları.",
+                                localizations.translate('menu.training_content'),
                           ),
                           ForCompaniesCardContent(
-                            header: "GELİŞİM",
+                            header: localizations.translate('menu.development_header'),
                             content:
-                                "Kurumsal hedefler doğrultusunda mevcut yetenek gücünün gelişimi ve konumlandırılmasına destek.",
+                                localizations.translate('menu.development_content'),
                           ),
                         ],
                       ),
@@ -147,7 +149,7 @@ class ForCompaniesScreen extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 20),
                               child: Text(
-                                "Kurumlara özel eğitim paketleri ve bootcamp programları için bizimle iletişime geçin",
+                                localizations.translate('menu.contact_us_title'),
                                 style: TextStyle(
                                   fontFamily: "Poppins",
                                   fontSize: 20,
@@ -159,7 +161,7 @@ class ForCompaniesScreen extends StatelessWidget {
                             ),
                             TBTPurpleButton(
                               width: 150,
-                              buttonText: "Bize ulaşın",
+                              buttonText: localizations.translate('menu.contact_us_button'),
                               onPressed: () {},
                             ),
                           ],

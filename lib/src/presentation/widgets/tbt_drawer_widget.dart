@@ -67,8 +67,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
               },
             ),
             CustomExpansionTile(
-              title: Text(
-                "Neler Sunuyoruz?",
+              title: Text(localizations.translate('menu.what_we_offer'),
+               
                 style: TextStyle(
                     fontFamily: "Poppins",
                     color: Theme.of(context).colorScheme.primary),
@@ -79,7 +79,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 35),
                     title: TBTPurpleButton(
-                      buttonText: "Bireyler için",
+                      buttonText: localizations.translate('menu.for_individuals'),
                       onPressed: () {
                         Navigator.of(context)
                             .pushNamed(AppRouteNames.forIndividualsScreenRoute);
@@ -90,7 +90,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 35),
                   title: TBTPurpleButton(
-                    buttonText: "Kurumlar için",
+                    buttonText: localizations.translate('menu.for_companies'),
                     onPressed: () {
                       Navigator.of(context)
                           .pushNamed(AppRouteNames.forCompaniesScreenRoute);
@@ -101,8 +101,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: Text(
-                "Eğitimlerimiz",
+              title: Text(localizations.translate('menu.our_trainings'),
+                
                 style: TextStyle(
                     fontFamily: "Poppins",
                     color: Theme.of(context).colorScheme.primary),
@@ -110,8 +110,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
               onTap: () {},
             ),
             CustomExpansionTile(
-              title: Text(
-                "Tobeto'da Neler Oluyor?",
+              title: Text(localizations.translate('menu.whats_happening_at_tobeto'),
+                
                 style: TextStyle(
                     fontFamily: "Poppins",
                     color: Theme.of(context).colorScheme.primary),
@@ -122,7 +122,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     title: TBTPurpleButton(
-                      buttonText: "Blog",
+                      buttonText: localizations.translate('menu.blog'),
                       onPressed: () {
                         Navigator.of(context)
                             .pushNamed(AppRouteNames.blogScreenRoute);
@@ -136,7 +136,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                     onTap: () {},
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     title: TBTPurpleButton(
-                      buttonText: "Basında Biz",
+                      buttonText: localizations.translate('menu.in_the_press'),
                       onPressed: () {
                         Navigator.of(context)
                             .pushNamed(AppRouteNames.inThePressScreenRoute);
@@ -153,7 +153,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                         horizontal: 30,
                       ),
                       title: TBTPurpleButton(
-                        buttonText: "Takvim",
+                        buttonText: localizations.translate('menu.calendar'),
                         onPressed: () {
                           Navigator.of(context)
                               .pushNamed(AppRouteNames.calendarScreenRoute);
@@ -166,8 +166,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: Text(
-                "İletişim",
+              title: Text(localizations.translate('menu.contact_us'),
+                
                 style: TextStyle(
                     fontFamily: "Poppins",
                     color: Theme.of(context).colorScheme.primary),

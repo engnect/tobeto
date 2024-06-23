@@ -1,0 +1,53 @@
+{
+    "menu": {
+      "who_we_are": "Wer sind wir?",
+      "what_we_offer": "Was bieten wir an?",
+      "our_trainings": "Unsere Schulungen",
+      "whats_happening_at_tobeto": "Was passiert bei Tobeto?",
+      "contact_us": "Kontaktiere uns",
+      "for_individuals": "Für Einzelpersonen",
+      "for_companies": "Für Unternehmen",
+      "blog": "Blog",
+      "in_the_press": "In der Presse",
+      "calendar": "Kalender",
+      "get_in_touch": "Kontakt aufnehmen",
+      "contact_info": "Kontaktinformationen",
+  
+      "company_name": "Firmenname",
+      "company_title": "Firmenüberschrift",
+      "tax_office": "Steueramt",
+      "tax_number": "Steuernummer",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "address": "Adresse", 
+  
+      "text_message": "Eine Nachricht senden",
+      "contact_form": "Kontaktformular", 
+  
+      "name_surname": "Name Nachname",
+      "message": "Nachricht",
+      "send": "Senden", 
+      "tobeto_mission": "Tobeto entdeckt Talente, entwickelt sie weiter und bereitet sie auf neue Arbeitsplätze vor.", 
+      "reach_right_talent": "Um das richtige Talent zu erreichen",
+      "ready_candidates": "Schult Kandidaten, die bereit für die Beschäftigung sind, um den sich ändernden Talentbedürfnissen von Organisationen gerecht zu werden.", 
+  
+      "evaluation_header": "BEWERTUNG",
+      "evaluation_content": "Zugang zu einem großen Pool von bewerteten und geschulten Talenten sowie zu Bewertungs-, Auswahl- und Berichtsdiensten.",
+      "bootcamp_header": "BOOTCAMP",
+      "bootcamp_content": "Zugang zu einem großen Pool von bewerteten und geschulten Talenten sowie zu Bewertungs-, Auswahl- und Berichtsdiensten.",
+      "matching_header": "ANPASSUNG",
+      "matching_content": "Schnelle und genaue Einstellung für flexible, remote, Vollzeit-Arbeitskräfte.", 
+  
+      "for_employees_tobeto": "Tobeto für Ihre Mitarbeiter",
+      "support_existing_skills": "Unterstützt das Aktualisieren bestehender Fähigkeiten oder das Erlernen neuer Fähigkeiten entsprechend den Bedürfnissen der Mitarbeiter.",
+      "assessment_tools_header": "BEWERTUNGSTOOLS",
+      "assessment_tools_content": "Technische und Kompetenzbewertungstools für Kandidaten, die neue Fähigkeiten erlangen möchten (reskill) oder eine neue Rolle beginnen möchten (upskill).",
+      "training_header": "AUSBILDUNG",
+      "training_content": "Teilnahme an Schulungen, die gemäß den Bedürfnissen zur Erlangung neuer Expertenkenntnisse und Kompetenzen für eine neue Rolle geöffnet wurden, sowie die Möglichkeit, spezielle Klassen für die Institution zu eröffnen.",
+      "development_header": "ENTWICKLUNG",
+      "development_content": "Unterstützung bei der Entwicklung und Positionierung des bestehenden Talentpools gemäß den Unternehmenszielen.", 
+      "contact_us_title": "Kontaktieren Sie uns für maßgeschneiderte Schulungspakete und Bootcamp-Programme für Unternehmen",
+      "contact_us_button": "Kontaktieren Sie uns"
+    }
+  }
+  

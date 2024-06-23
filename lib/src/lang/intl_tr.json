@@ -4,6 +4,49 @@
     "what_we_offer": "Neler Sunuyoruz?",
     "our_trainings": "Eğitimlerimiz",
     "whats_happening_at_tobeto": "Tobeto'da Neler Oluyor?",
-    "contact_us": "İletişim"
+    "contact_us": "İletişim",
+    "for_individuals": "Bireyler için",
+    "for_companies": "Kurumlar için",
+    "blog": "Blog",
+    "in_the_press": "Basında Biz",
+    "calendar": "Takvim",
+    "get_in_touch": "İletişime Geçin",
+    "contact_info": "İletişim Bilgileri", 
+
+    "company_name": "Firma Adı",
+    "company_title": "Firma Ünvanı",
+    "tax_office": "Vergi Dairesi",
+    "tax_number": "Vergi No",
+    "phone": "Telefon",
+    "email": "E-posta",
+    "address": "Adres", 
+
+    "text_message": "Mesaj Bırakın",
+    "contact_form": "İletişim Formu", 
+
+    "name_surname": "Adınız Soyadınız",
+    "message": "Mesajınız",
+    "send": "Gönder", 
+    "tobeto_mission": "Tobeto; yetenekleri keşfeder, geliştirir ve yeni işine hazırlar.", 
+    "reach_right_talent": "Doğru yeteneğe ulaşmak için",
+    "ready_candidates": "Kurumların değişen yetenek ihtiyaçları için istihdama hazır adaylar yetiştirir.", 
+
+    "evaluation_header": "DEĞERLENDİRME",
+    "evaluation_content": "Değerlendirilmiş ve yetişmiş geniş yetenek havuzuna erişim olanağı ve ölçme, değerlendirme, seçme ve raporlama hizmeti.",
+    "bootcamp_header": "BOOTCAMP",
+    "bootcamp_content": "Değerlendirilmiş ve yetişmiş geniş yetenek havuzuna erişim olanağı ve ölçme, değerlendirme, seçme ve raporlama hizmeti.",
+    "matching_header": "EŞLEŞTİRME",
+    "matching_content": "Esnek, uzaktan, tam zamanlı iş gücü için doğru ve hızlı işe alım.", 
+
+    "for_employees_tobeto": "Çalışanlarınız için Tobeto",
+    "support_existing_skills": "Çalışanların ihtiyaçları doğrultusunda, mevcut becerilerini güncellemelerine veya yeni beceriler kazanmalarına destek olur.",
+    "assessment_tools_header": "ÖLÇME ARAÇLARI",
+    "assessment_tools_content": "Uzmanlaşmak için yeni beceriler kazanmak (reskill) veya yeni bir role başlamak (upskill) isteyen adaylar için, teknik ve yetkinlik ölçme araçları.",
+    "training_header": "EĞİTİM",
+    "training_content": "Yeni uzmanlık becerileri ve yeni bir rol için gerekli yetkinlik kazınımı ihtiyaçlarına bağlı olarak açılan eğitimlere katılım ve kuruma özel sınıf açma olanakları.",
+    "development_header": "GELİŞİM",
+    "development_content": "Kurumsal hedefler doğrultusunda mevcut yetenek gücünün gelişimi ve konumlandırılmasına destek.", 
+    "contact_us_title": "Kurumlara özel eğitim paketleri ve bootcamp programları için bizimle iletişime geçin",
+    "contact_us_button": "Bize ulaşın"
   }
 }

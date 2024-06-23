@@ -146,6 +146,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
           country: _selectedCountry,
           city: _selectedCityName,
           district: _selectedDistrictName,
+          userAvatarUrl: _image.toString(),
         );
         await _userRepository.addOrUpdateUser(updatedUser);
 
