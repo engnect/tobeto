@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
-import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/announcement_model.dart';
 import 'package:tobeto/src/models/user_model.dart';
@@ -42,12 +41,6 @@ class _PlatformTabState extends State<PlatformTab> {
       child: DefaultTabController(
         length: 3, // Toplam sekme sayısı
         child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              AuthRepository().signOutUser();
-            },
-            child: const Icon(Icons.add),
-          ),
           drawer: const TBTDrawer(),
           endDrawer: const TBTEndDrawer(),
           body: CustomScrollView(

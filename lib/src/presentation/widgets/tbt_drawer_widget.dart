@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
@@ -72,8 +73,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
               },
             ),
             CustomExpansionTile(
-              title: Text(localizations.translate('menu.what_we_offer'),
-               
+              title: Text(
+                localizations.translate('menu.what_we_offer'),
                 style: TextStyle(
                     fontFamily: "Poppins",
                     color: Theme.of(context).colorScheme.primary),
@@ -84,7 +85,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 35),
                     title: TBTPurpleButton(
-                      buttonText: localizations.translate('menu.for_individuals'),
+                      buttonText:
+                          localizations.translate('menu.for_individuals'),
                       onPressed: () {
                         Navigator.of(context)
                             .pushNamed(AppRouteNames.forIndividualsScreenRoute);
@@ -106,8 +108,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: Text(localizations.translate('menu.our_trainings'),
-                
+              title: Text(
+                localizations.translate('menu.our_trainings'),
                 style: TextStyle(
                     fontFamily: "Poppins",
                     color: Theme.of(context).colorScheme.primary),
@@ -115,8 +117,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
               onTap: () {},
             ),
             CustomExpansionTile(
-              title: Text(localizations.translate('menu.whats_happening_at_tobeto'),
-                
+              title: Text(
+                localizations.translate('menu.whats_happening_at_tobeto'),
                 style: TextStyle(
                     fontFamily: "Poppins",
                     color: Theme.of(context).colorScheme.primary),
@@ -171,8 +173,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: Text(localizations.translate('menu.contact_us'),
-                
+              title: Text(
+                localizations.translate('menu.contact_us'),
                 style: TextStyle(
                     fontFamily: "Poppins",
                     color: Theme.of(context).colorScheme.primary),
@@ -313,6 +315,11 @@ class _TBTDrawerState extends State<TBTDrawer> {
                 );
               },
             ),
+            Text("© 2024 Tobeto",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSecondary,
+                )),
           ],
         ),
       ),
