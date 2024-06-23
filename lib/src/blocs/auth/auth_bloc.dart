@@ -16,8 +16,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({required this.firebaseAuth, required this.userRepository})
       : super(AuthInitial()) {
     firebaseAuth.authStateChanges().listen((User? firebaseUser) async {
-      await _userStreamSubscription
-          ?.cancel(); // Cancel the previous subscription
+      await _userStreamSubscription?.cancel();
       if (firebaseUser != null) {
         _userStreamSubscription = userRepository.getUserStream().listen(
           (customUser) {
@@ -85,8 +84,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   @override
   Future<void> close() {
-    _userStreamSubscription
-        ?.cancel(); // Cancel the subscription when closing the BLoC
+    _userStreamSubscription?.cancel();
     return super.close();
   }
 }

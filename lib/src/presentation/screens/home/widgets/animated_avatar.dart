@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tobeto/src/models/avatar_model.dart';
 
 class AnimatedAvatar extends StatefulWidget {
-  final AvatarModel model;
+  final UserCommendsModel model;
   const AnimatedAvatar({
     super.key,
     required this.onTab,

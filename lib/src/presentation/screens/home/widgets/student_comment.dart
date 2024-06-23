@@ -3,7 +3,7 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:tobeto/src/models/avatar_model.dart';
 
 class StudentCommentCard extends StatefulWidget {
-  final AvatarModel model;
+  final UserCommendsModel model;
   const StudentCommentCard({
     super.key,
     required this.model,

@@ -16,34 +16,32 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen>
     with SingleTickerProviderStateMixin {
   bool isLoginSelected = true;
-  late AnimationController _controller;
+  late AnimationController _animationController;
   late Animation<double> _animation;
-  final ScrollController _appbarcontroller = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+    _animationController = AnimationController(
       duration: const Duration(seconds: 1),
       vsync: this,
     );
 
-    _animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
+    _animation = Tween(begin: 0.0, end: 1.0).animate(_animationController);
   }
 
   void _flip() {
     if (isLoginSelected) {
-      _controller.forward();
+      _animationController.forward();
     } else {
-      _controller.reverse();
+      _animationController.reverse();
     }
     isLoginSelected = !isLoginSelected;
   }
 
   @override
   void dispose() {
-    _controller.dispose();
-    _appbarcontroller.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
