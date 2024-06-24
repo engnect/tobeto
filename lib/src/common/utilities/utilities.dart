@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -36,10 +35,10 @@ class Utilities {
     return null;
   }
 
-  static Future<File?> getImageFromGallery() async {
+  static Future<XFile?> getImageFromGallery() async {
     final imagePicker = ImagePicker();
     final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
-    return pickedFile != null ? File(pickedFile.path) : null;
+    return pickedFile;
   }
 
   static Future<XFile?> getVideoFromGallery() async {
