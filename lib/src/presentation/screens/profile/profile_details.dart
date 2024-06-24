@@ -12,7 +12,7 @@ import 'package:tobeto/src/presentation/screens/profile/profile_details_date_and
 import 'package:tobeto/src/presentation/screens/profile/profile_details_language_widget.dart';
 import 'package:tobeto/src/presentation/screens/profile/widgets/personel_info_container_widget.dart';
 import 'package:tobeto/src/presentation/screens/profile/widgets/profile_detail_widget.dart';
-import 'package:tobeto/src/presentation/screens/profile/widgets/sect%C4%B0on_container_widget.dart';
+import 'package:tobeto/src/presentation/screens/profile/widgets/section_container_widget.dart';
 import 'package:tobeto/src/presentation/screens/profile/widgets/skills_container_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
@@ -247,7 +247,8 @@ class _ProfilDetailsState extends State<ProfilDetails> {
                         SectionContainer(
                           title: "Sertifikalarım",
                           itemList: state.userModel.certeficatesList,
-                          emptyWidget: const Text("Sertifika bilgisi bulunamadı."),
+                          emptyWidget:
+                              const Text("Sertifika bilgisi bulunamadı."),
                           itemBuilder: (context, index) {
                             CertificateModel certificate =
                                 state.userModel.certeficatesList![index];
@@ -261,7 +262,8 @@ class _ProfilDetailsState extends State<ProfilDetails> {
                         SectionContainer(
                           title: "Profesyonel İş Deneyimi",
                           itemList: state.userModel.experiencesList,
-                          emptyWidget: const Text("Deneyim bilgisi bulunamadı."),
+                          emptyWidget:
+                              const Text("Deneyim bilgisi bulunamadı."),
                           itemBuilder: (context, index) {
                             ExperienceModel experience =
                                 state.userModel.experiencesList![index];

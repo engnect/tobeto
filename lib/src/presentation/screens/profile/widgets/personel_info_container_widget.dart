@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class PersonalInfoContainer extends StatelessWidget {
   final String birthDate;
   final String city;
@@ -11,7 +10,8 @@ class PersonalInfoContainer extends StatelessWidget {
   final String militaryStatus;
   final String disabilityStatus;
 
-  PersonalInfoContainer({
+  const PersonalInfoContainer({
+    super.key,
     required this.birthDate,
     required this.city,
     required this.district,
