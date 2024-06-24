@@ -2,13 +2,14 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
+import 'package:tobeto/src/blocs/language/language_cubit.dart';
 import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
 import 'package:tobeto/src/common/router/app_route_generator.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/lang/lang.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainApp extends StatefulWidget {
   final ThemeData themeData;
@@ -51,6 +52,9 @@ class _MainAppState extends State<MainApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (context) => LanguageCubit(),
+        ),
+        BlocProvider(
           create: (context) =>
               ThemeBloc(ThemeState(themeData: widget.themeData)),
         ),
@@ -61,32 +65,26 @@ class _MainAppState extends State<MainApp> {
           ),
         ),
       ],
-
-      child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, state) {
-          return MaterialApp(
-            locale: const Locale('tr', 'TR'), // Başlangıç dili
-            supportedLocales: const [
-              Locale('en', 'US'),
-              Locale('tr', 'TR'),
-              Locale('de', 'TR'),
-            ],
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            theme: state.themeData,
-            debugShowCheckedModeBanner: false,
-            navigatorKey: _navigatorKey,
-            onGenerateRoute: AppRouter().generateRoute,
-            // initialRoute: initScreen == 0 || initScreen == null
-            //     ? AppRouteNames.onboardingRoute
-            //     : AppRouteNames.platformScreenRoute,
-            initialRoute: FirebaseAuth.instance.currentUser == null
-                ? AppRouteNames.homeRoute
-                : AppRouteNames.platformScreenRoute,
+      child: BlocBuilder<LanguageCubit, Locale>(
+        builder: (context, locale) {
+          return BlocBuilder<ThemeBloc, ThemeState>(
+            builder: (context, state) {
+              return MaterialApp(
+                locale: locale,
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                theme: state.themeData,
+                debugShowCheckedModeBanner: false,
+                navigatorKey: _navigatorKey,
+                onGenerateRoute: AppRouter().generateRoute,
+                // initialRoute: initScreen == 0 || initScreen == null
+                //     ? AppRouteNames.onboardingRoute
+                //     : AppRouteNames.platformScreenRoute,
+                initialRoute: FirebaseAuth.instance.currentUser == null
+                    ? AppRouteNames.homeRoute
+                    : AppRouteNames.platformScreenRoute,
+              );
+            },
           );
         },
       ),

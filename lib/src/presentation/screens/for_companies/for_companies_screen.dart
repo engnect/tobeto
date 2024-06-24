@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
-import 'package:tobeto/src/lang/lang.dart';
+import 'package:tobeto/l10n/l10n_exntesions.dart';
 import 'package:tobeto/src/presentation/screens/for_companies/widgets/for_companies_card_content.dart';
 import 'package:tobeto/src/presentation/screens/for_companies/widgets/for_companies_card.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
-
 import '../../../common/constants/assets.dart';
 
 class ForCompaniesScreen extends StatelessWidget {
@@ -14,7 +13,6 @@ class ForCompaniesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
     return SafeArea(
       child: Scaffold(
         drawer: const TBTDrawer(),
@@ -40,7 +38,7 @@ class ForCompaniesScreen extends StatelessWidget {
                           },
                           child: Text(
                             textAlign: TextAlign.center,
-                            localizations.translate('menu.tobeto_mission'),
+                            context.translate.tobeto_mission,
                             style: const TextStyle(
                               fontSize: 36,
                               fontWeight: FontWeight.bold,
@@ -69,56 +67,40 @@ class ForCompaniesScreen extends StatelessWidget {
                         ),
                       ),
                       ForCompaniesCard(
-                        header:
-                            localizations.translate('menu.reach_right_talent'),
-                        content:
-                            localizations.translate('menu.ready_candidates'),
+                        header: context.translate.reach_right_talent,
+                        content: context.translate.ready_candidates,
                         color: const Color.fromARGB(255, 97, 4, 190),
                         cardContentList: [
                           ForCompaniesCardContent(
-                            header: localizations
-                                .translate('menu.evaluation_header'),
-                            content: localizations
-                                .translate('menu.evaluation_content'),
+                            header: context.translate.evaluation_header,
+                            content: context.translate.evaluation_content,
                           ),
                           ForCompaniesCardContent(
-                            header:
-                                localizations.translate('menu.bootcamp_header'),
-                            content: localizations
-                                .translate('menu.bootcamp_content'),
+                            header: context.translate.bootcamp_header,
+                            content: context.translate.bootcamp_content,
                           ),
                           ForCompaniesCardContent(
-                            header:
-                                localizations.translate('menu.matching_header'),
-                            content: localizations
-                                .translate('menu.matching_content'),
+                            header: context.translate.matching_header,
+                            content: context.translate.matching_content,
                           ),
                         ],
                       ),
                       ForCompaniesCard(
-                        header: localizations
-                            .translate('menu.for_employees_tobeto'),
-                        content: localizations
-                            .translate('menu.support_existing_skills'),
+                        header: context.translate.for_employees_tobeto,
+                        content: context.translate.support_existing_skills,
                         color: const Color.fromRGBO(29, 68, 153, 1),
                         cardContentList: [
                           ForCompaniesCardContent(
-                            header: localizations
-                                .translate('menu.assessment_tools_header'),
-                            content: localizations
-                                .translate('menu.assessment_tools_content'),
+                            header: context.translate.assessment_tools_header,
+                            content: context.translate.assessment_tools_content,
                           ),
                           ForCompaniesCardContent(
-                            header:
-                                localizations.translate('menu.training_header'),
-                            content: localizations
-                                .translate('menu.training_content'),
+                            header: context.translate.training_header,
+                            content: context.translate.training_content,
                           ),
                           ForCompaniesCardContent(
-                            header: localizations
-                                .translate('menu.development_header'),
-                            content: localizations
-                                .translate('menu.development_content'),
+                            header: context.translate.development_header,
+                            content: context.translate.development_content,
                           ),
                         ],
                       ),
@@ -157,8 +139,7 @@ class ForCompaniesScreen extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 20),
                               child: Text(
-                                localizations
-                                    .translate('menu.contact_us_title'),
+                                context.translate.contact_us_title,
                                 style: TextStyle(
                                   fontFamily: "Poppins",
                                   fontSize: 20,
@@ -170,8 +151,7 @@ class ForCompaniesScreen extends StatelessWidget {
                             ),
                             TBTPurpleButton(
                               width: 150,
-                              buttonText: localizations
-                                  .translate('menu.contact_us_button'),
+                              buttonText: context.translate.contact_us_button,
                               onPressed: () {},
                             ),
                           ],

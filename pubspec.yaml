@@ -45,13 +45,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
+  generate: true
   assets:
     - assets/images/
     - assets/fonts/
     - assets/files/
     - assets/videos/
-    - lib/src/lang/
 
   fonts:
     - family: Poppins

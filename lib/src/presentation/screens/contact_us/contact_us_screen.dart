@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/l10n/l10n_exntesions.dart';
 import 'package:tobeto/src/domain/repositories/contact_form_repository.dart';
-import 'package:tobeto/src/lang/lang.dart';
 import 'package:tobeto/src/models/contact_form_model.dart';
 import 'package:tobeto/src/presentation/screens/contact_us/widgets/communication_info.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/end_drawer.dart';
@@ -34,7 +34,6 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
     return SafeArea(
       child: Scaffold(
         drawer: const TBTDrawer(),
@@ -70,7 +69,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  localizations.translate('menu.get_in_touch'),
+                                  context.translate.get_in_touch,
                                   style: const TextStyle(
                                     fontFamily: "Poppins",
                                     color: Colors.white,
@@ -80,7 +79,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                               ),
                             ),
                             Text(
-                              localizations.translate('menu.contact_info'),
+                              context.translate.contact_info,
                               style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontWeight: FontWeight.w800,
@@ -90,37 +89,32 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             ),
                             //----------------------------------
                             CommunicationInfo(
-                              headerinfo:
-                                  localizations.translate('menu.company_name'),
+                              headerinfo: context.translate.company_name,
                               info: "TOBETO",
                             ),
                             CommunicationInfo(
-                              headerinfo:
-                                  localizations.translate('menu.company_title'),
+                              headerinfo: context.translate.company_title,
                               info:
                                   "Avez Elektronik İletişim Eğitim Danışmanlığı Ticaret Anonim Şirketi",
                             ),
                             CommunicationInfo(
-                              headerinfo:
-                                  localizations.translate('menu.tax_office'),
+                              headerinfo: context.translate.tax_office,
                               info: "Beykoz",
                             ),
                             CommunicationInfo(
-                              headerinfo:
-                                  localizations.translate('menu.tax_number'),
+                              headerinfo: context.translate.tax_number,
                               info: "1050250859",
                             ),
                             CommunicationInfo(
-                              headerinfo: localizations.translate('menu.phone'),
+                              headerinfo: context.translate.phone,
                               info: "(0216) 331 48 00",
                             ),
                             CommunicationInfo(
-                              headerinfo: localizations.translate('menu.email'),
+                              headerinfo: context.translate.email,
                               info: "info@tobeto.com",
                             ),
                             CommunicationInfo(
-                              headerinfo:
-                                  localizations.translate('menu.address'),
+                              headerinfo: context.translate.address,
                               info:
                                   "	Kavacık, Rüzgarlıbahçe Mah. Çampınarı Sok. No:4 Smart Plaza B Blok Kat:3 34805, Beykoz/İstanbul",
                             ),
@@ -149,7 +143,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  localizations.translate('menu.text_message'),
+                                  context.translate.text_message,
                                   style: const TextStyle(
                                     fontFamily: "Poppins",
                                     color: Colors.white,
@@ -159,7 +153,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                               ),
                             ),
                             Text(
-                              localizations.translate('menu.contact_form'),
+                              context.translate.contact_form,
                               style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontWeight: FontWeight.w800,
@@ -175,21 +169,19 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 child: Column(
                                   children: [
                                     TBTInputField(
-                                        hintText: localizations
-                                            .translate('menu.name_surname'),
+                                        hintText:
+                                            context.translate.name_surname,
                                         controller: _nameController,
                                         onSaved: (p0) {},
                                         keyboardType: TextInputType.multiline),
                                     TBTInputField(
-                                        hintText: localizations
-                                            .translate('menu.email'),
+                                        hintText: context.translate.email,
                                         controller: _emailController,
                                         onSaved: (p0) {},
                                         keyboardType:
                                             TextInputType.emailAddress),
                                     TBTInputField(
-                                      hintText: localizations
-                                          .translate('menu.message'),
+                                      hintText: context.translate.message,
                                       controller: _messageController,
                                       onSaved: (p0) {},
                                       keyboardType: TextInputType.multiline,
@@ -201,7 +193,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             ),
                             TBTPurpleButton(
                               width: 200,
-                              buttonText: localizations.translate('menu.send'),
+                              buttonText: context.translate.send,
                               onPressed: () async {
                                 ContactFormModel contactFormModel =
                                     ContactFormModel(

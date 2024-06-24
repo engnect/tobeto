@@ -3,13 +3,14 @@ import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:tobeto/l10n/l10n_exntesions.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
+import 'package:tobeto/src/blocs/language/language_cubit.dart';
 import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/common/theme/tbt_theme.dart';
 import 'package:tobeto/src/data/datasource/theme_shared_pref.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
-import 'package:tobeto/src/lang/lang.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 import '../../common/constants/assets.dart';
 
@@ -23,14 +24,11 @@ class TBTDrawer extends StatefulWidget {
 }
 
 class _TBTDrawerState extends State<TBTDrawer> {
-  int languageValue = 0;
   final prefs = ThemePreferences();
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
-
     return FractionallySizedBox(
-      widthFactor: 0.70, // Açılan ekranın genişliğini ayarlamak için
+      widthFactor: 0.70,
       child: Drawer(
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 1),
@@ -64,7 +62,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
               title: Text(
-                localizations.translate('menu.who_we_are'),
+                context.translate.who_we_are,
                 style: TextStyle(
                   fontFamily: "Poppins",
                   color: Theme.of(context).colorScheme.primary,
@@ -77,7 +75,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
             CustomExpansionTile(
               title: Text(
-                localizations.translate('menu.what_we_offer'),
+                context.translate.what_we_offer,
                 style: TextStyle(
                     fontFamily: "Poppins",
                     color: Theme.of(context).colorScheme.primary),
@@ -88,8 +86,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 35),
                     title: TBTPurpleButton(
-                      buttonText:
-                          localizations.translate('menu.for_individuals'),
+                      buttonText: context.translate.for_individuals,
                       onPressed: () {
                         Navigator.of(context)
                             .pushNamed(AppRouteNames.forIndividualsScreenRoute);
@@ -100,7 +97,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                 ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 35),
                   title: TBTPurpleButton(
-                    buttonText: localizations.translate('menu.for_companies'),
+                    buttonText: context.translate.for_companies,
                     onPressed: () {
                       Navigator.of(context)
                           .pushNamed(AppRouteNames.forCompaniesScreenRoute);
@@ -112,7 +109,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
               title: Text(
-                localizations.translate('menu.our_trainings'),
+                context.translate.our_trainings,
                 style: TextStyle(
                     fontFamily: "Poppins",
                     color: Theme.of(context).colorScheme.primary),
@@ -121,7 +118,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
             CustomExpansionTile(
               title: Text(
-                localizations.translate('menu.whats_happening_at_tobeto'),
+                context.translate.whats_happening_at_tobeto,
                 style: TextStyle(
                     fontFamily: "Poppins",
                     color: Theme.of(context).colorScheme.primary),
@@ -132,7 +129,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     title: TBTPurpleButton(
-                      buttonText: localizations.translate('menu.blog'),
+                      buttonText: context.translate.blog,
                       onPressed: () {
                         Navigator.of(context)
                             .pushNamed(AppRouteNames.blogScreenRoute);
@@ -146,7 +143,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                     onTap: () {},
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     title: TBTPurpleButton(
-                      buttonText: localizations.translate('menu.in_the_press'),
+                      buttonText: context.translate.in_the_press,
                       onPressed: () {
                         Navigator.of(context)
                             .pushNamed(AppRouteNames.inThePressScreenRoute);
@@ -163,7 +160,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                         horizontal: 30,
                       ),
                       title: TBTPurpleButton(
-                        buttonText: localizations.translate('menu.calendar'),
+                        buttonText: context.translate.calendar,
                         onPressed: () {
                           Navigator.of(context)
                               .pushNamed(AppRouteNames.calendarScreenRoute);
@@ -177,7 +174,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
               title: Text(
-                localizations.translate('menu.contact_us'),
+                context.translate.contact_us,
                 style: TextStyle(
                     fontFamily: "Poppins",
                     color: Theme.of(context).colorScheme.primary),
@@ -320,29 +317,39 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
 
             // language changer switch
-            AnimatedToggleSwitch.rolling(
-              indicatorTransition:
-                  const ForegroundIndicatorTransition.rolling(),
-              spacing: 10,
-              style: const ToggleStyle(
-                backgroundColor: Colors.white,
-                indicatorColor: Colors.black,
-              ),
-              height: 50,
-              borderWidth: 0,
-              current: languageValue,
-              values: const [0, 1, 2],
-              // onChanged: (i) => setState(() => value = i),
-              onChanged: (i) {
-                setState(() {
-                  languageValue = i;
-                });
+            BlocBuilder<LanguageCubit, Locale>(
+              builder: (context, state) {
+                int languageValue = context.read<LanguageCubit>().languageValue;
+                return AnimatedToggleSwitch.rolling(
+                  indicatorTransition:
+                      const ForegroundIndicatorTransition.rolling(),
+                  spacing: 10,
+                  style: const ToggleStyle(
+                    backgroundColor: Colors.white,
+                    indicatorColor: Colors.black,
+                  ),
+                  height: 50,
+                  borderWidth: 0,
+                  current: languageValue,
+                  values: const [0, 1, 2],
+                  onChanged: (i) {
+                    Locale newLocale;
+                    if (i == 0) {
+                      newLocale = const Locale('en', 'UK');
+                    } else if (i == 1) {
+                      newLocale = const Locale('tr', 'TR');
+                    } else {
+                      newLocale = const Locale('de', 'DE');
+                    }
+                    context.read<LanguageCubit>().changeLanguage(newLocale, i);
+                  },
+                  iconList: [
+                    CountryFlag.fromLanguageCode('en', shape: const Circle()),
+                    CountryFlag.fromLanguageCode('tr', shape: const Circle()),
+                    CountryFlag.fromLanguageCode('de', shape: const Circle()),
+                  ],
+                );
               },
-              iconList: [
-                CountryFlag.fromLanguageCode('en', shape: const Circle()),
-                CountryFlag.fromLanguageCode('tr', shape: const Circle()),
-                CountryFlag.fromLanguageCode('de', shape: const Circle()),
-              ],
             ),
             // copyright
             Text(
