@@ -80,7 +80,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
     final image = await Utilities.getImageFromGallery();
     if (image != null) {
       setState(() {
-        _image = image;
+        _image = File(image.path);
       });
     }
   }
