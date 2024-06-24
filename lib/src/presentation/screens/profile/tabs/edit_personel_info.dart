@@ -26,6 +26,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   final TextEditingController _aboutmeController = TextEditingController();
   final TextEditingController _streetController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _githubController = TextEditingController();
 
   File? _image;
   DateTime? _selectedDate;
@@ -56,6 +57,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         _nameController.text = user.userName;
         _surnameController.text = user.userSurname;
         _emailController.text = user.userEmail;
+        _githubController.text = user.github ?? '';
         _phoneController.text = user.userPhoneNumber ?? '';
         _dateController.text = user.userBirthDate != null
             ? DateFormat('dd/MM/yyyy').format(user.userBirthDate!)
@@ -68,6 +70,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
         _selectedCountry = user.country;
         _selectedCityName = user.city;
         _selectedDistrictName = user.district;
+
       });
     } else {
       if (kDebugMode) {
@@ -132,6 +135,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
       userName: _nameController.text,
       userSurname: _surnameController.text,
       userEmail: _emailController.text,
+      github: _githubController.text,
       userPhoneNumber: _phoneController.text,
       userBirthDate: _selectedDate,
       gender: _selectedGender,
@@ -291,6 +295,15 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                   controller: _emailController,
                   onSaved: (p0) {},
                   keyboardType: TextInputType.emailAddress,
+                ),
+              ),
+                Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TBTInputField(
+                  hintText: "Github adresi",
+                  controller: _githubController,
+                  onSaved: (p0) {},
+                  keyboardType: TextInputType.url,
                 ),
               ),
               Padding(

@@ -29,7 +29,7 @@ class _SkillsPageState extends State<SkillsPage> {
     'React',
     'Python',
   ];
-  bool isEditing = false;
+  bool isEditing = true;
 
   void _saveSkill({
     required List<String> selectedSkills,
@@ -162,7 +162,11 @@ class _SkillsPageState extends State<SkillsPage> {
                       if (state is Authenticated) {
                         UserModel currentUser = state.userModel;
 
-                        return ListView.builder(
+                        return currentUser.skillsList!.isEmpty
+                            ? const Center(
+                                child: Text("Eklenmiş yetenek bulunamadı!", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                              )
+                            : ListView.builder(
                           itemCount: currentUser.skillsList!.length,
                           itemBuilder: (context, index) {
                             SkillModel skill = currentUser.skillsList![index];

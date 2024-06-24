@@ -20,7 +20,7 @@ class LanguagesPage extends StatefulWidget {
 class _LanguagesPageState extends State<LanguagesPage> {
   String? _selectedLanguage;
   String? _selectedLevel;
-  bool isSelect = false;
+  bool isSelect = true;
 
   final List<String> _languages = [
     'Almanca',
@@ -183,7 +183,11 @@ class _LanguagesPageState extends State<LanguagesPage> {
                         if (state is Authenticated) {
                           UserModel currentUser = state.userModel;
 
-                          return ListView.builder(
+                          return currentUser.languageList!.isEmpty
+                            ? const Center(
+                                child: Text("Eklenmiş dil bilgisi bulunamadı!", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                              )
+                            : ListView.builder(
                             itemCount: currentUser.languageList!.length,
                             itemBuilder: (context, index) {
                               LanguageModel language =

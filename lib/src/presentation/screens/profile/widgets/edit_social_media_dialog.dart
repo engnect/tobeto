@@ -4,7 +4,7 @@ import 'package:tobeto/src/models/social_media_model.dart';
 class EditSocialMediaDialog extends StatefulWidget {
   final SocialMediaModel socialMedia;
 
-  const EditSocialMediaDialog({super.key, required this.socialMedia});
+  const EditSocialMediaDialog({Key? key, required this.socialMedia}) : super(key: key);
 
   @override
   State<EditSocialMediaDialog> createState() => _EditSocialMediaDialogState();
@@ -25,6 +25,23 @@ class _EditSocialMediaDialogState extends State<EditSocialMediaDialog> {
   void dispose() {
     _linkController.dispose();
     super.dispose();
+  }
+
+  String _getAssetUrl(String platform) {
+    switch (platform.toLowerCase()) {
+      case 'instagram':
+        return 'assets/images/instagram.PNG';
+      case 'linkedin':
+        return 'assets/images/linkedin.PNG';
+      case 'twitter':
+        return 'assets/images/twitter.jpg';
+      case 'dribble':
+        return 'assets/images/dribbble.png';
+      case 'behance':
+        return 'assets/images/behance.png';
+      default:
+        return 'assets/images/default.png';
+    }
   }
 
   @override
@@ -91,11 +108,13 @@ class _EditSocialMediaDialogState extends State<EditSocialMediaDialog> {
         ),
         TextButton(
           onPressed: () {
+            String assetUrl = _getAssetUrl(_selectedSocialMedia!);
             SocialMediaModel updatedSocialMedia = SocialMediaModel(
               socialMediaId: widget.socialMedia.socialMediaId,
               userId: widget.socialMedia.userId,
               socialMediaPlatform: _selectedSocialMedia ?? '',
               socialMedialink: _linkController.text,
+              socialMediaAssetUrl: assetUrl,
             );
             Navigator.pop(context, updatedSocialMedia);
           },

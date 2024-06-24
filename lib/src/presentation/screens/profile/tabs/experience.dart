@@ -31,7 +31,7 @@ class _ExperiencePageState extends State<ExperiencePage> {
   DateTime? _selectedStartDate;
   DateTime? _selectedEndDate;
   bool _isCurrentlyWorking = false;
-  bool isSelect = false;
+  bool isSelect = true;
 
   List<Map<String, String>> _cities = [];
   String? _selectedCityId;
@@ -214,7 +214,11 @@ class _ExperiencePageState extends State<ExperiencePage> {
                           if (state is Authenticated) {
                             UserModel currentUser = state.userModel;
 
-                            return ListView.builder(
+                            return currentUser.experiencesList!.isEmpty
+                            ? const Center(
+                                child: Text("Eklenmiş deneyim bulunamadı!", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                              )
+                            : ListView.builder(
                               itemCount: currentUser.experiencesList!.length,
                               itemBuilder: (context, index) {
                                 ExperienceModel experience =

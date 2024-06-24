@@ -26,7 +26,7 @@ class _EducationPageState extends State<EducationPage> {
   DateTime? _selectedStartDate;
   DateTime? _selectedEndDate;
   bool _isCurrentlyStudied = false;
-  bool isSelect = false;
+  bool isSelect = true;
 
   Future<void> _selectStartDate(BuildContext context) async {
     final selectedDate = await Utilities.datePicker(context);
@@ -144,7 +144,11 @@ class _EducationPageState extends State<EducationPage> {
                           if (state is Authenticated) {
                             UserModel currentUser = state.userModel;
 
-                            return ListView.builder(
+                           return currentUser.schoolsList!.isEmpty
+                            ? const Center(
+                                child: Text("Eklenmiş eğitim bulunamadı!", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                              )
+                            : ListView.builder(
                               itemCount: currentUser.schoolsList!.length,
                               itemBuilder: (context, index) {
                                 EducationModel education =

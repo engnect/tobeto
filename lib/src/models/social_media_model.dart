@@ -5,11 +5,14 @@ class SocialMediaModel {
   final String? userId;
   final String socialMediaPlatform;
   final String socialMedialink;
+  final String socialMediaAssetUrl; 
+
   SocialMediaModel({
     this.socialMediaId,
     this.userId,
     required this.socialMediaPlatform,
     required this.socialMedialink,
+    required this.socialMediaAssetUrl, 
   });
 
   SocialMediaModel copyWith({
@@ -17,12 +20,14 @@ class SocialMediaModel {
     String? userId,
     String? socialMediaPlatform,
     String? socialMedialink,
+    String? socialMediaAssetUrl, 
   }) {
     return SocialMediaModel(
       socialMediaId: socialMediaId ?? this.socialMediaId,
       userId: userId ?? this.userId,
       socialMediaPlatform: socialMediaPlatform ?? this.socialMediaPlatform,
       socialMedialink: socialMedialink ?? this.socialMedialink,
+      socialMediaAssetUrl: socialMediaAssetUrl ?? this.socialMediaAssetUrl, 
     );
   }
 
@@ -32,6 +37,7 @@ class SocialMediaModel {
       'userId': userId,
       'socialMediaPlatform': socialMediaPlatform,
       'socialMedialink': socialMedialink,
+      'socialMediaAssetUrl': socialMediaAssetUrl, 
     };
   }
 
@@ -41,6 +47,7 @@ class SocialMediaModel {
       userId: map['userId'],
       socialMediaPlatform: map['socialMediaPlatform'] ?? '',
       socialMedialink: map['socialMedialink'] ?? '',
+      socialMediaAssetUrl: map['socialMediaAssetUrl'] ?? '', 
     );
   }
 
@@ -51,7 +58,7 @@ class SocialMediaModel {
 
   @override
   String toString() {
-    return 'SocialMediaModel(socialMediaId: $socialMediaId, userId: $userId, socialMediaPlatform: $socialMediaPlatform, socialMedialink: $socialMedialink)';
+    return 'SocialMediaModel(socialMediaId: $socialMediaId, userId: $userId, socialMediaPlatform: $socialMediaPlatform, socialMedialink: $socialMedialink, socialMediaAssetUrl: $socialMediaAssetUrl)';
   }
 
   @override
@@ -62,7 +69,8 @@ class SocialMediaModel {
         other.socialMediaId == socialMediaId &&
         other.userId == userId &&
         other.socialMediaPlatform == socialMediaPlatform &&
-        other.socialMedialink == socialMedialink;
+        other.socialMedialink == socialMedialink &&
+        other.socialMediaAssetUrl == socialMediaAssetUrl; 
   }
 
   @override
@@ -70,6 +78,7 @@ class SocialMediaModel {
     return socialMediaId.hashCode ^
         userId.hashCode ^
         socialMediaPlatform.hashCode ^
-        socialMedialink.hashCode;
+        socialMedialink.hashCode ^
+        socialMediaAssetUrl.hashCode; 
   }
 }

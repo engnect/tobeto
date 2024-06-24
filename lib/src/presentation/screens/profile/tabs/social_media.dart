@@ -21,12 +21,29 @@ class SocialMediaPage extends StatefulWidget {
 class _SocialMediaPageState extends State<SocialMediaPage> {
   String? _selectedSocialMedia;
   final TextEditingController _linkController = TextEditingController();
-  bool isSelect = false;
+  bool isSelect = true;
 
   @override
   void dispose() {
     _linkController.dispose();
     super.dispose();
+  }
+
+  String _getAssetUrl(String platform) {
+    switch (platform.toLowerCase()) {
+      case 'instagram':
+        return 'assets/images/instagram.PNG';
+      case 'linkedin':
+        return 'assets/images/linkedin.PNG';
+      case 'twitter':
+        return 'assets/images/twitter.jpg';
+      case 'dribble':
+        return 'assets/images/dribbble.png';
+      case 'behance':
+        return 'assets/images/behance.png';
+      default:
+        return 'assets/images/default.png';
+    }
   }
 
   void _saveSocialMedia({
@@ -35,12 +52,14 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
     required BuildContext context,
   }) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
+    String assetUrl = _getAssetUrl(selectedSocialMedia);
 
     SocialMediaModel socialMediaModel = SocialMediaModel(
       socialMediaId: const Uuid().v1(),
       userId: userModel!.userId,
       socialMediaPlatform: selectedSocialMedia,
       socialMedialink: socialMedialink,
+      socialMediaAssetUrl: assetUrl,
     );
 
     String result =
@@ -148,7 +167,11 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                           if (state is Authenticated) {
                             UserModel currentUser = state.userModel;
 
-                            return ListView.builder(
+                           return currentUser.socialMediaList!.isEmpty
+                            ? const Center(
+                                child: Text("Eklenmiş sosyal medya bulunamadı!", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                              )
+                            : ListView.builder(
                               itemCount: currentUser.socialMediaList!.length,
                               itemBuilder: (context, index) {
                                 SocialMediaModel socialMedia =
@@ -157,6 +180,11 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                                   color:
                                       Theme.of(context).colorScheme.background,
                                   child: ListTile(
+                                    leading: CircleAvatar(
+                                      radius: 18,
+                                      backgroundImage: AssetImage(
+                                          socialMedia.socialMediaAssetUrl),
+                                    ),
                                     title: Text(
                                       socialMedia.socialMediaPlatform,
                                       style: TextStyle(

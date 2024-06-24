@@ -30,7 +30,8 @@ class UserModel {
   final String? address;
   final String? country; 
   final String? city; 
-  final String? district; 
+  final String? district;
+  final String? github; 
   final List<LanguageModel>? languageList;
   final List<SocialMediaModel>? socialMediaList;
   final List<SkillModel>? skillsList;
@@ -56,6 +57,7 @@ class UserModel {
     this.country,
     this.city,
     this.district,
+    this.github,
     this.languageList,
     this.socialMediaList,
     this.skillsList,
@@ -83,6 +85,7 @@ class UserModel {
     String? country,
     String? city,
     String? district,
+    String? github,
     List<LanguageModel>? languageList,
     List<SocialMediaModel>? socialMediaList,
     List<SkillModel>? skillsList,
@@ -109,6 +112,7 @@ class UserModel {
       country: country ?? this.country,
       city: city ?? this.city,
       district: district ?? this.district,
+      github: github ?? this.github,
       languageList: languageList ?? this.languageList,
       socialMediaList: socialMediaList ?? this.socialMediaList,
       skillsList: skillsList ?? this.skillsList,
@@ -138,6 +142,7 @@ class UserModel {
       'country': country,
       'city': city,
       'district': district,
+      'github' : github,
       'languageList': languageList?.map((x) => x.toMap()).toList(),
       'socialMediaList': socialMediaList?.map((x) => x.toMap()).toList(),
       'skillsList': skillsList?.map((x) => x.toMap()).toList(),
@@ -169,6 +174,7 @@ class UserModel {
       country: map['country'],
       city: map['city'],
       district: map['district'],
+      github: map['github'],
       languageList: map['languageList'] != null
           ? List<LanguageModel>.from(
               map['languageList']?.map((x) => LanguageModel.fromMap(x)))
@@ -203,7 +209,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(userId: $userId, userName: $userName, userSurname: $userSurname, userEmail: $userEmail, userAvatarUrl: $userAvatarUrl, userPhoneNumber: $userPhoneNumber, userBirthDate: $userBirthDate, userRank: $userRank, usertitle: $usertitle, userCreatedAt: $userCreatedAt, gender: $gender, militaryStatus: $militaryStatus, disabilityStatus: $disabilityStatus, aboutMe: $aboutMe, address: $address, country: $country, city: $city, district: $district, languageList: $languageList, socialMediaList: $socialMediaList, skillsList: $skillsList, experiencesList: $experiencesList, schoolsList: $schoolsList, certeficatesList: $certeficatesList)';
+    return 'UserModel(userId: $userId, userName: $userName, userSurname: $userSurname, userEmail: $userEmail, userAvatarUrl: $userAvatarUrl, userPhoneNumber: $userPhoneNumber, userBirthDate: $userBirthDate, userRank: $userRank, usertitle: $usertitle, userCreatedAt: $userCreatedAt, gender: $gender, militaryStatus: $militaryStatus, disabilityStatus: $disabilityStatus, aboutMe: $aboutMe, address: $address, country: $country, city: $city, district: $district, github: $github ,languageList: $languageList, socialMediaList: $socialMediaList, skillsList: $skillsList, experiencesList: $experiencesList, schoolsList: $schoolsList, certeficatesList: $certeficatesList)';
   }
 
   @override
@@ -229,6 +235,7 @@ class UserModel {
         other.country == country &&
         other.city == city &&
         other.district == district &&
+        other.github == github &&
         listEquals(other.languageList, languageList) &&
         listEquals(other.socialMediaList, socialMediaList) &&
         listEquals(other.skillsList, skillsList) &&
@@ -257,6 +264,7 @@ class UserModel {
         country.hashCode ^
         city.hashCode ^
         district.hashCode ^
+        github.hashCode ^
         languageList.hashCode ^
         socialMediaList.hashCode ^
         skillsList.hashCode ^

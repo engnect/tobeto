@@ -23,7 +23,7 @@ class _CertificatesPageState extends State<CertificatesPage> {
       TextEditingController();
   DateTime? _selectedYear;
   String? _filePath;
-  bool isSelect = false;
+  bool isSelect = true;
 
   @override
   void dispose() {
@@ -141,7 +141,11 @@ class _CertificatesPageState extends State<CertificatesPage> {
                         if (state is Authenticated) {
                           UserModel currentUser = state.userModel;
 
-                          return ListView.builder(
+                           return currentUser.certeficatesList!.isEmpty
+                            ? const Center(
+                                child: Text("Eklenmiş sertifika bulunamadı!", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
+                              )
+                            : ListView.builder(
                             itemCount: currentUser.certeficatesList!.length,
                             itemBuilder: (context, index) {
                               CertificateModel certificate =
@@ -272,7 +276,7 @@ class _CertificatesPageState extends State<CertificatesPage> {
                 },
                 style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(8.0),
-                    backgroundColor: Theme.of(context).colorScheme.onPrimary),
+                    backgroundColor: const Color.fromARGB(255, 116, 6, 6)),
                 child: Text(
                   'PDF Yükle',
                   style: TextStyle(
