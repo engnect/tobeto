@@ -4,7 +4,7 @@ import 'package:tobeto/src/models/social_media_model.dart';
 class EditSocialMediaDialog extends StatefulWidget {
   final SocialMediaModel socialMedia;
 
-  const EditSocialMediaDialog({Key? key, required this.socialMedia}) : super(key: key);
+  const EditSocialMediaDialog({super.key, required this.socialMedia});
 
   @override
   State<EditSocialMediaDialog> createState() => _EditSocialMediaDialogState();

@@ -31,7 +31,7 @@ class _SkillsPageState extends State<SkillsPage> {
   ];
   bool isEditing = true;
 
-  void _saveSkill({
+  Future<void> _saveSkill({
     required List<String> selectedSkills,
     required String skillName,
     required BuildContext context,
@@ -43,6 +43,7 @@ class _SkillsPageState extends State<SkillsPage> {
         skillId: const Uuid().v1(),
         userId: userModel!.userId,
         skillName: skillName,
+        
       );
 
       String result = await SkillRepository().addSkill(skillModel);
@@ -279,8 +280,8 @@ class _SkillsPageState extends State<SkillsPage> {
                 padding: const EdgeInsets.all(8.0),
                 child: TBTPurpleButton(
                   buttonText: 'Kaydet',
-                  onPressed: () {
-                    _saveSkill(
+                  onPressed: () async {
+                await _saveSkill(
                       selectedSkills: _selectedSkills,
                       skillName: _skillController.text,
                       context: context,
