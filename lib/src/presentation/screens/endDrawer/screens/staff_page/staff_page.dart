@@ -2,46 +2,33 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/models/user_model.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_fake_data.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_model.dart';
 
-class StaffPage extends StatefulWidget {
-  const StaffPage({
+class UserListScreen extends StatefulWidget {
+  final int userRankIndex;
+  const UserListScreen({
     super.key,
+    required this.userRankIndex,
   });
 
   @override
-  State<StaffPage> createState() => _StaffPageState();
+  State<UserListScreen> createState() => _UserListScreenState();
 }
 
-class _StaffPageState extends State<StaffPage> {
-  List<StaffModel> data = staffFakeData;
+class _UserListScreenState extends State<UserListScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text("Kadro"),
+          title: const Text("Kullanıcılar"),
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Text(
-                  "Kadro Düzenle",
-                  style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-              ),
               SizedBox(
                 height:
                     MediaQuery.of(context).size.height - kToolbarHeight - 200,
@@ -50,7 +37,7 @@ class _StaffPageState extends State<StaffPage> {
                       .collection(FirebaseConstants.usersCollection)
                       .where(
                         'userRank',
-                        isEqualTo: UserRank.admin.index,
+                        isEqualTo: widget.userRankIndex,
                       )
                       .snapshots(),
                   builder: (context, snapshot) {

@@ -43,9 +43,10 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
   void addEvent(BuildContext context) async {
     UserModel? currentUser = await UserRepository().getCurrentUser();
 
-    EventModel eventModel = EventModel(
+    CalendarModel eventModel = CalendarModel(
       eventId: const Uuid().v1(),
       userId: currentUser!.userId,
+      userNameAndSurname: '${currentUser.userName} ${currentUser.userSurname}',
       eventTitle: _eventTitleController.text,
       eventDescription: _eventDescriptionController.text,
       eventDate: selectedDate!,
@@ -75,17 +76,6 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          child: Text(
-                            "Takvim Düzenle",
-                            style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary),
-                          ),
-                        ),
                         TBTAnimatedContainer(
                           infoText: 'Yeni Etkinlik Ekle!',
                           height: 275,
@@ -146,9 +136,9 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                                   DocumentSnapshot documentSnapshot =
                                       snapshot.data!.docs[index];
 
-                                  EventModel eventModel = EventModel.fromMap(
-                                      documentSnapshot.data()
-                                          as Map<String, dynamic>);
+                                  CalendarModel eventModel =
+                                      CalendarModel.fromMap(documentSnapshot
+                                          .data() as Map<String, dynamic>);
                                   return ListTile(
                                     title: Text(
                                       eventModel.eventTitle,

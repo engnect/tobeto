@@ -24,4 +24,5 @@ class AppRouteNames {
   static const String adminCourseVideoAddEdit = '/courseVideoAddEditScreen';
   static const String adminCourseAddEdit = '/courseAddEditScreen';
   static const String adminApplicationsScreenRoute = '/adminApplicationsScreen';
+  static const String adminStaffScreenRoute = '/adminStaffScreen';
 }

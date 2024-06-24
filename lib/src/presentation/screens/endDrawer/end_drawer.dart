@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/course_page/course_admin_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/course_page/course_video_admin_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/in_the_press_admin/in_the_press_admin_page.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_page.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/students_page/students_page.dart';
 import 'package:tobeto/src/presentation/widgets/purple_button.dart';
 
 class TBTEndDrawer extends StatelessWidget {
@@ -114,10 +113,9 @@ class TBTEndDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const StaffPage(),
-                  ),
+                Navigator.of(context).pushNamed(
+                  AppRouteNames.adminStaffScreenRoute,
+                  arguments: UserRank.admin.index,
                 );
               },
             ),
@@ -175,7 +173,12 @@ class TBTEndDrawer extends StatelessWidget {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     title: TBTPurpleButton(
                       buttonText: "Yöneticiler",
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          AppRouteNames.adminStaffScreenRoute,
+                          arguments: UserRank.admin.index,
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -186,7 +189,12 @@ class TBTEndDrawer extends StatelessWidget {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     title: TBTPurpleButton(
                       buttonText: "Öğretmenler",
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          AppRouteNames.adminStaffScreenRoute,
+                          arguments: UserRank.instructor.index,
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -201,10 +209,9 @@ class TBTEndDrawer extends StatelessWidget {
                       title: TBTPurpleButton(
                         buttonText: "Öğrenciler",
                         onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const StudentsPage(),
-                            ),
+                          Navigator.of(context).pushNamed(
+                            AppRouteNames.adminStaffScreenRoute,
+                            arguments: UserRank.student.index,
                           );
                         },
                       ),

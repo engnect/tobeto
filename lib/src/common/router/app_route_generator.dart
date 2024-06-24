@@ -12,6 +12,7 @@ import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_applicat
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_contact_forms/admin_contact_forms_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_blog/admin_blog_screen.dart';
 import 'package:tobeto/src/presentation/screens/endDrawer/screens/event_screen/admin_event_screen.dart';
+import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_page.dart';
 import 'package:tobeto/src/presentation/screens/error/error_screen.dart';
 import 'package:tobeto/src/presentation/screens/for_companies/for_companies_screen.dart';
 import 'package:tobeto/src/presentation/screens/for_individuals/for_individuals_page.dart';
@@ -22,7 +23,9 @@ import 'package:tobeto/src/presentation/screens/platform/platform_screen.dart';
 import 'package:tobeto/src/presentation/screens/profile/profile_screen.dart';
 
 class AppRouter {
-  Route<dynamic>? generateRoute(RouteSettings routeSettings) {
+  Route<dynamic> generateRoute(RouteSettings routeSettings) {
+    final args = routeSettings.arguments;
+
     switch (routeSettings.name) {
       case AppRouteNames.homeRoute:
         return AppRouterTransitionAnimation.tbtPageTransition(
@@ -97,10 +100,18 @@ class AppRouter {
           child: const AdminAnnouncementsScreen(),
         );
       case AppRouteNames.adminApplicationsScreenRoute:
-        return MaterialPageRoute(
-          builder: (_) => const AdminApplicationsScreen(),
+        return AppRouterTransitionAnimation.tbtPageTransition(
+          child: const AdminApplicationsScreen(),
         );
-
+      case AppRouteNames.adminStaffScreenRoute:
+        if (args is int) {
+          return AppRouterTransitionAnimation.tbtPageTransition(
+            child: UserListScreen(userRankIndex: args),
+          );
+        }
+        return AppRouterTransitionAnimation.tbtPageTransition(
+          child: const ErrorScreen(),
+        );
       // error
       default:
         return AppRouterTransitionAnimation.tbtPageTransition(
