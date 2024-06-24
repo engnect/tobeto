@@ -7,12 +7,12 @@ class SectionContainer extends StatelessWidget {
   final Widget Function(BuildContext context, int index) itemBuilder;
 
   const SectionContainer({
-    Key? key,
+    super.key,
     required this.title,
     this.itemList,
     this.emptyWidget,
     required this.itemBuilder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

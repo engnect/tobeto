@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Gerekli kütüphane eklenmeli.
+
 
 class PersonalInfoContainer extends StatelessWidget {
   final String birthDate;
