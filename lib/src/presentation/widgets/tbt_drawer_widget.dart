@@ -1,5 +1,8 @@
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
@@ -20,6 +23,7 @@ class TBTDrawer extends StatefulWidget {
 }
 
 class _TBTDrawerState extends State<TBTDrawer> {
+  int languageValue = 0;
   final prefs = ThemePreferences();
   @override
   Widget build(BuildContext context) {
@@ -314,11 +318,40 @@ class _TBTDrawerState extends State<TBTDrawer> {
                 );
               },
             ),
-            Text("© 2024 Tobeto",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSecondary,
-                )),
+
+            // language changer switch
+            AnimatedToggleSwitch.rolling(
+              indicatorTransition:
+                  const ForegroundIndicatorTransition.rolling(),
+              spacing: 10,
+              style: const ToggleStyle(
+                backgroundColor: Colors.white,
+                indicatorColor: Colors.black,
+              ),
+              height: 50,
+              borderWidth: 0,
+              current: languageValue,
+              values: const [0, 1, 2],
+              // onChanged: (i) => setState(() => value = i),
+              onChanged: (i) {
+                setState(() {
+                  languageValue = i;
+                });
+              },
+              iconList: [
+                CountryFlag.fromLanguageCode('en', shape: const Circle()),
+                CountryFlag.fromLanguageCode('tr', shape: const Circle()),
+                CountryFlag.fromLanguageCode('de', shape: const Circle()),
+              ],
+            ),
+            // copyright
+            Text(
+              '© ${DateFormat('yyyy').format(DateTime.now())} Tobeto',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+            ),
           ],
         ),
       ),

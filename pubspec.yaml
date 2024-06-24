@@ -35,6 +35,8 @@ dependencies:
   uuid: ^4.4.0
   google_fonts: ^6.2.1
   webview_flutter: ^4.8.0
+  animated_toggle_switch: ^0.8.2
+  country_flags: ^3.0.0
 
 dev_dependencies:
   flutter_test:
