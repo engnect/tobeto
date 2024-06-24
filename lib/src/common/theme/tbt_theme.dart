@@ -32,6 +32,7 @@ class TBTColorScheme {
           onSecondary: const Color.fromRGBO(180, 180, 180, 1),
           background: const Color.fromARGB(255, 20, 20, 20),
         ),
+    iconTheme: const IconThemeData(color: Colors.white),
     drawerTheme: const DrawerThemeData(
       backgroundColor: Color.fromRGBO(30, 30, 30, 1),
     ),

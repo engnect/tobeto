@@ -1,6 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/calendar/calendar_screen.dart';
 import 'package:tobeto/src/presentation/screens/course/course_screen.dart';
 import 'package:tobeto/src/presentation/screens/platform/tabs/platform_tab.dart';
 import 'package:tobeto/src/presentation/screens/profile/bottom_nav_bar_tabs/applications_tab.dart';
@@ -20,7 +19,6 @@ class _PlatformScreenState extends State<PlatformScreen> {
     const PlatformTab(),
     const ApplicationsTab(),
     const CourseScreen(),
-    const CalendarScreen(),
     const ProfilDetails(),
   ];
 
@@ -28,9 +26,9 @@ class _PlatformScreenState extends State<PlatformScreen> {
     const Icon(Icons.home, size: 30),
     const Icon(Icons.menu_book, size: 30),
     const Icon(Icons.play_lesson, size: 30),
-    const Icon(Icons.calendar_month_outlined, size: 30),
     const Icon(Icons.person, size: 30),
   ];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,7 +38,7 @@ class _PlatformScreenState extends State<PlatformScreen> {
         bottomNavigationBar: Theme(
           data: Theme.of(context).copyWith(
             iconTheme: const IconThemeData(
-              color: Color.fromARGB(255, 235, 235, 235), //icon rengi değişimi
+              color: Color.fromARGB(255, 235, 235, 235),
             ),
           ),
           child: CurvedNavigationBar(

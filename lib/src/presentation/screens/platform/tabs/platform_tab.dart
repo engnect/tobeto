@@ -254,23 +254,25 @@ class _PlatformTabState extends State<PlatformTab> {
                                       // Anketler içeriği
                                       Center(
                                         child: Text(
-                                          'Anketler İçeriği',
+                                          '🛠️ Yapım Aşamasında 🚧',
                                           style: TextStyle(
-                                              fontFamily: "Poppins",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary),
+                                            fontFamily: "Poppins",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
                                         ),
                                       ),
                                       // Sınavlar içeriği
                                       Center(
                                         child: Text(
-                                          'Sınavlar İçeriği',
+                                          '🛠️ Yapım Aşamasında 🚧',
                                           style: TextStyle(
-                                              fontFamily: "Poppins",
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary),
+                                            fontFamily: "Poppins",
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
                                         ),
                                       ),
                                     ],

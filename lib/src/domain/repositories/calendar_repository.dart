@@ -11,7 +11,7 @@ class CalendarRepository {
       _firebaseFirestore.collection(FirebaseConstants.eventsCollection);
 
   Future<String> addOrUpdateEvent({
-    required EventModel eventModel,
+    required CalendarModel eventModel,
   }) async {
     String result = '';
 
@@ -26,7 +26,7 @@ class CalendarRepository {
   }
 
   Future<String> deleteEvent({
-    required EventModel eventModel,
+    required CalendarModel eventModel,
   }) async {
     String result = '';
 
