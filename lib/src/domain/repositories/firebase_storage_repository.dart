@@ -53,17 +53,22 @@ class FirebaseStorageRepository {
     return downloadURL;
   }
 
-  Future<String?> uploadCourseVideoAndSaveUrl(
-      {required XFile? selectedVideo}) async {
+  Future<String?> uploadCourseVideoAndSaveUrl({
+    required String videoId,
+    required XFile? selectedVideo,
+  }) async {
     File file = File(selectedVideo!.path);
 
-    TaskSnapshot snapshot = await _firebaseStorage
-        .ref(
-            '${FirebaseConstants.videosCollection}/${file.path.split('/').last}')
-        .putFile(file);
-    String downloadUrl = await snapshot.ref.getDownloadURL();
+    Reference reference = _firebaseStorage
+        .ref()
+        .child('${FirebaseConstants.videosCollection}/')
+        .child('$videoId/')
+        .child(videoId);
 
-    return downloadUrl;
+    UploadTask uploadTask = reference.putFile(file);
+    TaskSnapshot taskSnapshot = await uploadTask;
+    String downloadURL = await taskSnapshot.ref.getDownloadURL();
+    return downloadURL;
   }
 
   Future<String?> uploadCourseThumbnailsAndSaveUrl(

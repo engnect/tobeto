@@ -13,7 +13,7 @@ class CourseRepository {
   CollectionReference get _videos =>
       _firestore.collection(FirebaseConstants.videosCollection);
 
-  Stream<List<CourseModel>> fetchAllCourses() {
+  Stream<List<CourseModel>> fetchAllCoursesAsStream() {
     return _firestore
         .collection(FirebaseConstants.coursesCollection)
         .snapshots()
@@ -28,6 +28,23 @@ class CourseRepository {
             .toList();
       },
     );
+  }
+
+  Future<List<CourseModel>> fetchAllCourses() async {
+    List<DocumentSnapshot> coursesDocumentSnapshots = [];
+    List<CourseModel> courses = [];
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection(FirebaseConstants.coursesCollection)
+        .get();
+
+    coursesDocumentSnapshots = querySnapshot.docs;
+    for (var i = 0; i < coursesDocumentSnapshots.length; i++) {
+      CourseModel courseModel = CourseModel.fromMap(
+          coursesDocumentSnapshots[i].data() as Map<String, dynamic>);
+      courses.add(courseModel);
+    }
+
+    return courses;
   }
 
   Stream<List<String>> fetchCourseNames() {
@@ -108,7 +125,7 @@ class CourseRepository {
   ) async {
     String result = '';
     try {
-      await _videos.doc(courseId).update(
+      await _courses.doc(courseId).update(
         {
           'courseName': newCourseName,
           'manufacturer': manufacturer,
@@ -118,13 +135,7 @@ class CourseRepository {
     } catch (error) {
       result = error.toString();
     }
-    switch (result) {
-      case 'success':
-        return 'Ders başarıyla düzenlendi';
-
-      default:
-        return 'Hata: $result';
-    }
+    return Utilities.errorMessageChecker(result);
   }
 
   // Admin panelinde video düzenlemek için

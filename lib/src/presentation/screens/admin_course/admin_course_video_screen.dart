@@ -36,29 +36,38 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
   List<CourseModel> courses = [];
   String? selectedCourseName;
   String? selectedCourseId;
-  final CourseRepository _courseRepository = CourseRepository();
 
   @override
   void initState() {
     fetchCourseNames();
+    fetchAllCourses();
     super.initState();
   }
 
   @override
   void dispose() {
     _videoPlayerController?.dispose();
+    _courseVideoNameController.dispose();
+    _editCourseVideoNameController.dispose();
     super.dispose();
   }
 
   Future<void> fetchCourseNames() async {
-    List<String> names = await _courseRepository.fetchCourseNamesList();
+    List<String> names = await CourseRepository().fetchCourseNamesList();
     setState(() {
-      courseNames = names;
+      courseNames += names;
+    });
+  }
+
+  Future<void> fetchAllCourses() async {
+    List<CourseModel> coursesTest = await CourseRepository().fetchAllCourses();
+    setState(() {
+      courses += coursesTest;
     });
   }
 
   Future<void> _getVideoFromGallery() async {
-    final video = await Utilities.getVideoFromGallery();
+    final XFile? video = await Utilities.getVideoFromGallery();
     if (video != null) {
       _videoPlayerController = VideoPlayerController.file(File(video.path))
         ..initialize().then((_) {
@@ -71,24 +80,33 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
     }
   }
 
-  void _addCourseVideo(
-      {required BuildContext context,
-      required String selectedCourseId,
-      required String courseVideoName,
-      required String selectedCourseName}) async {
-    if (_selectedVideo != null && _courseVideoNameController.text.isNotEmpty) {
-      String? videoUrl = await FirebaseStorageRepository()
-          .uploadCourseVideoAndSaveUrl(selectedVideo: _selectedVideo);
+  Future<void> _addCourseVideo({
+    required BuildContext context,
+    required String selectedCourseId,
+    required String courseVideoName,
+    required String selectedCourseName,
+    required XFile? selectedVideo,
+  }) async {
+    if (selectedVideo != null && _courseVideoNameController.text.isNotEmpty) {
+      String videoId = const Uuid().v1();
+
+      String? videoUrl =
+          await FirebaseStorageRepository().uploadCourseVideoAndSaveUrl(
+        videoId: selectedCourseId,
+        selectedVideo: selectedVideo,
+      );
+
       if (videoUrl != null) {
         CourseVideoModel courseVideoModel = CourseVideoModel(
-          videoId: const Uuid().v1(),
+          videoId: videoId,
           courseId: selectedCourseId,
           courseVideoName: _courseVideoNameController.text,
           courseName: selectedCourseName,
           videoUrl: videoUrl,
         );
+
         String result =
-            await _courseRepository.addOrUpdateCourseVideo(courseVideoModel);
+            await CourseRepository().addOrUpdateCourseVideo(courseVideoModel);
 
         if (!context.mounted) return;
         Utilities.showSnackBar(
@@ -99,9 +117,11 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
     }
   }
 
-  void _deleteVideoFunction(
-      {required BuildContext context, required String videoId}) async {
-    String result = await _courseRepository.deleteVideo(videoId);
+  void _deleteVideoFunction({
+    required BuildContext context,
+    required String videoId,
+  }) async {
+    String result = await CourseRepository().deleteVideo(videoId);
 
     if (!context.mounted) return;
     Utilities.showSnackBar(snackBarMessage: result, context: context);
@@ -116,15 +136,17 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
     String newCourseVideoName = _editCourseVideoNameController.text;
     String newCourseId = selectedCourseId;
 
-    String result = await _courseRepository.editVideo(
+    String result = await CourseRepository().editVideo(
         videoId, newCourseVideoName, newCourseId, selectedCourseName!);
 
     if (!context.mounted) return;
     Utilities.showSnackBar(snackBarMessage: result, context: context);
   }
 
-  void _showEditDialog(
-      {required BuildContext context, required String videoId}) {
+  void _showEditDialog({
+    required BuildContext context,
+    required String videoId,
+  }) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -136,7 +158,7 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
             ),
           ),
           content: StreamBuilder<List<CourseModel>>(
-            stream: _courseRepository.fetchAllCourses(),
+            stream: CourseRepository().fetchAllCoursesAsStream(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -204,6 +226,8 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                     selectedCourseId: selectedCourseId!,
                     newCourseVideoName: _editCourseVideoNameController.text);
                 Navigator.pop(context);
+
+                _editCourseVideoNameController.clear();
               },
               child: Text(
                 "Değişiklikleri Kaydet",
@@ -232,18 +256,6 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          child: Text(
-                            "Ders Videosu Ekle & Düzenle",
-                            style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        ),
                         TBTAnimatedContainer(
                           height: 400,
                           infoText: 'Ders Videosu Ekle',
@@ -252,7 +264,7 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                             child: Column(
                               children: [
                                 GestureDetector(
-                                  onTap: _getVideoFromGallery,
+                                  onTap: () => _getVideoFromGallery(),
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                       bottom: 50,
@@ -309,18 +321,27 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                               .primary,
                                         ),
                                       ),
+                                      onTap: () {
+                                        selectedCourseName = value;
+                                      },
                                     );
                                   }).toList(),
                                   onChanged: (newValue) {
-                                    setState(
-                                      () {
-                                        selectedCourseName = newValue;
-                                        selectedCourseId = courses
-                                            .firstWhere((course) =>
-                                                course.courseName == newValue)
-                                            .courseId;
-                                      },
-                                    );
+                                    selectedCourseName = newValue;
+                                    selectedCourseId = courses
+                                        .firstWhere((course) =>
+                                            course.courseName == newValue)
+                                        .courseId;
+
+                                    // setState(
+                                    //   () {
+                                    //     selectedCourseName = newValue;
+                                    //     selectedCourseId = courses
+                                    //         .firstWhere((course) =>
+                                    //             course.courseName == newValue)
+                                    //         .courseId;
+                                    //   },
+                                    // );
                                   },
                                 ),
                                 Padding(
@@ -328,13 +349,14 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                       const EdgeInsets.symmetric(vertical: 20),
                                   child: TBTPurpleButton(
                                     buttonText: "Kaydet",
-                                    onPressed: () {
-                                      _addCourseVideo(
-                                          context: context,
-                                          selectedCourseId: selectedCourseId!,
-                                          selectedCourseName:
-                                              selectedCourseName!,
-                                          courseVideoName: selectedCourseName!);
+                                    onPressed: () async {
+                                      await _addCourseVideo(
+                                        context: context,
+                                        selectedCourseId: selectedCourseId!,
+                                        selectedCourseName: selectedCourseName!,
+                                        courseVideoName: selectedCourseName!,
+                                        selectedVideo: _selectedVideo,
+                                      );
                                     },
                                   ),
                                 )

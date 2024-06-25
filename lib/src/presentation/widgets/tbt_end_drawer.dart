@@ -270,7 +270,8 @@ class TBTEndDrawer extends StatelessWidget {
                   ),
                 ),
               ],
-            )
+            ),
+            const SizedBox(height: kToolbarHeight),
           ],
         ),
       ),

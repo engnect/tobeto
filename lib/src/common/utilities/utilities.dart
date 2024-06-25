@@ -36,15 +36,13 @@ class Utilities {
   }
 
   static Future<XFile?> getImageFromGallery() async {
-    final imagePicker = ImagePicker();
-    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     return pickedFile;
   }
 
   static Future<XFile?> getVideoFromGallery() async {
-    final imagePicker = ImagePicker();
-    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
-    return pickedFile != null ? XFile(pickedFile.path) : null;
+    return await ImagePicker().pickVideo(source: ImageSource.gallery);
   }
 
   static Future<List<Map<String, String>>> loadCityData() async {

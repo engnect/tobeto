@@ -23,7 +23,7 @@ class _CourseTabScreenState extends State<CourseTabScreen> {
   @override
   void initState() {
     super.initState();
-    _coursesStream = _courseRepository.fetchAllCourses();
+    _coursesStream = _courseRepository.fetchAllCoursesAsStream();
   }
 
   @override
@@ -51,7 +51,15 @@ class _CourseTabScreenState extends State<CourseTabScreen> {
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(child: Text('No courses available.'));
+
+                      return Center(
+                        child: Text(
+                          'No courses available.',
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
+                      );
+
                     } else {
                       return Column(
                         children: snapshot.data!.map((course) {
@@ -80,9 +88,11 @@ class _CourseTabScreenState extends State<CourseTabScreen> {
                     }
                   },
                 ),
+
                 const SizedBox(
                   height: 50,
                 ),
+
               ],
             ),
           ),
