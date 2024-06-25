@@ -77,6 +77,4 @@ class UserRepository {
 
     return Utilities.errorMessageChecker(result);
   }
-
-  
 }

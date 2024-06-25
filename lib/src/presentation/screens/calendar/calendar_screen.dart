@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/presentation/screens/calendar/widgets/calendar_details_card.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/end_drawer.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_end_drawer.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 import '../../../models/calendar_model.dart';

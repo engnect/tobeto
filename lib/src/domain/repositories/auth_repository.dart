@@ -14,10 +14,13 @@ class AuthRepository {
     required String userSurname,
     required String userEmail,
     required String userPassword,
+    required String confirmPassword,
   }) async {
     String result = '';
     try {
-      if (userName.isNotEmpty ||
+      if (userPassword.trim() != confirmPassword.trim()) {
+        result = 'password-not-match';
+      } else if (userName.isNotEmpty ||
           userSurname.isNotEmpty ||
           userEmail.isNotEmpty) {
         UserCredential userCredential =
@@ -27,7 +30,7 @@ class AuthRepository {
         );
 
         String userAvatarUrl = await FirebaseStorageRepository()
-            .getDefaultAvatarUrl(userCredential.user!.uid);
+            .getDefaultAvatarUrl(userId: userCredential.user!.uid);
 
         UserModel userModel = UserModel(
           userId: userCredential.user!.uid,
@@ -47,7 +50,10 @@ class AuthRepository {
           certeficatesList: [],
         );
 
-        result = await UserRepository().addOrUpdateUser(userModel);
+        await UserRepository().addOrUpdateUser(userModel);
+        result = 'success';
+      } else {
+        result = 'empty-field';
       }
     } on FirebaseAuthException catch (e) {
       result = e.code;
@@ -123,14 +129,23 @@ class AuthRepository {
     return Utilities.errorMessageChecker(result);
   }
 
-  Future<String> updatePassword({required String newPassword}) async {
+  Future<String> updatePassword({
+    required String confirmPassword,
+    required String newPassword,
+  }) async {
     String result = '';
-    _firebaseAuth.currentUser!.updatePassword(newPassword);
-    try {
-      result = 'success';
-    } on FirebaseAuthException catch (e) {
-      result = e.code;
+
+    if (newPassword != confirmPassword) {
+      result = 'password-not-match';
+    } else {
+      _firebaseAuth.currentUser!.updatePassword(newPassword);
+      try {
+        result = 'success';
+      } on FirebaseAuthException catch (e) {
+        result = e.code;
+      }
     }
+
     return Utilities.errorMessageChecker(result);
   }
 

@@ -8,15 +8,23 @@ import 'package:tobeto/src/common/constants/firebase_constants.dart';
 class FirebaseStorageRepository {
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
-  Future<String> getDefaultAvatarUrl(String userId) async {
-    ByteData byteData = await rootBundle.load(Assets.imagesDefaultAvatar);
-    Uint8List fileData = byteData.buffer.asUint8List();
+  Future<String> getDefaultAvatarUrl({
+    required String userId,
+    File? image,
+  }) async {
+    Uint8List fileData;
+    if (image == null) {
+      ByteData byteData = await rootBundle.load(Assets.imagesDefaultAvatar);
+      fileData = byteData.buffer.asUint8List();
+    } else {
+      fileData = await image.readAsBytes();
+    }
 
     Reference reference = _firebaseStorage
         .ref()
         .child('${FirebaseConstants.profilePicsCollection}/')
         .child('$userId/')
-        .child(DateTime.now().toString());
+        .child('avt-$userId');
 
     UploadTask uploadTask = reference.putData(fileData);
 

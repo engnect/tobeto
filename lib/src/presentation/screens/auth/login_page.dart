@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/presentation/screens/auth/widgets/auth_input_widget.dart';
-import 'package:tobeto/src/presentation/widgets/input_field.dart';
-import 'package:tobeto/src/presentation/widgets/purple_button.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_input_field.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_purple_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
@@ -36,18 +34,13 @@ class _LoginScreenState extends State<LoginScreen> {
     required String userPassword,
     required BuildContext context,
   }) async {
-    // String result = await AuthRepository().singInUser(
-    //   userEmail: userEmail,
-    //   userPassword: userPassword,
-    // );
+    String result = await AuthRepository().singInUser(
+      userEmail: userEmail,
+      userPassword: userPassword,
+    );
 
-    context.read<AuthBloc>().add(SignInRequested(
-          email: userEmail,
-          password: userPassword,
-        ));
-
-    // if (!context.mounted) return;
-    // Utilities.showSnackBar(snackBarMessage: result, context: context);
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
   }
 
   void _signinWithGoogle({

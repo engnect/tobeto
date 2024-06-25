@@ -11,10 +11,13 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final FirebaseAuth firebaseAuth;
   final UserRepository userRepository;
+
   StreamSubscription<UserModel?>? _userStreamSubscription;
 
-  AuthBloc({required this.firebaseAuth, required this.userRepository})
-      : super(AuthInitial()) {
+  AuthBloc({
+    required this.firebaseAuth,
+    required this.userRepository,
+  }) : super(AuthInitial()) {
     firebaseAuth.authStateChanges().listen((User? firebaseUser) async {
       await _userStreamSubscription?.cancel();
       if (firebaseUser != null) {
@@ -69,7 +72,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         password: event.password,
       );
     } catch (e) {
-      emit(AuthError(e.toString()));
+      emit(AuthError(error: e.toString()));
     }
   }
 

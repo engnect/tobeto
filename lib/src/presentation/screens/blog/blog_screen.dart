@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/end_drawer.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_end_drawer.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 import '../../widgets/tbt_blog_stream.dart';
 import '../../widgets/tbt_drawer_widget.dart';

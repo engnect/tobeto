@@ -11,7 +11,7 @@ import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/common/theme/tbt_theme.dart';
 import 'package:tobeto/src/data/datasource/theme_shared_pref.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
-import 'package:tobeto/src/presentation/widgets/purple_button.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_purple_button.dart';
 import '../../common/constants/assets.dart';
 
 class TBTDrawer extends StatefulWidget {

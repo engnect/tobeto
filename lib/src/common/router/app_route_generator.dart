@@ -6,13 +6,13 @@ import 'package:tobeto/src/presentation/screens/auth/auth_screen.dart';
 import 'package:tobeto/src/presentation/screens/blog/blog_screen.dart';
 import 'package:tobeto/src/presentation/screens/calendar/calendar_screen.dart';
 import 'package:tobeto/src/presentation/screens/contact_us/contact_us_screen.dart';
-import 'package:tobeto/src/presentation/screens/course/course_screen.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_announcement/admin_announcements_screen.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_applications/admin_applications_screen.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_contact_forms/admin_contact_forms_screen.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/admin_blog/admin_blog_screen.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/event_screen/admin_event_screen.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/screens/staff_page/staff_page.dart';
+import 'package:tobeto/src/presentation/screens/platform/nav_bar_screens/course_tab_screen.dart';
+import 'package:tobeto/src/presentation/screens/admin_announcement/admin_announcements_screen.dart';
+import 'package:tobeto/src/presentation/screens/admin_applications/admin_applications_screen.dart';
+import 'package:tobeto/src/presentation/screens/admin_contact_forms/admin_contact_forms_screen.dart';
+import 'package:tobeto/src/presentation/screens/admin_blog/admin_blog_screen.dart';
+import 'package:tobeto/src/presentation/screens/admin_event/admin_event_screen.dart';
+import 'package:tobeto/src/presentation/screens/admin_user_list/admin_user_list_screen.dart';
 import 'package:tobeto/src/presentation/screens/error/error_screen.dart';
 import 'package:tobeto/src/presentation/screens/for_companies/for_companies_screen.dart';
 import 'package:tobeto/src/presentation/screens/for_individuals/for_individuals_page.dart';
@@ -20,7 +20,7 @@ import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
 import 'package:tobeto/src/presentation/screens/in_the_press/in_the_press_screen.dart';
 import 'package:tobeto/src/presentation/screens/onboarding/onboarding_screen.dart';
 import 'package:tobeto/src/presentation/screens/platform/platform_screen.dart';
-import 'package:tobeto/src/presentation/screens/profile/profile_screen.dart';
+import 'package:tobeto/src/presentation/screens/platform/profile_edit_screen.dart';
 
 class AppRouter {
   Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -45,7 +45,7 @@ class AppRouter {
         );
       case AppRouteNames.courseScreenRoute:
         return AppRouterTransitionAnimation.tbtPageTransition(
-          child: const CourseScreen(),
+          child: const CourseTabScreen(),
         );
       case AppRouteNames.forIndividualsScreenRoute:
         return AppRouterTransitionAnimation.tbtPageTransition(
@@ -70,7 +70,7 @@ class AppRouter {
         );
       case AppRouteNames.profileScreenRoute:
         return AppRouterTransitionAnimation.tbtPageTransition(
-          child: const ProfileScreen(),
+          child: const ProfileEditScreen(),
         );
       case AppRouteNames.calendarScreenRoute:
         return AppRouterTransitionAnimation.tbtPageTransition(

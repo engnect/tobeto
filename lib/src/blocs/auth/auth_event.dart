@@ -17,6 +17,16 @@ class SignInRequested extends AuthEvent {
   });
 }
 
+class UserPasswordChange extends AuthEvent {
+  final String newPassword;
+  final String confirmPassword;
+
+  UserPasswordChange({
+    required this.newPassword,
+    required this.confirmPassword,
+  });
+}
+
 class _UserAuthenticated extends AuthEvent {
   final UserModel userModel;
 
