@@ -129,7 +129,7 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
           content: StreamBuilder<List<CourseModel>>(
-            stream: courseRepository.fetchAllCourses(),
+            stream: courseRepository.fetchAllCoursesAsStream(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -194,21 +194,9 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          child: Text(
-                            "Ders Ekle & Düzenle",
-                            style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        ),
                         TBTAnimatedContainer(
                           height: 300,
-                          infoText: "Ders Ekle",
+                          infoText: "Ders Ekle & Düzenle",
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
