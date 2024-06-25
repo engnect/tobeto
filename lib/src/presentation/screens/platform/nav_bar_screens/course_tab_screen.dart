@@ -41,45 +41,51 @@ class _CourseTabScreenState extends State<CourseTabScreen> {
         slivers: [
           const TBTSliverAppBar(),
           SliverList(
-              delegate: SliverChildListDelegate([
-            StreamBuilder<List<CourseModel>>(
-              stream: _coursesStream,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No courses available.'));
-                } else {
-                  return Column(
-                    children: snapshot.data!.map((course) {
-                      return CourseCard(
-                        image: course.courseThumbnailUrl,
-                        date: DateFormat('dd/MM/yyyy')
-                            .format(course.courseStartDate),
-                        title: course.courseName,
-                        ontap: () async {
-                          final courseVideos = await _courseRepository
-                              .fetchCourseVideos(course.courseId);
-                          if (!context.mounted) return;
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CourseScreenDetails(
-                                course: course,
-                                courseVideos: courseVideos,
-                              ),
-                            ),
+            delegate: SliverChildListDelegate(
+              [
+                StreamBuilder<List<CourseModel>>(
+                  stream: _coursesStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                      return const Center(child: Text('No courses available.'));
+                    } else {
+                      return Column(
+                        children: snapshot.data!.map((course) {
+                          return CourseCard(
+                            image: course.courseThumbnailUrl,
+                            date: DateFormat('dd/MM/yyyy')
+                                .format(course.courseStartDate),
+                            title: course.courseName,
+                            ontap: () async {
+                              final courseVideos = await _courseRepository
+                                  .fetchCourseVideos(course.courseId);
+                              if (!context.mounted) return;
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CourseScreenDetails(
+                                    course: course,
+                                    courseVideos: courseVideos,
+                                  ),
+                                ),
+                              );
+                            },
                           );
-                        },
+                        }).toList(),
                       );
-                    }).toList(),
-                  );
-                }
-              },
+                    }
+                  },
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+              ],
             ),
-          ]))
+          ),
         ],
       ),
     );
