@@ -287,6 +287,9 @@ class _PlatformTabScreenState extends State<PlatformTabScreen> {
                           cardText: 'Öğrenmeye Başla!',
                           onPressed: () {},
                         ),
+                        const SizedBox(
+                          height: 50,
+                        )
                       ],
                     ),
                   ),
