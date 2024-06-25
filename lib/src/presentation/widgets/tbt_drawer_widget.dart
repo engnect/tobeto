@@ -320,34 +320,41 @@ class _TBTDrawerState extends State<TBTDrawer> {
             BlocBuilder<LanguageCubit, Locale>(
               builder: (context, state) {
                 int languageValue = context.read<LanguageCubit>().languageValue;
-                return AnimatedToggleSwitch.rolling(
-                  indicatorTransition:
-                      const ForegroundIndicatorTransition.rolling(),
-                  spacing: 10,
-                  style: const ToggleStyle(
-                    backgroundColor: Colors.white,
-                    indicatorColor: Colors.black,
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  child: AnimatedToggleSwitch.rolling(
+                    animationDuration: const Duration(milliseconds: 1500),
+                    indicatorTransition:
+                        const ForegroundIndicatorTransition.rolling(),
+                    spacing: 10,
+                    style: const ToggleStyle(
+                      backgroundColor: Colors.transparent,
+                      indicatorColor: Color.fromARGB(200, 153, 51, 255),
+                    ),
+                    height: 50,
+                    borderWidth: 0,
+                    current: languageValue,
+                    values: const [0, 1, 2],
+                    onChanged: (i) {
+                      Locale newLocale;
+                      if (i == 0) {
+                        newLocale = const Locale('en', 'UK');
+                      } else if (i == 1) {
+                        newLocale = const Locale('tr', 'TR');
+                      } else {
+                        newLocale = const Locale('de', 'DE');
+                      }
+                      context
+                          .read<LanguageCubit>()
+                          .changeLanguage(newLocale, i);
+                    },
+                    iconList: [
+                      CountryFlag.fromLanguageCode('en', shape: const Circle()),
+                      CountryFlag.fromLanguageCode('tr', shape: const Circle()),
+                      CountryFlag.fromLanguageCode('de', shape: const Circle()),
+                    ],
                   ),
-                  height: 50,
-                  borderWidth: 0,
-                  current: languageValue,
-                  values: const [0, 1, 2],
-                  onChanged: (i) {
-                    Locale newLocale;
-                    if (i == 0) {
-                      newLocale = const Locale('en', 'UK');
-                    } else if (i == 1) {
-                      newLocale = const Locale('tr', 'TR');
-                    } else {
-                      newLocale = const Locale('de', 'DE');
-                    }
-                    context.read<LanguageCubit>().changeLanguage(newLocale, i);
-                  },
-                  iconList: [
-                    CountryFlag.fromLanguageCode('en', shape: const Circle()),
-                    CountryFlag.fromLanguageCode('tr', shape: const Circle()),
-                    CountryFlag.fromLanguageCode('de', shape: const Circle()),
-                  ],
                 );
               },
             ),
