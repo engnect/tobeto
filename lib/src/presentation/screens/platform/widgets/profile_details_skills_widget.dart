@@ -29,9 +29,10 @@ class SkillsWidget extends StatelessWidget {
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           skill,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: "Poppins",
             fontSize: 16,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
       ),

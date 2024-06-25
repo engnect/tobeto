@@ -188,7 +188,6 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               InkWell(
                 onTap: () {
@@ -197,19 +196,17 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
                 child: Container(
                   width: 120,
                   height: 120,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
+                  decoration: const BoxDecoration(),
                   child: _image != null
                       ? CircleAvatar(
-                          radius: 120,
+                          radius: 50,
                           backgroundImage: FileImage(_image!),
                         )
                       : BlocBuilder<AuthBloc, AuthState>(
                           builder: (context, state) {
                             if (state is Authenticated) {
                               return CircleAvatar(
-                                radius: 120,
+                                radius: 50,
                                 backgroundImage: NetworkImage(
                                   state.userModel.userAvatarUrl!,
                                 ),
