@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ProfileDetailCard extends StatelessWidget {
-  final String title;
+  final String? title;
   final Widget content;
 
   const ProfileDetailCard({
     super.key,
-    required this.title,
+    this.title,
     required this.content,
   });
 
@@ -25,20 +25,21 @@ class ProfileDetailCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontFamily: "Poppins",
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: Theme.of(context).colorScheme.primary,
+          if (title != null)
+            Text(
+              title!,
+              style: TextStyle(
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
-          ),
-          Divider(
-            color: Theme.of(context).colorScheme.onSecondary,
-            thickness: 1,
-            endIndent: 10,
-          ),
+          // Divider(
+          //   color: Theme.of(context).colorScheme.onSecondary,
+          //   thickness: 1,
+          //   endIndent: 10,
+          // ),
           content,
         ],
       ),

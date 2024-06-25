@@ -63,11 +63,15 @@ class _ProfileDetailsTabScreenState extends State<ProfileDetailsTabScreen> {
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Image.network(
-                                        state.userModel.userAvatarUrl!,
-                                        width: 70,
-                                        height: 70,
-                                        fit: BoxFit.contain,
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(40)),
+                                        child: Image.network(
+                                          state.userModel.userAvatarUrl!,
+                                          width: 80,
+                                          height: 80,
+                                          fit: BoxFit.contain,
+                                        ),
                                       ),
                                     ),
                                     Padding(
@@ -291,6 +295,9 @@ class _ProfileDetailsTabScreenState extends State<ProfileDetailsTabScreen> {
                               );
                             },
                           ),
+                          const SizedBox(
+                            height: 60,
+                          )
                         ],
                       );
                     }

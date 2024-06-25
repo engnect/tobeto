@@ -14,7 +14,6 @@ class SkillsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProfileDetailCard(
-      title: "",
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -37,7 +36,13 @@ class SkillsContainer extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: const Text("Yetkinlikler"),
+                        backgroundColor:
+                            Theme.of(context).colorScheme.background,
+                        title: Text(
+                          "Yetkinlikler",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary),
+                        ),
                         content: SizedBox(
                           width: double.maxFinite,
                           child: ListView.builder(
