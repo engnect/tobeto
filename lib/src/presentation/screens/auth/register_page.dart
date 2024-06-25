@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
+import 'package:tobeto/src/common/utilities/utilities.dart';
 import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/presentation/screens/auth/widgets/auth_input_widget.dart';
-import 'package:tobeto/src/presentation/widgets/purple_button.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_purple_button.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({
@@ -20,6 +21,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+
+  _registerUser({
+    required String userName,
+    required String userSurname,
+    required String userEmail,
+    required String userPassword,
+    required String confirmPassword,
+    required BuildContext context,
+  }) async {
+    String result = await AuthRepository().registerUser(
+      userName: userName,
+      userSurname: userSurname,
+      userEmail: userEmail,
+      userPassword: userPassword,
+      confirmPassword: confirmPassword,
+    );
+
+    if (!context.mounted) return;
+    Utilities.showSnackBar(snackBarMessage: result, context: context);
+  }
 
   @override
   void dispose() {
@@ -77,14 +98,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             child: TBTPurpleButton(
               buttonText: "Kayıt ol",
-              onPressed: () async {
-                await AuthRepository().registerUser(
-                  userName: _nameController.text.trim(),
-                  userSurname: _surnameController.text.trim(),
-                  userEmail: _emailController.text.trim(),
-                  userPassword: _passwordController.text.trim(),
-                );
-              },
+              onPressed: () => _registerUser(
+                userName: _nameController.text,
+                userSurname: _surnameController.text,
+                userEmail: _emailController.text,
+                userPassword: _passwordController.text,
+                confirmPassword: _confirmPasswordController.text,
+                context: context,
+              ),
             ),
           ),
           const SizedBox(height: kTextTabBarHeight),

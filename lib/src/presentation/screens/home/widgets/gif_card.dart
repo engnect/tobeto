@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 
-import '../../../widgets/purple_button.dart';
+import '../../../widgets/tbt_purple_button.dart';
 
 class HomeScreenGif extends StatelessWidget {
   const HomeScreenGif({

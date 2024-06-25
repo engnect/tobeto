@@ -1,9 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/course/course_screen.dart';
-import 'package:tobeto/src/presentation/screens/platform/tabs/platform_tab.dart';
-import 'package:tobeto/src/presentation/screens/profile/bottom_nav_bar_tabs/applications_tab.dart';
-import 'package:tobeto/src/presentation/screens/profile/profile_details.dart';
+import 'package:tobeto/src/presentation/screens/platform/nav_bar_screens/course_tab_screen.dart';
+import 'package:tobeto/src/presentation/screens/platform/nav_bar_screens/platform_tab_screen.dart';
+import 'package:tobeto/src/presentation/screens/platform/nav_bar_screens/applications_tab_screen.dart';
+import 'package:tobeto/src/presentation/screens/platform/nav_bar_screens/profile_details_tab_screen.dart';
 
 class PlatformScreen extends StatefulWidget {
   const PlatformScreen({super.key});
@@ -16,10 +16,10 @@ class _PlatformScreenState extends State<PlatformScreen> {
   int index = 0;
 
   final screens = [
-    const PlatformTab(),
-    const ApplicationsTab(),
-    const CourseScreen(),
-    const ProfilDetails(),
+    const PlatformTabScreen(),
+    const ApplicationsTabScreen(),
+    const CourseTabScreen(),
+    const ProfileDetailsTabScreen(),
   ];
 
   final items = <Widget>[

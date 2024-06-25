@@ -99,7 +99,7 @@ class Utilities {
       print('gelen kod : $result');
     }
     switch (result) {
-      case 'success':
+      case 'success' || 'İşlem Başarılı!':
         return 'İşlem Başarılı!';
       case 'email-already-in-use':
         return 'Bu e-posta sitemde kayıtlı!';
@@ -115,6 +115,14 @@ class Utilities {
         return 'Yanlış şifre!';
       case 'user-not-found':
         return 'Böyle bir kullanıcı bulunamadı!';
+      case 'password-not-match':
+        return 'Girilen şifreler eşleşmiyor!';
+      case 'requires-recent-login':
+        return 'Yakın zamanda giriş yapılmadı!';
+      case 'empty-field':
+        return 'Bütün alanları doldurunuz!';
+      case 'invalid-credential':
+        return 'Bilgilerinizi kontrol edin!';
 
       default:
         return 'Hata: $result';

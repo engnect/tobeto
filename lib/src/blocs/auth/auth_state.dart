@@ -18,5 +18,5 @@ class Unauthenticated extends AuthState {}
 class AuthError extends AuthState {
   final String error;
 
-  AuthError(this.error);
+  AuthError({required this.error});
 }

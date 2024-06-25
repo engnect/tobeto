@@ -3,7 +3,7 @@ import 'package:tobeto/src/presentation/screens/about_us/widgets/abous_us_page_c
 import 'package:tobeto/src/presentation/screens/about_us/widgets/about_us_image_card.dart';
 import 'package:tobeto/src/presentation/screens/about_us/widgets/about_us_page_our_team_card.dart';
 import 'package:tobeto/src/presentation/screens/about_us/widgets/about_us_video_card.dart';
-import 'package:tobeto/src/presentation/screens/endDrawer/end_drawer.dart';
+import 'package:tobeto/src/presentation/widgets/tbt_end_drawer.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 import 'package:url_launcher/url_launcher.dart';
