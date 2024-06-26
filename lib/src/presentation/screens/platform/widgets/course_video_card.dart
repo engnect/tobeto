@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:tobeto/src/models/course_model.dart';
 import 'package:tobeto/src/models/course_video_model.dart';
+import 'package:tobeto/src/models/user_model.dart';
 
 class CourseVideoCard extends StatefulWidget {
   final CourseVideoModel courseVideo;
@@ -21,6 +23,25 @@ class CourseVideoCard extends StatefulWidget {
 }
 
 class _CourseVideoCardState extends State<CourseVideoCard> {
+  String instructorNames = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getInstructorNames();
+  }
+
+  void getInstructorNames() async {
+    for (var i = 0; i < widget.course.courseInstructorsIds.length; i++) {
+      UserModel? userModel = await UserRepository()
+          .getSpecificUserById(widget.course.courseInstructorsIds[i]!);
+
+      instructorNames +=
+          ('\n - ${userModel!.userName} ${userModel.userSurname}');
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -33,27 +54,28 @@ class _CourseVideoCardState extends State<CourseVideoCard> {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.courseVideo.courseVideoName,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.courseVideo.courseVideoName,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                      Text(
-                        'Eğitmenler: ${widget.course.courseInstructorsIds.join(', ')}',
-                        style: TextStyle(
-                            fontFamily: "Poppins",
-                            color: Theme.of(context).colorScheme.primary),
+                    ),
+                    Text(
+                      'Eğitmenler: ${instructorNames.toString()}',
+                      style: TextStyle(
+                        fontFamily: "Poppins",
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 if (widget.watchedPercentage != null &&
                     widget.watchedPercentage! > 0 &&
@@ -66,7 +88,7 @@ class _CourseVideoCardState extends State<CourseVideoCard> {
                   const Icon(
                     Icons.check_circle,
                     color: Colors.green,
-                  )
+                  ),
               ],
             ),
           ),

@@ -56,7 +56,12 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
       child: Scaffold(
         appBar: _showAppBar
             ? AppBar(
-                title: Text(widget.course.courseName),
+                title: Text(
+                  widget.course.courseName,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
                 centerTitle: true,
                 actions: [
                   IconButton(
@@ -176,9 +181,7 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           return CourseVideoCard(
                             courseVideo: courseVideo,
-                            onTap: () {
-                              _updateVideoUrl(courseVideo.videoUrl);
-                            },
+                            onTap: () => _updateVideoUrl(courseVideo.videoUrl),
                             watchedPercentage: snapshot.data!.roundToDouble(),
                             course: widget.course,
                           );

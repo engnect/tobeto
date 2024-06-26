@@ -68,8 +68,8 @@ class _ProfileDetailsTabScreenState extends State<ProfileDetailsTabScreen> {
                                             Radius.circular(40)),
                                         child: Image.network(
                                           state.userModel.userAvatarUrl!,
-                                          width: 80,
-                                          height: 80,
+                                          width: 70,
+                                          height: 70,
                                           fit: BoxFit.contain,
                                         ),
                                       ),

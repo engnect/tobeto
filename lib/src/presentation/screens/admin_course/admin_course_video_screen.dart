@@ -9,6 +9,7 @@ import 'package:tobeto/src/domain/repositories/course_repository.dart';
 import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart';
 import 'package:tobeto/src/models/course_model.dart';
 import 'package:tobeto/src/models/course_video_model.dart';
+import 'package:tobeto/src/presentation/screens/platform/widgets/course_video.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_input_field.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_purple_button.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_admin_sliver_app_bar.dart';
@@ -151,6 +152,7 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          scrollable: true,
           title: Text(
             "Seçili Videoyu Düzenle",
             style: TextStyle(
@@ -172,6 +174,7 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                     courses.map((course) => course.courseName).toList();
 
                 return Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     TBTInputField(
                       hintText: 'Yeni Video ismini girin.',
@@ -270,28 +273,26 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                       bottom: 50,
                                       top: 30,
                                     ),
-                                    child: AspectRatio(
-                                      aspectRatio: 1,
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: const Color.fromRGBO(
-                                              150, 150, 150, 0.2),
-                                          image: selected
-                                              ? DecorationImage(
-                                                  image: FileImage(
-                                                    File(_selectedVideo!.path),
-                                                  ),
-                                                )
-                                              : null,
-                                        ),
-                                        child: selected
-                                            ? null
-                                            : const Icon(
+                                    child: selected
+                                        ? CourseVideo(
+                                            dataSourceType: DataSourceType.file,
+                                            videoUrl: _selectedVideo!.path,
+                                            onFullScreenToggle:
+                                                (isFullScreen) {},
+                                          )
+                                        : AspectRatio(
+                                            aspectRatio: 1,
+                                            child: Container(
+                                              decoration: const BoxDecoration(
+                                                color: Color.fromRGBO(
+                                                    150, 150, 150, 0.2),
+                                              ),
+                                              child: const Icon(
                                                 Icons.video_call,
                                                 size: 50,
                                               ),
-                                      ),
-                                    ),
+                                            ),
+                                          ),
                                   ),
                                 ),
                                 TBTInputField(

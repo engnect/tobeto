@@ -36,7 +36,7 @@ class _AdminBlogScreenState extends State<AdminBlogScreen> {
 
   void _pickImage() async {
     final imagePicker = ImagePicker();
-    XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
+    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
 
     if (file != null) {
       setState(() {

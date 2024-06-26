@@ -328,9 +328,9 @@ class _TBTDrawerState extends State<TBTDrawer> {
                     indicatorTransition:
                         const ForegroundIndicatorTransition.rolling(),
                     spacing: 10,
-                    style: const ToggleStyle(
+                    style: ToggleStyle(
                       backgroundColor: Colors.transparent,
-                      indicatorColor: Color.fromARGB(200, 153, 51, 255),
+                      indicatorColor: Theme.of(context).colorScheme.primary,
                     ),
                     height: 50,
                     borderWidth: 0,
@@ -366,6 +366,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                 color: Theme.of(context).colorScheme.onSecondary,
               ),
             ),
+            const SizedBox(height: kToolbarHeight),
           ],
         ),
       ),
@@ -420,20 +421,3 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
     );
   }
 }
-
-
-// TextButton.icon(
-//                     onLongPress: () {
-//                       print("uzunnn basıldıı");
-//                     },
-//                     onPressed: () {
-//                       Navigator.of(context)
-//                           .pushNamed(AppRouteNames.platformScreenRoute);
-//                     },
-//                     icon: CircleAvatar(
-//                       backgroundImage:
-//                           NetworkImage(state.userModel.userAvatarUrl!),
-//                     ),
-//                     label: Text(
-//                         '${state.userModel.userName} ${state.userModel.userSurname}'),
-//                   );
