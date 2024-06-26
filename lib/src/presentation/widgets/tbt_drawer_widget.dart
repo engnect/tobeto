@@ -106,16 +106,6 @@ class _TBTDrawerState extends State<TBTDrawer> {
                 ),
               ],
             ),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: Text(
-                context.translate.our_trainings,
-                style: TextStyle(
-                    fontFamily: "Poppins",
-                    color: Theme.of(context).colorScheme.primary),
-              ),
-              onTap: () {},
-            ),
             CustomExpansionTile(
               title: Text(
                 context.translate.whats_happening_at_tobeto,

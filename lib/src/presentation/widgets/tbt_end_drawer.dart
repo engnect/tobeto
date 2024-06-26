@@ -102,23 +102,7 @@ class TBTEndDrawer extends StatelessWidget {
               onTap: () => Navigator.of(context)
                   .pushNamed(AppRouteNames.adminAnnouncementsScreenRoute),
             ),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-              title: Text(
-                "Kadro",
-                style: TextStyle(
-                  fontFamily: "Poppins",
-                  fontSize: 16,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-              onTap: () {
-                Navigator.of(context).pushNamed(
-                  AppRouteNames.adminStaffScreenRoute,
-                  arguments: UserRank.admin.index,
-                );
-              },
-            ),
+
             CustomExpansionTile(
               title: Text(
                 "Medya",
