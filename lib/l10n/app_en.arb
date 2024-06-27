@@ -3,6 +3,8 @@
   "address": "Address",
   "assessment_tools_content": "Technical and competency assessment tools for candidates who want to gain new skills (reskill) or start a new role (upskill).",
   "assessment_tools_header": "ASSESSMENT TOOLS",
+  "login": "Login",
+  "logout": "Logout",
   "blog": "Blog",
   "bootcamp_content": "Access to a large pool of evaluated and trained talents, along with assessment, selection, and reporting services.",
   "bootcamp_header": "BOOTCAMP",
