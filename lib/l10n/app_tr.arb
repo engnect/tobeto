@@ -3,6 +3,8 @@
   "address": "Adres",
   "assessment_tools_content": "Uzmanlaşmak için yeni beceriler kazanmak (reskill) veya yeni bir role başlamak (upskill) isteyen adaylar için, teknik ve yetkinlik ölçme araçları.",
   "assessment_tools_header": "ÖLÇME ARAÇLARI",
+  "login": "Giriş yap",
+  "logout": "Çıkış yap",
   "blog": "Blog",
   "bootcamp_content": "Değerlendirilmiş ve yetişmiş geniş yetenek havuzuna erişim olanağı ve ölçme, değerlendirme, seçme ve raporlama hizmeti.",
   "bootcamp_header": "BOOTCAMP",

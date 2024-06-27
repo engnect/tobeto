@@ -14,6 +14,7 @@ import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_purple_button.dart';
 import '../../common/constants/assets.dart';
 
+
 class TBTDrawer extends StatefulWidget {
   const TBTDrawer({
     super.key,
@@ -239,9 +240,9 @@ class _TBTDrawerState extends State<TBTDrawer> {
                               onPressed: () async {
                                 AuthRepository().signOutUser();
                               },
-                              child: const Text(
-                                "Çıkış Yap",
-                                style: TextStyle(
+                              child:  Text(
+                                context.translate.logout,
+                                style: const TextStyle(
                                   fontFamily: "Poppins",
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -266,9 +267,9 @@ class _TBTDrawerState extends State<TBTDrawer> {
                         Navigator.of(context).pushReplacementNamed(
                             AppRouteNames.auhtScreenRoute);
                       },
-                      child: const Text(
-                        "Giriş yap",
-                        style: TextStyle(
+                      child:  Text(
+                        context.translate.login,
+                        style: const TextStyle(
                           fontFamily: "Poppins",
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
