@@ -1,21 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
-import 'package:tobeto/src/common/router/app_route_names.dart';
-import 'package:tobeto/src/models/certificate_model.dart';
-import 'package:tobeto/src/models/education_model.dart';
-import 'package:tobeto/src/models/experience_model.dart';
-import 'package:tobeto/src/models/language_model.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_end_drawer.dart';
-import 'package:tobeto/src/presentation/screens/platform/widgets/profile_details_date_and_content_widget.dart';
-import 'package:tobeto/src/presentation/screens/platform/widgets/profile_details_language_widget.dart';
-import 'package:tobeto/src/presentation/screens/platform/widgets/personel_info_container_widget.dart';
-import 'package:tobeto/src/presentation/screens/platform/widgets/profile_detail_widget.dart';
-import 'package:tobeto/src/presentation/screens/platform/widgets/section_container_widget.dart';
-import 'package:tobeto/src/presentation/screens/platform/widgets/skills_container_widget.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
+
+import '../../../../blocs/export_blocs.dart';
+import '../../../../common/export_common.dart';
+import '../../../../models/export_models.dart';
+import '../../../widgets/export_widgets.dart';
+import '../../export_screens.dart';
 
 class ProfileDetailsTabScreen extends StatefulWidget {
   const ProfileDetailsTabScreen({super.key});

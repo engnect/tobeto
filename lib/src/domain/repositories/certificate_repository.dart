@@ -1,11 +1,10 @@
 import 'dart:io';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:tobeto/src/common/utilities/utilities.dart';
-import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/models/certificate_model.dart';
-import 'package:tobeto/src/models/user_model.dart';
+
+import '../../common/export_common.dart';
+import '../../models/export_models.dart';
+import '../export_domain.dart';
 
 class CertificateRepository {
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;

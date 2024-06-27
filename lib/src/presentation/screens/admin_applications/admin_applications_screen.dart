@@ -1,16 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tobeto/src/common/constants/firebase_constants.dart';
-import 'package:tobeto/src/common/enums/application_status_enum.dart';
-import 'package:tobeto/src/common/utilities/utilities.dart';
-import 'package:tobeto/src/domain/repositories/applications_repository.dart';
-import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/models/application_model.dart';
-import 'package:tobeto/src/models/user_model.dart';
-import 'package:tobeto/src/presentation/screens/platform/widgets/application_card.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_input_field.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_admin_sliver_app_bar.dart';
+
+import '../../../common/export_common.dart';
+import '../../../domain/export_domain.dart';
+import '../../../models/export_models.dart';
+import '../../widgets/export_widgets.dart';
+import '../export_screens.dart';
 
 class AdminApplicationsScreen extends StatefulWidget {
   const AdminApplicationsScreen({super.key});

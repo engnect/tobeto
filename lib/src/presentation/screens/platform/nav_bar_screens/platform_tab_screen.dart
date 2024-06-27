@@ -1,15 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/common/constants/firebase_constants.dart';
-import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/models/announcement_model.dart';
-import 'package:tobeto/src/models/user_model.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_end_drawer.dart';
-import 'package:tobeto/src/presentation/screens/platform/widgets/announcement_card.dart';
-import 'package:tobeto/src/presentation/screens/platform/widgets/purple_card.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
-import '../../../../common/constants/assets.dart';
+
+import '../../../../common/export_common.dart';
+import '../../../../domain/export_domain.dart';
+import '../../../../models/export_models.dart';
+import '../../../widgets/export_widgets.dart';
+import '../../export_screens.dart';
 
 class PlatformTabScreen extends StatefulWidget {
   const PlatformTabScreen({super.key});

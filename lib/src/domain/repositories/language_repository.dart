@@ -1,7 +1,7 @@
-import 'package:tobeto/src/common/utilities/utilities.dart';
-import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/models/language_model.dart';
-import 'package:tobeto/src/models/user_model.dart';
+import 'package:tobeto/src/domain/export_domain.dart';
+
+import '../../common/export_common.dart';
+import '../../models/export_models.dart';
 
 class LanguageRepository {
   Future<String> addLanguage(LanguageModel languageModel) async {

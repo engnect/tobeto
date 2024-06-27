@@ -5,14 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field2/country_picker_dialog.dart';
 import 'package:intl_phone_field2/intl_phone_field.dart';
-import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
-import 'package:tobeto/src/common/constants/assets.dart';
-import 'package:tobeto/src/common/utilities/utilities.dart';
-import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart';
-import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import '../../../widgets/tbt_input_field.dart';
-import '../../../widgets/tbt_purple_button.dart';
-import 'package:tobeto/src/models/user_model.dart';
+import 'package:tobeto/src/blocs/export_blocs.dart';
+
+import '../../../../common/export_common.dart';
+import '../../../../domain/export_domain.dart';
+import '../../../../models/export_models.dart';
+import '../../../widgets/export_widgets.dart';
 
 class EditPersonalInfoTab extends StatefulWidget {
   const EditPersonalInfoTab({super.key});
@@ -134,8 +132,13 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
   Future<String> _updateUser(File? image) async {
     UserModel? usermodel = await UserRepository().getCurrentUser();
 
-    String userAvatarUrl = await FirebaseStorageRepository()
-        .getDefaultAvatarUrl(userId: usermodel!.userId, image: image);
+    String userAvatarUrl = '';
+    if (image == null) {
+      userAvatarUrl = usermodel!.userAvatarUrl!;
+    } else {
+      userAvatarUrl = await FirebaseStorageRepository()
+          .updateUserAvatarAndGetUrl(userId: usermodel!.userId, image: image);
+    }
 
     UserModel updatedUser = usermodel.copyWith(
       userName: _nameController.text,
@@ -604,7 +607,7 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
               ),
               const SizedBox(
                 height: 50,
-              )
+              ),
             ],
           ),
         ),

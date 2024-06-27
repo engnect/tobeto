@@ -1,9 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/platform/nav_bar_screens/course_tab_screen.dart';
-import 'package:tobeto/src/presentation/screens/platform/nav_bar_screens/platform_tab_screen.dart';
-import 'package:tobeto/src/presentation/screens/platform/nav_bar_screens/applications_tab_screen.dart';
-import 'package:tobeto/src/presentation/screens/platform/nav_bar_screens/profile_details_tab_screen.dart';
+
+import '../export_screens.dart';
 
 class PlatformScreen extends StatefulWidget {
   const PlatformScreen({super.key});

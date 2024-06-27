@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/presentation/screens/for_individuals/widgets/for_individuals_image_card.dart';
-import 'package:tobeto/src/presentation/screens/for_individuals/widgets/for_individuals_page_text.dart';
-import 'package:tobeto/src/presentation/screens/for_individuals/widgets/for_individuals_sector_card.dart';
 
-import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
-
-import '../../../common/constants/assets.dart';
+import '../../../common/export_common.dart';
+import '../../widgets/export_widgets.dart';
+import 'widgets/widgets.dart';
 
 class ForIndividualsScreen extends StatelessWidget {
   const ForIndividualsScreen({super.key});

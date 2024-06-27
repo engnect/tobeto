@@ -1,7 +1,6 @@
-import 'package:tobeto/src/common/utilities/utilities.dart';
-import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/models/education_model.dart';
-import 'package:tobeto/src/models/user_model.dart';
+import '../../common/export_common.dart';
+import '../../models/export_models.dart';
+import '../export_domain.dart';
 
 class EducationRepository {
   Future<String> addEducation(EducationModel educaitonModel) async {

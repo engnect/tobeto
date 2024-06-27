@@ -1,26 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/common/router/app_route_names.dart';
-import 'package:tobeto/src/common/router/app_route_transition_animation_settings.dart';
-import 'package:tobeto/src/presentation/screens/about_us/about_us_screen.dart';
-import 'package:tobeto/src/presentation/screens/auth/auth_screen.dart';
-import 'package:tobeto/src/presentation/screens/blog/blog_screen.dart';
-import 'package:tobeto/src/presentation/screens/calendar/calendar_screen.dart';
-import 'package:tobeto/src/presentation/screens/contact_us/contact_us_screen.dart';
-import 'package:tobeto/src/presentation/screens/platform/nav_bar_screens/course_tab_screen.dart';
-import 'package:tobeto/src/presentation/screens/admin_announcement/admin_announcements_screen.dart';
-import 'package:tobeto/src/presentation/screens/admin_applications/admin_applications_screen.dart';
-import 'package:tobeto/src/presentation/screens/admin_contact_forms/admin_contact_forms_screen.dart';
-import 'package:tobeto/src/presentation/screens/admin_blog/admin_blog_screen.dart';
-import 'package:tobeto/src/presentation/screens/admin_event/admin_event_screen.dart';
-import 'package:tobeto/src/presentation/screens/admin_user_list/admin_user_list_screen.dart';
-import 'package:tobeto/src/presentation/screens/error/error_screen.dart';
-import 'package:tobeto/src/presentation/screens/for_companies/for_companies_screen.dart';
-import 'package:tobeto/src/presentation/screens/for_individuals/for_individuals_page.dart';
-import 'package:tobeto/src/presentation/screens/home/home_screen.dart';
-import 'package:tobeto/src/presentation/screens/in_the_press/in_the_press_screen.dart';
-import 'package:tobeto/src/presentation/screens/onboarding/onboarding_screen.dart';
-import 'package:tobeto/src/presentation/screens/platform/platform_screen.dart';
-import 'package:tobeto/src/presentation/screens/platform/profile_edit_screen.dart';
+import '../../presentation/screens/export_screens.dart';
+import 'router.dart';
 
 class AppRouter {
   Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -63,7 +43,6 @@ class AppRouter {
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const AuthScreen(),
         );
-
       case AppRouteNames.inThePressScreenRoute:
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const InThePressScreen(),
@@ -76,25 +55,12 @@ class AppRouter {
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const CalendarScreen(),
         );
-
       case AppRouteNames.blogScreenRoute:
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const BlogScreen(),
         );
 
       // Admin sayfaları
-      case AppRouteNames.adminBlogScreenRoute:
-        return AppRouterTransitionAnimation.tbtPageTransition(
-          child: const AdminBlogScreen(),
-        );
-      case AppRouteNames.adminEventScreenRoute:
-        return AppRouterTransitionAnimation.tbtPageTransition(
-          child: const AdminEventScreen(),
-        );
-      case AppRouteNames.adminContactFormScreenRoute:
-        return AppRouterTransitionAnimation.tbtPageTransition(
-          child: const AdminContactFormsScreen(),
-        );
       case AppRouteNames.adminAnnouncementsScreenRoute:
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const AdminAnnouncementsScreen(),
@@ -103,7 +69,31 @@ class AppRouter {
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const AdminApplicationsScreen(),
         );
-      case AppRouteNames.adminStaffScreenRoute:
+      case AppRouteNames.adminBlogScreenRoute:
+        return AppRouterTransitionAnimation.tbtPageTransition(
+          child: const AdminBlogScreen(),
+        );
+      case AppRouteNames.adminContactFormScreenRoute:
+        return AppRouterTransitionAnimation.tbtPageTransition(
+          child: const AdminContactFormsScreen(),
+        );
+      case AppRouteNames.adminCourseScreenRoute:
+        return AppRouterTransitionAnimation.tbtPageTransition(
+          child: const AdminCourseScreen(),
+        );
+      case AppRouteNames.adminCourseVideoScreenRoute:
+        return AppRouterTransitionAnimation.tbtPageTransition(
+          child: const AdminCourseVideoScreen(),
+        );
+      case AppRouteNames.adminEventScreenRoute:
+        return AppRouterTransitionAnimation.tbtPageTransition(
+          child: const AdminEventScreen(),
+        );
+      case AppRouteNames.adminInThePressScreenRoute:
+        return AppRouterTransitionAnimation.tbtPageTransition(
+          child: const AdminInThePressScreen(),
+        );
+      case AppRouteNames.adminUserListScreenRoute:
         if (args is int) {
           return AppRouterTransitionAnimation.tbtPageTransition(
             child: UserListScreen(userRankIndex: args),
@@ -112,7 +102,8 @@ class AppRouter {
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const ErrorScreen(),
         );
-      // error
+
+      // error screen
       default:
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const ErrorScreen(),

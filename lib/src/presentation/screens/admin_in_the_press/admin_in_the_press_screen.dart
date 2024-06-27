@@ -1,32 +1,25 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tobeto/src/common/constants/firebase_constants.dart';
-import 'package:tobeto/src/common/utilities/utilities.dart';
-import 'package:tobeto/src/domain/repositories/blog_repository.dart';
-import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart';
-import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/models/blog_model.dart';
-import 'package:tobeto/src/models/user_model.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_input_field.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_purple_button.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_admin_sliver_app_bar.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
+import 'package:tobeto/src/domain/export_domain.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../widgets/tbt_slideable_list_tile.dart';
+import '../../../common/export_common.dart';
+import '../../../models/export_models.dart';
+import '../../widgets/export_widgets.dart';
 
-class InThePressAdmin extends StatefulWidget {
-  const InThePressAdmin({
+class AdminInThePressScreen extends StatefulWidget {
+  const AdminInThePressScreen({
     super.key,
   });
 
   @override
-  State<InThePressAdmin> createState() => _InThePressAdminState();
+  State<AdminInThePressScreen> createState() => _AdminInThePressScreenState();
 }
 
-class _InThePressAdminState extends State<InThePressAdmin> {
+class _AdminInThePressScreenState extends State<AdminInThePressScreen> {
   final TextEditingController _blogTitleController = TextEditingController();
   final TextEditingController _blogContentController = TextEditingController();
   final ScrollController _scrollController = ScrollController();

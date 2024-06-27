@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/common/constants/assets.dart';
-import 'package:tobeto/src/presentation/screens/platform/profile_edit_screen_tabs/edit_certificate_tab.dart';
-import 'package:tobeto/src/presentation/screens/platform/profile_edit_screen_tabs/edit_personel_info_tab.dart';
-import 'package:tobeto/src/presentation/screens/platform/profile_edit_screen_tabs/edit_education_tab.dart';
-import 'package:tobeto/src/presentation/screens/platform/profile_edit_screen_tabs/edit_experience_tab.dart';
-import 'package:tobeto/src/presentation/screens/platform/profile_edit_screen_tabs/edit_languages_tab.dart';
-import 'package:tobeto/src/presentation/screens/platform/profile_edit_screen_tabs/edit_settings_tab.dart';
-import 'package:tobeto/src/presentation/screens/platform/profile_edit_screen_tabs/edit_skills_tab.dart';
-import 'package:tobeto/src/presentation/screens/platform/profile_edit_screen_tabs/edit_social_media_tab.dart';
+
+import '../../../common/export_common.dart';
+import '../export_screens.dart';
 
 class ProfileEditScreen extends StatefulWidget {
   const ProfileEditScreen({super.key});

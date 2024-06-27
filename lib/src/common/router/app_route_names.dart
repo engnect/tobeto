@@ -16,13 +16,14 @@ class AppRouteNames {
   static const String blogScreenRoute = '/blogScreen';
 
   // admin sayfaları
-  static const String adminBlogScreenRoute = '/adminBlogScreen';
-  static const String adminEventScreenRoute = '/adminEventScreen';
-  static const String adminContactFormScreenRoute = '/adminContactFormScreen';
   static const String adminAnnouncementsScreenRoute =
       '/AdminAnnouncementsScreen';
-  static const String adminCourseVideoAddEdit = '/courseVideoAddEditScreen';
-  static const String adminCourseAddEdit = '/courseAddEditScreen';
   static const String adminApplicationsScreenRoute = '/adminApplicationsScreen';
-  static const String adminStaffScreenRoute = '/adminStaffScreen';
+  static const String adminBlogScreenRoute = '/adminBlogScreen';
+  static const String adminContactFormScreenRoute = '/adminContactFormScreen';
+  static const String adminCourseScreenRoute = '/adminCourseScreen';
+  static const String adminCourseVideoScreenRoute = '/adminCourseVideoScreen';
+  static const String adminEventScreenRoute = '/adminEventScreen';
+  static const String adminInThePressScreenRoute = '/adminInThePressScreen';
+  static const String adminUserListScreenRoute = '/adminUserListScreen';
 }

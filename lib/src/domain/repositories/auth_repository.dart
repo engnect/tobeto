@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:tobeto/src/common/enums/user_rank_enum.dart';
-import 'package:tobeto/src/common/utilities/utilities.dart';
-import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart';
-import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import '../../models/user_model.dart';
+import '../../common/export_common.dart';
+import '../../models/export_models.dart';
+import '../export_domain.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

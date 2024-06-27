@@ -1,21 +1,17 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tobeto/src/common/constants/firebase_constants.dart';
-import 'package:tobeto/src/common/utilities/utilities.dart';
-import 'package:tobeto/src/domain/repositories/course_repository.dart';
-import 'package:tobeto/src/domain/repositories/firebase_storage_repository.dart';
-import 'package:tobeto/src/models/course_model.dart';
-import 'package:tobeto/src/models/course_video_model.dart';
-import 'package:tobeto/src/presentation/screens/platform/widgets/course_video.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_input_field.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_purple_button.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_admin_sliver_app_bar.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_animated_container.dart';
 import 'package:uuid/uuid.dart';
 import 'package:video_player/video_player.dart';
+
+import '../../../common/export_common.dart';
+import '../../../domain/export_domain.dart';
+import '../../../models/export_models.dart';
+import '../../widgets/export_widgets.dart';
+import '../export_screens.dart';
 
 class AdminCourseVideoScreen extends StatefulWidget {
   const AdminCourseVideoScreen({super.key});

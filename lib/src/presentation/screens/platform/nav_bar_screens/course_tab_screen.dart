@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tobeto/src/domain/repositories/course_repository.dart';
-import 'package:tobeto/src/models/course_model.dart';
-import 'package:tobeto/src/presentation/screens/platform/widgets/course_screen_details.dart';
-import 'package:tobeto/src/presentation/screens/platform/widgets/course_card.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_end_drawer.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
+
+import '../../../../domain/export_domain.dart';
+import '../../../../models/export_models.dart';
+import '../../../widgets/export_widgets.dart';
+import '../../export_screens.dart';
 
 class CourseTabScreen extends StatefulWidget {
   const CourseTabScreen({super.key});
@@ -51,7 +49,6 @@ class _CourseTabScreenState extends State<CourseTabScreen> {
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-
                       return Center(
                         child: Text(
                           'No courses available.',
@@ -59,7 +56,6 @@ class _CourseTabScreenState extends State<CourseTabScreen> {
                               color: Theme.of(context).colorScheme.primary),
                         ),
                       );
-
                     } else {
                       return Column(
                         children: snapshot.data!.map((course) {
@@ -88,11 +84,9 @@ class _CourseTabScreenState extends State<CourseTabScreen> {
                     }
                   },
                 ),
-
                 const SizedBox(
                   height: 50,
                 ),
-
               ],
             ),
           ),
