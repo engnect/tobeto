@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/models/user_model.dart';
+import 'package:tobeto/src/domain/export_domain.dart';
+import '../../models/export_models.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

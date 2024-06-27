@@ -2,13 +2,11 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
-import 'package:tobeto/src/blocs/language/language_cubit.dart';
-import 'package:tobeto/src/blocs/theme/theme_bloc.dart';
-import 'package:tobeto/src/common/router/app_route_generator.dart';
-import 'package:tobeto/src/common/router/app_route_names.dart';
-import 'package:tobeto/src/domain/repositories/user_repository.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'src/blocs/export_blocs.dart';
+import 'src/common/export_common.dart';
+import 'src/domain/export_domain.dart';
 
 class MainApp extends StatefulWidget {
   final ThemeData themeData;

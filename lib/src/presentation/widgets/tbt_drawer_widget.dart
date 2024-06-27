@@ -14,7 +14,6 @@ import 'package:tobeto/src/domain/repositories/auth_repository.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_purple_button.dart';
 import '../../common/constants/assets.dart';
 
-
 class TBTDrawer extends StatefulWidget {
   const TBTDrawer({
     super.key,
@@ -47,7 +46,12 @@ class _TBTDrawerState extends State<TBTDrawer> {
                       ),
                       onTap: () {
                         Navigator.of(context)
-                            .pushNamed(AppRouteNames.homeRoute);
+                            .pushNamed(AppRouteNames.homeRoute)
+                            .then(
+                          (_) {
+                            Navigator.of(context).pop();
+                          },
+                        );
                       },
                     ),
                     GestureDetector(
@@ -71,10 +75,15 @@ class _TBTDrawerState extends State<TBTDrawer> {
               ),
               onTap: () {
                 Navigator.of(context)
-                    .pushNamed(AppRouteNames.aboutUsScreenRoute);
+                    .pushNamed(AppRouteNames.aboutUsScreenRoute)
+                    .then(
+                  (_) {
+                    Navigator.of(context).pop();
+                  },
+                );
               },
             ),
-            CustomExpansionTile(
+            DrawerCustomExpansionTile(
               title: Text(
                 context.translate.what_we_offer,
                 style: TextStyle(
@@ -85,29 +94,39 @@ class _TBTDrawerState extends State<TBTDrawer> {
                 SizedBox(
                   height: 50,
                   child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 35),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     title: TBTPurpleButton(
                       buttonText: context.translate.for_individuals,
                       onPressed: () {
                         Navigator.of(context)
-                            .pushNamed(AppRouteNames.forIndividualsScreenRoute);
+                            .pushNamed(AppRouteNames.forIndividualsScreenRoute)
+                            .then(
+                          (_) {
+                            Navigator.of(context).pop();
+                          },
+                        );
                       },
                     ),
                   ),
                 ),
                 ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 35),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                   title: TBTPurpleButton(
                     buttonText: context.translate.for_companies,
                     onPressed: () {
                       Navigator.of(context)
-                          .pushNamed(AppRouteNames.forCompaniesScreenRoute);
+                          .pushNamed(AppRouteNames.forCompaniesScreenRoute)
+                          .then(
+                        (_) {
+                          Navigator.of(context).pop();
+                        },
+                      );
                     },
                   ),
                 ),
               ],
             ),
-            CustomExpansionTile(
+            DrawerCustomExpansionTile(
               title: Text(
                 context.translate.whats_happening_at_tobeto,
                 style: TextStyle(
@@ -123,7 +142,12 @@ class _TBTDrawerState extends State<TBTDrawer> {
                       buttonText: context.translate.blog,
                       onPressed: () {
                         Navigator.of(context)
-                            .pushNamed(AppRouteNames.blogScreenRoute);
+                            .pushNamed(AppRouteNames.blogScreenRoute)
+                            .then(
+                          (_) {
+                            Navigator.of(context).pop();
+                          },
+                        );
                       },
                     ),
                   ),
@@ -137,7 +161,12 @@ class _TBTDrawerState extends State<TBTDrawer> {
                       buttonText: context.translate.in_the_press,
                       onPressed: () {
                         Navigator.of(context)
-                            .pushNamed(AppRouteNames.inThePressScreenRoute);
+                            .pushNamed(AppRouteNames.inThePressScreenRoute)
+                            .then(
+                          (_) {
+                            Navigator.of(context).pop();
+                          },
+                        );
                       },
                     ),
                   ),
@@ -154,7 +183,12 @@ class _TBTDrawerState extends State<TBTDrawer> {
                         buttonText: context.translate.calendar,
                         onPressed: () {
                           Navigator.of(context)
-                              .pushNamed(AppRouteNames.calendarScreenRoute);
+                              .pushNamed(AppRouteNames.calendarScreenRoute)
+                              .then(
+                            (_) {
+                              Navigator.of(context).pop();
+                            },
+                          );
                         },
                       ),
                     ),
@@ -172,7 +206,12 @@ class _TBTDrawerState extends State<TBTDrawer> {
               ),
               onTap: () {
                 Navigator.of(context)
-                    .pushNamed(AppRouteNames.contactUsScreenRoute);
+                    .pushNamed(AppRouteNames.contactUsScreenRoute)
+                    .then(
+                  (_) {
+                    Navigator.of(context).pop();
+                  },
+                );
               },
             ),
 
@@ -183,7 +222,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (state is Authenticated) {
-                  return CustomExpansionTile(
+                  return DrawerCustomExpansionTile(
                       title: Row(
                         children: [
                           CircleAvatar(
@@ -240,7 +279,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                               onPressed: () async {
                                 AuthRepository().signOutUser();
                               },
-                              child:  Text(
+                              child: Text(
                                 context.translate.logout,
                                 style: const TextStyle(
                                   fontFamily: "Poppins",
@@ -267,7 +306,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                         Navigator.of(context).pushReplacementNamed(
                             AppRouteNames.auhtScreenRoute);
                       },
-                      child:  Text(
+                      child: Text(
                         context.translate.login,
                         style: const TextStyle(
                           fontFamily: "Poppins",
@@ -365,8 +404,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
   }
 }
 
-class CustomExpansionTile extends StatefulWidget {
-  const CustomExpansionTile({
+class DrawerCustomExpansionTile extends StatefulWidget {
+  const DrawerCustomExpansionTile({
     super.key,
     required this.title,
     required this.children,
@@ -376,10 +415,11 @@ class CustomExpansionTile extends StatefulWidget {
   final List<Widget> children;
 
   @override
-  State<CustomExpansionTile> createState() => _CustomExpansionTileState();
+  State<DrawerCustomExpansionTile> createState() =>
+      _DrawerCustomExpansionTileState();
 }
 
-class _CustomExpansionTileState extends State<CustomExpansionTile> {
+class _DrawerCustomExpansionTileState extends State<DrawerCustomExpansionTile> {
   bool _isExpanded = false;
 
   @override
@@ -389,9 +429,6 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> {
         ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 30),
           title: widget.title,
-          // trailing: Icon(
-          //   _isExpanded ? Icons.expand_less : Icons.expand_more,
-          // ),
           onTap: () {
             setState(() {
               _isExpanded = !_isExpanded;

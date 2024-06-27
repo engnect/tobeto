@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
-import 'package:tobeto/src/presentation/screens/admin_course/admin_course_screen.dart';
-import 'package:tobeto/src/presentation/screens/admin_course/admin_course_video_screen.dart';
-import 'package:tobeto/src/presentation/screens/admin_in_the_press/admin_in_the_press_screen.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_purple_button.dart';
 
 class TBTEndDrawer extends StatelessWidget {
@@ -61,7 +58,12 @@ class TBTEndDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () => Navigator.of(context)
-                  .pushNamed(AppRouteNames.adminEventScreenRoute),
+                  .pushNamed(AppRouteNames.adminEventScreenRoute)
+                  .then(
+                (_) {
+                  Navigator.of(context).pop();
+                },
+              ),
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
@@ -74,7 +76,12 @@ class TBTEndDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () => Navigator.of(context)
-                  .pushNamed(AppRouteNames.adminApplicationsScreenRoute),
+                  .pushNamed(AppRouteNames.adminApplicationsScreenRoute)
+                  .then(
+                (_) {
+                  Navigator.of(context).pop();
+                },
+              ),
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
@@ -87,7 +94,12 @@ class TBTEndDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () => Navigator.of(context)
-                  .pushNamed(AppRouteNames.adminContactFormScreenRoute),
+                  .pushNamed(AppRouteNames.adminContactFormScreenRoute)
+                  .then(
+                (_) {
+                  Navigator.of(context).pop();
+                },
+              ),
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
@@ -100,10 +112,15 @@ class TBTEndDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () => Navigator.of(context)
-                  .pushNamed(AppRouteNames.adminAnnouncementsScreenRoute),
+                  .pushNamed(AppRouteNames.adminAnnouncementsScreenRoute)
+                  .then(
+                (_) {
+                  Navigator.of(context).pop();
+                },
+              ),
             ),
 
-            CustomExpansionTile(
+            EndDrawerCustomExpansionTile(
               title: Text(
                 "Medya",
                 style: TextStyle(
@@ -116,32 +133,37 @@ class TBTEndDrawer extends StatelessWidget {
                 SizedBox(
                   height: 50,
                   child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 35),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     title: TBTPurpleButton(
                       buttonText: "Basında Biz",
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const InThePressAdmin(),
-                          ),
-                        );
-                      },
+                      onPressed: () => Navigator.of(context)
+                          .pushNamed(AppRouteNames.adminInThePressScreenRoute)
+                          .then(
+                        (_) {
+                          Navigator.of(context).pop();
+                        },
+                      ),
                     ),
                   ),
                 ),
                 ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 35),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                   title: TBTPurpleButton(
                     buttonText: "Blog",
                     onPressed: () {
                       Navigator.of(context)
-                          .pushNamed(AppRouteNames.adminBlogScreenRoute);
+                          .pushNamed(AppRouteNames.adminBlogScreenRoute)
+                          .then(
+                        (_) {
+                          Navigator.of(context).pop();
+                        },
+                      );
                     },
                   ),
                 ),
               ],
             ),
-            CustomExpansionTile(
+            EndDrawerCustomExpansionTile(
               title: Text(
                 "Kullanıcılar",
                 style: TextStyle(
@@ -158,9 +180,15 @@ class TBTEndDrawer extends StatelessWidget {
                     title: TBTPurpleButton(
                       buttonText: "Yöneticiler",
                       onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          AppRouteNames.adminStaffScreenRoute,
+                        Navigator.of(context)
+                            .pushNamed(
+                          AppRouteNames.adminUserListScreenRoute,
                           arguments: UserRank.admin.index,
+                        )
+                            .then(
+                          (_) {
+                            Navigator.of(context).pop();
+                          },
                         );
                       },
                     ),
@@ -174,9 +202,15 @@ class TBTEndDrawer extends StatelessWidget {
                     title: TBTPurpleButton(
                       buttonText: "Öğretmenler",
                       onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          AppRouteNames.adminStaffScreenRoute,
+                        Navigator.of(context)
+                            .pushNamed(
+                          AppRouteNames.adminUserListScreenRoute,
                           arguments: UserRank.instructor.index,
+                        )
+                            .then(
+                          (_) {
+                            Navigator.of(context).pop();
+                          },
                         );
                       },
                     ),
@@ -193,9 +227,15 @@ class TBTEndDrawer extends StatelessWidget {
                       title: TBTPurpleButton(
                         buttonText: "Öğrenciler",
                         onPressed: () {
-                          Navigator.of(context).pushNamed(
-                            AppRouteNames.adminStaffScreenRoute,
+                          Navigator.of(context)
+                              .pushNamed(
+                            AppRouteNames.adminUserListScreenRoute,
                             arguments: UserRank.student.index,
+                          )
+                              .then(
+                            (_) {
+                              Navigator.of(context).pop();
+                            },
                           );
                         },
                       ),
@@ -205,7 +245,7 @@ class TBTEndDrawer extends StatelessWidget {
               ],
             ),
             // Dersler ve ders videoları ekleme
-            CustomExpansionTile(
+            EndDrawerCustomExpansionTile(
               title: Text(
                 "Dersler",
                 style: TextStyle(
@@ -221,13 +261,13 @@ class TBTEndDrawer extends StatelessWidget {
                     contentPadding: const EdgeInsets.symmetric(horizontal: 30),
                     title: TBTPurpleButton(
                       buttonText: "Ders Ekle",
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const AdminCourseScreen(),
-                          ),
-                        );
-                      },
+                      onPressed: () => Navigator.of(context)
+                          .pushNamed(AppRouteNames.adminCourseScreenRoute)
+                          .then(
+                        (_) {
+                          Navigator.of(context).pop();
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -241,14 +281,14 @@ class TBTEndDrawer extends StatelessWidget {
                       ),
                       title: TBTPurpleButton(
                         buttonText: "Ders Videosu Ekle",
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const AdminCourseVideoScreen(),
-                            ),
-                          );
-                        },
+                        onPressed: () => Navigator.of(context)
+                            .pushNamed(
+                                AppRouteNames.adminCourseVideoScreenRoute)
+                            .then(
+                          (_) {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       ),
                     ),
                   ),
@@ -263,8 +303,8 @@ class TBTEndDrawer extends StatelessWidget {
   }
 }
 
-class CustomExpansionTile extends StatefulWidget {
-  const CustomExpansionTile({
+class EndDrawerCustomExpansionTile extends StatefulWidget {
+  const EndDrawerCustomExpansionTile({
     super.key,
     required this.title,
     required this.children,
@@ -274,10 +314,12 @@ class CustomExpansionTile extends StatefulWidget {
   final List<Widget> children;
 
   @override
-  State<CustomExpansionTile> createState() => _CustomExpansionTileState();
+  State<EndDrawerCustomExpansionTile> createState() =>
+      _EndDrawerCustomExpansionTileState();
 }
 
-class _CustomExpansionTileState extends State<CustomExpansionTile> {
+class _EndDrawerCustomExpansionTileState
+    extends State<EndDrawerCustomExpansionTile> {
   bool _isExpanded = false;
 
   @override

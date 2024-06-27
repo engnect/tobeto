@@ -2,23 +2,37 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tobeto/src/common/constants/assets.dart';
-import 'package:tobeto/src/common/constants/firebase_constants.dart';
+import '../../common/export_common.dart';
 
 class FirebaseStorageRepository {
   final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
 
   Future<String> getDefaultAvatarUrl({
     required String userId,
-    File? image,
   }) async {
     Uint8List fileData;
-    if (image == null) {
-      ByteData byteData = await rootBundle.load(Assets.imagesDefaultAvatar);
-      fileData = byteData.buffer.asUint8List();
-    } else {
-      fileData = await image.readAsBytes();
-    }
+
+    ByteData byteData = await rootBundle.load(Assets.imagesDefaultAvatar);
+    fileData = byteData.buffer.asUint8List();
+
+    Reference reference = _firebaseStorage
+        .ref()
+        .child('${FirebaseConstants.profilePicsCollection}/')
+        .child('$userId/')
+        .child('avt-$userId');
+
+    UploadTask uploadTask = reference.putData(fileData);
+
+    TaskSnapshot taskSnapshot = await uploadTask;
+    String downloadURL = await taskSnapshot.ref.getDownloadURL();
+    return downloadURL;
+  }
+
+  Future<String> updateUserAvatarAndGetUrl({
+    required String userId,
+    required File image,
+  }) async {
+    Uint8List fileData = await image.readAsBytes();
 
     Reference reference = _firebaseStorage
         .ref()

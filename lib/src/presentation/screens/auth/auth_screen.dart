@@ -1,10 +1,9 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/common/constants/assets.dart';
-import 'package:tobeto/src/presentation/screens/auth/login_page.dart';
-import 'package:tobeto/src/presentation/screens/auth/register_page.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
+
+import '../../../common/export_common.dart';
+import '../../widgets/export_widgets.dart';
+import '../export_screens.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});

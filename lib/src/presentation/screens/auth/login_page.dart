@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/common/constants/assets.dart';
-import 'package:tobeto/src/common/utilities/utilities.dart';
-import 'package:tobeto/src/domain/repositories/auth_repository.dart';
-import 'package:tobeto/src/presentation/screens/auth/widgets/auth_input_widget.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_input_field.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_purple_button.dart';
+
+import '../../../common/export_common.dart';
+import '../../../domain/export_domain.dart';
+import '../../widgets/export_widgets.dart';
+import 'widgets/widgets.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({

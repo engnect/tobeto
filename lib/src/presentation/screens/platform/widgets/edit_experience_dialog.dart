@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:tobeto/src/common/utilities/utilities.dart';
+import 'package:tobeto/src/common/utilities/tbt_utilities.dart';
 import 'package:tobeto/src/models/experience_model.dart';
 
 class EditExperienceDialog extends StatefulWidget {

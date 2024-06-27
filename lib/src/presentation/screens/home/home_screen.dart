@@ -1,18 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:tobeto/src/data/datasource/user_commends_data.dart';
-import 'package:tobeto/src/models/avatar_model.dart';
-import 'package:tobeto/src/presentation/screens/home/widgets/animated_avatar.dart';
-import 'package:tobeto/src/presentation/screens/home/widgets/info_card.dart';
-import 'package:tobeto/src/presentation/screens/home/widgets/gif_card.dart';
-import 'package:tobeto/src/presentation/screens/home/widgets/custom_text.dart';
-import 'package:tobeto/src/presentation/screens/home/widgets/student_comment.dart';
-
-import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../../../common/constants/assets.dart';
-import 'widgets/carousel_card.dart';
+
+import '../../../common/export_common.dart';
+import '../../../data/export_data.dart';
+import '../../../models/export_models.dart';
+import '../../widgets/export_widgets.dart';
+import 'widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({

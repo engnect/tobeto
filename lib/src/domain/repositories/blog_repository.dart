@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:tobeto/src/common/utilities/utilities.dart';
-import 'package:tobeto/src/models/blog_model.dart';
-
-import '../../common/constants/firebase_constants.dart';
+import '../../common/export_common.dart';
+import '../../models/export_models.dart';
 
 class BlogRepository {
   final bool isBlog;

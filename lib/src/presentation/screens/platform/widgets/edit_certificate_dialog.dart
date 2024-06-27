@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/models/certificate_model.dart';
-import 'package:tobeto/src/common/utilities/utilities.dart';
+import 'package:tobeto/src/common/utilities/tbt_utilities.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_input_field.dart';
 
 class EditCertificateDialog extends StatefulWidget {

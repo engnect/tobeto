@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:tobeto/l10n/l10n_exntesions.dart';
-import 'package:tobeto/src/presentation/screens/for_companies/widgets/for_companies_card_content.dart';
-import 'package:tobeto/src/presentation/screens/for_companies/widgets/for_companies_card.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_purple_button.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_drawer_widget.dart';
-import 'package:tobeto/src/presentation/widgets/tbt_sliver_app_bar.dart';
-import '../../../common/constants/assets.dart';
+
+import '../../../common/export_common.dart';
+import '../../widgets/export_widgets.dart';
+import 'widgets/widgets.dart';
 
 class ForCompaniesScreen extends StatelessWidget {
   const ForCompaniesScreen({super.key});

@@ -2,16 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:tobeto/src/blocs/auth/auth_bloc.dart';
-import 'package:tobeto/src/common/utilities/utilities.dart';
-import 'package:tobeto/src/domain/repositories/experience_repository.dart';
-import 'package:tobeto/src/domain/repositories/user_repository.dart';
-import 'package:tobeto/src/models/experience_model.dart';
-import 'package:tobeto/src/models/user_model.dart';
-import 'package:tobeto/src/presentation/screens/platform/widgets/edit_experience_dialog.dart';
 import 'package:uuid/uuid.dart';
-import '../../../widgets/tbt_input_field.dart';
-import '../../../widgets/tbt_purple_button.dart';
+
+import '../../../../blocs/export_blocs.dart';
+import '../../../../common/export_common.dart';
+import '../../../../domain/export_domain.dart';
+import '../../../../models/export_models.dart';
+import '../../../widgets/export_widgets.dart';
+import '../../export_screens.dart';
 
 class EditExperienceTab extends StatefulWidget {
   const EditExperienceTab({super.key});
