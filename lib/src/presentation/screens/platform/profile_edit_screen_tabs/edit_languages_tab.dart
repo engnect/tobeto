@@ -145,213 +145,201 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TBTPurpleButton(
-              buttonText: "Düzenle",
-              onPressed: () {
-                setState(() {
-                  isSelect = !isSelect;
-                });
-              },
-            ),
-            const SizedBox(height: 8.0),
-            AnimatedContainer(
-              decoration: BoxDecoration(
-                borderRadius: isSelect
-                    ? const BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                      )
-                    : null,
-                border: Border(
-                  bottom: BorderSide(
-                    width: isSelect ? 7 : 0,
-                    color: const Color.fromARGB(255, 153, 51, 255),
+      body: CustomScrollView(
+        slivers: [
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: TBTAnimatedContainer(
+                    height: 400,
+                    infoText: 'Yeni Dil Ekle!',
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: PopupMenuButton<String>(
+                            color: Theme.of(context).colorScheme.background,
+                            initialValue: _selectedLanguage,
+                            itemBuilder: (BuildContext context) {
+                              return _languages
+                                  .map<PopupMenuItem<String>>((String value) {
+                                return PopupMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList();
+                            },
+                            onSelected: (String? newValue) {
+                              setState(() {
+                                _selectedLanguage = newValue;
+                              });
+                            },
+                            child: ListTile(
+                              title: Text(
+                                _selectedLanguage ?? 'Yabancı Dil Seçiniz',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              trailing: Icon(
+                                Icons.arrow_drop_down,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 4.0,
+                                horizontal: 8.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: PopupMenuButton<String>(
+                            color: Theme.of(context).colorScheme.background,
+                            initialValue: _selectedLevel,
+                            itemBuilder: (BuildContext context) {
+                              return _levels
+                                  .map<PopupMenuItem<String>>((String value) {
+                                return PopupMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
+                                );
+                              }).toList();
+                            },
+                            onSelected: (String? newValue) {
+                              setState(() {
+                                _selectedLevel = newValue;
+                              });
+                            },
+                            child: ListTile(
+                              title: Text(
+                                _selectedLevel ?? 'Seviye Seçiniz',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              trailing: Icon(
+                                Icons.arrow_drop_down,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 4.0,
+                                horizontal: 8.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TBTPurpleButton(
+                            buttonText: 'Kaydet',
+                            onPressed: () => _saveLanguage(
+                              languageLevel: _selectedLevel!,
+                              languageName: _selectedLanguage!,
+                              context: context,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              height: isSelect ? 350 : 0,
-              duration: const Duration(seconds: 1),
-              child: isSelect
-                  ? BlocBuilder<AuthBloc, AuthState>(
-                      builder: (context, state) {
-                        if (state is Authenticated) {
-                          UserModel currentUser = state.userModel;
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      if (state is Authenticated) {
+                        UserModel currentUser = state.userModel;
 
-                          return currentUser.languageList!.isEmpty
-                              ? const Center(
-                                  child: Text(
-                                      "Eklenmiş dil bilgisi bulunamadı!",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black)),
-                                )
-                              : ListView.builder(
-                                  itemCount: currentUser.languageList!.length,
-                                  itemBuilder: (context, index) {
-                                    LanguageModel language =
-                                        currentUser.languageList![index];
-                                    return Card(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .background,
-                                      child: ListTile(
-                                        title: Text(
-                                          language.languageName!,
-                                          style: TextStyle(
+                        return currentUser.languageList!.isEmpty
+                            ? const Center(
+                                child: Text("Eklenmiş dil bilgisi bulunamadı!",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black)),
+                              )
+                            : ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: currentUser.languageList!.length,
+                                itemBuilder: (context, index) {
+                                  LanguageModel language =
+                                      currentUser.languageList![index];
+                                  return Card(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    child: ListTile(
+                                      title: Text(
+                                        language.languageName!,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary),
+                                      ),
+                                      subtitle: Text(
+                                        language.languageLevel!,
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary),
+                                      ),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.edit,
                                               color: Theme.of(context)
                                                   .colorScheme
-                                                  .primary),
-                                        ),
-                                        subtitle: Text(
-                                          language.languageLevel!,
-                                          style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary),
-                                        ),
-                                        trailing: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            IconButton(
-                                              icon: Icon(
-                                                Icons.edit,
+                                                  .onSecondary,
+                                            ),
+                                            onPressed: () async {
+                                              _editLanguage(
+                                                languageModel: language,
+                                                languages: _languages,
+                                                levels: _levels,
+                                                context: context,
+                                              );
+                                              setState(() {});
+                                            },
+                                          ),
+                                          IconButton(
+                                            icon: Icon(Icons.delete,
                                                 color: Theme.of(context)
                                                     .colorScheme
-                                                    .onSecondary,
-                                              ),
-                                              onPressed: () async {
-                                                _editLanguage(
-                                                  languageModel: language,
-                                                  languages: _languages,
-                                                  levels: _levels,
-                                                  context: context,
-                                                );
-                                                setState(() {});
-                                              },
+                                                    .onSecondary),
+                                            onPressed: () => _deleteLanguage(
+                                              languageModel: language,
+                                              context: context,
                                             ),
-                                            IconButton(
-                                              icon: Icon(Icons.delete,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onSecondary),
-                                              onPressed: () => _deleteLanguage(
-                                                languageModel: language,
-                                                context: context,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    );
-                                  },
-                                );
-                        } else {
-                          return const SizedBox.shrink();
-                        }
-                      },
-                    )
-                  : const SizedBox.shrink(),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: PopupMenuButton<String>(
-                color: Theme.of(context).colorScheme.background,
-                initialValue: _selectedLanguage,
-                itemBuilder: (BuildContext context) {
-                  return _languages.map<PopupMenuItem<String>>((String value) {
-                    return PopupMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList();
-                },
-                onSelected: (String? newValue) {
-                  setState(() {
-                    _selectedLanguage = newValue;
-                  });
-                },
-                child: ListTile(
-                  title: Text(
-                    _selectedLanguage ?? 'Yabancı Dil Seçiniz',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_drop_down,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 4.0,
-                    horizontal: 8.0,
+                                    ),
+                                  );
+                                },
+                              );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
                   ),
                 ),
-              ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: PopupMenuButton<String>(
-                color: Theme.of(context).colorScheme.background,
-                initialValue: _selectedLevel,
-                itemBuilder: (BuildContext context) {
-                  return _levels.map<PopupMenuItem<String>>((String value) {
-                    return PopupMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                    );
-                  }).toList();
-                },
-                onSelected: (String? newValue) {
-                  setState(() {
-                    _selectedLevel = newValue;
-                  });
-                },
-                child: ListTile(
-                  title: Text(
-                    _selectedLevel ?? 'Seviye Seçiniz',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_drop_down,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 4.0,
-                    horizontal: 8.0,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TBTPurpleButton(
-                buttonText: 'Kaydet',
-                onPressed: () => _saveLanguage(
-                  languageLevel: _selectedLevel!,
-                  languageName: _selectedLanguage!,
-                  context: context,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 50,
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

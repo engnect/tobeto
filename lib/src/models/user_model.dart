@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
-
 import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/models/certificate_model.dart';
 import 'package:tobeto/src/models/education_model.dart';
@@ -28,10 +26,10 @@ class UserModel {
   final String? disabilityStatus;
   final String? aboutMe;
   final String? address;
-  final String? country; 
-  final String? city; 
+  final String? country;
+  final String? city;
   final String? district;
-  final String? github; 
+  final String? github;
   final List<LanguageModel>? languageList;
   final List<SocialMediaModel>? socialMediaList;
   final List<SkillModel>? skillsList;
@@ -142,7 +140,7 @@ class UserModel {
       'country': country,
       'city': city,
       'district': district,
-      'github' : github,
+      'github': github,
       'languageList': languageList?.map((x) => x.toMap()).toList(),
       'socialMediaList': socialMediaList?.map((x) => x.toMap()).toList(),
       'skillsList': skillsList?.map((x) => x.toMap()).toList(),

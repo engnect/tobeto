@@ -77,8 +77,10 @@ class _EditSkillsTabState extends State<EditSkillsTab> {
     Utilities.showSnackBar(snackBarMessage: result, context: context);
   }
 
-  void _deleteSkill(
-      {required SkillModel skill, required BuildContext context}) {
+  void _deleteSkill({
+    required SkillModel skill,
+    required BuildContext context,
+  }) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -125,36 +127,100 @@ class _EditSkillsTabState extends State<EditSkillsTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TBTPurpleButton(
-                buttonText: "Düzenle",
-                onPressed: () {
-                  setState(() {
-                    isEditing = !isEditing;
-                  });
-                },
-              ),
-              if (isEditing) ...[
-                AnimatedContainer(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                    ),
-                    border: Border(
-                      bottom: BorderSide(
-                        width: 7,
-                        color: Color.fromARGB(255, 153, 51, 255),
-                      ),
+      body: CustomScrollView(
+        slivers: [
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: TBTAnimatedContainer(
+                    height: 320,
+                    infoText: 'Yeni Yetkinlik Ekle!',
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Wrap(
+                            spacing: 8,
+                            children: _selectedSkills
+                                .map(
+                                  (skill) => Chip(
+                                    label: Text(skill),
+                                    onDeleted: () {
+                                      setState(() {
+                                        _selectedSkills.remove(skill);
+                                      });
+                                    },
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(14.0),
+                          child: DropdownButtonFormField<String>(
+                            value: null,
+                            hint: Text(
+                              'Mevcut yetkinlik Seç',
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
+                            items: _availableSkills.map((String skill) {
+                              return DropdownMenuItem<String>(
+                                value: skill,
+                                child: Text(
+                                  skill,
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (selectedSkill) {
+                              if (selectedSkill != null) {
+                                setState(() {
+                                  _selectedSkills.add(selectedSkill);
+                                });
+                              }
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TBTInputField(
+                            hintText: "Yetenek Adı",
+                            controller: _skillController,
+                            onSaved: (p0) {},
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TBTPurpleButton(
+                            buttonText: 'Kaydet',
+                            onPressed: () async {
+                              await _saveSkill(
+                                selectedSkills: _selectedSkills,
+                                skillName: _skillController.text,
+                                context: context,
+                              );
+                              setState(() {
+                                _selectedSkills.clear();
+                                _skillController.clear();
+                              });
+                            },
+                          ),
+                        ),
+
+                        //
+                      ],
                     ),
                   ),
-                  height: 350,
-                  duration: const Duration(seconds: 1),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {
                       if (state is Authenticated) {
@@ -162,12 +228,16 @@ class _EditSkillsTabState extends State<EditSkillsTab> {
 
                         return currentUser.skillsList!.isEmpty
                             ? const Center(
-                                child: Text("Eklenmiş yetenek bulunamadı!",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black)),
+                                child: Text(
+                                  "Eklenmiş yetenek bulunamadı!",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
                               )
                             : ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
                                 itemCount: currentUser.skillsList!.length,
                                 itemBuilder: (context, index) {
                                   SkillModel skill =
@@ -177,7 +247,14 @@ class _EditSkillsTabState extends State<EditSkillsTab> {
                                         .colorScheme
                                         .background,
                                     child: ListTile(
-                                      title: Text(skill.skillName!),
+                                      title: Text(
+                                        skill.skillName!,
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
                                       trailing: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -224,84 +301,9 @@ class _EditSkillsTabState extends State<EditSkillsTab> {
                   ),
                 ),
               ],
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Wrap(
-                  spacing: 8,
-                  children: _selectedSkills
-                      .map(
-                        (skill) => Chip(
-                          label: Text(skill),
-                          onDeleted: () {
-                            setState(() {
-                              _selectedSkills.remove(skill);
-                            });
-                          },
-                        ),
-                      )
-                      .toList(),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: DropdownButtonFormField<String>(
-                  value: null,
-                  hint: Text(
-                    'Mevcut yetkinlik Seç',
-                    style:
-                        TextStyle(color: Theme.of(context).colorScheme.primary),
-                  ),
-                  items: _availableSkills.map((String skill) {
-                    return DropdownMenuItem<String>(
-                      value: skill,
-                      child: Text(
-                        skill,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (selectedSkill) {
-                    if (selectedSkill != null) {
-                      setState(() {
-                        _selectedSkills.add(selectedSkill);
-                      });
-                    }
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TBTInputField(
-                  hintText: "Yetenek Adı",
-                  controller: _skillController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TBTPurpleButton(
-                  buttonText: 'Kaydet',
-                  onPressed: () async {
-                    await _saveSkill(
-                      selectedSkills: _selectedSkills,
-                      skillName: _skillController.text,
-                      context: context,
-                    );
-                    setState(() {
-                      _selectedSkills.clear();
-                      _skillController.clear();
-                    });
-                  },
-                ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -81,18 +81,6 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 25),
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          child: Text(
-                            "Duyurular",
-                            style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        ),
                         TBTAnimatedContainer(
                           infoText: 'Yeni Duyuru Yap!',
                           height: 275,

@@ -30,15 +30,15 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
   String _getAssetUrl(String platform) {
     switch (platform.toLowerCase()) {
       case 'instagram':
-        return 'assets/images/instagram.PNG';
+        return Assets.imageInstagram;
       case 'linkedin':
-        return 'assets/images/linkedin.PNG';
+        return Assets.imageLinkedin;
       case 'twitter':
-        return 'assets/images/twitter.jpg';
+        return Assets.imageTwitter;
       case 'dribble':
-        return 'assets/images/dribbble.png';
+        return Assets.imageDribble;
       case 'behance':
-        return 'assets/images/behance.png';
+        return Assets.imageBehance;
       default:
         return 'assets/images/default.png';
     }
@@ -129,189 +129,187 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              TBTPurpleButton(
-                buttonText: "Düzenle",
-                onPressed: () {
-                  setState(() {
-                    isSelect = !isSelect;
-                  });
-                },
-              ),
-              AnimatedContainer(
-                decoration: BoxDecoration(
-                  borderRadius: isSelect
-                      ? const BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        )
-                      : null,
-                  border: Border(
-                    bottom: BorderSide(
-                      width: isSelect ? 7 : 0,
-                      color: const Color.fromARGB(255, 153, 51, 255),
-                    ),
-                  ),
-                ),
-                height: isSelect ? 350 : 0,
-                duration: const Duration(seconds: 1),
-                child: isSelect
-                    ? BlocBuilder<AuthBloc, AuthState>(
-                        builder: (context, state) {
-                          if (state is Authenticated) {
-                            UserModel currentUser = state.userModel;
-
-                            return currentUser.socialMediaList!.isEmpty
-                                ? const Center(
-                                    child: Text(
-                                        "Eklenmiş sosyal medya bulunamadı!",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black)),
-                                  )
-                                : ListView.builder(
-                                    itemCount:
-                                        currentUser.socialMediaList!.length,
-                                    itemBuilder: (context, index) {
-                                      SocialMediaModel socialMedia =
-                                          currentUser.socialMediaList![index];
-                                      return Card(
+      body: CustomScrollView(
+        slivers: [
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: TBTAnimatedContainer(
+                    height: 250,
+                    infoText: 'Yeni Sosyal Medya Hesabı Ekle!',
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: PopupMenuButton<String>(
+                            color: Theme.of(context).colorScheme.background,
+                            initialValue: _selectedSocialMedia,
+                            itemBuilder: (BuildContext context) {
+                              return [
+                                'Instagram',
+                                'Twitter',
+                                'LinkedIn',
+                                'Dribble',
+                                'Behance'
+                              ].map((String value) {
+                                return PopupMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(
                                         color: Theme.of(context)
                                             .colorScheme
-                                            .background,
-                                        child: ListTile(
-                                          leading: CircleAvatar(
-                                            radius: 18,
-                                            backgroundImage: AssetImage(
-                                                socialMedia
-                                                    .socialMediaAssetUrl),
-                                          ),
-                                          title: Text(
-                                            socialMedia.socialMediaPlatform,
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary),
-                                          ),
-                                          subtitle: Text(
-                                            socialMedia.socialMedialink,
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary),
-                                          ),
-                                          trailing: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              IconButton(
-                                                icon: Icon(
-                                                  Icons.edit,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onSecondary,
-                                                ),
-                                                onPressed: () =>
-                                                    _editSocialMedia(
-                                                  socialMediaModel: socialMedia,
-                                                  context: context,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                icon: Icon(
-                                                  Icons.delete,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onSecondary,
-                                                ),
-                                                onPressed: () =>
-                                                    _deleteSocialMedia(
-                                                  socialMediaModel: socialMedia,
-                                                  context: context,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                          } else {
-                            return const SizedBox.shrink();
-                          }
-                        },
-                      )
-                    : const SizedBox.shrink(),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: PopupMenuButton<String>(
-                  color: Theme.of(context).colorScheme.background,
-                  initialValue: _selectedSocialMedia,
-                  itemBuilder: (BuildContext context) {
-                    return [
-                      'Instagram',
-                      'Twitter',
-                      'LinkedIn',
-                      'Dribble',
-                      'Behance'
-                    ].map((String value) {
-                      return PopupMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary),
+                                            .primary),
+                                  ),
+                                );
+                              }).toList();
+                            },
+                            onSelected: (String? newValue) {
+                              setState(() {
+                                _selectedSocialMedia = newValue;
+                              });
+                            },
+                            child: ListTile(
+                              title: Text(
+                                _selectedSocialMedia ??
+                                    'Sosyal medya hesabı seçiniz',
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                              ),
+                              trailing: Icon(
+                                Icons.arrow_drop_down,
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 4.0, horizontal: 8.0),
+                            ),
+                          ),
                         ),
-                      );
-                    }).toList();
-                  },
-                  onSelected: (String? newValue) {
-                    setState(() {
-                      _selectedSocialMedia = newValue;
-                    });
-                  },
-                  child: ListTile(
-                    title: Text(
-                      _selectedSocialMedia ?? 'Sosyal medya hesabı seçiniz',
-                      style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TBTInputField(
+                            hintText: "https://",
+                            controller: _linkController,
+                            onSaved: (p0) {},
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                        TBTPurpleButton(
+                            buttonText: 'Kaydet',
+                            onPressed: () {
+                              if (_selectedSocialMedia == null) {
+                                Utilities.showSnackBar(
+                                    snackBarMessage:
+                                        'Sosyal Medya Playformu Boş Kalamaz!',
+                                    context: context);
+                              } else {
+                                _saveSocialMedia(
+                                  selectedSocialMedia: _selectedSocialMedia!,
+                                  socialMedialink: _linkController.text,
+                                  context: context,
+                                );
+                              }
+                            }),
+                      ],
                     ),
-                    trailing: Icon(
-                      Icons.arrow_drop_down,
-                      color: Theme.of(context).colorScheme.onSecondary,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 4.0, horizontal: 8.0),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TBTInputField(
-                  hintText: "https://",
-                  controller: _linkController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      if (state is Authenticated) {
+                        UserModel currentUser = state.userModel;
+                        return currentUser.socialMediaList!.isEmpty
+                            ? const Center(
+                                child: Text(
+                                  "Eklenmiş sosyal medya bulunamadı!",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                              )
+                            : ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: currentUser.socialMediaList!.length,
+                                itemBuilder: (context, index) {
+                                  SocialMediaModel socialMedia =
+                                      currentUser.socialMediaList![index];
+                                  return Card(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    child: ListTile(
+                                      leading: CircleAvatar(
+                                        radius: 18,
+                                        backgroundImage: AssetImage(
+                                          socialMedia.socialMediaAssetUrl,
+                                        ),
+                                      ),
+                                      title: Text(
+                                        socialMedia.socialMediaPlatform,
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
+                                      subtitle: Text(
+                                        socialMedia.socialMedialink,
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.edit,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSecondary,
+                                            ),
+                                            onPressed: () => _editSocialMedia(
+                                              socialMediaModel: socialMedia,
+                                              context: context,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSecondary,
+                                            ),
+                                            onPressed: () => _deleteSocialMedia(
+                                              socialMediaModel: socialMedia,
+                                              context: context,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
+                  ),
                 ),
-              ),
-              TBTPurpleButton(
-                buttonText: 'Kaydet',
-                onPressed: () => _saveSocialMedia(
-                  selectedSocialMedia: _selectedSocialMedia!,
-                  socialMedialink: _linkController.text,
-                  context: context,
-                ),
-              ),
-              const SizedBox(
-                height: 50,
-              )
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

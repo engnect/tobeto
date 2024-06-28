@@ -103,222 +103,210 @@ class _EditCertificatesTabState extends State<EditCertificatesTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TBTPurpleButton(
-              buttonText: "Düzenle",
-              onPressed: () {
-                setState(() {
-                  isSelect = !isSelect;
-                });
-              },
-            ),
-            AnimatedContainer(
-              decoration: BoxDecoration(
-                borderRadius: isSelect
-                    ? const BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                      )
-                    : null,
-                border: Border(
-                  bottom: BorderSide(
-                    width: isSelect ? 7 : 0,
-                    color: const Color.fromARGB(255, 153, 51, 255),
+      body: CustomScrollView(
+        slivers: [
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: TBTAnimatedContainer(
+                    height: 375,
+                    infoText: 'Yeni Sertefika Ekle!',
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TBTInputField(
+                            hintText: "Sertifika Adı",
+                            controller: _certificateNameController,
+                            onSaved: (p0) {},
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: TextEditingController(
+                              text: _selectedYear != null
+                                  ? '${_selectedYear!.year}'
+                                  : '',
+                            ),
+                            decoration: const InputDecoration(
+                              labelText: 'Alınan Tarih',
+                              hintText: 'Yıl Seçin',
+                              contentPadding: EdgeInsets.all(8),
+                              suffixIcon: Icon(Icons.calendar_today),
+                            ),
+                            readOnly: true,
+                            onTap: () {
+                              _selectYear(context);
+                            },
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            'PDF Yükle',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _pickPDF();
+                            },
+                            style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.all(8.0),
+                                backgroundColor:
+                                    const Color.fromARGB(255, 116, 6, 6)),
+                            child: Text(
+                              'PDF Yükle',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        if (_filePath != null)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text('Seçilen Dosya: $_filePath'),
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TBTPurpleButton(
+                            buttonText: 'Kaydet',
+                            onPressed: () => _saveCerteficate(
+                              certificateName: _certificateNameController.text,
+                              certificateYear: _selectedYear!,
+                              certificateFileUrl: _filePath!,
+                              context: context,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              height: isSelect ? 350 : 0,
-              duration: const Duration(seconds: 1),
-              child: isSelect
-                  ? BlocBuilder<AuthBloc, AuthState>(
-                      builder: (context, state) {
-                        if (state is Authenticated) {
-                          UserModel currentUser = state.userModel;
-
-                          return currentUser.certeficatesList!.isEmpty
-                              ? const Center(
-                                  child: Text("Eklenmiş sertifika bulunamadı!",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black)),
-                                )
-                              : ListView.builder(
-                                  itemCount:
-                                      currentUser.certeficatesList!.length,
-                                  itemBuilder: (context, index) {
-                                    CertificateModel certificate =
-                                        currentUser.certeficatesList![index];
-                                    return Card(
-                                      child: ListTile(
-                                        title:
-                                            Text(certificate.certificateName),
-                                        trailing: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            IconButton(
-                                              icon: const Icon(Icons.edit),
-                                              onPressed: () async {
-                                                _editCertificate(
-                                                  certificate: certificate,
-                                                  context: context,
-                                                );
-                                                setState(() {});
-                                              },
-                                            ),
-                                            IconButton(
-                                              icon: const Icon(Icons.delete),
-                                              onPressed: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      AlertDialog(
-                                                    title: Text(
-                                                      "Sertifikayı sil",
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .primary),
-                                                    ),
-                                                    content: Text(
-                                                      "Bu sertifikayı silmek istediğinizden emin misiniz?",
-                                                      style: TextStyle(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .colorScheme
-                                                                  .primary),
-                                                    ),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.pop(
-                                                                context),
-                                                        child: Text(
-                                                          "İptal",
-                                                          style: TextStyle(
-                                                              color: Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .primary),
-                                                        ),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            _deleteCertificate(
-                                                          certificate:
-                                                              certificate,
-                                                          context: context,
-                                                        ),
-                                                        child: Text(
-                                                          'Sil',
-                                                          style: TextStyle(
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      if (state is Authenticated) {
+                        UserModel currentUser = state.userModel;
+                        return currentUser.certeficatesList!.isEmpty
+                            ? const Center(
+                                child: Text(
+                                  "Eklenmiş sertifika bulunamadı!",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              )
+                            : ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: currentUser.certeficatesList!.length,
+                                itemBuilder: (context, index) {
+                                  CertificateModel certificate =
+                                      currentUser.certeficatesList![index];
+                                  return Card(
+                                    child: ListTile(
+                                      title: Text(certificate.certificateName),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          IconButton(
+                                            icon: const Icon(Icons.edit),
+                                            onPressed: () async {
+                                              _editCertificate(
+                                                certificate: certificate,
+                                                context: context,
+                                              );
+                                              setState(() {});
+                                            },
+                                          ),
+                                          IconButton(
+                                            icon: const Icon(Icons.delete),
+                                            onPressed: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    AlertDialog(
+                                                  title: Text(
+                                                    "Sertifikayı sil",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .primary),
+                                                  ),
+                                                  content: Text(
+                                                    "Bu sertifikayı silmek istediğinizden emin misiniz?",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .primary),
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              context),
+                                                      child: Text(
+                                                        "İptal",
+                                                        style: TextStyle(
                                                             color: Theme.of(
                                                                     context)
                                                                 .colorScheme
-                                                                .primary,
-                                                          ),
+                                                                .primary),
+                                                      ),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          _deleteCertificate(
+                                                        certificate:
+                                                            certificate,
+                                                        context: context,
+                                                      ),
+                                                      child: Text(
+                                                        'Sil',
+                                                        style: TextStyle(
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary,
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ],
                                       ),
-                                    );
-                                  },
-                                );
-                        } else {
-                          return const SizedBox.shrink();
-                        }
-                      },
-                    )
-                  : const SizedBox.shrink(),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TBTInputField(
-                hintText: "Sertifika Adı",
-                controller: _certificateNameController,
-                onSaved: (p0) {},
-                keyboardType: TextInputType.name,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: TextEditingController(
-                  text: _selectedYear != null ? '${_selectedYear!.year}' : '',
-                ),
-                decoration: const InputDecoration(
-                  labelText: 'Alınan Tarih',
-                  hintText: 'Yıl Seçin',
-                  contentPadding: EdgeInsets.all(8),
-                  suffixIcon: Icon(Icons.calendar_today),
-                ),
-                readOnly: true,
-                onTap: () {
-                  _selectYear(context);
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'PDF Yükle',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  _pickPDF();
-                },
-                style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(8.0),
-                    backgroundColor: const Color.fromARGB(255, 116, 6, 6)),
-                child: Text(
-                  'PDF Yükle',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.bold,
+                                    ),
+                                  );
+                                },
+                              );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
                   ),
                 ),
-              ),
+              ],
             ),
-            if (_filePath != null)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Seçilen Dosya: $_filePath'),
-              ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TBTPurpleButton(
-                buttonText: 'Kaydet',
-                onPressed: () => _saveCerteficate(
-                  certificateName: _certificateNameController.text,
-                  certificateYear: _selectedYear!,
-                  certificateFileUrl: _filePath!,
-                  context: context,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 50,
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -52,4 +52,7 @@ class Assets {
   static const String imageEmail = "assets/images/email.png";
   static const String imagePassword = "assets/images/password.png";
   static const String imageChatBot = "assets/images/launcher_button_1.png";
+  static const String imageTwitter = "assets/images/twitter.jpg";
+  static const String imageDribble = "assets/images/dribbble.png";
+  static const String imageBehance = "assets/images/behance.png";
 }

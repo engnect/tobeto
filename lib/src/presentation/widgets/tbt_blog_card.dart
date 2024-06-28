@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:tobeto/src/models/blog_model.dart';
 
@@ -49,7 +50,7 @@ class _TBTBlogCardState extends State<TBTBlogCard> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
               child: Text(
-                widget.blogModel.blogCreatedAt.toString(),
+                DateFormat('dd/MM/yyyy').format(widget.blogModel.blogCreatedAt),
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onSecondary,

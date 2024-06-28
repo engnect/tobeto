@@ -42,7 +42,6 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
   }
 
   Future<void> _loadCityData() async {
-    // Verileri yükleme kodu burada olacak
     final cities = await Utilities.loadCityData();
     setState(() {
       _cities = cities;
@@ -176,353 +175,343 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              TBTPurpleButton(
-                buttonText: "Düzenle",
-                onPressed: () {
-                  setState(() {
-                    isSelect = !isSelect;
-                  });
-                },
-              ),
-              AnimatedContainer(
-                decoration: BoxDecoration(
-                  borderRadius: isSelect
-                      ? const BorderRadius.only(
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10),
-                        )
-                      : null,
-                  border: Border(
-                    bottom: BorderSide(
-                      width: isSelect ? 7 : 0,
-                      color: const Color.fromARGB(255, 153, 51, 255),
+      body: CustomScrollView(
+        slivers: [
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: TBTAnimatedContainer(
+                    height: 400,
+                    infoText: 'Yeni İş Tecrübesi Ekle!',
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TBTInputField(
+                            hintText: "Kurum Adı",
+                            controller: _companyNameController,
+                            onSaved: (p0) {},
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TBTInputField(
+                            hintText: "Pozisyon",
+                            controller: _positionController,
+                            onSaved: (p0) {},
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: PopupMenuButton<String>(
+                            color: Theme.of(context).colorScheme.background,
+                            initialValue: _selectedExperienceType,
+                            itemBuilder: (BuildContext context) {
+                              return ['Tam Zamanlı', 'Yarı Zamanlı', 'Staj']
+                                  .map((String value) {
+                                return PopupMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value,
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                  ),
+                                );
+                              }).toList();
+                            },
+                            onSelected: (String? newValue) {
+                              setState(() {
+                                _selectedExperienceType = newValue;
+                              });
+                            },
+                            child: ListTile(
+                              title: Text(
+                                _selectedExperienceType ??
+                                    'Deneyim Türünü Seçin',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              trailing: Icon(
+                                Icons.arrow_drop_down,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 4.0,
+                                horizontal: 8.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TBTInputField(
+                            hintText: "Sektör",
+                            controller: _sectorController,
+                            onSaved: (p0) {},
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: PopupMenuButton<String>(
+                            color: Theme.of(context).colorScheme.background,
+                            initialValue: _selectedCityId,
+                            itemBuilder: (BuildContext context) {
+                              return _cities.map((city) {
+                                return PopupMenuItem<String>(
+                                  value: city["id"],
+                                  child: Text(
+                                    city["name"]!,
+                                    style: TextStyle(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
+                                );
+                              }).toList();
+                            },
+                            onSelected: _onCitySelected,
+                            child: ListTile(
+                              title: Text(
+                                _selectedCityName ?? 'Şehir Seçiniz',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              trailing: Icon(
+                                Icons.arrow_drop_down,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 4.0,
+                                horizontal: 8.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () => _selectStartDate(context),
+                                  child: AbsorbPointer(
+                                    child: TBTInputField(
+                                      hintText: _selectedStartDate != null
+                                          ? DateFormat('dd/MM/yyyy')
+                                              .format(_selectedStartDate!)
+                                          : 'Başlangıç Tarihi',
+                                      controller: TextEditingController(
+                                        text: _selectedStartDate != null
+                                            ? DateFormat('dd/MM/yyyy')
+                                                .format(_selectedStartDate!)
+                                            : '',
+                                      ),
+                                      onSaved: (p0) {},
+                                      keyboardType: TextInputType.datetime,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: _isCurrentlyWorking
+                                      ? null
+                                      : () => _selectEndDate(context),
+                                  child: AbsorbPointer(
+                                    child: TBTInputField(
+                                      hintText: _isCurrentlyWorking
+                                          ? 'Devam Ediyor'
+                                          : _selectedEndDate != null
+                                              ? DateFormat('dd/MM/yyyy')
+                                                  .format(_selectedEndDate!)
+                                              : 'Bitiş Tarihi',
+                                      controller: TextEditingController(
+                                        text: _isCurrentlyWorking
+                                            ? 'Devam Ediyor'
+                                            : _selectedEndDate != null
+                                                ? DateFormat('dd/MM/yyyy')
+                                                    .format(_selectedEndDate!)
+                                                : '',
+                                      ),
+                                      onSaved: (p0) {},
+                                      keyboardType: TextInputType.datetime,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Checkbox(
+                                value: _isCurrentlyWorking,
+                                onChanged: (bool? newValue) {
+                                  setState(() {
+                                    _isCurrentlyWorking = newValue!;
+                                  });
+                                },
+                              ),
+                              Text(
+                                'Çalışmaya devam ediyorum.',
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TBTInputField(
+                            hintText: "İş Tanımı",
+                            controller: _jobdescrbController,
+                            onSaved: (p0) {},
+                            keyboardType: TextInputType.name,
+                          ),
+                        ),
+                        TBTPurpleButton(
+                          buttonText: 'Kaydet',
+                          onPressed: () => _saveExperience(
+                            companyName: _companyNameController.text,
+                            endDate: _isCurrentlyWorking
+                                ? DateTime.now()
+                                : _selectedEndDate!,
+                            startDate: _selectedStartDate!,
+                            jobDescription: _jobdescrbController.text,
+                            experienceCity: _selectedCityName!,
+                            isCurrentlyWorking: _isCurrentlyWorking,
+                            experienceType: _selectedExperienceType!,
+                            experiencePosition: _positionController.text,
+                            experienceSector: _sectorController.text,
+                            context: context,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                height: isSelect ? 350 : 0,
-                duration: const Duration(seconds: 1),
-                child: isSelect
-                    ? BlocBuilder<AuthBloc, AuthState>(
-                        builder: (context, state) {
-                          if (state is Authenticated) {
-                            UserModel currentUser = state.userModel;
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) {
+                      if (state is Authenticated) {
+                        UserModel currentUser = state.userModel;
 
-                            return currentUser.experiencesList!.isEmpty
-                                ? const Center(
-                                    child: Text("Eklenmiş deneyim bulunamadı!",
+                        return currentUser.experiencesList!.isEmpty
+                            ? const Center(
+                                child: Text(
+                                  "Eklenmiş deneyim bulunamadı!",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                              )
+                            : ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: currentUser.experiencesList!.length,
+                                itemBuilder: (context, index) {
+                                  ExperienceModel experience =
+                                      currentUser.experiencesList![index];
+                                  return Card(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                    child: ListTile(
+                                      title: Text(
+                                        experience.companyName,
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black)),
-                                  )
-                                : ListView.builder(
-                                    itemCount:
-                                        currentUser.experiencesList!.length,
-                                    itemBuilder: (context, index) {
-                                      ExperienceModel experience =
-                                          currentUser.experiencesList![index];
-                                      return Card(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .background,
-                                        child: ListTile(
-                                          title: Text(
-                                            experience.companyName,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
+                                      subtitle: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            experience.experiencePosition,
                                             style: TextStyle(
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .primary,
                                             ),
                                           ),
-                                          subtitle: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                experience.experiencePosition,
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Başlangıç Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.startDate)}',
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                ),
-                                              ),
-                                              Text(
-                                                experience.isCurrentlyWorking!
-                                                    ? 'Devam Ediyor'
-                                                    : 'Bitiş Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.endDate)}',
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            'Başlangıç Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.startDate)}',
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                            ),
                                           ),
-                                          trailing: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              IconButton(
-                                                icon: Icon(
-                                                  Icons.edit,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onSecondary,
-                                                ),
-                                                onPressed: () =>
-                                                    _editExperience(
-                                                  experienceModel: experience,
-                                                  context: context,
-                                                ),
-                                              ),
-                                              IconButton(
-                                                icon: Icon(Icons.delete,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .onSecondary),
-                                                onPressed: () =>
-                                                    _deleteExperience(
-                                                  experienceModel: experience,
-                                                  context: context,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            experience.isCurrentlyWorking!
+                                                ? 'Devam Ediyor'
+                                                : 'Bitiş Tarihi: ${DateFormat('dd/MM/yyyy').format(experience.endDate)}',
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
+                                        ],
+                                      ),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.edit,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSecondary,
+                                            ),
+                                            onPressed: () => _editExperience(
+                                              experienceModel: experience,
+                                              context: context,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            icon: Icon(Icons.delete,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onSecondary),
+                                            onPressed: () => _deleteExperience(
+                                              experienceModel: experience,
+                                              context: context,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   );
-                          } else {
-                            return const SizedBox.shrink();
-                          }
-                        },
-                      )
-                    : const SizedBox.shrink(),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TBTInputField(
-                  hintText: "Kurum Adı",
-                  controller: _companyNameController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TBTInputField(
-                  hintText: "Pozisyon",
-                  controller: _positionController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: PopupMenuButton<String>(
-                  color: Theme.of(context).colorScheme.background,
-                  initialValue: _selectedExperienceType,
-                  itemBuilder: (BuildContext context) {
-                    return ['Tam Zamanlı', 'Yarı Zamanlı', 'Staj']
-                        .map((String value) {
-                      return PopupMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary),
-                        ),
-                      );
-                    }).toList();
-                  },
-                  onSelected: (String? newValue) {
-                    setState(() {
-                      _selectedExperienceType = newValue;
-                    });
-                  },
-                  child: ListTile(
-                    title: Text(
-                      _selectedExperienceType ?? 'Deneyim Türünü Seçin',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                    trailing: Icon(
-                      Icons.arrow_drop_down,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 4.0,
-                      horizontal: 8.0,
-                    ),
+                                },
+                              );
+                      } else {
+                        return const SizedBox.shrink();
+                      }
+                    },
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TBTInputField(
-                  hintText: "Sektör",
-                  controller: _sectorController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: PopupMenuButton<String>(
-                  color: Theme.of(context).colorScheme.background,
-                  initialValue: _selectedCityId,
-                  itemBuilder: (BuildContext context) {
-                    return _cities.map((city) {
-                      return PopupMenuItem<String>(
-                        value: city["id"],
-                        child: Text(
-                          city["name"]!,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                      );
-                    }).toList();
-                  },
-                  onSelected: _onCitySelected,
-                  child: ListTile(
-                    title: Text(
-                      _selectedCityName ?? 'Şehir Seçiniz',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                    trailing: Icon(
-                      Icons.arrow_drop_down,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 4.0,
-                      horizontal: 8.0,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () => _selectStartDate(context),
-                        child: AbsorbPointer(
-                          child: TBTInputField(
-                            hintText: _selectedStartDate != null
-                                ? DateFormat('dd/MM/yyyy')
-                                    .format(_selectedStartDate!)
-                                : 'Başlangıç Tarihi',
-                            controller: TextEditingController(
-                              text: _selectedStartDate != null
-                                  ? DateFormat('dd/MM/yyyy')
-                                      .format(_selectedStartDate!)
-                                  : '',
-                            ),
-                            onSaved: (p0) {},
-                            keyboardType: TextInputType.datetime,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: _isCurrentlyWorking
-                            ? null
-                            : () => _selectEndDate(context),
-                        child: AbsorbPointer(
-                          child: TBTInputField(
-                            hintText: _isCurrentlyWorking
-                                ? 'Devam Ediyor'
-                                : _selectedEndDate != null
-                                    ? DateFormat('dd/MM/yyyy')
-                                        .format(_selectedEndDate!)
-                                    : 'Bitiş Tarihi',
-                            controller: TextEditingController(
-                              text: _isCurrentlyWorking
-                                  ? 'Devam Ediyor'
-                                  : _selectedEndDate != null
-                                      ? DateFormat('dd/MM/yyyy')
-                                          .format(_selectedEndDate!)
-                                      : '',
-                            ),
-                            onSaved: (p0) {},
-                            keyboardType: TextInputType.datetime,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Checkbox(
-                      value: _isCurrentlyWorking,
-                      onChanged: (bool? newValue) {
-                        setState(() {
-                          _isCurrentlyWorking = newValue!;
-                        });
-                      },
-                    ),
-                    Text(
-                      'Çalışmaya devam ediyorum.',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TBTInputField(
-                  hintText: "İş Tanımı",
-                  controller: _jobdescrbController,
-                  onSaved: (p0) {},
-                  keyboardType: TextInputType.name,
-                ),
-              ),
-              TBTPurpleButton(
-                buttonText: 'Kaydet',
-                onPressed: () => _saveExperience(
-                  companyName: _companyNameController.text,
-                  endDate:
-                      _isCurrentlyWorking ? DateTime.now() : _selectedEndDate!,
-                  startDate: _selectedStartDate!,
-                  jobDescription: _jobdescrbController.text,
-                  experienceCity: _selectedCityName!,
-                  isCurrentlyWorking: _isCurrentlyWorking,
-                  experienceType: _selectedExperienceType!,
-                  experiencePosition: _positionController.text,
-                  experienceSector: _sectorController.text,
-                  context: context,
-                ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
