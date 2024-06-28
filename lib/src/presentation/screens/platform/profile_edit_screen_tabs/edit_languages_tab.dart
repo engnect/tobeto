@@ -167,7 +167,10 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
                                   .map<PopupMenuItem<String>>((String value) {
                                 return PopupMenuItem<String>(
                                   value: value,
-                                  child: Text(value),
+                                  child: Text(value, style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary,)),                   
                                 );
                               }).toList();
                             },
@@ -181,7 +184,7 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
                                 _selectedLanguage ?? 'Yabancı Dil Seçiniz',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Theme.of(context).colorScheme.primary,
+                                  color: Theme.of(context).colorScheme.primary,                                
                                 ),
                               ),
                               trailing: Icon(
