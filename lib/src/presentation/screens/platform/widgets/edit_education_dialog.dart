@@ -59,7 +59,9 @@ class _EditEducationDialogState extends State<EditEducationDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Eğitimi Düzenle"),
+      title:  Text("Eğitimi Düzenle",
+       style: TextStyle(color: Theme.of(context).colorScheme.primary),
+      ),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -106,6 +108,7 @@ class _EditEducationDialogState extends State<EditEducationDialog> {
               child: ListTile(
                 title: Text(
                   _selectedEducationLevel ?? 'Eğitim Seviyesi Seçiniz',
+                   style: TextStyle(color: Theme.of(context).colorScheme.primary),
                 ),
                 trailing: const Icon(Icons.arrow_drop_down),
                 contentPadding:
@@ -114,18 +117,22 @@ class _EditEducationDialogState extends State<EditEducationDialog> {
             ),
             TextField(
               controller: _universityController,
-              decoration: const InputDecoration(
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              decoration:  InputDecoration(
                 labelText: "Üniversite",
+                labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
               ),
             ),
             TextField(
               controller: _departmentController,
-              decoration: const InputDecoration(
+              style : TextStyle(color: Theme.of(context).colorScheme.primary),
+              decoration:  InputDecoration(
                 labelText: "Bölüm",
+                labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
               ),
             ),
             Row(
@@ -136,6 +143,7 @@ class _EditEducationDialogState extends State<EditEducationDialog> {
                     child: AbsorbPointer(
                       child: TextField(
                         decoration: InputDecoration(
+                          labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                           labelText: _selectedStartDate != null
                               ? DateFormat('dd/MM/yyyy')
                                   .format(_selectedStartDate!)
@@ -156,6 +164,7 @@ class _EditEducationDialogState extends State<EditEducationDialog> {
                     child: AbsorbPointer(
                       child: TextField(
                         decoration: InputDecoration(
+                          labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                           labelText: _isCurrentlyStudied
                               ? 'Devam Ediyor'
                               : _selectedEndDate != null

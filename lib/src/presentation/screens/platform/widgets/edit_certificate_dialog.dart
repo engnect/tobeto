@@ -47,7 +47,8 @@ class _EditCertificateDialogState extends State<EditCertificateDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Sertifika Düzenle"),
+      title:  Text("Sertifika Düzenle", 
+       style: TextStyle(color: Theme.of(context).colorScheme.primary),),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -64,14 +65,16 @@ class _EditCertificateDialogState extends State<EditCertificateDialog> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
+                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
                 controller: TextEditingController(
                   text: _selectedYear != null ? '${_selectedYear!.year}' : '',
                 ),
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
+                  labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                   labelText: 'Alınan Tarih',
                   hintText: 'Yıl Seçin',
-                  contentPadding: EdgeInsets.all(8),
-                  suffixIcon: Icon(Icons.calendar_today),
+                  contentPadding: const EdgeInsets.all(8),
+                  suffixIcon: const Icon(Icons.calendar_today),
                 ),
                 readOnly: true,
                 onTap: () {
@@ -79,11 +82,11 @@ class _EditCertificateDialogState extends State<EditCertificateDialog> {
                 },
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Text(
                 'PDF Yükle',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ),
             Padding(
@@ -95,7 +98,9 @@ class _EditCertificateDialogState extends State<EditCertificateDialog> {
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.all(8.0),
                 ),
-                child: const Text('PDF Yükle'),
+                child:  Text('PDF Yükle', 
+                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                ),
               ),
             ),
             if (_filePath != null)

@@ -28,13 +28,18 @@ class _EditSkillDialogState extends State<EditSkillDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Yetenek Düzenle"),
+      title:  Text("Yetenek Düzenle", 
+      style: TextStyle(color: Theme.of(context).colorScheme.primary),
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
+             style: TextStyle(color: Theme.of(context).colorScheme.primary),
             controller: _editingController,
-            decoration: const InputDecoration(labelText: "Yetenek Adı"),
+            decoration:  InputDecoration(labelText: "Yetenek Adı", 
+            labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+            ),
           ),
         ],
       ),

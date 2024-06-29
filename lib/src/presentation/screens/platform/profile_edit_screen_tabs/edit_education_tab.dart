@@ -431,9 +431,12 @@ class _EditEducationTabState extends State<EditEducationTab> {
                                                 builder: (context) =>
                                                     AlertDialog(
                                                   title:
-                                                      const Text("Eğitimi sil"),
-                                                  content: const Text(
-                                                      "Bu eğitimi silmek istediğinizden emin misiniz?"),
+                                                      Text("Eğitimi sil", 
+                                                      style :TextStyle(color: Theme.of(context).colorScheme.primary),),
+                                                  content:  Text(
+                                                      "Bu eğitimi silmek istediğinizden emin misiniz?" , 
+                                                      style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                                                      ),
                                                   actions: [
                                                     TextButton(
                                                       onPressed: () =>
