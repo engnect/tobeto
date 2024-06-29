@@ -67,17 +67,21 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Deneyimi Düzenle"),
+      title:  Text("Deneyimi Düzenle", 
+       style: TextStyle(color: Theme.of(context).colorScheme.primary),
+      ),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
+               style: TextStyle(color: Theme.of(context).colorScheme.primary),
               controller: _companyController,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
+                labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                 labelText: "Kurum Adı",
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
               ),
             ),
             Padding(
@@ -100,7 +104,9 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
                 },
                 child: ListTile(
                   title:
-                      Text(_selectedExperienceType ?? 'Deneyim Türünü Seçin'),
+                      Text(_selectedExperienceType ?? 'Deneyim Türünü Seçin', 
+                      style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                      ),
                   trailing: const Icon(Icons.arrow_drop_down),
                   contentPadding: const EdgeInsets.symmetric(
                       vertical: 2.0, horizontal: 2.0),
@@ -109,18 +115,22 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
             ),
             TextField(
               controller: _sectorController,
-              decoration: const InputDecoration(
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              decoration:  InputDecoration(
                 labelText: "Sektör",
+                labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
               ),
             ),
             TextField(
               controller: _positionController,
-              decoration: const InputDecoration(
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
+              decoration:  InputDecoration(
                 labelText: "Pozisyon",
+                labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
               ),
             ),
             PopupMenuButton<String>(
@@ -141,7 +151,10 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
                 });
               },
               child: ListTile(
-                title: Text(_selectedCityName ?? 'Şehir Seçiniz'),
+                title: Text(_selectedCityName ?? 'Şehir Seçiniz', 
+                style : TextStyle(color: Theme.of(context).colorScheme.primary),
+                
+                ),
                 trailing: const Icon(Icons.arrow_drop_down),
                 contentPadding:
                     const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
@@ -162,6 +175,7 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
                     child: AbsorbPointer(
                       child: TextField(
                         decoration: InputDecoration(
+                          labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary), 
                           labelText: _selectedStartDate != null
                               ? DateFormat('dd/MM/yyyy')
                                   .format(_selectedStartDate!)
@@ -190,6 +204,7 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
                     child: AbsorbPointer(
                       child: TextField(
                         decoration: InputDecoration(
+                          labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                           labelText: _isCurrentlyWorking
                               ? 'Devam Ediyor'
                               : _selectedEndDate != null
@@ -206,11 +221,13 @@ class _EditExperienceDialogState extends State<EditExperienceDialog> {
               ],
             ),
             TextField(
+              style :TextStyle(color: Theme.of(context).colorScheme.primary),
               controller: _jobdescrbController,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 labelText: "İş Tanımı / Açıklama",
+                labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
+                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10.0),
               ),
             ),
           ],

@@ -31,7 +31,8 @@ class _EditLanguageDialogState extends State<EditLanguageDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Yabancı Dil Seçiniz"),
+      title: Text("Yabancı Dil Seçiniz", 
+      style: TextStyle(color: Theme.of(context).colorScheme.primary),),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -56,6 +57,7 @@ class _EditLanguageDialogState extends State<EditLanguageDialog> {
                 child: ListTile(
                   title: Text(
                     _selectedLanguage ?? 'Yabancı Dil Seçiniz',
+                    style: TextStyle(color: Theme.of(context).colorScheme.primary),
                   ),
                   trailing: const Icon(Icons.arrow_drop_down),
                 ),
@@ -81,6 +83,7 @@ class _EditLanguageDialogState extends State<EditLanguageDialog> {
                 child: ListTile(
                   title: Text(
                     _selectedLevel ?? 'Seviye Seçiniz',
+                     style: TextStyle(color: Theme.of(context).colorScheme.primary),
                   ),
                   trailing: const Icon(Icons.arrow_drop_down),
                 ),

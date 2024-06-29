@@ -127,16 +127,18 @@ class _EditCertificatesTabState extends State<EditCertificatesTab> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
+                            style: TextStyle(color: Theme.of(context).colorScheme.primary),
                             controller: TextEditingController(
                               text: _selectedYear != null
                                   ? '${_selectedYear!.year}'
                                   : '',
                             ),
-                            decoration: const InputDecoration(
+                            decoration:  InputDecoration(
+                              labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
                               labelText: 'Alınan Tarih',
                               hintText: 'Yıl Seçin',
-                              contentPadding: EdgeInsets.all(8),
-                              suffixIcon: Icon(Icons.calendar_today),
+                              contentPadding: const EdgeInsets.all(8),
+                              suffixIcon: const Icon(Icons.calendar_today),
                             ),
                             readOnly: true,
                             onTap: () {

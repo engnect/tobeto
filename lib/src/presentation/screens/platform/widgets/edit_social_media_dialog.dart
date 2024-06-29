@@ -47,7 +47,9 @@ class _EditSocialMediaDialogState extends State<EditSocialMediaDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Sosyal Medya Hesabını Düzenle"),
+      title: Text("Sosyal Medya Hesabını Düzenle", 
+       style: TextStyle(color: Theme.of(context).colorScheme.primary),
+       ),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -88,6 +90,7 @@ class _EditSocialMediaDialogState extends State<EditSocialMediaDialog> {
                 child: ListTile(
                   title: Text(
                     _selectedSocialMedia ?? 'Sosyal Medya Hesabı Seçiniz',
+                     style: TextStyle(color: Theme.of(context).colorScheme.primary),
                   ),
                   trailing: const Icon(Icons.arrow_drop_down),
                   contentPadding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
@@ -95,8 +98,11 @@ class _EditSocialMediaDialogState extends State<EditSocialMediaDialog> {
               ),
             ),
             TextField(
+              style: TextStyle(color: Theme.of(context).colorScheme.primary),
               controller: _linkController,
-              decoration: const InputDecoration(labelText: "https://"),
+              decoration:  InputDecoration(labelText: "https://", 
+              labelStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
+              ),
             ),
           ],
         ),
