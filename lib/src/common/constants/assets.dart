@@ -1,8 +1,8 @@
 class Assets {
   Assets._();
 
-  static const String filesCitiesJson = "assets/files/il.json";
-  static const String filesDistrictJson = "assets/files/ilce.json";
+  static const String filesCitiesJson = "assets/files/city.json";
+  static const String filesDistrictJson = "assets/files/district.json";
   static const String fontsPoppinsBold = "assets/fonts/Poppins-Bold.ttf";
   static const String fontsPoppinsMedium = "assets/fonts/Poppins-Medium.ttf";
   static const String imagesDefaultAvatar = "assets/images/default_avatar.png";
