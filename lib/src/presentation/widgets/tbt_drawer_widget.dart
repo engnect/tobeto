@@ -301,9 +301,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.of(context)
-                            .pushReplacementNamed(AppRouteNames.auhtScreenRoute)
-                            .then((_) => Navigator.of(context).pop());
+                        Navigator.of(context).pushReplacementNamed(
+                            AppRouteNames.auhtScreenRoute);
                       },
                       child: Text(
                         context.translate.login,
