@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..loadRequest(Uri.parse(
-          'https://mediafiles.botpress.cloud/d1265f28-5638-4830-bb0c-86bd18db99bc/webchat/bot.html'));
+          'https://mediafiles.botpress.cloud/7df64e85-0771-427d-aa97-220335183397/webchat/bot.html'));
   }
 
   @override
@@ -55,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SizedBox(width: 40, child: Image.asset(Assets.imageChatBot)),
         ),
         drawer: const TBTDrawer(),
+        endDrawer: const TBTEndDrawer(),
         body: CustomScrollView(
           slivers: [
             const TBTSliverAppBar(),

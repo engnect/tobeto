@@ -36,7 +36,9 @@ class TBTSliverAppBar extends StatelessWidget {
               return IconButton(
                 onPressed: () => Scaffold.of(context).openEndDrawer(),
                 icon: Icon(
-                  Icons.admin_panel_settings_outlined,
+                  state.userModel.userRank == UserRank.admin
+                      ? Icons.admin_panel_settings_outlined
+                      : Icons.menu_book_outlined,
                   color: Theme.of(context).colorScheme.primary,
                 ),
               );

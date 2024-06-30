@@ -246,6 +246,7 @@ class _EditEducationTabState extends State<EditEducationTab> {
                                             : '',
                                       ),
                                       onSaved: (p0) {},
+                                      readOnly: true,
                                       keyboardType: TextInputType.datetime,
                                     ),
                                   ),
@@ -274,6 +275,7 @@ class _EditEducationTabState extends State<EditEducationTab> {
                                                 : '',
                                       ),
                                       onSaved: (p0) {},
+                                      readOnly: true,
                                       keyboardType: TextInputType.datetime,
                                     ),
                                   ),
@@ -430,13 +432,20 @@ class _EditEducationTabState extends State<EditEducationTab> {
                                                 context: context,
                                                 builder: (context) =>
                                                     AlertDialog(
-                                                  title:
-                                                      Text("Eğitimi sil", 
-                                                      style :TextStyle(color: Theme.of(context).colorScheme.primary),),
-                                                  content:  Text(
-                                                      "Bu eğitimi silmek istediğinizden emin misiniz?" , 
-                                                      style: TextStyle(color: Theme.of(context).colorScheme.primary),
-                                                      ),
+                                                  title: Text(
+                                                    "Eğitimi sil",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .primary),
+                                                  ),
+                                                  content: Text(
+                                                    "Bu eğitimi silmek istediğinizden emin misiniz?",
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .colorScheme
+                                                            .primary),
+                                                  ),
                                                   actions: [
                                                     TextButton(
                                                       onPressed: () =>

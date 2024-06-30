@@ -1,6 +1,6 @@
 class AppRouteNames {
   static const String homeRoute = '/';
-  static const String onboardingRoute = 'onboardingScreen';
+  static const String onboardingRoute = '/onboardingScreen';
   static const String aboutUsScreenRoute = '/aboutUsScreen';
   static const String contactUsScreenRoute = '/contactUsScreen';
   static const String courseScreenRoute = '/courseScreen';
@@ -14,6 +14,7 @@ class AppRouteNames {
   static const String calendarScreenRoute = '/calendarScreen';
   static const String inThePressAddEditScreenRoute = '/inThePressAddEditScreen';
   static const String blogScreenRoute = '/blogScreen';
+  static const String errorScreenRoute = '/errorScreen';
 
   // admin sayfaları
   static const String adminAnnouncementsScreenRoute =

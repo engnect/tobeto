@@ -11,8 +11,8 @@ class ForIndividualsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         drawer: const TBTDrawer(),
+        endDrawer: const TBTEndDrawer(),
         body: CustomScrollView(
           slivers: [
             const TBTSliverAppBar(),
