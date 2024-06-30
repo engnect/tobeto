@@ -8,20 +8,18 @@ import 'src/blocs/export_blocs.dart';
 import 'src/common/export_common.dart';
 import 'src/domain/export_domain.dart';
 
-class MainApp extends StatefulWidget {
+class AppView extends StatefulWidget {
   final ThemeData themeData;
-  const MainApp({
+  const AppView({
     super.key,
     required this.themeData,
   });
 
   @override
-  State<MainApp> createState() => _MainAppState();
+  State<AppView> createState() => _AppViewState();
 }
 
-class _MainAppState extends State<MainApp> {
-  int? initScreen;
-
+class _AppViewState extends State<AppView> {
   late StreamSubscription<User?> _sub;
   final _navigatorKey = GlobalKey<NavigatorState>();
 
@@ -46,45 +44,28 @@ class _MainAppState extends State<MainApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => LanguageCubit(),
-        ),
-        BlocProvider(
-          create: (context) =>
-              ThemeBloc(ThemeState(themeData: widget.themeData)),
-        ),
-        BlocProvider(
-          create: (context) => AuthBloc(
-            userRepository: UserRepository(),
-            firebaseAuth: FirebaseAuth.instance,
-          ),
-        ),
-      ],
-      child: BlocBuilder<LanguageCubit, Locale>(
-        builder: (context, locale) {
-          return BlocBuilder<ThemeBloc, ThemeState>(
-            builder: (context, state) {
-              return MaterialApp(
-                locale: locale,
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                supportedLocales: AppLocalizations.supportedLocales,
-                theme: state.themeData,
-                debugShowCheckedModeBanner: false,
-                navigatorKey: _navigatorKey,
-                onGenerateRoute: AppRouter().generateRoute,
-                // initialRoute: initScreen == 0 || initScreen == null
-                //     ? AppRouteNames.onboardingRoute
-                //     : AppRouteNames.platformScreenRoute,
-                initialRoute: FirebaseAuth.instance.currentUser == null
-                    ? AppRouteNames.homeRoute
-                    : AppRouteNames.platformScreenRoute,
-              );
-            },
-          );
-        },
-      ),
+    return BlocBuilder<LanguageCubit, Locale>(
+      builder: (context, locale) {
+        return BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (context, state) {
+            return MaterialApp(
+              locale: locale,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              theme: state.themeData,
+              debugShowCheckedModeBanner: false,
+              navigatorKey: _navigatorKey,
+              onGenerateRoute: AppRouter().generateRoute,
+              // initialRoute: initScreen == 0 || initScreen == null
+              //     ? AppRouteNames.onboardingRoute
+              //     : AppRouteNames.platformScreenRoute,
+              initialRoute: FirebaseAuth.instance.currentUser == null
+                  ? AppRouteNames.homeRoute
+                  : AppRouteNames.platformScreenRoute,
+            );
+          },
+        );
+      },
     );
   }
 }

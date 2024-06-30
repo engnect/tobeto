@@ -253,8 +253,10 @@ class _TBTDrawerState extends State<TBTDrawer> {
                             title: TBTPurpleButton(
                               buttonText: "Platform",
                               onPressed: () {
-                                Navigator.of(context).pushNamed(
-                                    AppRouteNames.platformScreenRoute);
+                                Navigator.of(context)
+                                    .pushNamed(
+                                        AppRouteNames.platformScreenRoute)
+                                    .then((_) => Navigator.of(context).pop());
                               },
                             ),
                           ),
@@ -299,8 +301,9 @@ class _TBTDrawerState extends State<TBTDrawer> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.of(context).pushReplacementNamed(
-                            AppRouteNames.auhtScreenRoute);
+                        Navigator.of(context)
+                            .pushReplacementNamed(AppRouteNames.auhtScreenRoute)
+                            .then((_) => Navigator.of(context).pop());
                       },
                       child: Text(
                         context.translate.login,

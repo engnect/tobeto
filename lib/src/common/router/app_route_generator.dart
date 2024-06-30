@@ -59,6 +59,10 @@ class AppRouter {
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const BlogScreen(),
         );
+      case AppRouteNames.errorScreenRoute:
+        return AppRouterTransitionAnimation.tbtPageTransition(
+          child: const ErrorScreen(),
+        );
 
       // Admin sayfaları
       case AppRouteNames.adminAnnouncementsScreenRoute:

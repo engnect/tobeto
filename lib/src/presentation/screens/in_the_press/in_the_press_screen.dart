@@ -22,6 +22,7 @@ class _InThePressScreenState extends State<InThePressScreen> {
     return SafeArea(
       child: Scaffold(
         drawer: const TBTDrawer(),
+        endDrawer: const TBTEndDrawer(),
         body: CustomScrollView(
           slivers: [
             const TBTSliverAppBar(),
