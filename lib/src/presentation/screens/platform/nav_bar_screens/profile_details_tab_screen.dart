@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../blocs/export_blocs.dart';
+import 'package:tobeto/src/blocs/blocs_module.dart';
 import '../../../../common/export_common.dart';
 import '../../../../models/export_models.dart';
 import '../../../widgets/export_widgets.dart';
