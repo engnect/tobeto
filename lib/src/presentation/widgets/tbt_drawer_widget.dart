@@ -211,6 +211,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
               },
             ),
 
+            // login - platform
             BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
                 if (state is AuthInitial || state is AuthLoading) {
@@ -322,28 +323,6 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
 
             // theme switch
-            // BlocBuilder<ThemeBloc, ThemeState>(
-            //   builder: (context, state) {
-            //     final isDarkTheme =
-            //         state.themeData.brightness == Brightness.dark;
-
-            //     return Switch(
-            //       value: isDarkTheme,
-            //       onChanged: (value) async {
-            //         final newTheme = value
-            //             ? TBTColorScheme.darkTheme
-            //             : TBTColorScheme.lightTheme;
-
-            //         context.read<ThemeBloc>().add(
-            //               ThemeChanged(themeData: newTheme),
-            //             );
-
-            //         await prefs.saveTheme(value);
-            //       },
-            //     );
-            //   },
-            // ),
-
             BlocBuilder<ThemeCubit, bool>(
               builder: (context, state) {
                 return Switch(
@@ -397,6 +376,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                 );
               },
             ),
+
             // copyright
             Text(
               '© ${DateFormat('yyyy').format(DateTime.now())} Tobeto',
