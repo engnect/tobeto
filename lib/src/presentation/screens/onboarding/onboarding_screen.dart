@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tobeto/src/blocs/blocs_module.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/common/theme/onboarding_screen_styles.dart';
 import '../../../common/constants/assets.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({super.key});
-
-  Future<void> _completeOnboarding() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('onboarding_completed', true);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +30,11 @@ class OnBoardingScreen extends StatelessWidget {
             color: OnBoardingScreenStyles.primaryColor,
           ),
           onDone: () async {
-            await _completeOnboarding();
-            if (!context.mounted) return;
+            // await _completeOnboarding();
+            // if (!context.mounted) return;
+            // Navigator.of(context).pushReplacementNamed(AppRouteNames.homeRoute);
+
+            context.read<OnboardingCubit>().completeOnboarding();
             Navigator.of(context).pushReplacementNamed(AppRouteNames.homeRoute);
           },
           pages: [

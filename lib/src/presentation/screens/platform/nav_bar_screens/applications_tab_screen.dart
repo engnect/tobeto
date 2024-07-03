@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tobeto/src/blocs/blocs_module.dart';
 import 'package:uuid/uuid.dart';
-import '../../../../blocs/export_blocs.dart';
 import '../../../../common/export_common.dart';
 import '../../../../domain/export_domain.dart';
 import '../../../../models/export_models.dart';

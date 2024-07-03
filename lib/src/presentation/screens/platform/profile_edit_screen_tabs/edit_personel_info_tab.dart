@@ -5,8 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:intl_phone_field2/country_picker_dialog.dart';
 import 'package:intl_phone_field2/intl_phone_field.dart';
-import 'package:tobeto/src/blocs/export_blocs.dart';
-
+import 'package:tobeto/src/blocs/blocs_module.dart';
 import '../../../../common/export_common.dart';
 import '../../../../domain/export_domain.dart';
 import '../../../../models/export_models.dart';

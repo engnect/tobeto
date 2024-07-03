@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tobeto/src/blocs/blocs_module.dart';
 import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/common/router/app_route_names.dart';
 import 'package:tobeto/src/presentation/widgets/tbt_purple_button.dart';
-
-import '../../blocs/export_blocs.dart';
 
 class TBTEndDrawer extends StatelessWidget {
   const TBTEndDrawer({

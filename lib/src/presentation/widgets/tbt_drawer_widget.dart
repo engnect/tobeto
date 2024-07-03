@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/l10n/l10n_exntesions.dart';
+import 'package:tobeto/src/blocs/blocs_module.dart';
 import 'package:tobeto/src/data/export_data.dart';
 import 'package:tobeto/src/presentation/widgets/export_widgets.dart';
-import '../../blocs/export_blocs.dart';
 import '../../common/export_common.dart';
 import '../../domain/repositories/auth_repository.dart';
 
@@ -322,23 +322,34 @@ class _TBTDrawerState extends State<TBTDrawer> {
             ),
 
             // theme switch
-            BlocBuilder<ThemeBloc, ThemeState>(
+            // BlocBuilder<ThemeBloc, ThemeState>(
+            //   builder: (context, state) {
+            //     final isDarkTheme =
+            //         state.themeData.brightness == Brightness.dark;
+
+            //     return Switch(
+            //       value: isDarkTheme,
+            //       onChanged: (value) async {
+            //         final newTheme = value
+            //             ? TBTColorScheme.darkTheme
+            //             : TBTColorScheme.lightTheme;
+
+            //         context.read<ThemeBloc>().add(
+            //               ThemeChanged(themeData: newTheme),
+            //             );
+
+            //         await prefs.saveTheme(value);
+            //       },
+            //     );
+            //   },
+            // ),
+
+            BlocBuilder<ThemeCubit, bool>(
               builder: (context, state) {
-                final isDarkTheme =
-                    state.themeData.brightness == Brightness.dark;
-
                 return Switch(
-                  value: isDarkTheme,
-                  onChanged: (value) async {
-                    final newTheme = value
-                        ? TBTColorScheme.darkTheme
-                        : TBTColorScheme.lightTheme;
-
-                    context.read<ThemeBloc>().add(
-                          ThemeChanged(themeData: newTheme),
-                        );
-
-                    await prefs.saveTheme(value);
+                  value: state,
+                  onChanged: (value) {
+                    context.read<ThemeCubit>().toggleTheme();
                   },
                 );
               },

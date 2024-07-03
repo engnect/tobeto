@@ -1,17 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:tobeto/app_view.dart';
-import 'package:tobeto/src/blocs/export_blocs.dart';
+import 'package:tobeto/src/blocs/blocs_module.dart';
 import 'package:tobeto/src/domain/export_domain.dart';
 
 class App extends StatelessWidget {
-  final ThemeData initialThemeData;
-
   const App({
     super.key,
-    required this.initialThemeData,
   });
 
   @override
@@ -19,14 +15,13 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => LanguageCubit(),
+          create: (context) => ThemeCubit(),
         ),
         BlocProvider(
-          create: (context) => ThemeBloc(
-            ThemeState(
-              themeData: initialThemeData,
-            ),
-          ),
+          create: (context) => OnboardingCubit(),
+        ),
+        BlocProvider(
+          create: (context) => LanguageCubit(),
         ),
         BlocProvider(
           create: (context) => AuthBloc(
@@ -35,9 +30,7 @@ class App extends StatelessWidget {
           ),
         ),
       ],
-      child: AppView(
-        themeData: initialThemeData,
-      ),
+      child: const AppView(),
     );
   }
 }

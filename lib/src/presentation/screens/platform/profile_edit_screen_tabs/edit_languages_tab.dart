@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tobeto/src/blocs/blocs_module.dart';
 import 'package:uuid/uuid.dart';
-
-import '../../../../blocs/export_blocs.dart';
 import '../../../../common/export_common.dart';
 import '../../../../domain/export_domain.dart';
 import '../../../../models/export_models.dart';
@@ -167,10 +166,12 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
                                   .map<PopupMenuItem<String>>((String value) {
                                 return PopupMenuItem<String>(
                                   value: value,
-                                  child: Text(value, style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary,)),                   
+                                  child: Text(value,
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary,
+                                      )),
                                 );
                               }).toList();
                             },
@@ -184,7 +185,7 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
                                 _selectedLanguage ?? 'Yabancı Dil Seçiniz',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Theme.of(context).colorScheme.primary,                                
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
                               ),
                               trailing: Icon(
