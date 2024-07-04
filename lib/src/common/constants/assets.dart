@@ -55,4 +55,6 @@ class Assets {
   static const String imageTwitter = "assets/images/twitter.jpg";
   static const String imageDribble = "assets/images/dribbble.png";
   static const String imageBehance = "assets/images/behance.png";
+  static const String animationThemeSwitch =
+      "assets/animations/theme_switch_animation.json";
 }

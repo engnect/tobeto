@@ -87,8 +87,9 @@ class _TBTAnimatedContainerState extends State<TBTAnimatedContainer> {
                     Text(
                       widget.infoText,
                       style: TextStyle(
-                          fontFamily: "Poppins",
-                          color: Theme.of(context).colorScheme.primary),
+                        fontFamily: "Poppins",
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
                   ],
                 )
@@ -103,8 +104,9 @@ class _TBTAnimatedContainerState extends State<TBTAnimatedContainer> {
                     Text(
                       widget.infoText,
                       style: TextStyle(
-                          fontFamily: "Poppins",
-                          color: Theme.of(context).colorScheme.primary),
+                        fontFamily: "Poppins",
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
                   ],
                 ),

@@ -3,9 +3,9 @@ import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:tobeto/l10n/l10n_exntesions.dart';
 import 'package:tobeto/src/blocs/blocs_module.dart';
-import 'package:tobeto/src/data/export_data.dart';
 import 'package:tobeto/src/presentation/widgets/export_widgets.dart';
 import '../../common/export_common.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -19,8 +19,32 @@ class TBTDrawer extends StatefulWidget {
   State<TBTDrawer> createState() => _TBTDrawerState();
 }
 
-class _TBTDrawerState extends State<TBTDrawer> {
-  final prefs = ThemePreferences();
+class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
+  late final AnimationController _themeSwitchController;
+  bool _isDark = true;
+  @override
+  void initState() {
+    super.initState();
+
+    _themeSwitchController = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        seconds: 3,
+      ),
+    );
+  }
+
+  void _toggleAnimation({required bool isDark}) {
+    if (isDark == false) {
+      _themeSwitchController.reverse();
+    } else {
+      _themeSwitchController.forward();
+      Future.delayed(const Duration(milliseconds: 1500), () {
+        _themeSwitchController.stop();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
@@ -79,7 +103,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                 );
               },
             ),
-            DrawerCustomExpansionTile(
+            DrawerExpansionTile(
               title: Text(
                 context.translate.what_we_offer,
                 style: TextStyle(
@@ -122,7 +146,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                 ),
               ],
             ),
-            DrawerCustomExpansionTile(
+            DrawerExpansionTile(
               title: Text(
                 context.translate.whats_happening_at_tobeto,
                 style: TextStyle(
@@ -219,7 +243,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (state is Authenticated) {
-                  return DrawerCustomExpansionTile(
+                  return DrawerExpansionTile(
                       title: Row(
                         children: [
                           CircleAvatar(
@@ -328,12 +352,40 @@ class _TBTDrawerState extends State<TBTDrawer> {
                 return Switch(
                   value: state,
                   onChanged: (value) {
-                    context.read<ThemeCubit>().toggleTheme();
+                    // context.read<ThemeCubit>().toggleTheme();
                   },
                 );
               },
             ),
 
+            // yeni tema swich
+            BlocBuilder<ThemeCubit, bool>(
+              builder: (context, state) {
+                return GestureDetector(
+                  onTap: () {
+                    print(state);
+                    if (state != false) {
+                      _themeSwitchController.reverse();
+                      context.read<ThemeCubit>().toggleTheme();
+                    } else {
+                      _themeSwitchController.forward();
+                      Future.delayed(const Duration(milliseconds: 1500), () {
+                        _themeSwitchController.stop();
+                      });
+                      context.read<ThemeCubit>().toggleTheme();
+                    }
+                  },
+                  child: LottieBuilder.asset(
+                    height: 50,
+                    Assets.animationThemeSwitch,
+                    controller: _themeSwitchController,
+                    onLoaded: (comp) {
+                      _themeSwitchController.duration = comp.duration;
+                    },
+                  ),
+                );
+              },
+            ),
             // language changer switch
             BlocBuilder<LanguageCubit, Locale>(
               builder: (context, state) {
@@ -393,8 +445,8 @@ class _TBTDrawerState extends State<TBTDrawer> {
   }
 }
 
-class DrawerCustomExpansionTile extends StatefulWidget {
-  const DrawerCustomExpansionTile({
+class DrawerExpansionTile extends StatefulWidget {
+  const DrawerExpansionTile({
     super.key,
     required this.title,
     required this.children,
@@ -404,11 +456,10 @@ class DrawerCustomExpansionTile extends StatefulWidget {
   final List<Widget> children;
 
   @override
-  State<DrawerCustomExpansionTile> createState() =>
-      _DrawerCustomExpansionTileState();
+  State<DrawerExpansionTile> createState() => _DrawerExpansionTileState();
 }
 
-class _DrawerCustomExpansionTileState extends State<DrawerCustomExpansionTile> {
+class _DrawerExpansionTileState extends State<DrawerExpansionTile> {
   bool _isExpanded = false;
 
   @override
