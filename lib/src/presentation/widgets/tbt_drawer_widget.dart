@@ -21,7 +21,6 @@ class TBTDrawer extends StatefulWidget {
 
 class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
   late final AnimationController _themeSwitchController;
-  bool _isDark = true;
   @override
   void initState() {
     super.initState();
@@ -32,17 +31,6 @@ class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
         seconds: 3,
       ),
     );
-  }
-
-  void _toggleAnimation({required bool isDark}) {
-    if (isDark == false) {
-      _themeSwitchController.reverse();
-    } else {
-      _themeSwitchController.forward();
-      Future.delayed(const Duration(milliseconds: 1500), () {
-        _themeSwitchController.stop();
-      });
-    }
   }
 
   @override
@@ -363,7 +351,6 @@ class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
               builder: (context, state) {
                 return GestureDetector(
                   onTap: () {
-                    print(state);
                     if (state != false) {
                       _themeSwitchController.reverse();
                       context.read<ThemeCubit>().toggleTheme();
@@ -377,6 +364,7 @@ class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
                   },
                   child: LottieBuilder.asset(
                     height: 50,
+                    fit: BoxFit.contain,
                     Assets.animationThemeSwitch,
                     controller: _themeSwitchController,
                     onLoaded: (comp) {
