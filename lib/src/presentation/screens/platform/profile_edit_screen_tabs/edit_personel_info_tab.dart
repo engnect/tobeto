@@ -128,40 +128,50 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
     });
   }
 
-  Future<String> _updateUser(File? image) async {
-    UserModel? usermodel = await UserRepository().getCurrentUser();
+ Future<String> _updateUser(File? image) async {
+  UserModel? usermodel = await UserRepository().getCurrentUser();
 
-    String userAvatarUrl = '';
-    if (image == null) {
-      userAvatarUrl = usermodel!.userAvatarUrl!;
-    } else {
-      userAvatarUrl = await FirebaseStorageRepository()
-          .updateUserAvatarAndGetUrl(userId: usermodel!.userId, image: image);
-    }
+  RegExp githubRegex = RegExp(
+    r'^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]+$',
+  );
 
-    UserModel updatedUser = usermodel.copyWith(
-      userName: _nameController.text,
-      userSurname: _surnameController.text,
-      userEmail: _emailController.text,
-      github: _githubController.text,
-      userPhoneNumber: _phoneController.text,
-      userBirthDate: _selectedDate,
-      gender: _selectedGender,
-      militaryStatus: _selectedMilitaryStatus,
-      disabilityStatus: _selectedDisabilityStatus,
-      aboutMe: _aboutmeController.text,
-      address: _streetController.text,
-      country: _selectedCountry,
-      city: _selectedCityName,
-      district: _selectedDistrictName,
-      userAvatarUrl: userAvatarUrl,
-    );
-    String result = await UserRepository().addOrUpdateUser(updatedUser);
-
-    _loadUserData();
-
-    return result;
+  if (_githubController.text.isNotEmpty && !githubRegex.hasMatch(_githubController.text)) {
+    return 'Geçersiz GitHub adresi';
   }
+
+  String userAvatarUrl = '';
+  if (image == null) {
+    userAvatarUrl = usermodel!.userAvatarUrl!;
+  } else {
+    userAvatarUrl = await FirebaseStorageRepository()
+        .updateUserAvatarAndGetUrl(userId: usermodel!.userId, image: image);
+  }
+
+  UserModel updatedUser = usermodel.copyWith(
+    userName: _nameController.text,
+    userSurname: _surnameController.text,
+    userEmail: _emailController.text,
+    github: _githubController.text,
+    userPhoneNumber: _phoneController.text,
+    userBirthDate: _selectedDate,
+    gender: _selectedGender,
+    militaryStatus: _selectedMilitaryStatus,
+    disabilityStatus: _selectedDisabilityStatus,
+    aboutMe: _aboutmeController.text,
+    address: _streetController.text,
+    country: _selectedCountry,
+    city: _selectedCityName,
+    district: _selectedDistrictName,
+    userAvatarUrl: userAvatarUrl,
+  );
+
+  String result = await UserRepository().addOrUpdateUser(updatedUser);
+
+  _loadUserData();
+
+  return result;
+}
+
 
   @override
   void initState() {
@@ -320,6 +330,7 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
                   controller: _githubController,
                   onSaved: (p0) {},
                   keyboardType: TextInputType.url,
+                  isGithubField: true,
                 ),
               ),
               Padding(
