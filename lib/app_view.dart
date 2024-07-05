@@ -16,6 +16,7 @@ class AppView extends StatefulWidget {
 final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
 class _AppViewState extends State<AppView> {
+  bool _initialAuthCheckPerformed = false;
   @override
   Widget build(BuildContext context) {
     final languageCubit = context.watch<LanguageCubit>().state;
@@ -25,13 +26,15 @@ class _AppViewState extends State<AppView> {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is Authenticated) {
-          _navigatorKey.currentState?.pushReplacementNamed(
-            AppRouteNames.platformScreenRoute,
-          );
+          if (!_initialAuthCheckPerformed) {
+            _initialAuthCheckPerformed = true;
+            _navigatorKey.currentState!
+                .pushReplacementNamed(AppRouteNames.platformScreenRoute);
+          }
         } else if (state is Unauthenticated) {
-          _navigatorKey.currentState?.pushReplacementNamed(
-            AppRouteNames.homeRoute,
-          );
+          _initialAuthCheckPerformed = false;
+          _navigatorKey.currentState!
+              .pushReplacementNamed(AppRouteNames.homeRoute);
         }
       },
       child: MaterialApp(
