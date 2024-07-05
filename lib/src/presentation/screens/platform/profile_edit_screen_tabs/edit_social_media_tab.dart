@@ -19,6 +19,7 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
   String? _selectedSocialMedia;
   final TextEditingController _linkController = TextEditingController();
   bool isSelect = true;
+  
 
   @override
   void dispose() {
@@ -43,19 +44,89 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
     }
   }
 
+  bool _validateInstagramUrl(String url) {
+    RegExp regex = RegExp(
+        r'^(http(?:s)?:\/\/)?(?:www\.)?instagram\.com\/[a-zA-Z0-9_.]{1,30}\/?$');
+    return regex.hasMatch(url);
+  }
+
+  bool _validateLinkedinUrl(String url) {
+    RegExp regex = RegExp(
+         r'^(http(?:s)?:\/\/)?(?:www\.)?linkedin\.com\/[a-zA-Z0-9_.]{1,30}\/?$');
+    return regex.hasMatch(url);
+  }
+
+  bool _validateTwitterUrl(String url) {
+    RegExp regex = RegExp(
+        r'^(http(?:s)?:\/\/)?(?:www\.)?twitter\.com\/[a-zA-Z0-9_]{1,15}\/?$');
+    return regex.hasMatch(url);
+  }
+
+  bool _validateDribbleUrl(String url) {
+    RegExp regex = RegExp(
+        r'^(http(?:s)?:\/\/)?(?:www\.)?dribble\.com\/[a-zA-Z0-9_.]{1,30}\/?$');
+    return regex.hasMatch(url);
+  }
+
+  bool _validateBehanceUrl(String url) {
+    RegExp regex = RegExp(
+        r'^(http(?:s)?:\/\/)?(?:www\.)?behance\.net\/[a-zA-Z0-9_-]{1,50}\/?$');
+    return regex.hasMatch(url);
+  }
+
   void _saveSocialMedia({
     required String selectedSocialMedia,
-    required String socialMedialink,
+    required String socialMediaLink,
     required BuildContext context,
   }) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String assetUrl = _getAssetUrl(selectedSocialMedia);
 
+    bool isValid = true;
+    String errorMessage = '';
+
+    switch (selectedSocialMedia.toLowerCase()) {
+      case 'instagram':
+        isValid = _validateInstagramUrl(socialMediaLink);
+        errorMessage = 'Geçersiz Instagram adresi';
+        break;
+      case 'linkedin':
+        isValid = _validateLinkedinUrl(socialMediaLink);
+        errorMessage = 'Geçersiz LinkedIn adresi';
+        break;
+      case 'twitter':
+        isValid = _validateTwitterUrl(socialMediaLink);
+        errorMessage = 'Geçersiz Twitter adresi';
+        break;
+      case 'dribble':
+        isValid = _validateDribbleUrl(socialMediaLink);
+        errorMessage = 'Geçersiz Dribble adresi';
+        break;
+      case 'behance':
+        isValid = _validateBehanceUrl(socialMediaLink);
+        errorMessage = 'Geçersiz Behance adresi';
+        break;
+      default:
+        isValid = false;
+        errorMessage = 'Bilinmeyen sosyal medya platformu';
+    }
+
+  if (!isValid) {
+    if (context.mounted) {
+      Utilities.showSnackBar(
+        snackBarMessage: errorMessage,
+        context: context,
+      );
+    }
+    return;
+  }
+
+
     SocialMediaModel socialMediaModel = SocialMediaModel(
       socialMediaId: const Uuid().v1(),
       userId: userModel!.userId,
       socialMediaPlatform: selectedSocialMedia,
-      socialMedialink: socialMedialink,
+      socialMedialink: socialMediaLink,
       socialMediaAssetUrl: assetUrl,
     );
 
@@ -92,7 +163,7 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          "Sosyal medya ehsabını sil ",
+          "Sosyal medya hesabını sil",
           style: TextStyle(color: Theme.of(context).colorScheme.primary),
         ),
         content: Text(
@@ -198,21 +269,23 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
                           ),
                         ),
                         TBTPurpleButton(
-                            buttonText: 'Kaydet',
-                            onPressed: () {
-                              if (_selectedSocialMedia == null) {
-                                Utilities.showSnackBar(
-                                    snackBarMessage:
-                                        'Sosyal Medya Playformu Boş Kalamaz!',
-                                    context: context);
-                              } else {
-                                _saveSocialMedia(
-                                  selectedSocialMedia: _selectedSocialMedia!,
-                                  socialMedialink: _linkController.text,
-                                  context: context,
-                                );
-                              }
-                            }),
+                          buttonText: 'Kaydet',
+                          onPressed: () {
+                            if (_selectedSocialMedia == null) {
+                              Utilities.showSnackBar(
+                                snackBarMessage:
+                                    'Sosyal Medya Platformu Boş Bırakılamaz!',
+                                context: context,
+                              );
+                            } else {
+                              _saveSocialMedia(
+                                selectedSocialMedia: _selectedSocialMedia!,
+                                socialMediaLink: _linkController.text,
+                                context: context,
+                              );
+                            }
+                          },
+                        ),
                       ],
                     ),
                   ),
