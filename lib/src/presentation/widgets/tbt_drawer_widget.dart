@@ -3,7 +3,6 @@ import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 import 'package:tobeto/l10n/l10n_exntesions.dart';
 import 'package:tobeto/src/blocs/blocs_module.dart';
 import 'package:tobeto/src/presentation/widgets/export_widgets.dart';
@@ -20,19 +19,6 @@ class TBTDrawer extends StatefulWidget {
 }
 
 class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
-  late final AnimationController _themeSwitchController;
-  @override
-  void initState() {
-    super.initState();
-
-    _themeSwitchController = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        seconds: 3,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
@@ -337,43 +323,42 @@ class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
             // theme switch
             BlocBuilder<ThemeCubit, bool>(
               builder: (context, state) {
-                return Switch(
-                  value: state,
-                  onChanged: (value) {
-                    // context.read<ThemeCubit>().toggleTheme();
-                  },
-                );
-              },
-            ),
-
-            // yeni tema swich
-            BlocBuilder<ThemeCubit, bool>(
-              builder: (context, state) {
-                return GestureDetector(
-                  onTap: () {
-                    if (state != false) {
-                      _themeSwitchController.reverse();
-                      context.read<ThemeCubit>().toggleTheme();
-                    } else {
-                      _themeSwitchController.forward();
-                      Future.delayed(const Duration(milliseconds: 1500), () {
-                        _themeSwitchController.stop();
-                      });
-                      context.read<ThemeCubit>().toggleTheme();
-                    }
-                  },
-                  child: LottieBuilder.asset(
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 70),
+                  child: AnimatedToggleSwitch<bool>.dual(
+                    current: state,
+                    first: false,
+                    second: true,
+                    spacing: 10.0,
+                    animationDuration: const Duration(milliseconds: 600),
+                    style: const ToggleStyle(
+                        indicatorColor: Colors.white,
+                        // backgroundColor: Colors.transparent,
+                        borderColor: Colors.transparent,
+                        backgroundGradient: LinearGradient(colors: [
+                          Colors.indigo,
+                          Colors.deepPurple,
+                          Colors.greenAccent,
+                          Colors.tealAccent
+                        ])),
+                    borderWidth: 3.0,
                     height: 50,
-                    fit: BoxFit.contain,
-                    Assets.animationThemeSwitch,
-                    controller: _themeSwitchController,
-                    onLoaded: (comp) {
-                      _themeSwitchController.duration = comp.duration;
+                    onChanged: (value) {
+                      context.read<ThemeCubit>().toggleTheme();
                     },
+                    iconBuilder: (value) => value
+                        ? const Icon(Icons.circle)
+                        : const Icon(Icons.circle_rounded),
+                    textBuilder: (value) => value
+                        ? const Center(
+                            child: Icon(Icons.dark_mode_outlined, size: 40))
+                        : const Center(
+                            child: Icon(Icons.wb_sunny_outlined, size: 40)),
                   ),
                 );
               },
             ),
+
             // language changer switch
             BlocBuilder<LanguageCubit, Locale>(
               builder: (context, state) {

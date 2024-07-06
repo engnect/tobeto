@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 import '../../../../common/utilities/tbt_utilities.dart';
 import '../../../../domain/export_domain.dart';
 import '../../../../models/export_models.dart';
@@ -94,9 +95,28 @@ class _EditSettingsTabState extends State<EditSettingsTab> {
                         padding: const EdgeInsets.symmetric(vertical: 24.0),
                         child: ElevatedButton(
                           onPressed: () async {
-                            UserModel? user =
-                                await UserRepository().getCurrentUser();
-                            UserRepository().deleteUser(user!);
+                            PanaraConfirmDialog.showAnimatedFade(
+                              context,
+                              textColor: Theme.of(context).colorScheme.primary,
+                              buttonTextColor:
+                                  Theme.of(context).colorScheme.primary,
+                              color: Colors.red,
+                              title: "Dikkat!",
+                              message:
+                                  "Üyeliğinizi sonlandırmak istiyorsunuz. Bu işlem geri alınamaz!",
+                              confirmButtonText: "Devam Et!",
+                              cancelButtonText: "İptal Et!",
+                              onTapCancel: () {
+                                Navigator.pop(context);
+                              },
+                              onTapConfirm: () async {
+                                UserModel? user =
+                                    await UserRepository().getCurrentUser();
+                                UserRepository().deleteUser(user!);
+                              },
+                              panaraDialogType: PanaraDialogType.custom,
+                              barrierDismissible: false,
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
