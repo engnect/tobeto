@@ -4,8 +4,8 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
+import 'package:tobeto/src/domain/repositories/course_repository.dart';
 import 'package:video_player/video_player.dart';
 
 class CourseVideo extends StatefulWidget {
@@ -14,18 +14,20 @@ class CourseVideo extends StatefulWidget {
     required this.dataSourceType,
     required this.videoUrl,
     required this.onFullScreenToggle,
+    this.videoId,
   });
 
   final DataSourceType dataSourceType;
   final String videoUrl;
   final Function(bool isFullScreen) onFullScreenToggle;
+  final String? videoId;
 
   @override
-  State<CourseVideo> createState() => _CourseVideoState();
+  State<CourseVideo> createState() => CourseVideoState();
 }
 
-class _CourseVideoState extends State<CourseVideo> {
-  ChewieController? _chewieController;
+class CourseVideoState extends State<CourseVideo> {
+  late ChewieController _chewieController;
   late VideoPlayerController _videoPlayerController;
   late VoidCallback _listener;
   bool _isFullScreen = false;
@@ -45,17 +47,17 @@ class _CourseVideoState extends State<CourseVideo> {
   void didUpdateWidget(CourseVideo oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.videoUrl != widget.videoUrl) {
+      saveWatchedPercentage(oldWidget.videoId!);
       _videoPlayerController.pause();
       _videoPlayerController.dispose();
-      _chewieController?.dispose();
+      _chewieController.dispose();
       _initializeVideoPlayer();
     }
   }
 
   Future<void> _initializeVideoPlayer() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    double watchedPercentage =
-        prefs.getDouble('${widget.videoUrl}-watchedPercentage') ?? 0.0;
+    double watchedPercentage = await CourseRepository()
+        .getWatchedPercentageFromFirebase(widget.videoId!);
 
     switch (widget.dataSourceType) {
       case DataSourceType.asset:
@@ -100,24 +102,6 @@ class _CourseVideoState extends State<CourseVideo> {
       };
 
       _videoPlayerController.addListener(_listener);
-      _videoPlayerController.addListener(() async {
-        final totalDuration = _videoPlayerController.value.duration.inSeconds;
-        final watchedDuration = _videoPlayerController.value.position.inSeconds;
-
-        if (watchedDuration < totalDuration && watchedDuration != 0) {
-          await prefs.setString(
-              '${widget.videoUrl}-status', 'partially_watched');
-        }
-        if (watchedDuration == totalDuration) {
-          await prefs.setString('${widget.videoUrl}-status', 'watched');
-          await _saveWatchedPercentage(widget.videoUrl, 100.0);
-        } else {
-          await _saveWatchedPercentage(
-            widget.videoUrl,
-            watchedDuration / totalDuration * 100.0,
-          );
-        }
-      });
     } catch (error) {
       setState(() {
         _isVideoInitialized = false;
@@ -131,17 +115,25 @@ class _CourseVideoState extends State<CourseVideo> {
 
   @override
   void dispose() {
+    saveWatchedPercentage(widget.videoId!);
+    _videoPlayerController.removeListener(_listener);
     _hideControlsTimer?.cancel();
+    _chewieController.dispose();
     _videoPlayerController.dispose();
-    _chewieController?.dispose();
+
     super.dispose();
   }
 
-  Future<void> _saveWatchedPercentage(
-      String videoUrl, double percentage) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(
-        '$videoUrl-watchedPercentage', percentage.roundToDouble());
+  Future<void> saveWatchedPercentage(String videoId) async {
+    final totalDuration = _videoPlayerController.value.duration.inSeconds;
+    final watchedDuration = _videoPlayerController.value.position.inSeconds;
+    final percentageWatched = (watchedDuration / totalDuration) * 100.0;
+    if (totalDuration > 0.0) {
+      await CourseRepository().saveWatchedPercentageToFirebase(
+        videoId,
+        percentageWatched.roundToDouble(),
+      );
+    }
   }
 
   void _togglePlayPause() {
@@ -204,7 +196,7 @@ class _CourseVideoState extends State<CourseVideo> {
                 child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Chewie(controller: _chewieController!),
+                  Chewie(controller: _chewieController),
                   if (_showControls)
                     Positioned(
                       right: 0,

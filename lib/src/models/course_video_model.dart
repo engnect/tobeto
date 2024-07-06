@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 
 class CourseVideoModel {
   final String videoId;
@@ -6,12 +7,15 @@ class CourseVideoModel {
   final String courseVideoName;
   final String courseName;
   final String videoUrl;
+  final Map<String, double>? percentageOfWatchedVideosByUsers;
+
   CourseVideoModel({
     required this.videoId,
     required this.courseId,
     required this.courseVideoName,
     required this.courseName,
     required this.videoUrl,
+    this.percentageOfWatchedVideosByUsers,
   });
 
   CourseVideoModel copyWith({
@@ -20,6 +24,7 @@ class CourseVideoModel {
     String? courseVideoName,
     String? courseName,
     String? videoUrl,
+    Map<String, double>? percentageOfWatchedVideosByUsers,
   }) {
     return CourseVideoModel(
       videoId: videoId ?? this.videoId,
@@ -27,6 +32,8 @@ class CourseVideoModel {
       courseVideoName: courseVideoName ?? this.courseVideoName,
       courseName: courseName ?? this.courseName,
       videoUrl: videoUrl ?? this.videoUrl,
+      percentageOfWatchedVideosByUsers: percentageOfWatchedVideosByUsers ??
+          this.percentageOfWatchedVideosByUsers,
     );
   }
 
@@ -37,6 +44,7 @@ class CourseVideoModel {
       'courseVideoName': courseVideoName,
       'courseName': courseName,
       'videoUrl': videoUrl,
+      'percentageOfWatchedVideosByUsers': percentageOfWatchedVideosByUsers,
     };
   }
 
@@ -47,6 +55,8 @@ class CourseVideoModel {
       courseVideoName: map['courseVideoName'] ?? '',
       courseName: map['courseName'] ?? '',
       videoUrl: map['videoUrl'] ?? '',
+      percentageOfWatchedVideosByUsers: Map<String, double>.from(
+          map['percentageOfWatchedVideosByUsers'] ?? {}),
     );
   }
 
@@ -57,7 +67,7 @@ class CourseVideoModel {
 
   @override
   String toString() {
-    return 'CourseVideoModel(videoId: $videoId, courseId: $courseId, courseVideoName: $courseVideoName, courseName: $courseName, videoUrl: $videoUrl)';
+    return 'CourseVideoModel(videoId: $videoId, courseId: $courseId, courseVideoName: $courseVideoName, courseName: $courseName, videoUrl: $videoUrl, percentageOfWatchedVideosByUsers: $percentageOfWatchedVideosByUsers,)';
   }
 
   @override
@@ -69,7 +79,9 @@ class CourseVideoModel {
         other.courseId == courseId &&
         other.courseVideoName == courseVideoName &&
         other.courseName == courseName &&
-        other.videoUrl == videoUrl;
+        other.videoUrl == videoUrl &&
+        mapEquals(other.percentageOfWatchedVideosByUsers,
+            percentageOfWatchedVideosByUsers);
   }
 
   @override
@@ -78,6 +90,7 @@ class CourseVideoModel {
         courseId.hashCode ^
         courseVideoName.hashCode ^
         courseName.hashCode ^
-        videoUrl.hashCode;
+        videoUrl.hashCode ^
+        percentageOfWatchedVideosByUsers.hashCode;
   }
 }
