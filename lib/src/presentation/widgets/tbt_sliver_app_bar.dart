@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:tobeto/src/common/constants/assets.dart';
 import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 
 import '../../blocs/auth/auth_bloc.dart';
 
 class TBTSliverAppBar extends StatelessWidget {
+  final PreferredSizeWidget? bottom;
   const TBTSliverAppBar({
     super.key,
+    this.bottom,
   });
 
   @override
@@ -23,6 +26,7 @@ class TBTSliverAppBar extends StatelessWidget {
       centerTitle: true,
       floating: true,
       snap: true,
+      bottom: bottom,
       title: Image.asset(
         Assets.imagesTobetoLogo,
         width: 200,
