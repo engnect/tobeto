@@ -50,7 +50,6 @@ class _EditCertificatesTabState extends State<EditCertificatesTab> {
     required String certificateName,
     required DateTime certificateYear,
     required String certificateFileUrl,
-    required BuildContext context,
   }) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     CertificateModel newCertificate = CertificateModel(
@@ -64,13 +63,11 @@ class _EditCertificatesTabState extends State<EditCertificatesTab> {
       newCertificate,
       certificateFileUrl,
     );
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   void _editCertificate({
     required CertificateModel certificate,
-    required BuildContext context,
   }) async {
     final updatedCertificate = await showDialog<CertificateModel>(
       context: context,
@@ -82,21 +79,18 @@ class _EditCertificatesTabState extends State<EditCertificatesTab> {
       String result = await CertificateRepository().updateCertificate(
         updatedCertificate,
       );
-      if (!context.mounted) return;
-      Utilities.showSnackBar(snackBarMessage: result, context: context);
+      Utilities.showToast(toastMessage: result);
     }
   }
 
   _deleteCertificate({
     required CertificateModel certificate,
-    required BuildContext context,
   }) async {
     Navigator.pop(context);
     String result =
         await CertificateRepository().deleteCertificate(certificate);
 
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   @override
@@ -190,7 +184,6 @@ class _EditCertificatesTabState extends State<EditCertificatesTab> {
                               certificateName: _certificateNameController.text,
                               certificateYear: _selectedYear!,
                               certificateFileUrl: _filePath!,
-                              context: context,
                             ),
                           ),
                         ),
@@ -232,7 +225,6 @@ class _EditCertificatesTabState extends State<EditCertificatesTab> {
                                             onPressed: () async {
                                               _editCertificate(
                                                 certificate: certificate,
-                                                context: context,
                                               );
                                               setState(() {});
                                             },
@@ -277,7 +269,6 @@ class _EditCertificatesTabState extends State<EditCertificatesTab> {
                                                           _deleteCertificate(
                                                         certificate:
                                                             certificate,
-                                                        context: context,
                                                       ),
                                                       child: Text(
                                                         'Sil',

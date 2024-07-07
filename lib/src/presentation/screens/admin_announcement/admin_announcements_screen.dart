@@ -38,7 +38,6 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
   _addNewAnnouncement({
     required String announcementTitle,
     required String announcementContent,
-    required BuildContext context,
   }) async {
     UserModel? currentUser = await UserRepository().getCurrentUser();
 
@@ -52,19 +51,17 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
 
     String result = await AnnouncementRepository()
         .addOrUpdateAnnouncement(announcementModel: announcementModel);
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+
+    Utilities.showToast(toastMessage: result);
   }
 
   _deleteAnnouncement({
     required AnnouncementModel announcementModel,
-    required BuildContext context,
   }) async {
     String result = await AnnouncementRepository()
         .deleteAnnouncement(announcementModel: announcementModel);
 
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   @override
@@ -108,7 +105,6 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
                                         _announcementTitleController.text,
                                     announcementContent:
                                         _announcementContentController.text,
-                                    context: context,
                                   );
 
                                   _announcementContentController.clear();
@@ -148,10 +144,8 @@ class _AdminAnnouncementsScreenState extends State<AdminAnnouncementsScreen> {
                                       children: [
                                         SlidableAction(
                                           onPressed: (_) => _deleteAnnouncement(
-                                            announcementModel:
-                                                announcementModel,
-                                            context: context,
-                                          ),
+                                              announcementModel:
+                                                  announcementModel),
                                           backgroundColor:
                                               const Color(0xFFFE4A49),
                                           foregroundColor: Colors.white,

@@ -31,7 +31,6 @@ class _EditSkillsTabState extends State<EditSkillsTab> {
   Future<void> _saveSkill({
     required List<String> selectedSkills,
     required String skillName,
-    required BuildContext context,
   }) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
 
@@ -43,8 +42,7 @@ class _EditSkillsTabState extends State<EditSkillsTab> {
       );
 
       String result = await SkillRepository().addSkill(skillModel);
-      if (!context.mounted) return;
-      Utilities.showSnackBar(snackBarMessage: result, context: context);
+      Utilities.showToast(toastMessage: result);
     }
 
     if (skillName.isNotEmpty) {
@@ -56,14 +54,12 @@ class _EditSkillsTabState extends State<EditSkillsTab> {
 
       String result = await SkillRepository().addSkill(skillModel);
 
-      if (!context.mounted) return;
-      Utilities.showSnackBar(snackBarMessage: result, context: context);
+      Utilities.showToast(toastMessage: result);
     }
   }
 
   void _editSkill({
     required SkillModel skill,
-    required BuildContext context,
   }) async {
     SkillModel updatedSkill = await showDialog(
       context: context,
@@ -71,15 +67,11 @@ class _EditSkillsTabState extends State<EditSkillsTab> {
     );
 
     String result = await SkillRepository().updateSkill(updatedSkill);
-
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
-  void _deleteSkill({
-    required SkillModel skill,
-    required BuildContext context,
-  }) {
+  void _deleteSkill(
+      {required SkillModel skill, required BuildContext context}) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -104,8 +96,7 @@ class _EditSkillsTabState extends State<EditSkillsTab> {
               Navigator.pop(context);
               String result = await SkillRepository().deleteSkill(skill);
 
-              if (!context.mounted) return;
-              Utilities.showSnackBar(snackBarMessage: result, context: context);
+              Utilities.showToast(toastMessage: result);
             },
             child: Text(
               'Sil',
@@ -203,7 +194,6 @@ class _EditSkillsTabState extends State<EditSkillsTab> {
                               await _saveSkill(
                                 selectedSkills: _selectedSkills,
                                 skillName: _skillController.text,
-                                context: context,
                               );
                               setState(() {
                                 _selectedSkills.clear();
@@ -267,7 +257,6 @@ class _EditSkillsTabState extends State<EditSkillsTab> {
                                             onPressed: () async {
                                               _editSkill(
                                                 skill: skill,
-                                                context: context,
                                               );
                                               setState(() {});
                                             },

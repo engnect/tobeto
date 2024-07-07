@@ -24,15 +24,12 @@ class _EditSettingsTabState extends State<EditSettingsTab> {
   _updatePassword({
     required String confirmPassword,
     required String newPassword,
-    required BuildContext context,
   }) async {
     String result = await AuthRepository().updatePassword(
       confirmPassword: confirmPassword,
       newPassword: newPassword,
     );
-    if (!context.mounted) return;
-
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   @override
@@ -87,7 +84,6 @@ class _EditSettingsTabState extends State<EditSettingsTab> {
                           onPressed: () => _updatePassword(
                             confirmPassword: _confirmNewPasswordController.text,
                             newPassword: _newPasswordController.text,
-                            context: context,
                           ),
                         ),
                       ),

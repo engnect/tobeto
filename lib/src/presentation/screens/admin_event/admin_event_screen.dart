@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tobeto/src/domain/export_domain.dart';
 import 'package:uuid/uuid.dart';
-
 import '../../../common/export_common.dart';
 import '../../../models/export_models.dart';
 import '../../widgets/export_widgets.dart';
@@ -20,7 +19,7 @@ class AdminEventScreen extends StatefulWidget {
 class _AdminEventScreenState extends State<AdminEventScreen> {
   bool isSelect = false;
   DateTime? selectedDate;
-  final ScrollController _controller = ScrollController();
+
   final TextEditingController _eventTitleController = TextEditingController();
   final TextEditingController _eventDescriptionController =
       TextEditingController();
@@ -28,12 +27,15 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
     _eventTitleController.dispose();
     _eventDescriptionController.dispose();
   }
 
-  void addEvent(BuildContext context) async {
+  void _addEvent({
+    required String eventTitle,
+    required String eventDescription,
+    required DateTime eventDate,
+  }) async {
     UserModel? currentUser = await UserRepository().getCurrentUser();
 
     CalendarModel eventModel = CalendarModel(
@@ -48,11 +50,7 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
     String result =
         await CalendarRepository().addOrUpdateEvent(eventModel: eventModel);
 
-    if (!context.mounted) return;
-    Utilities.showSnackBar(
-      snackBarMessage: result,
-      context: context,
-    );
+    Utilities.showToast(toastMessage: result);
   }
 
   @override
@@ -104,7 +102,12 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                               ),
                               TBTPurpleButton(
                                 buttonText: 'Etkinliği Ekle',
-                                onPressed: () => addEvent(context),
+                                onPressed: () => _addEvent(
+                                  eventTitle: _eventTitleController.text,
+                                  eventDescription:
+                                      _eventDescriptionController.text,
+                                  eventDate: selectedDate ?? DateTime.now(),
+                                ),
                               ),
                             ],
                           ),
@@ -120,7 +123,6 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                               );
                             } else {
                               return ListView.builder(
-                                controller: _controller,
                                 primary: false,
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),

@@ -44,7 +44,6 @@ class _AdminBlogScreenState extends State<AdminBlogScreen> {
     required XFile? selectedImage,
     required String blogTitle,
     required String blogContent,
-    required BuildContext context,
   }) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String blogId = const Uuid().v1();
@@ -65,8 +64,7 @@ class _AdminBlogScreenState extends State<AdminBlogScreen> {
 
     String result = await BlogRepository(isBlog: true)
         .addOrUpdateBlog(blogModel: blogModel);
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   @override
@@ -165,7 +163,6 @@ class _AdminBlogScreenState extends State<AdminBlogScreen> {
                                     selectedImage: selectedImage,
                                     blogTitle: _titleController.text,
                                     blogContent: _contentController.text,
-                                    context: context,
                                   ),
                                 ),
                               ),

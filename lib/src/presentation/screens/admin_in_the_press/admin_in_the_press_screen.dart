@@ -36,10 +36,7 @@ class _AdminInThePressScreenState extends State<AdminInThePressScreen> {
         _selected = true;
       });
 
-      Utilities.showSnackBar(
-        snackBarMessage: 'Resim seçmediniz!',
-        context: context,
-      );
+      Utilities.showToast(toastMessage: 'Resim Seçmediniz!');
     } else {
       setState(() {
         _selected = false;
@@ -76,8 +73,7 @@ class _AdminInThePressScreenState extends State<AdminInThePressScreen> {
         .addOrUpdateBlog(blogModel: blogModel);
 
     _selectedImage = null;
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   @override
