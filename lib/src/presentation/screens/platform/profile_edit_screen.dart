@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../common/export_common.dart';
 import '../export_screens.dart';
 
@@ -55,6 +54,15 @@ class _ProfileEditScreenState extends State<ProfileEditScreen>
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
               centerTitle: true,
               floating: true,
               snap: true,

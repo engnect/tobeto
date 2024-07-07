@@ -86,13 +86,6 @@ class Utilities {
     return cityDistrictMap;
   }
 
-  // static void showSnackBar(
-  //     {required String snackBarMessage, required BuildContext context}) {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(content: Text(snackBarMessage)),
-  //   );
-  // }
-
   static void showToast({required String toastMessage}) {
     toastification.show(
       type: toastMessage != 'İşlem Başarılı!'
