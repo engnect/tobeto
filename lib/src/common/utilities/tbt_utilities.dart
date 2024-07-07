@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:toastification/toastification.dart';
 import 'package:tobeto/src/common/constants/assets.dart';
 
 class Utilities {
@@ -85,10 +86,26 @@ class Utilities {
     return cityDistrictMap;
   }
 
-  static void showSnackBar(
-      {required String snackBarMessage, required BuildContext context}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(snackBarMessage)),
+  // static void showSnackBar(
+  //     {required String snackBarMessage, required BuildContext context}) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(content: Text(snackBarMessage)),
+  //   );
+  // }
+
+  static void showToast({required String toastMessage}) {
+    toastification.show(
+      type: toastMessage != 'İşlem Başarılı!'
+          ? ToastificationType.error
+          : ToastificationType.success,
+      style: ToastificationStyle.fillColored,
+      description: toastMessage != 'İşlem Başarılı!'
+          ? Text(toastMessage)
+          : const Text('İşlem Başarılı!'),
+      alignment: Alignment.topCenter,
+      autoCloseDuration: const Duration(seconds: 4),
+      borderRadius: BorderRadius.circular(12.0),
+      applyBlurEffect: true,
     );
   }
 
@@ -97,7 +114,7 @@ class Utilities {
       print('gelen kod : $result');
     }
     switch (result) {
-      case 'success' || 'İşlem Başarılı!':
+      case 'success':
         return 'İşlem Başarılı!';
       case 'email-already-in-use':
         return 'Bu e-posta sitemde kayıtlı!';
@@ -121,6 +138,8 @@ class Utilities {
         return 'Bütün alanları doldurunuz!';
       case 'invalid-credential':
         return 'Bilgilerinizi kontrol edin!';
+      case 'upload-pdf-failure':
+        return 'PDF Dosyası Sunucuya Yüklenemedi!';
 
       default:
         return 'Hata: $result';

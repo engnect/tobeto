@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:toastification/toastification.dart';
 import 'package:tobeto/src/blocs/blocs_module.dart';
 import 'src/common/export_common.dart';
 
@@ -17,6 +18,7 @@ final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
 class _AppViewState extends State<AppView> {
   bool _initialAuthCheckPerformed = false;
+
   @override
   Widget build(BuildContext context) {
     final languageCubit = context.watch<LanguageCubit>().state;
@@ -37,18 +39,20 @@ class _AppViewState extends State<AppView> {
               .pushReplacementNamed(AppRouteNames.homeRoute);
         }
       },
-      child: MaterialApp(
-        navigatorKey: !onboardingState ? null : _navigatorKey,
-        locale: languageCubit,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        theme:
-            themeCubit ? TBTColorScheme.darkTheme : TBTColorScheme.lightTheme,
-        debugShowCheckedModeBanner: false,
-        onGenerateRoute: AppRouter().generateRoute,
-        initialRoute: !onboardingState
-            ? AppRouteNames.onboardingRoute
-            : AppRouteNames.homeRoute,
+      child: ToastificationWrapper(
+        child: MaterialApp(
+          navigatorKey: !onboardingState ? null : _navigatorKey,
+          locale: languageCubit,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          theme:
+              themeCubit ? TBTColorScheme.darkTheme : TBTColorScheme.lightTheme,
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: AppRouter().generateRoute,
+          initialRoute: !onboardingState
+              ? AppRouteNames.onboardingRoute
+              : AppRouteNames.homeRoute,
+        ),
       ),
     );
   }

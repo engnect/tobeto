@@ -19,7 +19,6 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
   String? _selectedSocialMedia;
   final TextEditingController _linkController = TextEditingController();
   bool isSelect = true;
-  
 
   @override
   void dispose() {
@@ -52,7 +51,7 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
 
   bool _validateLinkedinUrl(String url) {
     RegExp regex = RegExp(
-         r'^(http(?:s)?:\/\/)?(?:www\.)?linkedin\.com\/[a-zA-Z0-9_.]{1,30}\/?$');
+        r'^(http(?:s)?:\/\/)?(?:www\.)?linkedin\.com\/[a-zA-Z0-9_.]{1,30}\/?$');
     return regex.hasMatch(url);
   }
 
@@ -77,7 +76,6 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
   void _saveSocialMedia({
     required String selectedSocialMedia,
     required String socialMediaLink,
-    required BuildContext context,
   }) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     String assetUrl = _getAssetUrl(selectedSocialMedia);
@@ -111,16 +109,9 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
         errorMessage = 'Bilinmeyen sosyal medya platformu';
     }
 
-  if (!isValid) {
-    if (context.mounted) {
-      Utilities.showSnackBar(
-        snackBarMessage: errorMessage,
-        context: context,
-      );
+    if (!isValid) {
+      Utilities.showToast(toastMessage: errorMessage);
     }
-    return;
-  }
-
 
     SocialMediaModel socialMediaModel = SocialMediaModel(
       socialMediaId: const Uuid().v1(),
@@ -132,8 +123,7 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
 
     String result =
         await SocialMediaRepository().addSocialMedia(socialMediaModel);
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   void _editSocialMedia({
@@ -149,8 +139,7 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
       String result = await SocialMediaRepository().updateSocialMedia(
         updatedSocialMedia,
       );
-      if (!context.mounted) return;
-      Utilities.showSnackBar(snackBarMessage: result, context: context);
+      Utilities.showToast(toastMessage: result);
       setState(() {});
     }
   }
@@ -183,8 +172,7 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
               Navigator.pop(context);
               String result = await SocialMediaRepository()
                   .deleteSocialMedia(socialMediaModel);
-              if (!context.mounted) return;
-              Utilities.showSnackBar(snackBarMessage: result, context: context);
+              Utilities.showToast(toastMessage: result);
             },
             child: Text(
               'Sil',
@@ -272,16 +260,13 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
                           buttonText: 'Kaydet',
                           onPressed: () {
                             if (_selectedSocialMedia == null) {
-                              Utilities.showSnackBar(
-                                snackBarMessage:
-                                    'Sosyal Medya Platformu Boş Bırakılamaz!',
-                                context: context,
-                              );
+                              Utilities.showToast(
+                                  toastMessage:
+                                      'Sosyal Medya Platformu Boş Bırakılamaz!');
                             } else {
                               _saveSocialMedia(
                                 selectedSocialMedia: _selectedSocialMedia!,
                                 socialMediaLink: _linkController.text,
-                                context: context,
                               );
                             }
                           },

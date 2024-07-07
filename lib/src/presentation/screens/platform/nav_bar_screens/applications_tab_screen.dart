@@ -26,7 +26,6 @@ class _ApplicationsTabScreenState extends State<ApplicationsTabScreen> {
     required String applicationContent,
     required ApplicationType applicationType,
     required UserRank userRank,
-    required BuildContext context,
   }) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     ApplicationModel applicationModel = ApplicationModel(
@@ -43,8 +42,7 @@ class _ApplicationsTabScreenState extends State<ApplicationsTabScreen> {
 
     String result = await ApplicationsRepository()
         .addOrUpdateApplication(applicationModel: applicationModel);
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   @override
@@ -174,7 +172,6 @@ class _ApplicationsTabScreenState extends State<ApplicationsTabScreen> {
                                           _applicationContentController.text,
                                       applicationType: _selectedApplication,
                                       userRank: _selectedUserRank,
-                                      context: context,
                                     ),
                                   ),
                                 ),

@@ -15,7 +15,6 @@ class CertificateRepository {
     String result = '';
     if (userModel != null) {
       try {
-        // Upload PDF to Firebase Storage
         String pdfUrl = await _uploadPDF(pdfPath, userModel.userId);
         if (pdfUrl.isNotEmpty) {
           certificateModel.certificateFileUrl = pdfUrl;
@@ -26,7 +25,7 @@ class CertificateRepository {
           await UserRepository().addOrUpdateUser(updatedUser);
           result = 'success';
         } else {
-          result = 'Failed to upload PDF';
+          result = 'upload-pdf-failure';
         }
       } catch (e) {
         result = e.toString();
@@ -47,6 +46,7 @@ class CertificateRepository {
 
         UserModel updatedUser = userModel.copyWith();
         await UserRepository().addOrUpdateUser(updatedUser);
+        result = 'success';
       } catch (e) {
         result = e.toString();
       }

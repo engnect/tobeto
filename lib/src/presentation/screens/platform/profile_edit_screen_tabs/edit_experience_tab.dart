@@ -83,7 +83,6 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
     required DateTime endDate,
     required bool isCurrentlyWorking,
     required String jobDescription,
-    required BuildContext context,
   }) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
 
@@ -102,9 +101,7 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
     );
 
     String result = await ExperienceRepository().addExperience(experienceModel);
-
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   void _deleteExperience({
@@ -133,11 +130,8 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
 
               String result = await ExperienceRepository()
                   .deleteExperience(experienceModel);
-              if (!context.mounted) return;
-              Utilities.showSnackBar(
-                snackBarMessage: result,
-                context: context,
-              );
+
+              Utilities.showToast(toastMessage: result);
             },
             child: const Text('Sil'),
           ),
@@ -148,7 +142,6 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
 
   void _editExperience({
     required ExperienceModel experienceModel,
-    required BuildContext context,
   }) async {
     ExperienceModel? updatedExperience = await showDialog<ExperienceModel>(
       context: context,
@@ -157,8 +150,7 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
     String result =
         await ExperienceRepository().updateExperience(updatedExperience!);
 
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   @override
@@ -397,7 +389,6 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
                             experienceType: _selectedExperienceType!,
                             experiencePosition: _positionController.text,
                             experienceSector: _sectorController.text,
-                            context: context,
                           ),
                         ),
                       ],
@@ -484,7 +475,6 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
                                             ),
                                             onPressed: () => _editExperience(
                                               experienceModel: experience,
-                                              context: context,
                                             ),
                                           ),
                                           IconButton(

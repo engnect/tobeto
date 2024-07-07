@@ -28,7 +28,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     required String userEmail,
     required String userPassword,
     required String confirmPassword,
-    required BuildContext context,
   }) async {
     String result = await AuthRepository().registerUser(
       userName: userName,
@@ -38,8 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       confirmPassword: confirmPassword,
     );
 
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   @override
@@ -104,7 +102,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 userEmail: _emailController.text,
                 userPassword: _passwordController.text,
                 confirmPassword: _confirmPasswordController.text,
-                context: context,
               ),
             ),
           ),

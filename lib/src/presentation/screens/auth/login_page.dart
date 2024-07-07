@@ -31,23 +31,18 @@ class _LoginScreenState extends State<LoginScreen> {
   void _signinUser({
     required String userEmail,
     required String userPassword,
-    required BuildContext context,
   }) async {
     String result = await AuthRepository().singInUser(
       userEmail: userEmail,
       userPassword: userPassword,
     );
 
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
-  void _signinWithGoogle({
-    required BuildContext context,
-  }) async {
+  void _signinWithGoogle() async {
     String result = await AuthRepository().signInWithGoogle();
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   void _forgetPassword({
@@ -80,9 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 String result = await AuthRepository().forgetPassword(
                     email: forgetPasswordController.text.trim());
                 forgetPasswordController.clear();
-                if (!context.mounted) return;
-                Utilities.showSnackBar(
-                    snackBarMessage: result, context: context);
+                Utilities.showToast(toastMessage: result);
               },
               child: const Text('Gönder'),
             ),
@@ -128,7 +121,6 @@ class _LoginScreenState extends State<LoginScreen> {
               onPressed: () => _signinUser(
                 userEmail: _emailController.text,
                 userPassword: _passwordController.text,
-                context: context,
               ),
             ),
           ),
@@ -163,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
-              onPressed: () => _signinWithGoogle(context: context),
+              onPressed: () => _signinWithGoogle(),
               child: Stack(
                 children: [
                   Align(

@@ -251,17 +251,12 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                     _messageController.clear();
                                   } else {
                                     if (!context.mounted) return;
-                                    Utilities.showSnackBar(
-                                      snackBarMessage: 'Hata : $result',
-                                      context: context,
-                                    );
+                                    Utilities.showToast(toastMessage: result);
                                   }
                                 } else {
-                                  Utilities.showSnackBar(
-                                    snackBarMessage:
-                                        'Bütün alanları doldurunuz!',
-                                    context: context,
-                                  );
+                                  Utilities.showToast(
+                                      toastMessage:
+                                          'Bütün alanları doldurunuz!');
                                 }
                               },
                             ),

@@ -42,12 +42,13 @@ void _approveApplication(
 
   await UserRepository().addOrUpdateUser(updatedUser);
 
-  if (!context.mounted) return;
-  Utilities.showSnackBar(snackBarMessage: result, context: context);
+  Utilities.showToast(toastMessage: result);
 }
 
 void _denyApplication(
-    ApplicationModel applicationModel, BuildContext context) async {
+  ApplicationModel applicationModel,
+  BuildContext context,
+) async {
   UserModel? currentUser = await UserRepository().getCurrentUser();
 
   ApplicationModel updatedApplication = applicationModel.copyWith(
@@ -59,8 +60,8 @@ void _denyApplication(
   String result = await ApplicationsRepository()
       .addOrUpdateApplication(applicationModel: updatedApplication);
 
+  Utilities.showToast(toastMessage: result);
   if (!context.mounted) return;
-  Utilities.showSnackBar(snackBarMessage: result, context: context);
   Navigator.of(context).pop();
 }
 
