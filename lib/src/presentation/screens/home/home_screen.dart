@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/data/export_data.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../common/export_common.dart';
-import '../../../data/export_data.dart';
 import '../../../models/export_models.dart';
 import '../../widgets/export_widgets.dart';
 import 'widgets/widgets.dart';
@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final CarouselController _carouselController = CarouselController();
 
-  UserCommendsModel _selected = data[0];
+  UserCommendsModel _selected = TBTDataCollection.userCommentsList[0];
 
   bool isSelect = false;
   OverlayEntry? _overlayEntry;
@@ -185,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: data
+                        children: TBTDataCollection.userCommentsList
                             .map(
                               (e) => AnimatedAvatar(
                                 onTab: () {
