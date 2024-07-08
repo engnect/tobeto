@@ -159,9 +159,12 @@ class AuthRepository {
   Future<String> singInUser({
     required String userEmail,
     required String userPassword,
+    required bool isVerified,
   }) async {
     String result = '';
-    if (userEmail.trim().isNotEmpty && userPassword.trim().isNotEmpty) {
+    if (userEmail.trim().isNotEmpty &&
+        userPassword.trim().isNotEmpty &&
+        isVerified) {
       try {
         await _firebaseAuth.signInWithEmailAndPassword(
           email: userEmail,
