@@ -12,18 +12,19 @@ class TBTInputField extends StatefulWidget {
   final EdgeInsets? padding;
   final bool isGithubField;
 
-  const TBTInputField(
-      {super.key,
-      required this.hintText,
-      this.isObscure,
-      required this.controller,
-      required this.onSaved,
-      required this.keyboardType,
-      this.readOnly,
-      this.maxLines,
-      this.minLines,
-      this.isGithubField = false,
-      this.padding});
+  const TBTInputField({
+    super.key,
+    required this.hintText,
+    this.isObscure,
+    required this.controller,
+    required this.onSaved,
+    required this.keyboardType,
+    this.readOnly,
+    this.maxLines,
+    this.minLines,
+    this.isGithubField = false,
+    this.padding,
+  });
 
   @override
   State<TBTInputField> createState() => _TBTInputFieldState();
@@ -51,16 +52,16 @@ class _TBTInputFieldState extends State<TBTInputField> {
 
   void validateGithubUrl() {
     String? text = widget.controller.text.trim();
-    
+
     String a =
         r"^(http(s)?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9\-_]+(\/[a-zA-Z0-9\-_]+)?\/?$";
     RegExp regex = RegExp(a);
 
     setState(() {
       if (text.isEmpty || regex.hasMatch(text)) {
-        errorText = null; 
+        errorText = null;
       } else {
-        errorText = "Geçersiz Github adresi"; 
+        errorText = "Geçersiz Github adresi";
       }
     });
   }
@@ -130,11 +131,11 @@ class _TBTInputFieldState extends State<TBTInputField> {
         autocorrect: false,
         obscureText: widget.isObscure != null ? !showPassword : showPassword,
 
-          onChanged: (value) {
-        if (widget.isGithubField) {
-          validateGithubUrl();
-        }
-      },
+        onChanged: (value) {
+          if (widget.isGithubField) {
+            validateGithubUrl();
+          }
+        },
         // onSaved: onSaved,
       ),
     );
