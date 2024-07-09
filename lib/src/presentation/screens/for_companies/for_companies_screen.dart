@@ -26,7 +26,6 @@ class ForCompaniesScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 40, bottom: 15),
                         child: ShaderMask(
-                          //yazıyı gradient yapmak için kullanıldı!!
                           shaderCallback: (Rect bounds) {
                             return const LinearGradient(
                               colors: [
@@ -105,7 +104,9 @@ class ForCompaniesScreen extends StatelessWidget {
                       ),
                       Container(
                         margin: const EdgeInsets.symmetric(
-                            horizontal: 25, vertical: 15),
+                          horizontal: 25,
+                          vertical: 15,
+                        ),
                         padding: const EdgeInsets.all(15),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.background,
@@ -115,21 +116,15 @@ class ForCompaniesScreen extends StatelessWidget {
                           border: const GradientBoxBorder(
                             width: 5, //border kalınlığı
                             gradient: SweepGradient(
-                              startAngle:
-                                  2.3561944902, //rad türünden 135 derece
-                              endAngle: 5.4977871438, //rad türünden 315 derece
+                              startAngle: 2.3561944902,
+                              endAngle: 5.4977871438,
                               colors: [
                                 Colors.transparent,
                                 Color.fromRGBO(110, 37, 132, 1),
                                 Colors.transparent,
                               ],
-                              stops: [
-                                0.15,
-                                0.5,
-                                0.88
-                              ], //renk dağılımını ayarlamak için
-                              tileMode:
-                                  TileMode.mirror, // simetrik yansıtmak için
+                              stops: [0.15, 0.5, 0.88],
+                              tileMode: TileMode.mirror,
                             ),
                           ),
                         ),

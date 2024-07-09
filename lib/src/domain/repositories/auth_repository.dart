@@ -60,48 +60,6 @@ class AuthRepository {
     } on FirebaseAuthException catch (e) {
       result = e.code;
     }
-
-    // try {
-    //   if (userPassword.trim() != confirmPassword.trim()) {
-    //     result = 'password-not-match';
-    //   } else if (userName.isNotEmpty ||
-    //       userSurname.isNotEmpty ||
-    //       userEmail.isNotEmpty) {
-    //     UserCredential userCredential =
-    //         await _firebaseAuth.createUserWithEmailAndPassword(
-    //       email: userEmail,
-    //       password: userPassword,
-    //     );
-
-    //     String userAvatarUrl = await FirebaseStorageRepository()
-    //         .getDefaultAvatarUrl(userId: userCredential.user!.uid);
-
-    //     UserModel userModel = UserModel(
-    //       userId: userCredential.user!.uid,
-    //       userName: userName,
-    //       userSurname: userSurname,
-    //       userEmail: userEmail,
-    //       userAvatarUrl: userAvatarUrl,
-    //       userRank: UserRank.student,
-    //       usertitle: 'Öğrenci',
-    //       userCreatedAt: DateTime.now(),
-    //       userBirthDate: DateTime.now(),
-    //       languageList: [],
-    //       socialMediaList: [],
-    //       skillsList: [],
-    //       experiencesList: [],
-    //       schoolsList: [],
-    //       certeficatesList: [],
-    //     );
-
-    //     await UserRepository().addOrUpdateUser(userModel);
-    //     result = 'success';
-    //   } else {
-    //     result = 'empty-field';
-    //   }
-    // } on FirebaseAuthException catch (e) {
-    //   result = e.code;
-    // }
     return Utilities.errorMessageChecker(result);
   }
 
@@ -125,7 +83,6 @@ class AuthRepository {
 
       String? fullName = userCredential.user!.displayName!;
 
-      // isim soyisim ayırma
       List<String> nameParts = fullName.split(' ');
       firstName = nameParts.isNotEmpty ? nameParts[0] : '';
       lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '';
@@ -148,7 +105,8 @@ class AuthRepository {
         certeficatesList: [],
       );
 
-      result = await UserRepository().addOrUpdateUser(userModel);
+      await UserRepository().addOrUpdateUser(userModel);
+      result = 'success';
     } on FirebaseException catch (e) {
       result = e.code;
     }

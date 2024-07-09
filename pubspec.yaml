@@ -12,10 +12,10 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  firebase_core: ^3.1.1 #firebase
-  cloud_firestore: ^5.0.2 #firebase
-  firebase_auth: ^5.1.1 #firebase
-  firebase_storage: ^12.1.0 #firebase
+  firebase_core: ^3.2.0
+  cloud_firestore: ^5.1.0
+  firebase_auth: ^5.1.2
+  firebase_storage: ^12.1.1
   flutter_bloc: ^8.1.6 #state management
   hydrated_bloc: ^9.1.5 #caching with state management
   curved_navigation_bar: ^1.0.6 #bottom nav bar for platform screens

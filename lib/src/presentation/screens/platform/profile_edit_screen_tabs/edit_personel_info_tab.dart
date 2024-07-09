@@ -6,7 +6,6 @@ import 'package:intl_phone_field2/country_picker_dialog.dart';
 import 'package:intl_phone_field2/intl_phone_field.dart';
 import 'package:tobeto/src/blocs/blocs_module.dart';
 import 'package:tobeto/src/domain/export_domain.dart';
-import 'package:tobeto/src/models/export_models.dart';
 import '../../../../common/export_common.dart';
 import '../../../widgets/export_widgets.dart';
 
@@ -22,7 +21,7 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _birthDateController = TextEditingController();
-  final TextEditingController _aboutmeController = TextEditingController();
+  final TextEditingController _aboutMeController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _githubController = TextEditingController();
@@ -48,15 +47,48 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
   String? _selectedCityName;
   String? _selectedDistrictName;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadCityData();
+    _loadDistrictData();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _surnameController.dispose();
+    _phoneController.dispose();
+    _birthDateController.dispose();
+    _aboutMeController.dispose();
+    _addressController.dispose();
+    _emailController.dispose();
+    _githubController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _loadCityData() async {
+    final cities = await Utilities.loadCityData();
+    setState(() {
+      _cities = cities;
+    });
+  }
+
+  Future<void> _loadDistrictData() async {
+    final cityDistrictMap = await Utilities.loadDistrictData();
+    setState(() {
+      _cityDistrictMap = cityDistrictMap;
+    });
+  }
+
   Future<File?> _getImageFromGallery() async {
     final imageFromGallery = await Utilities.getImageFromGallery();
-    File? image;
     if (imageFromGallery != null) {
       setState(() {
-        image = File(imageFromGallery.path);
+        _selectedImage = File(imageFromGallery.path);
       });
     }
-    return image;
+    return _selectedImage;
   }
 
   Future<String> _updateUser({
@@ -76,26 +108,21 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
     required String? district,
     required File? image,
   }) async {
-    UserModel? usermodel = await UserRepository().getCurrentUser();
-
-    RegExp githubRegex = RegExp(
-      r'^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]+$',
-    );
+    final usermodel = await UserRepository().getCurrentUser();
+    final githubRegex =
+        RegExp(r'^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]+$');
 
     if (_githubController.text.isNotEmpty &&
         !githubRegex.hasMatch(_githubController.text)) {
       return 'Geçersiz GitHub adresi';
     }
 
-    String userAvatarUrl = '';
-    if (image == null) {
-      userAvatarUrl = usermodel!.userAvatarUrl!;
-    } else {
-      userAvatarUrl = await FirebaseStorageRepository()
-          .updateUserAvatarAndGetUrl(userId: usermodel!.userId, image: image);
-    }
+    final userAvatarUrl = image == null
+        ? usermodel!.userAvatarUrl!
+        : await FirebaseStorageRepository()
+            .updateUserAvatarAndGetUrl(userId: usermodel!.userId, image: image);
 
-    UserModel updatedUser = usermodel.copyWith(
+    final updatedUser = usermodel.copyWith(
       userName: userName,
       userSurname: userSurname,
       userEmail: userEmail,
@@ -113,35 +140,12 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
       userAvatarUrl: userAvatarUrl,
     );
 
-    String result = await UserRepository().addOrUpdateUser(updatedUser);
-
-    return result;
+    return await UserRepository().addOrUpdateUser(updatedUser);
   }
 
-  Future<void> _loadCityData() async {
-    final cities = await Utilities.loadCityData();
-    setState(() {
-      _cities = cities;
-    });
-  }
-
-  Future<void> _loadDistrictData() async {
-    final cityDistrictMap = await Utilities.loadDistrictData();
-    setState(() {
-      _cityDistrictMap = cityDistrictMap;
-    });
-  }
-
-  String _onCitySelected(
-    String? newCityId,
-    List<Map<String, String>> cities,
-  ) {
+  String _onCitySelected(String? newCityId, List<Map<String, String>> cities) {
     _selectedCityId = newCityId;
-    String? cityName = '';
-    cityName = cities.firstWhere((city) => city["id"] == newCityId)["name"];
-    _selectedCityId = newCityId;
-
-    return cityName!;
+    return cities.firstWhere((city) => city["id"] == newCityId)["name"]!;
   }
 
   void _onDistrictSelected(String? newDistrictId) {
@@ -151,23 +155,59 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _loadCityData();
-    _loadDistrictData();
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String hintText,
+    TextInputType keyboardType = TextInputType.text,
+    int minLines = 1,
+    int maxLines = 1,
+    bool isGithubField = false,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TBTInputField(
+        hintText: hintText,
+        controller: controller,
+        onSaved: (value) {},
+        keyboardType: keyboardType,
+        minLines: minLines,
+        maxLines: maxLines,
+        isGithubField: isGithubField,
+      ),
+    );
   }
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _surnameController.dispose();
-    _phoneController.dispose();
-    _birthDateController.dispose();
-    _aboutmeController.dispose();
-    _addressController.dispose();
-    _emailController.dispose();
-    super.dispose();
+  Widget _buildPopupMenu({
+    required String? selectedValue,
+    required List<String> options,
+    required String hintText,
+    required void Function(String?) onSelected,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: PopupMenuButton<String>(
+        color: Theme.of(context).colorScheme.background,
+        initialValue: selectedValue,
+        itemBuilder: (context) {
+          return options.map((option) {
+            return PopupMenuItem<String>(
+              value: option,
+              child: Text(option),
+            );
+          }).toList();
+        },
+        onSelected: onSelected,
+        child: ListTile(
+          title: Text(selectedValue ?? hintText),
+          titleTextStyle:
+              TextStyle(color: Theme.of(context).colorScheme.primary),
+          trailing: Icon(Icons.arrow_drop_down,
+              color: Theme.of(context).colorScheme.primary),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+        ),
+      ),
+    );
   }
 
   @override
@@ -185,7 +225,7 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
                     authState.userModel.userPhoneNumber ?? '';
                 _birthDateController.text = DateFormat('dd/MM/yyyy')
                     .format(authState.userModel.userBirthDate!);
-                _aboutmeController.text = authState.userModel.aboutMe ?? '';
+                _aboutMeController.text = authState.userModel.aboutMe ?? '';
                 _addressController.text = authState.userModel.address ?? '';
                 _emailController.text = authState.userModel.userEmail;
                 _githubController.text = authState.userModel.github ?? '';
@@ -194,99 +234,62 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
                 _selectedDisabilityStatus ??=
                     authState.userModel.disabilityStatus;
                 _selectedMilitaryStatus ??= authState.userModel.militaryStatus;
-
                 _selectedCountry ??= authState.userModel.country;
                 _selectedCityName ??= authState.userModel.city;
                 _selectedDistrictName ??= authState.userModel.district;
 
                 return Column(
                   children: [
-                    // avatar
                     GestureDetector(
                       onTap: () async {
                         _selectedImage = await _getImageFromGallery();
                       },
-                      child: _selectedImage != null
-                          ? CircleAvatar(
-                              radius: 60,
-                              backgroundImage: FileImage(_selectedImage!),
-                            )
-                          : CircleAvatar(
-                              radius: 60,
-                              backgroundImage: NetworkImage(
-                                authState.userModel.userAvatarUrl!,
-                              ),
-                            ),
-                    ),
-                    // ad
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TBTInputField(
-                        hintText: 'Ad',
-                        controller: _nameController,
-                        onSaved: (p0) {},
-                        keyboardType: TextInputType.name,
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage: _selectedImage != null
+                            ? FileImage(_selectedImage!)
+                            : NetworkImage(authState.userModel.userAvatarUrl!)
+                                as ImageProvider,
                       ),
                     ),
-                    // soyad
+                    _buildTextField(
+                        controller: _nameController, hintText: 'Ad'),
+                    _buildTextField(
+                        controller: _surnameController, hintText: 'Soyad'),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TBTInputField(
-                        hintText: 'Soyad',
-                        controller: _surnameController,
-                        onSaved: (p0) {},
-                        keyboardType: TextInputType.name,
+                      child: IntlPhoneField(
+                        controller: _phoneController,
+                        pickerDialogStyle: PickerDialogStyle(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.background),
+                        dropdownTextStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.onSecondary),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary),
+                        decoration: InputDecoration(
+                          labelText: 'Telefon Numaranız',
+                          labelStyle: TextStyle(
+                              color: Theme.of(context).colorScheme.onSecondary),
+                        ),
+                        initialCountryCode: 'TR',
+                        onChanged: (phone) {},
                       ),
                     ),
-                    // telefon
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 8),
-                          IntlPhoneField(
-                            controller: _phoneController,
-                            pickerDialogStyle: PickerDialogStyle(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.background),
-                            dropdownTextStyle: TextStyle(
-                              color: Theme.of(context).colorScheme.onSecondary,
-                            ),
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary),
-                            decoration: InputDecoration(
-                              labelText: 'Telefon Numaranız',
-                              labelStyle: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSecondary),
-                            ),
-                            initialCountryCode: 'TR',
-                            onChanged: (phone) {},
-                          ),
-                        ],
-                      ),
-                    ),
-                    // dogum tarihi
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
+                            color: Theme.of(context).colorScheme.primary),
                         controller: _birthDateController,
                         decoration: InputDecoration(
                           labelText: 'Doğum Tarihi',
                           labelStyle: TextStyle(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                              color: Theme.of(context).colorScheme.primary),
                           contentPadding: const EdgeInsets.all(12),
                           border: const UnderlineInputBorder(),
-                          suffixIcon: Icon(
-                            Icons.calendar_today,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                          suffixIcon: Icon(Icons.calendar_today,
+                              color: Theme.of(context).colorScheme.primary),
                         ),
                         readOnly: true,
                         onTap: () async {
@@ -294,241 +297,69 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
                         },
                       ),
                     ),
-                    // eposta
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TBTInputField(
-                        hintText: "E-posta",
+                    _buildTextField(
                         controller: _emailController,
-                        onSaved: (p0) {},
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                    ),
-                    // github
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TBTInputField(
-                        hintText: "Github adresi",
+                        hintText: "E-posta",
+                        keyboardType: TextInputType.emailAddress),
+                    _buildTextField(
                         controller: _githubController,
-                        onSaved: (p0) {},
+                        hintText: "Github adresi",
                         keyboardType: TextInputType.url,
-                        isGithubField: true,
-                      ),
+                        isGithubField: true),
+                    _buildPopupMenu(
+                      selectedValue: _selectedGender,
+                      options: ['Erkek', 'Kız', 'Belirtmek istemiyorum'],
+                      hintText: 'Cinsiyet Seçiniz',
+                      onSelected: (newValue) {
+                        setState(() {
+                          _selectedGender = newValue;
+                        });
+                      },
                     ),
-                    // gender
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: PopupMenuButton<String>(
-                        color: Theme.of(context).colorScheme.background,
-                        initialValue: _selectedGender,
-                        itemBuilder: (BuildContext context) {
-                          return <PopupMenuEntry<String>>[
-                            PopupMenuItem<String>(
-                              value: 'Erkek',
-                              child: Text(
-                                'Erkek',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
-                              ),
-                            ),
-                            PopupMenuItem<String>(
-                              value: 'Kız',
-                              child: Text(
-                                'Kız',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
-                              ),
-                            ),
-                            PopupMenuItem<String>(
-                              value: 'Belirtmek istemiyorum',
-                              child: Text(
-                                'Belirtmek istemiyorum',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
-                              ),
-                            ),
-                          ];
-                        },
-                        onSelected: (String? newValue) {
-                          setState(() {
-                            _selectedGender = newValue;
-                          });
-                        },
-                        child: ListTile(
-                          title: Text(
-                            _selectedGender ?? 'Cinsiyet Seçiniz',
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary),
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_drop_down,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 4.0, horizontal: 8.0),
-                        ),
-                      ),
+                    _buildPopupMenu(
+                      selectedValue: _selectedMilitaryStatus,
+                      options: ['Yaptı', 'Muaf', 'Tecilli'],
+                      hintText: 'Askerlik Durumu Seçiniz',
+                      onSelected: (newValue) {
+                        setState(() {
+                          _selectedMilitaryStatus = newValue;
+                        });
+                      },
                     ),
-                    // military status
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: PopupMenuButton<String>(
-                        color: Theme.of(context).colorScheme.background,
-                        initialValue: _selectedMilitaryStatus,
-                        itemBuilder: (BuildContext context) {
-                          return <PopupMenuEntry<String>>[
-                            PopupMenuItem<String>(
-                              value: 'Yaptı',
-                              child: Text(
-                                'Yaptı',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
-                              ),
-                            ),
-                            PopupMenuItem<String>(
-                              value: 'Muaf',
-                              child: Text(
-                                'Muaf',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
-                              ),
-                            ),
-                            PopupMenuItem<String>(
-                              value: 'Tecilli',
-                              child: Text(
-                                'Tecilli',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
-                              ),
-                            ),
-                          ];
-                        },
-                        onSelected: (String? newValue) {
-                          setState(() {
-                            _selectedMilitaryStatus = newValue;
-                          });
-                        },
-                        child: ListTile(
-                          title: Text(
-                            _selectedMilitaryStatus ??
-                                'Askerlik Durumu Seçiniz',
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary),
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_drop_down,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 4.0, horizontal: 8.0),
-                        ),
-                      ),
+                    _buildPopupMenu(
+                      selectedValue: _selectedDisabilityStatus,
+                      options: ['Yok', 'Var'],
+                      hintText: 'Engel Durumu Seçiniz',
+                      onSelected: (newValue) {
+                        setState(() {
+                          _selectedDisabilityStatus = newValue;
+                        });
+                      },
                     ),
-                    // disability
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: PopupMenuButton<String>(
-                        color: Theme.of(context).colorScheme.background,
-                        initialValue: _selectedDisabilityStatus,
-                        itemBuilder: (BuildContext context) {
-                          return <PopupMenuEntry<String>>[
-                            PopupMenuItem<String>(
-                              value: 'Yok',
-                              child: Text(
-                                'Yok',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
-                              ),
-                            ),
-                            PopupMenuItem<String>(
-                              value: 'Var',
-                              child: Text(
-                                'Var',
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
-                              ),
-                            ),
-                          ];
-                        },
-                        onSelected: (String? newValue) {
-                          setState(() {
-                            _selectedDisabilityStatus = newValue;
-                          });
-                        },
-                        child: ListTile(
-                          title: Text(
-                            _selectedDisabilityStatus ?? 'Engel Durumu Seçiniz',
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary),
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_drop_down,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 4.0, horizontal: 8.0),
-                        ),
-                      ),
+                    _buildPopupMenu(
+                      selectedValue: _selectedCountry,
+                      options: _countries,
+                      hintText: 'Ülke Seçiniz',
+                      onSelected: (newValue) {
+                        setState(() {
+                          _selectedCountry = newValue;
+                        });
+                      },
                     ),
-                    // country
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: PopupMenuButton<String>(
-                        color: Theme.of(context).colorScheme.background,
-                        initialValue: _selectedCountry,
-                        itemBuilder: (BuildContext context) {
-                          return _countries.map((country) {
-                            return PopupMenuItem<String>(
-                              value: country,
-                              child: Text(country),
-                            );
-                          }).toList();
-                        },
-                        onSelected: (String? newValue) {
-                          setState(() {
-                            _selectedCountry = newValue;
-                          });
-                        },
-                        child: ListTile(
-                          title: Text(
-                            _selectedCountry ?? 'Ülke Seçiniz',
-                          ),
-                          titleTextStyle: TextStyle(
-                              color: Theme.of(context).colorScheme.primary),
-                          trailing: Icon(
-                            Icons.arrow_drop_down,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            vertical: 4.0,
-                            horizontal: 8.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                    // city
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: PopupMenuButton<String>(
                         color: Theme.of(context).colorScheme.background,
                         initialValue: _selectedCityName,
-                        itemBuilder: (BuildContext context) {
+                        itemBuilder: (context) {
                           return _cities.map((city) {
                             return PopupMenuItem<String>(
                               value: city["id"],
                               child: Text(
                                 city["name"]!,
                                 style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.primary),
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
                             );
                           }).toList();
@@ -539,16 +370,12 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
                           });
                         },
                         child: ListTile(
-                          title: Text(
-                            _selectedCityName ?? 'İl Şeçiniz',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_drop_down,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                          title: Text(_selectedCityName ?? 'İl Şeçiniz',
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.primary)),
+                          trailing: Icon(Icons.arrow_drop_down,
+                              color: Theme.of(context).colorScheme.primary),
                           contentPadding: const EdgeInsets.symmetric(
                             vertical: 4.0,
                             horizontal: 8.0,
@@ -556,13 +383,12 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
                         ),
                       ),
                     ),
-                    // ilçe
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: PopupMenuButton<String>(
                         color: Theme.of(context).colorScheme.background,
                         initialValue: _selectedDistrictName,
-                        itemBuilder: (BuildContext context) {
+                        itemBuilder: (context) {
                           if (_selectedCityId == null ||
                               !_cityDistrictMap.containsKey(_selectedCityId)) {
                             return <PopupMenuItem<String>>[];
@@ -582,16 +408,12 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
                         },
                         onSelected: _onDistrictSelected,
                         child: ListTile(
-                          title: Text(
-                            _selectedDistrictName ?? 'İlçe Seçiniz',
-                            style: TextStyle(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_drop_down,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                          title: Text(_selectedDistrictName ?? 'İlçe Seçiniz',
+                              style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.primary)),
+                          trailing: Icon(Icons.arrow_drop_down,
+                              color: Theme.of(context).colorScheme.primary),
                           contentPadding: const EdgeInsets.symmetric(
                             vertical: 4.0,
                             horizontal: 8.0,
@@ -599,38 +421,24 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
                         ),
                       ),
                     ),
-                    // açık adres
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TBTInputField(
-                        hintText: 'Açık adresinizi giriniz',
+                    _buildTextField(
                         controller: _addressController,
-                        onSaved: (p0) {},
+                        hintText: 'Açık adresinizi giriniz',
                         keyboardType: TextInputType.streetAddress,
                         minLines: 3,
-                        maxLines: 3,
-                      ),
-                    ),
-                    // hakkımda
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TBTInputField(
+                        maxLines: 3),
+                    _buildTextField(
+                        controller: _aboutMeController,
                         hintText: 'Hakkımda',
-                        controller: _aboutmeController,
-                        onSaved: (p0) {},
                         keyboardType: TextInputType.multiline,
                         minLines: 3,
-                        maxLines: 3,
-                      ),
-                    ),
-
-                    // kaydet
+                        maxLines: 3),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TBTPurpleButton(
                         buttonText: 'Kaydet',
                         onPressed: () async {
-                          String result = await _updateUser(
+                          final result = await _updateUser(
                             userEmail: _emailController.text.trim(),
                             userName: _nameController.text.trim(),
                             userSurname: _surnameController.text.trim(),
@@ -639,7 +447,7 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
                             city: _selectedCityName,
                             district: _selectedDistrictName,
                             address: _addressController.text.trim(),
-                            aboutMe: _aboutmeController.text.trim(),
+                            aboutMe: _aboutMeController.text.trim(),
                             disabilityStatus: _selectedDisabilityStatus,
                             militaryStatus: _selectedMilitaryStatus,
                             gender: _selectedGender,
@@ -652,9 +460,7 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
                         },
                       ),
                     ),
-                    const SizedBox(
-                      height: 50,
-                    ),
+                    const SizedBox(height: 50),
                   ],
                 );
               }
