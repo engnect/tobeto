@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class TBTSlideableListTile extends StatelessWidget {
+  final String? imgUrl;
+  final String title;
+  final String subtitle;
+  final Function(BuildContext) deleteOnPressed;
+  final Function(BuildContext) editOnPressed;
+  final Function()? onTap;
+
   const TBTSlideableListTile({
     super.key,
     required this.imgUrl,
@@ -9,13 +16,8 @@ class TBTSlideableListTile extends StatelessWidget {
     required this.subtitle,
     required this.deleteOnPressed,
     required this.editOnPressed,
+    this.onTap,
   });
-
-  final String imgUrl;
-  final String title;
-  final String subtitle;
-  final Function(BuildContext) deleteOnPressed;
-  final Function(BuildContext) editOnPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +43,18 @@ class TBTSlideableListTile extends StatelessWidget {
         ],
       ),
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: NetworkImage(imgUrl),
-        ),
+        leading: imgUrl != null
+            ? CircleAvatar(
+                backgroundImage: NetworkImage(imgUrl!),
+              )
+            : const SizedBox(),
         title: Text(
           title,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
           style: TextStyle(
             color: Theme.of(context).colorScheme.primary,
+            fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Text(
@@ -60,6 +65,7 @@ class TBTSlideableListTile extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
+        onTap: onTap,
       ),
     );
   }

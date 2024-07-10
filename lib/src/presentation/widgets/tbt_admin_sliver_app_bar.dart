@@ -11,6 +11,12 @@ class TBTAdminSliverAppBar extends StatelessWidget {
       iconTheme: IconThemeData(
         color: Theme.of(context).colorScheme.primary,
       ),
+      leading: IconButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        icon: const Icon(Icons.arrow_back_ios_new_outlined),
+      ),
       titleTextStyle: TextStyle(color: Theme.of(context).colorScheme.primary),
       centerTitle: true,
       floating: true,

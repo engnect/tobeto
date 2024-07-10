@@ -157,9 +157,10 @@ class TBTEndDrawer extends StatelessWidget {
           color: Theme.of(context).colorScheme.primary,
         ),
       ),
-      onTap: () => Navigator.of(context)
-          .pushNamed(routeName, arguments: arguments)
-          .then((_) => Navigator.of(context).pop()),
+      onTap: () {
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed(routeName, arguments: arguments);
+      },
     );
   }
 
@@ -169,9 +170,10 @@ class TBTEndDrawer extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: 30),
       title: TBTPurpleButton(
         buttonText: text,
-        onPressed: () => Navigator.of(context)
-            .pushNamed(routeName, arguments: arguments)
-            .then((_) => Navigator.of(context).pop()),
+        onPressed: () {
+          Navigator.of(context).pop();
+          Navigator.of(context).pushNamed(routeName, arguments: arguments);
+        },
       ),
     );
   }

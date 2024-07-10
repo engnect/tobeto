@@ -29,7 +29,7 @@ class _AuthInputState extends State<AuthInput> {
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(
-            Radius.circular(11),
+            Radius.circular(5),
           ),
         ),
         child: TextField(
@@ -80,7 +80,7 @@ class _AuthInputState extends State<AuthInput> {
             ),
             focusedBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(10),
+                Radius.circular(5),
               ),
               borderSide: BorderSide(
                 color: Color.fromRGBO(153, 51, 255, 0.4),

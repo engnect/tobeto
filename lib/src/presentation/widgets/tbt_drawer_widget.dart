@@ -54,12 +54,14 @@ class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
                 _buildButtonTile(
                   context,
                   text: context.translate.blog,
+                  arguments: true,
                   routeName: AppRouteNames.blogScreenRoute,
                 ),
                 _buildButtonTile(
                   context,
                   text: context.translate.in_the_press,
-                  routeName: AppRouteNames.inThePressScreenRoute,
+                  arguments: false,
+                  routeName: AppRouteNames.blogScreenRoute,
                 ),
                 _buildButtonTile(
                   context,
@@ -93,14 +95,15 @@ class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
             GestureDetector(
               child: Image.asset(Assets.imagesTobetoLogo, width: 150),
               onTap: () {
-                Navigator.of(context).pushNamed(AppRouteNames.homeRoute).then(
-                      (_) => Navigator.of(context).pop(),
-                    );
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed(AppRouteNames.homeRoute);
               },
             ),
-            GestureDetector(
-              child: const Icon(Icons.close),
-              onTap: () => Navigator.pop(context),
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.close_outlined),
             ),
           ],
         ),
@@ -108,8 +111,30 @@ class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildListTile(BuildContext context,
-      {required String title, required String routeName}) {
+  Widget _buildButtonTile(
+    BuildContext context, {
+    required String text,
+    required String routeName,
+    Object? arguments,
+  }) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+      title: TBTPurpleButton(
+        buttonText: text,
+        onPressed: () {
+          Navigator.of(context).pop();
+          Navigator.of(context).pushNamed(routeName, arguments: arguments);
+        },
+      ),
+    );
+  }
+
+  Widget _buildListTile(
+    BuildContext context, {
+    required String title,
+    required String routeName,
+    Object? arguments,
+  }) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 30),
       title: Text(
@@ -120,9 +145,8 @@ class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
         ),
       ),
       onTap: () {
-        Navigator.of(context)
-            .pushNamed(routeName)
-            .then((_) => Navigator.of(context).pop());
+        Navigator.of(context).pop();
+        Navigator.of(context).pushNamed(routeName, arguments: arguments);
       },
     );
   }
@@ -138,21 +162,6 @@ class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
         ),
       ),
       children: children,
-    );
-  }
-
-  Widget _buildButtonTile(BuildContext context,
-      {required String text, required String routeName}) {
-    return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 30),
-      title: TBTPurpleButton(
-        buttonText: text,
-        onPressed: () {
-          Navigator.of(context)
-              .pushNamed(routeName)
-              .then((_) => Navigator.of(context).pop());
-        },
-      ),
     );
   }
 

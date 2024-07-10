@@ -43,10 +43,6 @@ class AppRouter {
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const AuthScreen(),
         );
-      case AppRouteNames.inThePressScreenRoute:
-        return AppRouterTransitionAnimation.tbtPageTransition(
-          child: const InThePressScreen(),
-        );
       case AppRouteNames.profileScreenRoute:
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const ProfileEditScreen(),
@@ -56,10 +52,11 @@ class AppRouter {
           child: const CalendarScreen(),
         );
       case AppRouteNames.blogScreenRoute:
-        return AppRouterTransitionAnimation.tbtPageTransition(
-          child: const BlogScreen(),
-        );
-      case AppRouteNames.errorScreenRoute:
+        if (args is bool) {
+          return AppRouterTransitionAnimation.tbtPageTransition(
+            child: BlogScreen(isBlog: args),
+          );
+        }
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const ErrorScreen(),
         );
@@ -108,6 +105,11 @@ class AppRouter {
         );
 
       // error screen
+      case AppRouteNames.errorScreenRoute:
+        return AppRouterTransitionAnimation.tbtPageTransition(
+          child: const ErrorScreen(),
+        );
+      // defaul route
       default:
         return AppRouterTransitionAnimation.tbtPageTransition(
           child: const ErrorScreen(),

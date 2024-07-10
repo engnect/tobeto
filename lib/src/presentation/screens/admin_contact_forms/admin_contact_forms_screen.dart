@@ -16,7 +16,7 @@ class AdminContactFormsScreen extends StatefulWidget {
       _AdminContactFormsScreenState();
 }
 
-_markAsRead({
+void _markAsRead({
   required ContactFormModel contactFormModel,
   required BuildContext context,
 }) async {
@@ -32,7 +32,7 @@ _markAsRead({
   Navigator.of(context).pop();
 }
 
-_markAsUnread({
+void _markAsUnread({
   required ContactFormModel contactFormModel,
   required BuildContext context,
 }) async {
@@ -49,7 +49,7 @@ _markAsUnread({
   Navigator.of(context).pop();
 }
 
-_showFormDetails({
+void _showFormDetails({
   required ContactFormModel contactFormModel,
   required BuildContext context,
 }) {
@@ -91,140 +91,118 @@ class _AdminContactFormsScreenState extends State<AdminContactFormsScreen> {
             SliverList(
               delegate: SliverChildListDelegate(
                 [
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Text(
-                          "İletişim Formları",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Text(
+                      "İletişim Formları",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height -
-                            kToolbarHeight -
-                            200,
-                        child: StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection(
-                                  FirebaseConstants.contactFormsCollection)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            } else {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (context, index) {
-                                  DocumentSnapshot documentSnapshot =
-                                      snapshot.data!.docs[index];
+                    ),
+                  ),
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection(FirebaseConstants.contactFormsCollection)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot documentSnapshot =
+                                snapshot.data!.docs[index];
 
-                                  ContactFormModel contactFormModel =
-                                      ContactFormModel.fromMap(documentSnapshot
-                                          .data() as Map<String, dynamic>);
-                                  return Slidable(
-                                    endActionPane: ActionPane(
-                                      extentRatio: 0.20,
-                                      motion: const DrawerMotion(),
-                                      children: [
-                                        SlidableAction(
-                                          onPressed: (context) {},
-                                          backgroundColor:
-                                              const Color(0xFFFE4A49),
-                                          foregroundColor: Colors.white,
-                                          icon: Icons.delete,
-                                          label: 'Sil',
-                                        ),
-                                      ],
-                                    ),
-                                    child: Container(
-                                      color: contactFormModel
-                                                  .contactFormIsClosed ==
-                                              false
-                                          ? const Color.fromARGB(
-                                              200, 255, 193, 7)
-                                          : const Color.fromARGB(
-                                              200, 7, 107, 7),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                        ),
-                                        child: ListTile(
-                                          leading: Icon(
-                                            contactFormModel
-                                                        .contactFormIsClosed ==
-                                                    false
-                                                ? Icons
-                                                    .mark_email_unread_outlined
-                                                : Icons
-                                                    .mark_email_read_outlined,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSecondary,
-                                          ),
-                                          title: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                contactFormModel
-                                                    .contactFormFullName,
-                                                style: TextStyle(
-                                                  fontFamily: "Poppins",
-                                                  fontSize: 16,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                ),
-                                              ),
-                                              Text(
-                                                DateFormat('dd/MM/yyyy').format(
-                                                    contactFormModel
-                                                        .contactFormCreatedAt),
-                                                style: TextStyle(
-                                                  fontFamily: "Poppins",
-                                                  fontSize: 14,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .primary,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          subtitle: Text(
-                                            contactFormModel.contactFormEmail,
-                                            style: TextStyle(
-                                              fontFamily: "Poppins",
-                                              fontSize: 12,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                            ),
-                                          ),
-                                          onTap: () => _showFormDetails(
-                                            contactFormModel: contactFormModel,
-                                            context: context,
-                                          ),
+                            ContactFormModel contactFormModel =
+                                ContactFormModel.fromMap(documentSnapshot.data()
+                                    as Map<String, dynamic>);
+                            return Slidable(
+                              endActionPane: ActionPane(
+                                extentRatio: 0.20,
+                                motion: const DrawerMotion(),
+                                children: [
+                                  SlidableAction(
+                                    onPressed: (context) {},
+                                    backgroundColor: const Color(0xFFFE4A49),
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.delete,
+                                    label: 'Sil',
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                ),
+                                child: ListTile(
+                                  leading: Icon(
+                                    contactFormModel.contactFormIsClosed ==
+                                            false
+                                        ? Icons.mark_email_unread_outlined
+                                        : Icons.mark_email_read_outlined,
+                                    color:
+                                        contactFormModel.contactFormIsClosed ==
+                                                false
+                                            ? Colors.red
+                                            : Colors.green,
+                                  ),
+                                  title: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        contactFormModel.contactFormFullName,
+                                        style: TextStyle(
+                                          fontFamily: "Poppins",
+                                          fontSize: 16,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
                                         ),
                                       ),
+                                      Text(
+                                        DateFormat('dd/MM/yyyy').format(
+                                            contactFormModel
+                                                .contactFormCreatedAt),
+                                        style: TextStyle(
+                                          fontFamily: "Poppins",
+                                          fontSize: 14,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  subtitle: Text(
+                                    contactFormModel.contactFormEmail,
+                                    style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontSize: 12,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
                                     ),
-                                  );
-                                },
-                              );
-                            }
+                                  ),
+                                  onTap: () => _showFormDetails(
+                                    contactFormModel: contactFormModel,
+                                    context: context,
+                                  ),
+                                ),
+                              ),
+                            );
                           },
-                        ),
-                      ),
-                    ],
+                        );
+                      }
+                    },
                   ),
                 ],
               ),

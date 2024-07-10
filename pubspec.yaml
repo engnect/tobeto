@@ -32,7 +32,7 @@ dependencies:
   table_calendar: ^3.0.9 #calendar package DO NOT UPDATE!
   flutter_slidable: ^3.1.0 #slideable
   introduction_screen: ^3.1.14 #onboarding
-  uuid: ^4.4.0 #unique id generator
+  uuid: ^4.4.0 #unique id generator DO NOT UPDATE!
   webview_flutter: ^4.8.0 #web view
   animated_toggle_switch: ^0.8.2 #switch
   country_flags: ^3.0.0 #country flags
