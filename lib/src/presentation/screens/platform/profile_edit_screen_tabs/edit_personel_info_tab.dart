@@ -240,18 +240,6 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
 
                 return Column(
                   children: [
-                    GestureDetector(
-                      onTap: () async {
-                        _selectedImage = await _getImageFromGallery();
-                      },
-                      child: CircleAvatar(
-                        radius: 60,
-                        backgroundImage: _selectedImage != null
-                            ? FileImage(_selectedImage!)
-                            : NetworkImage(authState.userModel.userAvatarUrl!)
-                                as ImageProvider,
-                      ),
-                    ),
                     _buildTextField(
                         controller: _nameController, hintText: 'Ad'),
                     _buildTextField(
