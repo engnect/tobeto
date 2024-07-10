@@ -161,7 +161,6 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
     TextInputType keyboardType = TextInputType.text,
     int minLines = 1,
     int maxLines = 1,
-    bool isGithubField = false,
   }) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -172,7 +171,6 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
         keyboardType: keyboardType,
         minLines: minLines,
         maxLines: maxLines,
-        isGithubField: isGithubField,
       ),
     );
   }
@@ -240,6 +238,18 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
 
                 return Column(
                   children: [
+                    GestureDetector(
+                      onTap: () async {
+                        _selectedImage = await _getImageFromGallery();
+                      },
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage: _selectedImage != null
+                            ? FileImage(_selectedImage!)
+                            : NetworkImage(authState.userModel.userAvatarUrl!)
+                                as ImageProvider,
+                      ),
+                    ),
                     _buildTextField(
                         controller: _nameController, hintText: 'Ad'),
                     _buildTextField(
@@ -290,10 +300,10 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
                         hintText: "E-posta",
                         keyboardType: TextInputType.emailAddress),
                     _buildTextField(
-                        controller: _githubController,
-                        hintText: "Github adresi",
-                        keyboardType: TextInputType.url,
-                        isGithubField: true),
+                      controller: _githubController,
+                      hintText: "Github adresi",
+                      keyboardType: TextInputType.url,
+                    ),
                     _buildPopupMenu(
                       selectedValue: _selectedGender,
                       options: ['Erkek', 'Kız', 'Belirtmek istemiyorum'],
