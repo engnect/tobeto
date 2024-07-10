@@ -245,184 +245,162 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                 [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Column(
-                      children: [
-                        TBTAnimatedContainer(
-                          height: 400,
-                          infoText: 'Ders Videosu Ekle',
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 25),
-                            child: Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () => _getVideoFromGallery(),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                      bottom: 50,
-                                      top: 30,
-                                    ),
-                                    child: selected
-                                        ? CourseVideo(
-                                            dataSourceType: DataSourceType.file,
-                                            videoUrl: _selectedVideo!.path,
-                                            onFullScreenToggle:
-                                                (isFullScreen) {},
-                                          )
-                                        : AspectRatio(
-                                            aspectRatio: 1,
-                                            child: Container(
-                                              decoration: const BoxDecoration(
-                                                color: Color.fromRGBO(
-                                                    150, 150, 150, 0.2),
-                                              ),
-                                              child: const Icon(
-                                                Icons.video_call,
-                                                size: 50,
-                                              ),
-                                            ),
+                    child: TBTAnimatedContainer(
+                      height: 400,
+                      infoText: 'Ders Videosu Ekle',
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () => _getVideoFromGallery(),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  bottom: 50,
+                                  top: 30,
+                                ),
+                                child: selected
+                                    ? CourseVideo(
+                                        dataSourceType: DataSourceType.file,
+                                        videoUrl: _selectedVideo!.path,
+                                        onFullScreenToggle: (isFullScreen) {},
+                                      )
+                                    : AspectRatio(
+                                        aspectRatio: 1,
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            color: Color.fromRGBO(
+                                                150, 150, 150, 0.2),
                                           ),
-                                  ),
+                                          child: const Icon(
+                                            Icons.video_call,
+                                            size: 50,
+                                          ),
+                                        ),
+                                      ),
+                              ),
+                            ),
+                            TBTInputField(
+                              hintText: 'Ders Video İsmi',
+                              controller: _courseVideoNameController,
+                              onSaved: (p0) {},
+                              keyboardType: TextInputType.multiline,
+                            ),
+                            DropdownButtonFormField<String>(
+                              isExpanded: true,
+                              hint: Text(
+                                "Ders Kategorisi",
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
-                                TBTInputField(
-                                  hintText: 'Ders Video İsmi',
-                                  controller: _courseVideoNameController,
-                                  onSaved: (p0) {},
-                                  keyboardType: TextInputType.multiline,
-                                ),
-                                DropdownButtonFormField<String>(
-                                  isExpanded: true,
-                                  hint: Text(
-                                    "Ders Kategorisi",
+                              ),
+                              value: selectedCourseName,
+                              items: courseNames.map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(
+                                    value,
                                     style: TextStyle(
                                       color:
                                           Theme.of(context).colorScheme.primary,
                                     ),
                                   ),
-                                  value: selectedCourseName,
-                                  items: courseNames.map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(
-                                        value,
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        selectedCourseName = value;
-                                      },
-                                    );
-                                  }).toList(),
-                                  onChanged: (newValue) {
-                                    selectedCourseName = newValue;
-                                    selectedCourseId = courses
-                                        .firstWhere((course) =>
-                                            course.courseName == newValue)
-                                        .courseId;
-
-                                    // setState(
-                                    //   () {
-                                    //     selectedCourseName = newValue;
-                                    //     selectedCourseId = courses
-                                    //         .firstWhere((course) =>
-                                    //             course.courseName == newValue)
-                                    //         .courseId;
-                                    //   },
-                                    // );
+                                  onTap: () {
+                                    selectedCourseName = value;
                                   },
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 20),
-                                  child: TBTPurpleButton(
-                                    buttonText: "Kaydet",
-                                    onPressed: () async {
-                                      await _addCourseVideo(
-                                        selectedCourseId: selectedCourseId!,
-                                        selectedCourseName: selectedCourseName!,
-                                        courseVideoName: selectedCourseName!,
-                                        selectedVideo: _selectedVideo,
-                                      );
-                                    },
-                                  ),
-                                )
-                              ],
+                                );
+                              }).toList(),
+                              onChanged: (newValue) {
+                                selectedCourseName = newValue;
+                                selectedCourseId = courses
+                                    .firstWhere((course) =>
+                                        course.courseName == newValue)
+                                    .courseId;
+                              },
                             ),
-                          ),
-                        ),
-                        StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection(FirebaseConstants.videosCollection)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            } else {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (context, index) {
-                                  DocumentSnapshot documentSnapshot =
-                                      snapshot.data!.docs[index];
-
-                                  CourseVideoModel courseVideoModel =
-                                      CourseVideoModel.fromMap(documentSnapshot
-                                          .data() as Map<String, dynamic>);
-
-                                  return Slidable(
-                                    key: ValueKey(index),
-                                    endActionPane: ActionPane(
-                                      extentRatio: 0.6,
-                                      motion: const DrawerMotion(),
-                                      children: [
-                                        SlidableAction(
-                                          onPressed: (context) =>
-                                              _deleteVideoFunction(
-                                            videoId: courseVideoModel.videoId,
-                                          ),
-                                          backgroundColor:
-                                              const Color(0xFFFE4A49),
-                                          foregroundColor: Colors.white,
-                                          icon: Icons.delete,
-                                          label: 'Sil',
-                                        ),
-                                        SlidableAction(
-                                          onPressed: (context) {
-                                            _showEditDialog(
-                                                context: context,
-                                                videoId:
-                                                    courseVideoModel.videoId);
-                                          },
-                                          backgroundColor:
-                                              const Color(0xFF21B7CA),
-                                          foregroundColor: Colors.white,
-                                          icon: Icons.edit,
-                                          label: 'Düzenle',
-                                        ),
-                                      ],
-                                    ),
-                                    child: ListTile(
-                                      title: Text(
-                                        'Video adı: ${courseVideoModel.courseVideoName}',
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                        ),
-                                      ),
-                                    ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: TBTPurpleButton(
+                                buttonText: "Kaydet",
+                                onPressed: () async {
+                                  await _addCourseVideo(
+                                    selectedCourseId: selectedCourseId!,
+                                    selectedCourseName: selectedCourseName!,
+                                    courseVideoName: selectedCourseName!,
+                                    selectedVideo: _selectedVideo,
                                   );
                                 },
-                              );
-                            }
-                          },
+                              ),
+                            )
+                          ],
                         ),
-                      ],
+                      ),
                     ),
+                  ),
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection(FirebaseConstants.videosCollection)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot documentSnapshot =
+                                snapshot.data!.docs[index];
+
+                            CourseVideoModel courseVideoModel =
+                                CourseVideoModel.fromMap(documentSnapshot.data()
+                                    as Map<String, dynamic>);
+
+                            return Slidable(
+                              key: ValueKey(index),
+                              endActionPane: ActionPane(
+                                extentRatio: 0.6,
+                                motion: const DrawerMotion(),
+                                children: [
+                                  SlidableAction(
+                                    onPressed: (context) =>
+                                        _deleteVideoFunction(
+                                      videoId: courseVideoModel.videoId,
+                                    ),
+                                    backgroundColor: const Color(0xFFFE4A49),
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.delete,
+                                    label: 'Sil',
+                                  ),
+                                  SlidableAction(
+                                    onPressed: (context) {
+                                      _showEditDialog(
+                                          context: context,
+                                          videoId: courseVideoModel.videoId);
+                                    },
+                                    backgroundColor: const Color(0xFF21B7CA),
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.edit,
+                                    label: 'Düzenle',
+                                  ),
+                                ],
+                              ),
+                              child: ListTile(
+                                title: Text(
+                                  'Video adı: ${courseVideoModel.courseVideoName}',
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    },
                   ),
                 ],
               ),

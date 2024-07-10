@@ -9,16 +9,14 @@ class AppRouteNames {
   static const String platformScreenRoute = '/platformScreen';
   static const String auhtScreenRoute = '/authScreen';
   static const String registerScreenRoute = '/registerScreen';
-  static const String inThePressScreenRoute = '/InThePressScreen';
   static const String profileScreenRoute = '/profileScreen';
   static const String calendarScreenRoute = '/calendarScreen';
-  static const String inThePressAddEditScreenRoute = '/inThePressAddEditScreen';
   static const String blogScreenRoute = '/blogScreen';
   static const String errorScreenRoute = '/errorScreen';
 
   // admin sayfaları
   static const String adminAnnouncementsScreenRoute =
-      '/AdminAnnouncementsScreen';
+      '/adminAnnouncementsScreen';
   static const String adminApplicationsScreenRoute = '/adminApplicationsScreen';
   static const String adminBlogScreenRoute = '/adminBlogScreen';
   static const String adminContactFormScreenRoute = '/adminContactFormScreen';

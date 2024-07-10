@@ -15,7 +15,6 @@ class _CaptchaVerificationState extends State<CaptchaVerification> {
   bool isVerified = false;
   TextEditingController controller = TextEditingController();
 
-  // Logic for creating Captcha
   void buildCaptcha() {
     const letters =
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -44,10 +43,10 @@ class _CaptchaVerificationState extends State<CaptchaVerification> {
       padding: const EdgeInsets.all(12),
       margin: const EdgeInsets.symmetric(vertical: 5),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.background,
+        color: Colors.white,
         border: Border.all(
             width: 1, color: Theme.of(context).colorScheme.secondary),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(5),
       ),
       child: Column(
         children: [
@@ -57,7 +56,9 @@ class _CaptchaVerificationState extends State<CaptchaVerification> {
               Text(
                 randomString,
                 style: const TextStyle(
-                  fontWeight: FontWeight.w500,
+                  letterSpacing: 5,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w900,
                   color: Color.fromRGBO(60, 60, 60, 1),
                 ),
               ),
@@ -67,7 +68,10 @@ class _CaptchaVerificationState extends State<CaptchaVerification> {
                   isVerified = false;
                   widget.onVerified(false);
                 },
-                icon: const Icon(Icons.refresh),
+                icon: const Icon(
+                  Icons.refresh,
+                  color: Colors.black,
+                ),
               ),
             ],
           ),
@@ -86,7 +90,9 @@ class _CaptchaVerificationState extends State<CaptchaVerification> {
               border: OutlineInputBorder(),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                    color: Color.fromRGBO(153, 51, 255, 0.4), width: 4.0),
+                  color: Color.fromRGBO(153, 51, 255, 0.4),
+                  width: 4.0,
+                ),
               ),
               hintText: "Doğrulama kodunu girin",
               labelText: "Doğrulama kodunu girin",

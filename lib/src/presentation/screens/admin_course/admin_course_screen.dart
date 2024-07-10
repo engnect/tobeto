@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:uuid/uuid.dart';
 import '../../../common/export_common.dart';
 import '../../../domain/export_domain.dart';
@@ -87,10 +87,28 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
     Utilities.showToast(toastMessage: result);
   }
 
-  void _deleteCourse({required String videoId}) async {
-    String result = await courseRepository.deleteCourse(videoId);
+  void _deleteCourse({
+    required String videoId,
+    required BuildContext context,
+  }) async {
+    PanaraConfirmDialog.showAnimatedFade(
+      context,
+      title: 'Dikkat!',
+      message: 'İçeriği KALICI olarak silmek istediğinize eminmisiniz?',
+      confirmButtonText: 'Sil!',
+      cancelButtonText: 'İptal!',
+      onTapConfirm: () async {
+        String result = await courseRepository.deleteCourse(videoId);
 
-    Utilities.showToast(toastMessage: result);
+        Utilities.showToast(toastMessage: result);
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+      },
+      onTapCancel: () {
+        Navigator.of(context).pop();
+      },
+      panaraDialogType: PanaraDialogType.error,
+    );
   }
 
   void _editCourseFunction({
@@ -177,180 +195,147 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                 [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Column(
-                      children: [
-                        TBTAnimatedContainer(
-                          height: 300,
-                          infoText: "Ders Ekle & Düzenle",
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _pickImage();
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 50, top: 30),
-                                  child: AspectRatio(
-                                    aspectRatio: 1,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: const Color.fromRGBO(
-                                            150, 150, 150, 0.2),
-                                        image: selected
-                                            ? DecorationImage(
-                                                image: FileImage(
-                                                  File(_selectedImage!.path),
-                                                ),
-                                              )
-                                            : null,
-                                      ),
-                                      child: selected
-                                          ? null
-                                          : const Icon(
-                                              Icons.camera_alt,
-                                              size: 50,
+                    child: TBTAnimatedContainer(
+                      height: 420,
+                      infoText: "Ders Ekle & Düzenle",
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _pickImage();
+                              },
+                              child: AspectRatio(
+                                aspectRatio: 1,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromRGBO(
+                                        150, 150, 150, 0.2),
+                                    image: selected
+                                        ? DecorationImage(
+                                            image: FileImage(
+                                              File(_selectedImage!.path),
                                             ),
-                                    ),
+                                          )
+                                        : null,
                                   ),
+                                  child: selected
+                                      ? null
+                                      : const Icon(
+                                          Icons.camera_alt,
+                                          size: 50,
+                                        ),
                                 ),
                               ),
-                              TBTInputField(
-                                hintText: 'Ders İsmi',
-                                controller: _courseNameController,
-                                onSaved: (p0) {},
-                                keyboardType: TextInputType.multiline,
-                              ),
-                              TBTInputField(
-                                hintText: 'Üretici Firma',
-                                controller: _manufacturerController,
-                                onSaved: (p0) {},
-                                keyboardType: TextInputType.multiline,
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  TextButton.icon(
-                                    icon: const Icon(
-                                        Icons.calendar_today_outlined),
-                                    onPressed: () async {
-                                      selectedStartDate =
-                                          await Utilities.datePicker(context);
-                                      setState(() {});
-                                    },
-                                    label: Text(
-                                      style: const TextStyle(fontSize: 10),
-                                      selectedStartDate == null
-                                          ? 'Başlangıç Tarihi Seç'
-                                          : DateFormat('dd/MM/yyyy')
-                                              .format(selectedStartDate!),
-                                    ),
+                            ),
+                            TBTInputField(
+                              hintText: 'Ders İsmi',
+                              controller: _courseNameController,
+                              onSaved: (p0) {},
+                              keyboardType: TextInputType.multiline,
+                            ),
+                            TBTInputField(
+                              hintText: 'Üretici Firma',
+                              controller: _manufacturerController,
+                              onSaved: (p0) {},
+                              keyboardType: TextInputType.multiline,
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton.icon(
+                                  icon:
+                                      const Icon(Icons.calendar_today_outlined),
+                                  onPressed: () async {
+                                    selectedStartDate =
+                                        await Utilities.datePicker(context);
+                                    setState(() {});
+                                  },
+                                  label: Text(
+                                    style: const TextStyle(fontSize: 10),
+                                    selectedStartDate == null
+                                        ? 'Başlangıç Tarihi'
+                                        : DateFormat('dd/MM/yyyy')
+                                            .format(selectedStartDate!),
                                   ),
-                                  TextButton.icon(
-                                    icon: Icon(
-                                      Icons.calendar_today_outlined,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
-                                    onPressed: () async {
-                                      selectedEndDate =
-                                          await Utilities.datePicker(context);
-                                      setState(() {});
-                                    },
-                                    label: Text(
-                                      style: const TextStyle(fontSize: 10),
-                                      selectedEndDate == null
-                                          ? 'Bitiş Tarihi Seç'
-                                          : DateFormat('dd/MM/yyyy')
-                                              .format(selectedEndDate!),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              TBTPurpleButton(
-                                buttonText: "Ders Ekle",
-                                onPressed: () => _addCourse(
-                                  courseName: _courseNameController.text,
-                                  startDate: selectedStartDate!,
-                                  endDate: selectedEndDate!,
-                                  manufacturer: _manufacturerController.text,
                                 ),
+                                TextButton.icon(
+                                  icon: Icon(
+                                    Icons.calendar_today_outlined,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                  onPressed: () async {
+                                    selectedEndDate =
+                                        await Utilities.datePicker(context);
+                                    setState(() {});
+                                  },
+                                  label: Text(
+                                    style: const TextStyle(fontSize: 10),
+                                    selectedEndDate == null
+                                        ? 'Bitiş Tarihi'
+                                        : DateFormat('dd/MM/yyyy')
+                                            .format(selectedEndDate!),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            TBTPurpleButton(
+                              buttonText: "Ders Ekle",
+                              onPressed: () => _addCourse(
+                                courseName: _courseNameController.text,
+                                startDate: selectedStartDate!,
+                                endDate: selectedEndDate!,
+                                manufacturer: _manufacturerController.text,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection(FirebaseConstants.coursesCollection)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            } else {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (context, index) {
-                                  DocumentSnapshot documentSnapshot =
-                                      snapshot.data!.docs[index];
-
-                                  CourseModel courseModel = CourseModel.fromMap(
-                                      documentSnapshot.data()
-                                          as Map<String, dynamic>);
-
-                                  return Slidable(
-                                    key: ValueKey(index),
-                                    endActionPane: ActionPane(
-                                      extentRatio: 0.6,
-                                      motion: const DrawerMotion(),
-                                      children: [
-                                        SlidableAction(
-                                          onPressed: (context) => _deleteCourse(
-                                            videoId: courseModel.courseId,
-                                          ),
-                                          backgroundColor:
-                                              const Color(0xFFFE4A49),
-                                          foregroundColor: Colors.white,
-                                          icon: Icons.delete,
-                                          label: 'Sil',
-                                        ),
-                                        SlidableAction(
-                                          onPressed: (context) =>
-                                              _showEditDialog(
-                                                  courseId:
-                                                      courseModel.courseId,
-                                                  context: context),
-                                          backgroundColor:
-                                              const Color(0xFF21B7CA),
-                                          foregroundColor: Colors.white,
-                                          icon: Icons.edit,
-                                          label: 'Düzenle',
-                                        ),
-                                      ],
-                                    ),
-                                    child: ListTile(
-                                      title: Text(
-                                        'Ders adı: ${courseModel.courseName}',
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            }
-                          },
-                        ),
-                      ],
+                      ),
                     ),
+                  ),
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection(FirebaseConstants.coursesCollection)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot documentSnapshot =
+                                snapshot.data!.docs[index];
+
+                            CourseModel courseModel = CourseModel.fromMap(
+                                documentSnapshot.data()
+                                    as Map<String, dynamic>);
+
+                            return TBTSlideableListTile(
+                              imgUrl: courseModel.courseThumbnailUrl,
+                              title: 'Ders adı: ${courseModel.courseName}',
+                              subtitle: courseModel.courseManufacturer,
+                              deleteOnPressed: (p0) {
+                                _deleteCourse(
+                                    videoId: courseModel.courseId,
+                                    context: context);
+                              },
+                              editOnPressed: (p0) {
+                                _showEditDialog(
+                                    context: context,
+                                    courseId: courseModel.courseId);
+                              },
+                            );
+                          },
+                        );
+                      }
+                    },
                   ),
                 ],
               ),

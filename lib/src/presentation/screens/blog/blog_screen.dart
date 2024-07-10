@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-
+import 'package:tobeto/src/presentation/screens/blog/blog_module.dart';
 import '../../widgets/export_widgets.dart';
 
 class BlogScreen extends StatefulWidget {
-  const BlogScreen({super.key});
+  final bool isBlog;
+  const BlogScreen({
+    super.key,
+    required this.isBlog,
+  });
 
   @override
   State<BlogScreen> createState() => _BlogScreenState();
@@ -27,7 +31,7 @@ class _BlogScreenState extends State<BlogScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
-                          "Blog",
+                          widget.isBlog ? "Blog" : 'Basında Biz',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -36,8 +40,8 @@ class _BlogScreenState extends State<BlogScreen> {
                           ),
                         ),
                       ),
-                      const TBTBlogStream(
-                        isBlog: true,
+                      TBTBlogStream(
+                        isBlog: widget.isBlog,
                       ),
                     ],
                   ),

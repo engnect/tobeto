@@ -230,64 +230,61 @@ class _AdminApplicationsScreenState extends State<AdminApplicationsScreen> {
               delegate: SliverChildListDelegate(
                 [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 15),
-                          child: Text(
-                            "Kullanıcı Başvuruları",
-                            style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                        StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection(
-                                  FirebaseConstants.applicationsCollection)
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            } else {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: snapshot.data!.docs.length,
-                                itemBuilder: (context, index) {
-                                  DocumentSnapshot documentSnapshot =
-                                      snapshot.data!.docs[index];
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Text(
+                      "Kullanıcı Başvuruları",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection(FirebaseConstants.applicationsCollection)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot documentSnapshot =
+                                snapshot.data!.docs[index];
 
-                                  ApplicationModel applicationModel =
-                                      ApplicationModel.fromMap(documentSnapshot
-                                          .data() as Map<String, dynamic>);
+                            ApplicationModel applicationModel =
+                                ApplicationModel.fromMap(documentSnapshot.data()
+                                    as Map<String, dynamic>);
 
-                                  return GestureDetector(
-                                    onTap: () {
-                                      _showApplicationDetails(
-                                        applicationModel,
-                                        _selectedUserTitle ??
-                                            TBTDataCollection.userTitlesList[0],
-                                        context,
-                                      );
-                                    },
-                                    child: ApplicationCard(
-                                      applicationModel: applicationModel,
-                                    ),
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: GestureDetector(
+                                onTap: () {
+                                  _showApplicationDetails(
+                                    applicationModel,
+                                    _selectedUserTitle ??
+                                        TBTDataCollection.userTitlesList[0],
+                                    context,
                                   );
                                 },
-                              );
-                            }
+                                child: ApplicationCard(
+                                  applicationModel: applicationModel,
+                                ),
+                              ),
+                            );
                           },
-                        ),
-                      ],
-                    ),
+                        );
+                      }
+                    },
                   ),
                 ],
               ),
