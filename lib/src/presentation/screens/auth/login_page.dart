@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../common/export_common.dart';
 import '../../../domain/export_domain.dart';
 import '../../widgets/export_widgets.dart';
+import 'widgets/captcha_verification.dart';
 import 'widgets/widgets.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,6 +21,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _forgetPasswordController =
       TextEditingController();
 
+  bool isCaptchaVerified = false;
+
   @override
   void dispose() {
     super.dispose();
@@ -31,23 +34,20 @@ class _LoginScreenState extends State<LoginScreen> {
   void _signinUser({
     required String userEmail,
     required String userPassword,
-    required BuildContext context,
+    required bool isVerified,
   }) async {
     String result = await AuthRepository().singInUser(
       userEmail: userEmail,
       userPassword: userPassword,
+      isVerified: isVerified,
     );
 
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
-  void _signinWithGoogle({
-    required BuildContext context,
-  }) async {
+  void _signinWithGoogle() async {
     String result = await AuthRepository().signInWithGoogle();
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   void _forgetPassword({
@@ -80,9 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 String result = await AuthRepository().forgetPassword(
                     email: forgetPasswordController.text.trim());
                 forgetPasswordController.clear();
-                if (!context.mounted) return;
-                Utilities.showSnackBar(
-                    snackBarMessage: result, context: context);
+                Utilities.showToast(toastMessage: result);
               },
               child: const Text('Gönder'),
             ),
@@ -118,6 +116,13 @@ class _LoginScreenState extends State<LoginScreen> {
             isObscure: true,
             keyboardType: TextInputType.multiline,
           ),
+          CaptchaVerification(
+            onVerified: (bool verified) {
+              setState(() {
+                isCaptchaVerified = verified;
+              });
+            },
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 3,
@@ -125,11 +130,13 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             child: TBTPurpleButton(
               buttonText: "Giriş Yap",
-              onPressed: () => _signinUser(
-                userEmail: _emailController.text,
-                userPassword: _passwordController.text,
-                context: context,
-              ),
+              onPressed: () {
+                _signinUser(
+                  userEmail: _emailController.text,
+                  userPassword: _passwordController.text,
+                  isVerified: isCaptchaVerified,
+                );
+              },
             ),
           ),
           const Row(
@@ -163,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
-              onPressed: () => _signinWithGoogle(context: context),
+              onPressed: () => _signinWithGoogle(),
               child: Stack(
                 children: [
                   Align(

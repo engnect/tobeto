@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 import '../../../../common/utilities/tbt_utilities.dart';
 import '../../../../domain/export_domain.dart';
 import '../../../../models/export_models.dart';
@@ -23,15 +24,12 @@ class _EditSettingsTabState extends State<EditSettingsTab> {
   _updatePassword({
     required String confirmPassword,
     required String newPassword,
-    required BuildContext context,
   }) async {
     String result = await AuthRepository().updatePassword(
       confirmPassword: confirmPassword,
       newPassword: newPassword,
     );
-    if (!context.mounted) return;
-
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   @override
@@ -86,7 +84,6 @@ class _EditSettingsTabState extends State<EditSettingsTab> {
                           onPressed: () => _updatePassword(
                             confirmPassword: _confirmNewPasswordController.text,
                             newPassword: _newPasswordController.text,
-                            context: context,
                           ),
                         ),
                       ),
@@ -94,9 +91,28 @@ class _EditSettingsTabState extends State<EditSettingsTab> {
                         padding: const EdgeInsets.symmetric(vertical: 24.0),
                         child: ElevatedButton(
                           onPressed: () async {
-                            UserModel? user =
-                                await UserRepository().getCurrentUser();
-                            UserRepository().deleteUser(user!);
+                            PanaraConfirmDialog.showAnimatedFade(
+                              context,
+                              textColor: Theme.of(context).colorScheme.primary,
+                              buttonTextColor:
+                                  Theme.of(context).colorScheme.primary,
+                              color: Colors.red,
+                              title: "Dikkat!",
+                              message:
+                                  "Üyeliğinizi sonlandırmak istiyorsunuz. Bu işlem geri alınamaz!",
+                              confirmButtonText: "Devam Et!",
+                              cancelButtonText: "İptal Et!",
+                              onTapCancel: () {
+                                Navigator.pop(context);
+                              },
+                              onTapConfirm: () async {
+                                UserModel? user =
+                                    await UserRepository().getCurrentUser();
+                                UserRepository().deleteUser(user!);
+                              },
+                              panaraDialogType: PanaraDialogType.custom,
+                              barrierDismissible: false,
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,

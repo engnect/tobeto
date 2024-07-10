@@ -50,7 +50,6 @@ class _EditEducationTabState extends State<EditEducationTab> {
     required DateTime schoolStartDate,
     required DateTime schoolEndDate,
     required bool isCurrentlyStuding,
-    required BuildContext context,
   }) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     EducationModel newEducation = EducationModel(
@@ -65,13 +64,11 @@ class _EditEducationTabState extends State<EditEducationTab> {
     );
 
     String result = await EducationRepository().addEducation(newEducation);
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   void _editEducation({
     required EducationModel education,
-    required BuildContext context,
   }) async {
     final updatedEducation = await showDialog<EducationModel>(
       context: context,
@@ -80,19 +77,16 @@ class _EditEducationTabState extends State<EditEducationTab> {
     if (updatedEducation != null) {
       String result =
           await EducationRepository().updateEducation(updatedEducation);
-      if (!context.mounted) return;
-      Utilities.showSnackBar(snackBarMessage: result, context: context);
+      Utilities.showToast(toastMessage: result);
     }
   }
 
   _deleteEducation({
     required EducationModel education,
-    required BuildContext context,
   }) async {
     Navigator.pop(context);
     String result = await EducationRepository().deleteEducation(education);
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   @override
@@ -310,10 +304,9 @@ class _EditEducationTabState extends State<EditEducationTab> {
                               buttonText: 'Kaydet',
                               onPressed: () {
                                 if (_selectedEducationLevel == null) {
-                                  Utilities.showSnackBar(
-                                      snackBarMessage:
-                                          'Eğitim Seviyesi Alanı Boş Kalamaz!',
-                                      context: context);
+                                  Utilities.showToast(
+                                      toastMessage:
+                                          'Eğitim Seviyesi Alanı Boş Kalamaz!');
                                 } else {
                                   _saveEducation(
                                     schoolName: _universityController.text,
@@ -324,7 +317,6 @@ class _EditEducationTabState extends State<EditEducationTab> {
                                     schoolStartDate:
                                         _selectedStartDate ?? DateTime.now(),
                                     isCurrentlyStuding: _isCurrentlyStudied,
-                                    context: context,
                                   );
                                 }
                               }),
@@ -414,7 +406,6 @@ class _EditEducationTabState extends State<EditEducationTab> {
                                             onPressed: () async {
                                               _editEducation(
                                                 education: education,
-                                                context: context,
                                               );
                                               setState(() {});
                                             },
@@ -457,7 +448,6 @@ class _EditEducationTabState extends State<EditEducationTab> {
                                                       onPressed: () =>
                                                           _deleteEducation(
                                                         education: education,
-                                                        context: context,
                                                       ),
                                                       child: const Text('Sil'),
                                                     ),

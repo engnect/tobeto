@@ -69,7 +69,7 @@ class AboutUsScreen extends StatelessWidget {
                   const AboutUsOurTeamCard(
                     teamPhoto: Assets.imagesGurkan,
                     teamName: "Gürkan İlişen",
-                    teamTitle: "Eğitim Teknolojileri ve platform Sorumlusu",
+                    teamTitle: "Eğitim Teknolojileri ve Platform Sorumlusu",
                   ),
                   const AboutUsOurTeamCard(
                     teamPhoto: Assets.imagesAli,

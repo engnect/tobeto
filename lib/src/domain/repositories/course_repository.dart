@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../common/export_common.dart';
 import '../../models/export_models.dart';
@@ -179,5 +180,34 @@ class CourseRepository {
       result = error.toString();
     }
     return Utilities.errorMessageChecker(result);
+  }
+
+  Future<void> saveWatchedPercentageToFirebase(
+      String videoId, double percentage) async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
+    final videoDoc = _videos.doc(videoId);
+    await videoDoc.set({
+      'percentageOfWatchedVideosByUsers': {
+        currentUser!.uid: percentage,
+      },
+    }, SetOptions(merge: true));
+  }
+
+  Future<double> getWatchedPercentageFromFirebase(String videoId) async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
+    final videoDoc = await _videos.doc(videoId).get();
+
+    if (videoDoc.exists) {
+      final data = videoDoc.data() as Map<String, dynamic>?;
+      if (data != null && data['percentageOfWatchedVideosByUsers'] != null) {
+        return (data['percentageOfWatchedVideosByUsers'][currentUser!.uid] ??
+                0.0)
+            .toDouble();
+      }
+    }
+
+    return 0.0;
   }
 }

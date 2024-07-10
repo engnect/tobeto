@@ -54,12 +54,12 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
     }
   }
 
-  void _addCourse(
-      {required BuildContext context,
-      required String courseName,
-      required DateTime startDate,
-      required DateTime endDate,
-      required String manufacturer}) async {
+  void _addCourse({
+    required String courseName,
+    required DateTime startDate,
+    required DateTime endDate,
+    required String manufacturer,
+  }) async {
     List<String> adminIdsList = await UserRepository().getAdminIds();
     UserModel? currentUser = await UserRepository().getCurrentUser();
     List<String?> courseInstructorsIds = [];
@@ -84,30 +84,23 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
 
     String result = await CourseRepository().addCourse(courseModel);
 
-    if (!context.mounted) return;
-    Utilities.showSnackBar(
-      snackBarMessage: result,
-      context: context,
-    );
+    Utilities.showToast(toastMessage: result);
   }
 
-  void _deleteCourse(
-      {required BuildContext context, required String videoId}) async {
+  void _deleteCourse({required String videoId}) async {
     String result = await courseRepository.deleteCourse(videoId);
 
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
-  void _editCourseFunction(
-      {required BuildContext context,
-      required String selectedCourseId,
-      required String newCourseName,
-      required String newManufacturer}) async {
+  void _editCourseFunction({
+    required String selectedCourseId,
+    required String newCourseName,
+    required String newManufacturer,
+  }) async {
     String result = await courseRepository.editCourse(
         selectedCourseId, newCourseName, newManufacturer);
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   void _showEditDialog(
@@ -153,10 +146,10 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
             TextButton(
               onPressed: () {
                 _editCourseFunction(
-                    selectedCourseId: courseId,
-                    newCourseName: _editCourseNameController.text,
-                    newManufacturer: _editManufacturerController.text,
-                    context: context);
+                  selectedCourseId: courseId,
+                  newCourseName: _editCourseNameController.text,
+                  newManufacturer: _editManufacturerController.text,
+                );
                 Navigator.pop(context);
               },
               child: Text(
@@ -284,7 +277,6 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                   startDate: selectedStartDate!,
                                   endDate: selectedEndDate!,
                                   manufacturer: _manufacturerController.text,
-                                  context: context,
                                 ),
                               ),
                             ],
@@ -320,7 +312,6 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                                         SlidableAction(
                                           onPressed: (context) => _deleteCourse(
                                             videoId: courseModel.courseId,
-                                            context: context,
                                           ),
                                           backgroundColor:
                                               const Color(0xFFFE4A49),

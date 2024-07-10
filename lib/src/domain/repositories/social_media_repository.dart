@@ -33,6 +33,7 @@ class SocialMediaRepository {
 
         UserModel updatedUser = userModel.copyWith();
         await UserRepository().addOrUpdateUser(updatedUser);
+        result = 'success';
       } catch (e) {
         result = e.toString();
       }

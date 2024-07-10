@@ -58,7 +58,6 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
   void _saveLanguage({
     required String languageName,
     required String languageLevel,
-    required BuildContext context,
   }) async {
     UserModel? userModel = await UserRepository().getCurrentUser();
     LanguageModel newLanguage = LanguageModel(
@@ -68,12 +67,13 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
       languageLevel: languageLevel,
     );
     String result = await LanguageRepository().addLanguage(newLanguage);
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
-  void _deleteLanguage(
-      {required LanguageModel languageModel, required BuildContext context}) {
+  void _deleteLanguage({
+    required LanguageModel languageModel,
+    required BuildContext context,
+  }) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -103,8 +103,7 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
               String result =
                   await LanguageRepository().deleteLanguage(languageModel);
 
-              if (!context.mounted) return;
-              Utilities.showSnackBar(snackBarMessage: result, context: context);
+              Utilities.showToast(toastMessage: result);
             },
             child: Text(
               'Sil',
@@ -122,7 +121,6 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
     required List<String> languages,
     required List<String> levels,
     required LanguageModel languageModel,
-    required BuildContext context,
   }) async {
     final updatedLanguage = await showDialog<LanguageModel>(
       context: context,
@@ -136,8 +134,7 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
       String result = await LanguageRepository().updateLanguage(
         updatedLanguage,
       );
-      if (!context.mounted) return;
-      Utilities.showSnackBar(snackBarMessage: result, context: context);
+      Utilities.showToast(toastMessage: result);
     }
   }
 
@@ -250,7 +247,6 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
                             onPressed: () => _saveLanguage(
                               languageLevel: _selectedLevel!,
                               languageName: _selectedLanguage!,
-                              context: context,
                             ),
                           ),
                         ),
@@ -313,7 +309,6 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
                                                 languageModel: language,
                                                 languages: _languages,
                                                 levels: _levels,
-                                                context: context,
                                               );
                                               setState(() {});
                                             },

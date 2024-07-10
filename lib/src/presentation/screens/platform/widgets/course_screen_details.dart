@@ -1,9 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tobeto/src/domain/repositories/course_repository.dart';
 import 'package:tobeto/src/models/course_model.dart';
 import 'package:tobeto/src/models/course_video_model.dart';
 import 'package:tobeto/src/presentation/screens/platform/widgets/course_video.dart';
@@ -23,12 +22,13 @@ class CourseScreenDetails extends StatefulWidget {
 
 class _CourseScreenDetailsState extends State<CourseScreenDetails> {
   late String courseVideoUrl;
+  late String currentVideoId;
   bool _showAppBar = true;
+  final GlobalKey<CourseVideoState> _courseVideoKey =
+      GlobalKey<CourseVideoState>();
 
-  Future<double> _updateWatchedPercentage(String videoUrl) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    double? percentage = prefs.getDouble('$videoUrl-watchedPercentage');
-    return percentage ?? 0.0;
+  Future<double> _updateWatchedPercentage(String videoId) async {
+    return await CourseRepository().getWatchedPercentageFromFirebase(videoId);
   }
 
   @override
@@ -36,6 +36,8 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
     super.initState();
     courseVideoUrl =
         widget.courseVideos.isNotEmpty ? widget.courseVideos[0].videoUrl : '';
+    currentVideoId =
+        widget.courseVideos.isNotEmpty ? widget.courseVideos[0].videoId : '';
   }
 
   void _onFullScreenToggle(bool isFullScreen) {
@@ -47,6 +49,12 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
   void _updateVideoUrl(String newUrl) {
     setState(() {
       courseVideoUrl = newUrl;
+    });
+  }
+
+  void _setVideoId(String videoId) {
+    setState(() {
+      currentVideoId = videoId;
     });
   }
 
@@ -166,22 +174,29 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
         body: Column(
           children: [
             CourseVideo(
+              key: _courseVideoKey,
               dataSourceType: DataSourceType.network,
               videoUrl: courseVideoUrl,
               onFullScreenToggle: _onFullScreenToggle,
+              videoId: currentVideoId,
             ),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: widget.courseVideos.map((courseVideo) {
                     return FutureBuilder(
-                      future: _updateWatchedPercentage(courseVideo.videoUrl),
+                      future: _updateWatchedPercentage(courseVideo.videoId),
                       builder: (BuildContext context,
                           AsyncSnapshot<double> snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           return CourseVideoCard(
                             courseVideo: courseVideo,
-                            onTap: () => _updateVideoUrl(courseVideo.videoUrl),
+                            onTap: () {
+                              _courseVideoKey.currentState
+                                  ?.saveWatchedPercentage(currentVideoId);
+                              _setVideoId(courseVideo.videoId);
+                              _updateVideoUrl(courseVideo.videoUrl);
+                            },
                             watchedPercentage: snapshot.data!.roundToDouble(),
                             course: widget.course,
                           );

@@ -5,7 +5,7 @@ class TBTColorScheme {
     primaryColor: Colors.black,
     brightness: Brightness.light,
     scaffoldBackgroundColor: const Color.fromRGBO(235, 235, 235, 1),
-    colorScheme: ThemeData.dark().colorScheme.copyWith(
+    colorScheme: ThemeData.light().colorScheme.copyWith(
           brightness: Brightness.light,
           primary: const Color.fromARGB(250, 24, 24, 24),
           onPrimary: const Color.fromARGB(255, 79, 75, 104),

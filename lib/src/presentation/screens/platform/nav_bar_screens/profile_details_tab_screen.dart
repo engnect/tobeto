@@ -141,8 +141,7 @@ class _ProfileDetailsTabScreenState extends State<ProfileDetailsTabScreen> {
                                   ],
                                 ),
                                 Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
+                                  padding: const EdgeInsets.only(top: 5),
                                   child: Row(
                                     children: [
                                       ...state.userModel.socialMediaList!
@@ -159,13 +158,13 @@ class _ProfileDetailsTabScreenState extends State<ProfileDetailsTabScreen> {
                                         );
                                       }),
                                       const Spacer(),
-                                      GestureDetector(
-                                        onTap: () {
+                                      IconButton(
+                                        onPressed: () {
                                           Navigator.of(context).pushNamed(
                                             AppRouteNames.profileScreenRoute,
                                           );
                                         },
-                                        child: Icon(
+                                        icon: Icon(
                                           Icons.edit_square,
                                           size: 30,
                                           color: Theme.of(context)
@@ -173,10 +172,9 @@ class _ProfileDetailsTabScreenState extends State<ProfileDetailsTabScreen> {
                                               .primary,
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Icon(
+                                      IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
                                           Icons.share_outlined,
                                           size: 30,
                                           color: Theme.of(context)

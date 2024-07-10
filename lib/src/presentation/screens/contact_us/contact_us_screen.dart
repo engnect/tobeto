@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:tobeto/l10n/l10n_exntesions.dart';
+import 'package:tobeto/src/common/export_common.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../domain/export_domain.dart';
@@ -26,6 +28,26 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
     _nameController.dispose();
     _emailController.dispose();
     _messageController.dispose();
+  }
+
+  Future<String> _sendContactForm({
+    required String formFullname,
+    required String formEmail,
+    required String formMessage,
+    required BuildContext context,
+  }) async {
+    ContactFormModel contactFormModel = ContactFormModel(
+      contactFormId: const Uuid().v1(),
+      contactFormFullName: formFullname,
+      contactFormEmail: formEmail,
+      contactFormMessage: formMessage,
+      contactFormCreatedAt: DateTime.now(),
+      contactFormIsClosed: false,
+      contactFormClosedBy: 'contactFormClosedBy',
+      contactFormClosedAt: DateTime.now(),
+    );
+
+    return await ContactFromRepository().sendOrUpdateForm(contactFormModel);
   }
 
   @override
@@ -83,7 +105,6 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
-                            //----------------------------------
                             CommunicationInfo(
                               headerinfo: context.translate.company_name,
                               info: "TOBETO",
@@ -112,7 +133,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             CommunicationInfo(
                               headerinfo: context.translate.address,
                               info:
-                                  "	Kavacık, Rüzgarlıbahçe Mah. Çampınarı Sok. No:4 Smart Plaza B Blok Kat:3 34805, Beykoz/İstanbul",
+                                  "Kavacık, Rüzgarlıbahçe Mah. Çampınarı Sok. No:4 Smart Plaza B Blok Kat:3 34805, Beykoz/İstanbul",
                             ),
                           ],
                         ),
@@ -120,20 +141,24 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         margin: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 8),
+                          vertical: 20,
+                          horizontal: 8,
+                        ),
                         width: MediaQuery.of(context).size.width,
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.background,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(10)),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
                         ),
                         child: Column(
                           children: [
                             Container(
                               margin: const EdgeInsets.symmetric(vertical: 20),
                               decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
                                 color: Color.fromARGB(255, 153, 51, 255),
                               ),
                               child: Padding(
@@ -159,7 +184,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 25, horizontal: 20),
+                                vertical: 25,
+                                horizontal: 20,
+                              ),
                               child: Form(
                                 key: _formKey,
                                 child: Column(
@@ -191,37 +218,45 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                               width: 200,
                               buttonText: context.translate.send,
                               onPressed: () async {
-                                ContactFormModel contactFormModel =
-                                    ContactFormModel(
-                                  contactFormId: const Uuid().v1(),
-                                  contactFormFullName: _nameController.text,
-                                  contactFormEmail: _emailController.text,
-                                  contactFormMessage: _messageController.text,
-                                  contactFormCreatedAt: DateTime.now(),
-                                  contactFormIsClosed: false,
-                                  contactFormClosedBy: 'contactFormClosedBy',
-                                  contactFormClosedAt: DateTime.now(),
-                                );
-
-                                var result = await ContactFromRepository()
-                                    .sendOrUpdateForm(contactFormModel);
-
-                                if (result == 'success' && context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('İşlem Başarılı'),
-                                    ),
+                                if (_nameController.text.trim() != '' &&
+                                    _emailController.text.trim() != '' &&
+                                    _messageController.text.trim() != '') {
+                                  String result = await _sendContactForm(
+                                    formFullname: _nameController.text.trim(),
+                                    formEmail: _emailController.text.trim(),
+                                    formMessage: _messageController.text.trim(),
+                                    context: context,
                                   );
-                                  _nameController.clear();
-                                  _emailController.clear();
-                                  _messageController.clear();
-                                } else if (result != 'success' &&
-                                    context.mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('İşlem Başarılı'),
-                                    ),
-                                  );
+                                  if ((result == 'success' ||
+                                          result == 'İşlem Başarılı!') &&
+                                      context.mounted) {
+                                    PanaraInfoDialog.showAnimatedFade(
+                                      context,
+                                      barrierDismissible: false,
+                                      color: Colors.purple,
+                                      title: "Teşekkürler!",
+                                      textColor:
+                                          Theme.of(context).colorScheme.primary,
+                                      message:
+                                          "Mesajınız bize ulaştı. En kısa zamanda konu ile ilgili size dönüş sağlayacağız.",
+                                      buttonText: "İyi günler!",
+                                      onTapDismiss: () {
+                                        Navigator.pop(context);
+                                      },
+                                      panaraDialogType: PanaraDialogType.custom,
+                                    );
+
+                                    _nameController.clear();
+                                    _emailController.clear();
+                                    _messageController.clear();
+                                  } else {
+                                    if (!context.mounted) return;
+                                    Utilities.showToast(toastMessage: result);
+                                  }
+                                } else {
+                                  Utilities.showToast(
+                                      toastMessage:
+                                          'Bütün alanları doldurunuz!');
                                 }
                               },
                             ),

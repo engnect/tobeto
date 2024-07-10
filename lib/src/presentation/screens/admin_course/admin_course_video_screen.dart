@@ -78,7 +78,6 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
   }
 
   Future<void> _addCourseVideo({
-    required BuildContext context,
     required String selectedCourseId,
     required String courseVideoName,
     required String selectedCourseName,
@@ -105,23 +104,17 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
         String result =
             await CourseRepository().addOrUpdateCourseVideo(courseVideoModel);
 
-        if (!context.mounted) return;
-        Utilities.showSnackBar(
-          snackBarMessage: result,
-          context: context,
-        );
+        Utilities.showToast(toastMessage: result);
       }
     }
   }
 
   void _deleteVideoFunction({
-    required BuildContext context,
     required String videoId,
   }) async {
     String result = await CourseRepository().deleteVideo(videoId);
 
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   void _editVideoFunction({
@@ -136,8 +129,7 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
     String result = await CourseRepository().editVideo(
         videoId, newCourseVideoName, newCourseId, selectedCourseName!);
 
-    if (!context.mounted) return;
-    Utilities.showSnackBar(snackBarMessage: result, context: context);
+    Utilities.showToast(toastMessage: result);
   }
 
   void _showEditDialog({
@@ -348,7 +340,6 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                     buttonText: "Kaydet",
                                     onPressed: () async {
                                       await _addCourseVideo(
-                                        context: context,
                                         selectedCourseId: selectedCourseId!,
                                         selectedCourseName: selectedCourseName!,
                                         courseVideoName: selectedCourseName!,
@@ -391,7 +382,6 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                                         SlidableAction(
                                           onPressed: (context) =>
                                               _deleteVideoFunction(
-                                            context: context,
                                             videoId: courseVideoModel.videoId,
                                           ),
                                           backgroundColor:

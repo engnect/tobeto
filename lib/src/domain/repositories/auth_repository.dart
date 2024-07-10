@@ -16,40 +16,44 @@ class AuthRepository {
   }) async {
     String result = '';
     try {
-      if (userPassword.trim() != confirmPassword.trim()) {
-        result = 'password-not-match';
-      } else if (userName.isNotEmpty ||
-          userSurname.isNotEmpty ||
-          userEmail.isNotEmpty) {
-        UserCredential userCredential =
-            await _firebaseAuth.createUserWithEmailAndPassword(
-          email: userEmail,
-          password: userPassword,
-        );
+      if (userName.trim().isNotEmpty &&
+          userSurname.trim().isNotEmpty &&
+          userEmail.trim().isNotEmpty &&
+          userPassword.trim().isNotEmpty &&
+          confirmPassword.trim().isNotEmpty) {
+        if (userPassword.trim() == confirmPassword.trim()) {
+          UserCredential userCredential =
+              await _firebaseAuth.createUserWithEmailAndPassword(
+            email: userEmail,
+            password: userPassword,
+          );
 
-        String userAvatarUrl = await FirebaseStorageRepository()
-            .getDefaultAvatarUrl(userId: userCredential.user!.uid);
+          String userAvatarUrl = await FirebaseStorageRepository()
+              .getDefaultAvatarUrl(userId: userCredential.user!.uid);
 
-        UserModel userModel = UserModel(
-          userId: userCredential.user!.uid,
-          userName: userName,
-          userSurname: userSurname,
-          userEmail: userEmail,
-          userAvatarUrl: userAvatarUrl,
-          userRank: UserRank.student,
-          usertitle: 'Öğrenci',
-          userCreatedAt: DateTime.now(),
-          userBirthDate: DateTime.now(),
-          languageList: [],
-          socialMediaList: [],
-          skillsList: [],
-          experiencesList: [],
-          schoolsList: [],
-          certeficatesList: [],
-        );
+          UserModel userModel = UserModel(
+            userId: userCredential.user!.uid,
+            userName: userName,
+            userSurname: userSurname,
+            userEmail: userEmail,
+            userAvatarUrl: userAvatarUrl,
+            userRank: UserRank.student,
+            usertitle: 'Öğrenci',
+            userCreatedAt: DateTime.now(),
+            userBirthDate: DateTime.now(),
+            languageList: [],
+            socialMediaList: [],
+            skillsList: [],
+            experiencesList: [],
+            schoolsList: [],
+            certeficatesList: [],
+          );
 
-        await UserRepository().addOrUpdateUser(userModel);
-        result = 'success';
+          await UserRepository().addOrUpdateUser(userModel);
+          result = 'success';
+        } else {
+          result = 'password-not-match';
+        }
       } else {
         result = 'empty-field';
       }
@@ -79,7 +83,6 @@ class AuthRepository {
 
       String? fullName = userCredential.user!.displayName!;
 
-      // isim soyisim ayırma
       List<String> nameParts = fullName.split(' ');
       firstName = nameParts.isNotEmpty ? nameParts[0] : '';
       lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '';
@@ -102,7 +105,8 @@ class AuthRepository {
         certeficatesList: [],
       );
 
-      result = await UserRepository().addOrUpdateUser(userModel);
+      await UserRepository().addOrUpdateUser(userModel);
+      result = 'success';
     } on FirebaseException catch (e) {
       result = e.code;
     }
@@ -113,17 +117,25 @@ class AuthRepository {
   Future<String> singInUser({
     required String userEmail,
     required String userPassword,
+    required bool isVerified,
   }) async {
     String result = '';
-    try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-        email: userEmail,
-        password: userPassword,
-      );
-      result = 'success';
-    } on FirebaseAuthException catch (e) {
-      result = e.code;
+    if (userEmail.trim().isNotEmpty &&
+        userPassword.trim().isNotEmpty &&
+        isVerified) {
+      try {
+        await _firebaseAuth.signInWithEmailAndPassword(
+          email: userEmail,
+          password: userPassword,
+        );
+        result = 'success';
+      } on FirebaseAuthException catch (e) {
+        result = e.code;
+      }
+    } else {
+      result = 'empty-field';
     }
+
     return Utilities.errorMessageChecker(result);
   }
 

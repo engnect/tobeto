@@ -12,6 +12,7 @@ class TBTInputField extends StatefulWidget {
   final EdgeInsets? padding;
   
 
+
   const TBTInputField(
       {super.key,
       required this.hintText,
@@ -24,6 +25,7 @@ class TBTInputField extends StatefulWidget {
       this.minLines,
       this.padding});
 
+
   @override
   State<TBTInputField> createState() => _TBTInputFieldState();
 }
@@ -31,8 +33,7 @@ class TBTInputField extends StatefulWidget {
 class _TBTInputFieldState extends State<TBTInputField> {
   bool showPassword = false;
   String? errorText;
-
-  @override
+  
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -96,7 +97,6 @@ class _TBTInputFieldState extends State<TBTInputField> {
         autocorrect: false,
         obscureText: widget.isObscure != null ? !showPassword : showPassword,
 
-        
         // onSaved: onSaved,
       ),
     );

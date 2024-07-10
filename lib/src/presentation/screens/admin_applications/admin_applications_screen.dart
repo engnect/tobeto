@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tobeto/src/data/export_data.dart';
 
 import '../../../common/export_common.dart';
 import '../../../domain/export_domain.dart';
@@ -15,6 +16,8 @@ class AdminApplicationsScreen extends StatefulWidget {
   State<AdminApplicationsScreen> createState() =>
       _AdminApplicationsScreenState();
 }
+
+String? _selectedUserTitle;
 
 void _approveApplication(
   ApplicationModel applicationModel,
@@ -42,12 +45,13 @@ void _approveApplication(
 
   await UserRepository().addOrUpdateUser(updatedUser);
 
-  if (!context.mounted) return;
-  Utilities.showSnackBar(snackBarMessage: result, context: context);
+  Utilities.showToast(toastMessage: result);
 }
 
 void _denyApplication(
-    ApplicationModel applicationModel, BuildContext context) async {
+  ApplicationModel applicationModel,
+  BuildContext context,
+) async {
   UserModel? currentUser = await UserRepository().getCurrentUser();
 
   ApplicationModel updatedApplication = applicationModel.copyWith(
@@ -59,14 +63,14 @@ void _denyApplication(
   String result = await ApplicationsRepository()
       .addOrUpdateApplication(applicationModel: updatedApplication);
 
+  Utilities.showToast(toastMessage: result);
   if (!context.mounted) return;
-  Utilities.showSnackBar(snackBarMessage: result, context: context);
   Navigator.of(context).pop();
 }
 
 void _showApplicationDetails(
   ApplicationModel applicationModel,
-  TextEditingController userTitleController,
+  String userTitle,
   BuildContext context,
 ) async {
   UserModel? userModel =
@@ -97,13 +101,13 @@ void _showApplicationDetails(
               ),
             ),
             Text(
-              'B.T.: ${DateFormat('dd/MM/yyyy').format(applicationModel.applicationCreatedAt)}',
+              'Başvuru Tarihi: ${DateFormat('dd/MM/yyyy').format(applicationModel.applicationCreatedAt)}',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
             Text(
-              'G.T.: ${DateFormat('dd/MM/yyyy').format(applicationModel.applicationClosedAt)}',
+              'Güncellenme Tarihi: ${DateFormat('dd/MM/yyyy').format(applicationModel.applicationClosedAt)}',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
               ),
@@ -123,45 +127,81 @@ void _showApplicationDetails(
               showDialog(
                 context: context,
                 builder: (context) {
-                  return AlertDialog(
-                    backgroundColor: Theme.of(context).colorScheme.background,
-                    title: Text(
-                      'Kullanıcıya Ünvan Yazın!',
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TBTInputField(
-                          hintText: 'Ünvan',
-                          controller: userTitleController,
-                          onSaved: (p0) {},
-                          keyboardType: TextInputType.multiline,
+                  return StatefulBuilder(
+                    builder: (context, setState) {
+                      return AlertDialog(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.background,
+                        title: Text(
+                          'Kullanıcıya Ünvan Şeçin!',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
-                      ],
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () => _approveApplication(
-                          applicationModel,
-                          userTitleController.text,
-                          context,
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            PopupMenuButton<String>(
+                              initialValue: _selectedUserTitle,
+                              itemBuilder: (context) {
+                                return TBTDataCollection.userTitlesList
+                                    .map(
+                                      (userTitle) => PopupMenuItem<String>(
+                                        value: userTitle,
+                                        child: Text(
+                                          userTitle,
+                                        ),
+                                      ),
+                                    )
+                                    .toList();
+                              },
+                              onSelected: (value) {
+                                setState(() {
+                                  _selectedUserTitle = value;
+                                });
+                              },
+                              child: ListTile(
+                                title: Text(
+                                  _selectedUserTitle ?? 'Ünvan Seçiniz!',
+                                ),
+                                titleTextStyle: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                                trailing: Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 4.0,
+                                  horizontal: 8.0,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        child: const Text(
-                          'Onayla',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: const Icon(Icons.close),
-                      ),
-                    ],
+                        actions: [
+                          TextButton(
+                            onPressed: () => _approveApplication(
+                              applicationModel,
+                              _selectedUserTitle ??
+                                  TBTDataCollection.userTitlesList[0],
+                              context,
+                            ),
+                            child: const Text(
+                              'Onayla',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            icon: const Icon(Icons.close),
+                          ),
+                        ],
+                      );
+                    },
                   );
                 },
               );
@@ -179,8 +219,6 @@ void _showApplicationDetails(
 }
 
 class _AdminApplicationsScreenState extends State<AdminApplicationsScreen> {
-  final TextEditingController _userTitleController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -200,10 +238,11 @@ class _AdminApplicationsScreenState extends State<AdminApplicationsScreen> {
                           child: Text(
                             "Kullanıcı Başvuruları",
                             style: TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 26,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary),
+                              fontFamily: "Poppins",
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                           ),
                         ),
                         StreamBuilder(
@@ -233,7 +272,8 @@ class _AdminApplicationsScreenState extends State<AdminApplicationsScreen> {
                                     onTap: () {
                                       _showApplicationDetails(
                                         applicationModel,
-                                        _userTitleController,
+                                        _selectedUserTitle ??
+                                            TBTDataCollection.userTitlesList[0],
                                         context,
                                       );
                                     },
