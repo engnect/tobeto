@@ -330,7 +330,6 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
                   controller: _githubController,
                   onSaved: (p0) {},
                   keyboardType: TextInputType.url,
-                  isGithubField: true,
                 ),
               ),
               Padding(

@@ -10,7 +10,7 @@ class TBTInputField extends StatefulWidget {
   final int? maxLines;
   final int? minLines;
   final EdgeInsets? padding;
-  final bool isGithubField;
+  
 
   const TBTInputField(
       {super.key,
@@ -22,7 +22,6 @@ class TBTInputField extends StatefulWidget {
       this.readOnly,
       this.maxLines,
       this.minLines,
-      this.isGithubField = false,
       this.padding});
 
   @override
@@ -32,38 +31,6 @@ class TBTInputField extends StatefulWidget {
 class _TBTInputFieldState extends State<TBTInputField> {
   bool showPassword = false;
   String? errorText;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.isGithubField) {
-      widget.controller.addListener(validateGithubUrl);
-    }
-  }
-
-  @override
-  void dispose() {
-    if (widget.isGithubField) {
-      widget.controller.removeListener(validateGithubUrl);
-    }
-    super.dispose();
-  }
-
-  void validateGithubUrl() {
-    String? text = widget.controller.text.trim();
-    
-    String a =
-        r"^(http(s)?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9\-_]+(\/[a-zA-Z0-9\-_]+)?\/?$";
-    RegExp regex = RegExp(a);
-
-    setState(() {
-      if (text.isEmpty || regex.hasMatch(text)) {
-        errorText = null; 
-      } else {
-        errorText = "Geçersiz Github adresi"; 
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +44,6 @@ class _TBTInputFieldState extends State<TBTInputField> {
         keyboardType: widget.keyboardType,
         controller: widget.controller,
         decoration: InputDecoration(
-          errorText: widget.isGithubField ? errorText : null,
           suffixIcon: widget.isObscure == null
               ? null
               : showPassword
@@ -130,11 +96,7 @@ class _TBTInputFieldState extends State<TBTInputField> {
         autocorrect: false,
         obscureText: widget.isObscure != null ? !showPassword : showPassword,
 
-          onChanged: (value) {
-        if (widget.isGithubField) {
-          validateGithubUrl();
-        }
-      },
+        
         // onSaved: onSaved,
       ),
     );
