@@ -26,10 +26,7 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
   bool _showAppBar = true;
   final GlobalKey<CourseVideoState> _courseVideoKey =
       GlobalKey<CourseVideoState>();
-
-  Future<double> _updateWatchedPercentage(String videoId) async {
-    return await CourseRepository().getWatchedPercentageFromFirebase(videoId);
-  }
+  final Map<String, ValueNotifier<double>> watchedPercentages = {};
 
   @override
   void initState() {
@@ -38,6 +35,18 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
         widget.courseVideos.isNotEmpty ? widget.courseVideos[0].videoUrl : '';
     currentVideoId =
         widget.courseVideos.isNotEmpty ? widget.courseVideos[0].videoId : '';
+
+    _initializeWatchedPercentages();
+  }
+
+  Future<void> _initializeWatchedPercentages() async {
+    for (var video in widget.courseVideos) {
+      final percentage = await CourseRepository()
+          .getWatchedPercentageFromFirebase(video.videoId);
+      setState(() {
+        watchedPercentages[video.videoId] = ValueNotifier<double>(percentage);
+      });
+    }
   }
 
   void _onFullScreenToggle(bool isFullScreen) {
@@ -55,6 +64,16 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
   void _setVideoId(String videoId) {
     setState(() {
       currentVideoId = videoId;
+    });
+  }
+
+  void _saveAndSwitchVideo(String newVideoId, String newVideoUrl) {
+    _courseVideoKey.currentState
+        ?.saveWatchedPercentage(currentVideoId)
+        .then((_) {
+      _updateVideoUrl(newVideoUrl);
+      _setVideoId(newVideoId);
+      _initializeWatchedPercentages();
     });
   }
 
@@ -184,27 +203,23 @@ class _CourseScreenDetailsState extends State<CourseScreenDetails> {
               child: SingleChildScrollView(
                 child: Column(
                   children: widget.courseVideos.map((courseVideo) {
-                    return FutureBuilder(
-                      future: _updateWatchedPercentage(courseVideo.videoId),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<double> snapshot) {
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          return CourseVideoCard(
-                            courseVideo: courseVideo,
-                            onTap: () {
-                              _courseVideoKey.currentState
-                                  ?.saveWatchedPercentage(currentVideoId);
-                              _setVideoId(courseVideo.videoId);
-                              _updateVideoUrl(courseVideo.videoUrl);
+                    return watchedPercentages.containsKey(courseVideo.videoId)
+                        ? ValueListenableBuilder<double>(
+                            valueListenable:
+                                watchedPercentages[courseVideo.videoId]!,
+                            builder: (context, watchedPercentage, child) {
+                              return CourseVideoCard(
+                                courseVideo: courseVideo,
+                                onTap: () {
+                                  _saveAndSwitchVideo(courseVideo.videoId,
+                                      courseVideo.videoUrl);
+                                },
+                                watchedPercentage: watchedPercentage,
+                                course: widget.course,
+                              );
                             },
-                            watchedPercentage: snapshot.data!.roundToDouble(),
-                            course: widget.course,
-                          );
-                        } else {
-                          return const CircularProgressIndicator();
-                        }
-                      },
-                    );
+                          )
+                        : const CircularProgressIndicator();
                   }).toList(),
                 ),
               ),
