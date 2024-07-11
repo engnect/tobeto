@@ -144,20 +144,28 @@ class _ProfileDetailsTabScreenState extends State<ProfileDetailsTabScreen> {
                                   padding: const EdgeInsets.only(top: 5),
                                   child: Row(
                                     children: [
-                                      ...state.userModel.socialMediaList!
-                                          .map((socialMedia) {
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: CircleAvatar(
-                                            radius: 18,
-                                            backgroundImage: AssetImage(
-                                                socialMedia
-                                                    .socialMediaAssetUrl),
+                                      Expanded(
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            children: [
+                                              ...state.userModel.socialMediaList!
+                                                  .map((socialMedia) {
+                                                return Padding(
+                                                  padding: const EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                                  child: CircleAvatar(
+                                                    radius: 18,
+                                                    backgroundImage: AssetImage(
+                                                        socialMedia.socialMediaAssetUrl),
+                                                  ),
+                                                );
+                                              }),
+                                            ],
                                           ),
-                                        );
-                                      }),
-                                      const Spacer(),
+                                        ),
+                                      ),
+                                      // const Spacer(),
                                       IconButton(
                                         onPressed: () {
                                           Navigator.of(context).pushNamed(
