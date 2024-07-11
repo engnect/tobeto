@@ -150,7 +150,7 @@ class AboutUsScreen extends StatelessWidget {
                               child: GestureDetector(
                                 onTap: () => _launchUrl(
                                     'https://twitter.com/tobeto_platform'),
-                                child: Image.asset(Assets.imageX),
+                                child: Image.asset(Assets.imagenewX),
                               ),
                             ),
                           ],
