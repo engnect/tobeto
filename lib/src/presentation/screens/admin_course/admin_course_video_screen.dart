@@ -210,6 +210,15 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
           ),
           actions: <Widget>[
             TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                "İptal",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ),
+            TextButton(
               onPressed: () {
                 _editVideoFunction(
                     context: context,

@@ -127,6 +127,7 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          scrollable: true,
           title: Text(
             "Seçili Dersi Düzenle",
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
@@ -161,6 +162,15 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
             },
           ),
           actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                "İptal",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
+            ),
             TextButton(
               onPressed: () {
                 _editCourseFunction(
@@ -199,7 +209,7 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                       height: 420,
                       infoText: "Ders Ekle & Düzenle",
                       child: Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: Column(
                           children: [
                             GestureDetector(
