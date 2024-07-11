@@ -105,7 +105,7 @@ class _EditCertificatesTabState extends State<EditCertificatesTab> {
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: TBTAnimatedContainer(
                     height: 375,
-                    infoText: 'Yeni Sertefika Ekle!',
+                    infoText: 'Yeni Sertifika Ekle!',
                     child: Column(
                       children: [
                         Padding(
