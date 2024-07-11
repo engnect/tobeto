@@ -111,6 +111,7 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
 
     if (!isValid) {
       Utilities.showToast(toastMessage: errorMessage);
+      return;
     }
 
     SocialMediaModel socialMediaModel = SocialMediaModel(
