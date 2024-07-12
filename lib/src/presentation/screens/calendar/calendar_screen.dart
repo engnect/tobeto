@@ -1,6 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:tobeto/src/blocs/blocs_module.dart';
+import 'package:tobeto/src/domain/export_domain.dart';
 
 import '../../../common/export_common.dart';
 import '../../../models/export_models.dart';
@@ -27,6 +29,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final netStatusCubit = context.watch<NetConnectionCubit>().state;
     return SafeArea(
       child: Scaffold(
         drawer: const TBTDrawer(),
@@ -41,7 +44,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       StreamBuilder(
-                        stream: FirebaseFirestore.instance
+                        stream: FirebaseService()
+                            .firebaseFirestore
                             .collection(FirebaseConstants.eventsCollection)
                             .snapshots(),
                         builder: (context, snapshot) {
@@ -132,20 +136,24 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           }
                         },
                       ),
-                      SingleChildScrollView(
-                        child: Column(
-                          children: _getEventsfromDay(selectedDay)
-                              .map(
-                                (CalendarModel calendarModel) => Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: CalendarDetailsCard(
-                                    calendarModel: calendarModel,
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
+                      netStatusCubit
+                          ? SingleChildScrollView(
+                              child: Column(
+                                children: _getEventsfromDay(selectedDay)
+                                    .map(
+                                      (CalendarModel calendarModel) => Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: CalendarDetailsCard(
+                                          calendarModel: calendarModel,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                            )
+                          : const Center(
+                              child: Text('İnternet Bağlantısı Yok!'),
+                            ),
                     ],
                   ),
                 ],

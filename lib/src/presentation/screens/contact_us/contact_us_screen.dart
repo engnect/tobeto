@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:tobeto/l10n/l10n_exntesions.dart';
+import 'package:tobeto/src/blocs/blocs_module.dart';
 import 'package:tobeto/src/common/export_common.dart';
 import 'package:uuid/uuid.dart';
 
@@ -52,6 +54,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final netStatusCubit = context.watch<NetConnectionCubit>().state;
     return SafeArea(
       child: Scaffold(
         drawer: const TBTDrawer(),
@@ -192,17 +195,17 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                 child: Column(
                                   children: [
                                     TBTInputField(
-                                        hintText:
-                                            context.translate.name_surname,
-                                        controller: _nameController,
-                                        onSaved: (p0) {},
-                                        keyboardType: TextInputType.multiline),
+                                      hintText: context.translate.name_surname,
+                                      controller: _nameController,
+                                      onSaved: (p0) {},
+                                      keyboardType: TextInputType.multiline,
+                                    ),
                                     TBTInputField(
-                                        hintText: context.translate.email,
-                                        controller: _emailController,
-                                        onSaved: (p0) {},
-                                        keyboardType:
-                                            TextInputType.emailAddress),
+                                      hintText: context.translate.email,
+                                      controller: _emailController,
+                                      onSaved: (p0) {},
+                                      keyboardType: TextInputType.emailAddress,
+                                    ),
                                     TBTInputField(
                                       hintText: context.translate.message,
                                       controller: _messageController,
@@ -218,45 +221,53 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                               width: 200,
                               buttonText: context.translate.send,
                               onPressed: () async {
-                                if (_nameController.text.trim() != '' &&
-                                    _emailController.text.trim() != '' &&
-                                    _messageController.text.trim() != '') {
-                                  String result = await _sendContactForm(
-                                    formFullname: _nameController.text.trim(),
-                                    formEmail: _emailController.text.trim(),
-                                    formMessage: _messageController.text.trim(),
-                                    context: context,
-                                  );
-                                  if ((result == 'success' ||
-                                          result == 'İşlem Başarılı!') &&
-                                      context.mounted) {
-                                    PanaraInfoDialog.showAnimatedFade(
-                                      context,
-                                      barrierDismissible: false,
-                                      color: Colors.purple,
-                                      title: "Teşekkürler!",
-                                      textColor:
-                                          Theme.of(context).colorScheme.primary,
-                                      message:
-                                          "Mesajınız bize ulaştı. En kısa zamanda konu ile ilgili size dönüş sağlayacağız.",
-                                      buttonText: "İyi günler!",
-                                      onTapDismiss: () {
-                                        Navigator.pop(context);
-                                      },
-                                      panaraDialogType: PanaraDialogType.custom,
+                                if (netStatusCubit) {
+                                  if (_nameController.text.trim() != '' &&
+                                      _emailController.text.trim() != '' &&
+                                      _messageController.text.trim() != '') {
+                                    String result = await _sendContactForm(
+                                      formFullname: _nameController.text.trim(),
+                                      formEmail: _emailController.text.trim(),
+                                      formMessage:
+                                          _messageController.text.trim(),
+                                      context: context,
                                     );
+                                    if ((result == 'success' ||
+                                            result == 'İşlem Başarılı!') &&
+                                        context.mounted) {
+                                      PanaraInfoDialog.showAnimatedFade(
+                                        context,
+                                        barrierDismissible: false,
+                                        color: Colors.purple,
+                                        title: "Teşekkürler!",
+                                        textColor: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        message:
+                                            "Mesajınız bize ulaştı. En kısa zamanda konu ile ilgili size dönüş sağlayacağız.",
+                                        buttonText: "İyi günler!",
+                                        onTapDismiss: () {
+                                          Navigator.pop(context);
+                                        },
+                                        panaraDialogType:
+                                            PanaraDialogType.custom,
+                                      );
 
-                                    _nameController.clear();
-                                    _emailController.clear();
-                                    _messageController.clear();
+                                      _nameController.clear();
+                                      _emailController.clear();
+                                      _messageController.clear();
+                                    } else {
+                                      if (!context.mounted) return;
+                                      Utilities.showToast(toastMessage: result);
+                                    }
                                   } else {
-                                    if (!context.mounted) return;
-                                    Utilities.showToast(toastMessage: result);
+                                    Utilities.showToast(
+                                        toastMessage:
+                                            'Bütün alanları doldurunuz!');
                                   }
                                 } else {
                                   Utilities.showToast(
-                                      toastMessage:
-                                          'Bütün alanları doldurunuz!');
+                                      toastMessage: 'İnternet Bağlantısı Yok!');
                                 }
                               },
                             ),

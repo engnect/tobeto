@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tobeto/src/blocs/blocs_module.dart';
 import 'package:tobeto/src/presentation/screens/blog/blog_module.dart';
 import '../../widgets/export_widgets.dart';
 
@@ -16,6 +18,7 @@ class BlogScreen extends StatefulWidget {
 class _BlogScreenState extends State<BlogScreen> {
   @override
   Widget build(BuildContext context) {
+    final netStatusCubit = context.watch<NetConnectionCubit>().state;
     return SafeArea(
       child: Scaffold(
         drawer: const TBTDrawer(),
@@ -40,9 +43,11 @@ class _BlogScreenState extends State<BlogScreen> {
                           ),
                         ),
                       ),
-                      TBTBlogStream(
-                        isBlog: widget.isBlog,
-                      ),
+                      netStatusCubit
+                          ? TBTBlogStream(
+                              isBlog: widget.isBlog,
+                            )
+                          : const Text('İnternet bağlantısı yok!'),
                     ],
                   ),
                 ],

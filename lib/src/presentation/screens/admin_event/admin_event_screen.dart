@@ -242,7 +242,8 @@ class _AdminEventScreenState extends State<AdminEventScreen> {
                     ),
                   ),
                   StreamBuilder(
-                    stream: FirebaseFirestore.instance
+                    stream: FirebaseService()
+                        .firebaseFirestore
                         .collection(FirebaseConstants.eventsCollection)
                         .snapshots(),
                     builder: (context, snapshot) {

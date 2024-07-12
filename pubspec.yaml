@@ -16,6 +16,7 @@ dependencies:
   cloud_firestore: ^5.1.0
   firebase_auth: ^5.1.2
   firebase_storage: ^12.1.1
+  internet_connection_checker_plus: ^2.3.0 #connection state checker DO NOT UPDATE!
   flutter_bloc: ^8.1.6 #state management
   hydrated_bloc: ^9.1.5 #caching with state management
   curved_navigation_bar: ^1.0.6 #bottom nav bar for platform screens
@@ -30,7 +31,7 @@ dependencies:
   url_launcher: ^6.3.0 #url launcher
   google_sign_in: ^6.2.1 #google sign in
   table_calendar: ^3.0.9 #calendar package DO NOT UPDATE!
-  flutter_slidable: ^3.1.0 #slideable
+  flutter_slidable: ^3.1.1 #slideable
   introduction_screen: ^3.1.14 #onboarding
   uuid: ^4.4.0 #unique id generator DO NOT UPDATE!
   webview_flutter: ^4.8.0 #web view

@@ -16,3 +16,4 @@ export 'repositories/language_repository.dart';
 export 'repositories/skill_repository.dart';
 export 'repositories/social_media_repository.dart';
 export 'repositories/user_repository.dart';
+export 'services/firebase_service.dart';

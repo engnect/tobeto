@@ -26,14 +26,14 @@ class _AppViewState extends State<AppView> {
     final themeCubit = context.watch<ThemeCubit>().state;
 
     return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) {
-        if (state is Authenticated) {
+      listener: (context, authState) {
+        if (authState is Authenticated) {
           if (!_initialAuthCheckPerformed) {
             _initialAuthCheckPerformed = true;
             _navigatorKey.currentState!
                 .pushReplacementNamed(AppRouteNames.platformScreenRoute);
           }
-        } else if (state is Unauthenticated) {
+        } else if (authState is Unauthenticated) {
           _initialAuthCheckPerformed = false;
           _navigatorKey.currentState!
               .pushReplacementNamed(AppRouteNames.homeRoute);

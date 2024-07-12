@@ -347,7 +347,8 @@ class _AdminCourseVideoScreenState extends State<AdminCourseVideoScreen> {
                     ),
                   ),
                   StreamBuilder(
-                    stream: FirebaseFirestore.instance
+                    stream: FirebaseService()
+                        .firebaseFirestore
                         .collection(FirebaseConstants.videosCollection)
                         .snapshots(),
                     builder: (context, snapshot) {

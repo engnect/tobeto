@@ -3,12 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tobeto/src/common/constants/firebase_constants.dart';
 import 'package:tobeto/src/common/enums/user_rank_enum.dart';
 import 'package:tobeto/src/common/utilities/tbt_utilities.dart';
-import 'package:tobeto/src/domain/repositories/auth_repository.dart';
+import 'package:tobeto/src/domain/export_domain.dart';
 import 'package:tobeto/src/models/user_model.dart';
 
 class UserRepository {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseService().firebaseAuth;
+  final FirebaseFirestore _firebaseFirestore =
+      FirebaseService().firebaseFirestore;
 
   CollectionReference get _users =>
       _firebaseFirestore.collection(FirebaseConstants.usersCollection);
@@ -49,7 +50,8 @@ class UserRepository {
   Future<List<String>> getAdminIds() async {
     List<DocumentSnapshot> adminUsersDocumentSnapshots = [];
     List<String> adminUsersIdsList = [];
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    QuerySnapshot querySnapshot = await FirebaseService()
+        .firebaseFirestore
         .collection(FirebaseConstants.usersCollection)
         .where('userRank', isEqualTo: UserRank.admin.index)
         .get();

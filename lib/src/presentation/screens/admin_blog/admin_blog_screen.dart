@@ -239,7 +239,8 @@ class _AdminBlogScreenState extends State<AdminBlogScreen> {
                     ),
                   ),
                   StreamBuilder(
-                    stream: FirebaseFirestore.instance
+                    stream: FirebaseService()
+                        .firebaseFirestore
                         .collection(FirebaseConstants.blogsCollection)
                         .snapshots(),
                     builder: (context, snapshot) {

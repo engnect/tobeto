@@ -307,7 +307,8 @@ class _AdminCoursePageState extends State<AdminCourseScreen> {
                     ),
                   ),
                   StreamBuilder(
-                    stream: FirebaseFirestore.instance
+                    stream: FirebaseService()
+                        .firebaseFirestore
                         .collection(FirebaseConstants.coursesCollection)
                         .snapshots(),
                     builder: (context, snapshot) {

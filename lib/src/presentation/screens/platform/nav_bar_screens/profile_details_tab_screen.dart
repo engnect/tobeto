@@ -149,15 +149,18 @@ class _ProfileDetailsTabScreenState extends State<ProfileDetailsTabScreen> {
                                           scrollDirection: Axis.horizontal,
                                           child: Row(
                                             children: [
-                                              ...state.userModel.socialMediaList!
+                                              ...state
+                                                  .userModel.socialMediaList!
                                                   .map((socialMedia) {
                                                 return Padding(
-                                                  padding: const EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
                                                       horizontal: 10),
                                                   child: CircleAvatar(
                                                     radius: 18,
                                                     backgroundImage: AssetImage(
-                                                        socialMedia.socialMediaAssetUrl),
+                                                        socialMedia
+                                                            .socialMediaAssetUrl),
                                                   ),
                                                 );
                                               }),
@@ -173,7 +176,7 @@ class _ProfileDetailsTabScreenState extends State<ProfileDetailsTabScreen> {
                                           );
                                         },
                                         icon: Icon(
-                                          Icons.edit_square,
+                                          Icons.mode_edit_outline_outlined,
                                           size: 30,
                                           color: Theme.of(context)
                                               .colorScheme
@@ -181,7 +184,11 @@ class _ProfileDetailsTabScreenState extends State<ProfileDetailsTabScreen> {
                                         ),
                                       ),
                                       IconButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          Utilities.showToast(
+                                              toastMessage:
+                                                  'Profil paylaşım aktif değil!');
+                                        },
                                         icon: Icon(
                                           Icons.share_outlined,
                                           size: 30,

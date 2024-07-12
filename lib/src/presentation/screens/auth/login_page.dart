@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tobeto/src/blocs/blocs_module.dart';
 import '../../../common/export_common.dart';
 import '../../../domain/export_domain.dart';
 import '../../widgets/export_widgets.dart';
@@ -21,7 +22,90 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _forgetPasswordController =
       TextEditingController();
 
-  bool isCaptchaVerified = false;
+  bool _isCaptchaVerified = false;
+
+  void _signinUser({
+    required String userEmail,
+    required String userPassword,
+    required bool isVerified,
+    required bool isConnected,
+  }) async {
+    String result = '';
+    if (isConnected) {
+      result = await AuthRepository().singInUser(
+        userEmail: userEmail,
+        userPassword: userPassword,
+        isVerified: isVerified,
+      );
+    } else {
+      result = 'İnternet Bağlantısı Yok!';
+    }
+
+    Utilities.showToast(toastMessage: result);
+  }
+
+  void _signinWithGoogle({required bool isConnected}) async {
+    String result = '';
+
+    if (isConnected) {
+      result = await AuthRepository().signInWithGoogle();
+    } else {
+      result = 'İnternet Bağlantısı Yok!';
+    }
+
+    Utilities.showToast(toastMessage: result);
+  }
+
+  void _forgetPassword({
+    required TextEditingController forgetPasswordController,
+    required BuildContext context,
+    required bool isConnected,
+  }) {
+    if (isConnected) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            scrollable: true,
+            title: const Text('E-posta adresinizi giriniz!'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TBTInputField(
+                  hintText: 'E-posta',
+                  controller: forgetPasswordController,
+                  onSaved: (p0) {},
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const Text(
+                    'Eğer e-posta adresiniz sistemde kayıtlı ise e-posta 10dk içerisinde size ulaşır.'),
+                const Text('Spam klasörünü kontrol edin!'),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  String result = await AuthRepository().forgetPassword(
+                      email: forgetPasswordController.text.trim());
+                  forgetPasswordController.clear();
+                  Utilities.showToast(toastMessage: result);
+                },
+                child: const Text('Gönder'),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.close),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      Utilities.showToast(toastMessage: 'İnternet Bağlantısı Yok!');
+    }
+  }
 
   @override
   void dispose() {
@@ -31,73 +115,9 @@ class _LoginScreenState extends State<LoginScreen> {
     _forgetPasswordController.dispose();
   }
 
-  void _signinUser({
-    required String userEmail,
-    required String userPassword,
-    required bool isVerified,
-  }) async {
-    String result = await AuthRepository().singInUser(
-      userEmail: userEmail,
-      userPassword: userPassword,
-      isVerified: isVerified,
-    );
-
-    Utilities.showToast(toastMessage: result);
-  }
-
-  void _signinWithGoogle() async {
-    String result = await AuthRepository().signInWithGoogle();
-    Utilities.showToast(toastMessage: result);
-  }
-
-  void _forgetPassword({
-    required TextEditingController forgetPasswordController,
-    required BuildContext context,
-  }) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          scrollable: true,
-          title: const Text('E-posta adresinizi giriniz!'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TBTInputField(
-                hintText: 'E-posta',
-                controller: forgetPasswordController,
-                onSaved: (p0) {},
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const Text(
-                  'Eğer e-posta adresiniz sistemde kayıtlı ise e-posta 10dk içerisinde size ulaşır.'),
-              const Text('Spam klasörünü kontrol edin!'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                String result = await AuthRepository().forgetPassword(
-                    email: forgetPasswordController.text.trim());
-                forgetPasswordController.clear();
-                Utilities.showToast(toastMessage: result);
-              },
-              child: const Text('Gönder'),
-            ),
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(Icons.close),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final netStatusCubit = context.watch<NetConnectionCubit>().state;
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
       alignment: Alignment.center,
@@ -119,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
           CaptchaVerification(
             onVerified: (bool verified) {
               setState(() {
-                isCaptchaVerified = verified;
+                _isCaptchaVerified = verified;
               });
             },
           ),
@@ -130,11 +150,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             child: TBTPurpleButton(
               buttonText: "Giriş Yap",
-              onPressed: () {
+              onPressed: () async {
                 _signinUser(
                   userEmail: _emailController.text,
                   userPassword: _passwordController.text,
-                  isVerified: isCaptchaVerified,
+                  isVerified: _isCaptchaVerified,
+                  isConnected: netStatusCubit,
                 );
               },
             ),
@@ -170,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
-              onPressed: () => _signinWithGoogle(),
+              onPressed: () => _signinWithGoogle(isConnected: netStatusCubit),
               child: Stack(
                 children: [
                   Align(
@@ -203,6 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
           GestureDetector(
             onTap: () => _forgetPassword(
               forgetPasswordController: _forgetPasswordController,
+              isConnected: netStatusCubit,
               context: context,
             ),
             child: const Text(

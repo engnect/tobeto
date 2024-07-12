@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tobeto/src/blocs/blocs_module.dart';
 
 import '../../../common/export_common.dart';
 import '../../../domain/export_domain.dart';
@@ -28,14 +30,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
     required String userEmail,
     required String userPassword,
     required String confirmPassword,
+    required bool isConnected,
   }) async {
-    String result = await AuthRepository().registerUser(
-      userName: userName,
-      userSurname: userSurname,
-      userEmail: userEmail,
-      userPassword: userPassword,
-      confirmPassword: confirmPassword,
-    );
+    String result = '';
+    if (isConnected) {
+      result = await AuthRepository().registerUser(
+        userName: userName,
+        userSurname: userSurname,
+        userEmail: userEmail,
+        userPassword: userPassword,
+        confirmPassword: confirmPassword,
+      );
+    } else {
+      result = 'İnternet Bağlantısı Yok!';
+    }
 
     Utilities.showToast(toastMessage: result);
   }
@@ -52,6 +60,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final netStatusCubit = context.watch<NetConnectionCubit>().state;
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
       alignment: Alignment.center,
@@ -102,6 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 userEmail: _emailController.text,
                 userPassword: _passwordController.text,
                 confirmPassword: _confirmPasswordController.text,
+                isConnected: netStatusCubit,
               ),
             ),
           ),

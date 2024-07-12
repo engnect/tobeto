@@ -7,7 +7,7 @@ import '../../models/export_models.dart';
 import '../export_domain.dart';
 
 class CertificateRepository {
-  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  final FirebaseStorage _firebaseStorage = FirebaseService().firebaseStorage;
 
   Future<String> addCertificate(
       CertificateModel certificateModel, String pdfPath) async {

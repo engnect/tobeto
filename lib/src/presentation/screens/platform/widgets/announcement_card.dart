@@ -9,8 +9,7 @@ class AnnouncementCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.all(5),
-      margin: const EdgeInsets.symmetric(vertical: 5),
+      margin: const EdgeInsets.all(5),
       height: 110,
       width: 200,
       decoration: const BoxDecoration(

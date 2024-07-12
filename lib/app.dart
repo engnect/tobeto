@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tobeto/app_view.dart';
@@ -15,6 +14,9 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
+          create: (context) => NetConnectionCubit(),
+        ),
+        BlocProvider(
           create: (context) => ThemeCubit(),
         ),
         BlocProvider(
@@ -26,7 +28,7 @@ class App extends StatelessWidget {
         BlocProvider(
           create: (context) => AuthBloc(
             userRepository: UserRepository(),
-            firebaseAuth: FirebaseAuth.instance,
+            firebaseAuth: FirebaseService().firebaseAuth,
           ),
         ),
       ],

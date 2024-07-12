@@ -105,7 +105,8 @@ class _AdminContactFormsScreenState extends State<AdminContactFormsScreen> {
                     ),
                   ),
                   StreamBuilder(
-                    stream: FirebaseFirestore.instance
+                    stream: FirebaseService()
+                        .firebaseFirestore
                         .collection(FirebaseConstants.contactFormsCollection)
                         .snapshots(),
                     builder: (context, snapshot) {
