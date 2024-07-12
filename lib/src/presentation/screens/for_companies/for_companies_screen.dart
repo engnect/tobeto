@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:tobeto/l10n/l10n_exntesions.dart';
+import 'package:tobeto/src/presentation/screens/contact_us/contact_us.dart';
 
 import '../../../common/export_common.dart';
 import '../../widgets/export_widgets.dart';
@@ -146,7 +147,13 @@ class ForCompaniesScreen extends StatelessWidget {
                             TBTPurpleButton(
                               width: 150,
                               buttonText: context.translate.contact_us_button,
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const  ContactUsScreen()),
+                                );
+                              },
                             ),
                           ],
                         ),

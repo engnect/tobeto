@@ -307,6 +307,22 @@ class _EditEducationTabState extends State<EditEducationTab> {
                                   Utilities.showToast(
                                       toastMessage:
                                           'Eğitim Seviyesi Alanı Boş Kalamaz!');
+                                } else if (_universityController.text.isEmpty) {
+                                  Utilities.showToast(
+                                      toastMessage:
+                                          'Üniversite Alanı Boş Kalamaz!');
+                                } else if (_departmentController.text.isEmpty) {
+                                  Utilities.showToast(
+                                      toastMessage: 'Bölüm Alanı Boş Kalamaz!');
+                                } else if (_selectedStartDate == null) {
+                                  Utilities.showToast(
+                                      toastMessage:
+                                          'Başlangıç Tarihi Alanı Boş Kalamaz!');
+                                } else if (!_isCurrentlyStudied &&
+                                    _selectedEndDate == null) {
+                                  Utilities.showToast(
+                                      toastMessage:
+                                          'Bitiş Tarihi Alanı Boş Kalamaz!');
                                 } else {
                                   _saveEducation(
                                     schoolName: _universityController.text,
