@@ -181,7 +181,7 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TBTInputField(
-                            hintText: "Kurum Adı",
+                            hintText: "Kurum Adı*",
                             controller: _companyNameController,
                             onSaved: (p0) {},
                             keyboardType: TextInputType.name,
@@ -190,7 +190,7 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TBTInputField(
-                            hintText: "Pozisyon",
+                            hintText: "Pozisyon*",
                             controller: _positionController,
                             onSaved: (p0) {},
                             keyboardType: TextInputType.name,
@@ -224,7 +224,7 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
                             child: ListTile(
                               title: Text(
                                 _selectedExperienceType ??
-                                    'Deneyim Türünü Seçin',
+                                    'Deneyim Türünü Seçin*',
                                 style: TextStyle(
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
@@ -243,7 +243,7 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TBTInputField(
-                            hintText: "Sektör",
+                            hintText: "Sektör*",
                             controller: _sectorController,
                             onSaved: (p0) {},
                             keyboardType: TextInputType.name,
@@ -271,7 +271,7 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
                             onSelected: _onCitySelected,
                             child: ListTile(
                               title: Text(
-                                _selectedCityName ?? 'Şehir Seçiniz',
+                                _selectedCityName ?? 'Şehir Seçiniz*',
                                 style: TextStyle(
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
@@ -299,7 +299,7 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
                                       hintText: _selectedStartDate != null
                                           ? DateFormat('dd/MM/yyyy')
                                               .format(_selectedStartDate!)
-                                          : 'Başlangıç Tarihi',
+                                          : 'Başlangıç Tarihi*',
                                       controller: TextEditingController(
                                         text: _selectedStartDate != null
                                             ? DateFormat('dd/MM/yyyy')
@@ -326,7 +326,7 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
                                           : _selectedEndDate != null
                                               ? DateFormat('dd/MM/yyyy')
                                                   .format(_selectedEndDate!)
-                                              : 'Bitiş Tarihi',
+                                              : 'Bitiş Tarihi*',
                                       controller: TextEditingController(
                                         text: _isCurrentlyWorking
                                             ? 'Devam Ediyor'
@@ -369,26 +369,44 @@ class _EditExperienceTabState extends State<EditExperienceTab> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TBTInputField(
-                            hintText: "İş Tanımı",
+                            hintText: "İş Tanımı*",
                             controller: _jobdescrbController,
                             onSaved: (p0) {},
                             keyboardType: TextInputType.name,
                           ),
                         ),
-                        TBTPurpleButton(
-                          buttonText: 'Kaydet',
-                          onPressed: () => _saveExperience(
-                            companyName: _companyNameController.text,
-                            endDate: _isCurrentlyWorking
-                                ? DateTime.now()
-                                : _selectedEndDate!,
-                            startDate: _selectedStartDate!,
-                            jobDescription: _jobdescrbController.text,
-                            experienceCity: _selectedCityName!,
-                            isCurrentlyWorking: _isCurrentlyWorking,
-                            experienceType: _selectedExperienceType!,
-                            experiencePosition: _positionController.text,
-                            experienceSector: _sectorController.text,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TBTPurpleButton(
+                            buttonText: 'Kaydet',
+                            onPressed: () {
+                              if (_companyNameController.text.isEmpty ||
+                                  _selectedStartDate == null ||
+                                  (_selectedEndDate == null &&
+                                      !_isCurrentlyWorking) ||
+                                  _jobdescrbController.text.isEmpty ||
+                                  _selectedCityName == null ||
+                                  _selectedExperienceType == null ||
+                                  _positionController.text.isEmpty ||
+                                  _sectorController.text.isEmpty) {
+                                Utilities.showToast(
+                                    toastMessage: 'Yıldızlı alanları doldurunuz!');
+                              } else {
+                                _saveExperience(
+                                  companyName: _companyNameController.text,
+                                  endDate: _isCurrentlyWorking
+                                      ? DateTime.now()
+                                      : _selectedEndDate!,
+                                  startDate: _selectedStartDate!,
+                                  jobDescription: _jobdescrbController.text,
+                                  experienceCity: _selectedCityName!,
+                                  isCurrentlyWorking: _isCurrentlyWorking,
+                                  experienceType: _selectedExperienceType!,
+                                  experiencePosition: _positionController.text,
+                                  experienceSector: _sectorController.text,
+                                );
+                              }
+                            },
                           ),
                         ),
                       ],

@@ -263,7 +263,7 @@ class _EditSocialMediaTabState extends State<EditSocialMediaTab> {
                             if (_selectedSocialMedia == null) {
                               Utilities.showToast(
                                   toastMessage:
-                                      'Sosyal Medya Platformu Boş Bırakılamaz!');
+                                      'Bütün alanları doldurunuz!');
                             } else {
                               _saveSocialMedia(
                                 selectedSocialMedia: _selectedSocialMedia!,
