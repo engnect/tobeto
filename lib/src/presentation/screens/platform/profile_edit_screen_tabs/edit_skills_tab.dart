@@ -191,14 +191,20 @@ class _EditSkillsTabState extends State<EditSkillsTab> {
                           child: TBTPurpleButton(
                             buttonText: 'Kaydet',
                             onPressed: () async {
-                              await _saveSkill(
-                                selectedSkills: _selectedSkills,
-                                skillName: _skillController.text,
-                              );
-                              setState(() {
-                                _selectedSkills.clear();
-                                _skillController.clear();
-                              });
+                              if (_selectedSkills.isEmpty &&
+                                  _skillController.text.isEmpty) {
+                                Utilities.showToast(
+                                    toastMessage: 'İki alandan birini doldurunuz!');
+                              } else {
+                                await _saveSkill(
+                                  selectedSkills: _selectedSkills,
+                                  skillName: _skillController.text,
+                                );
+                                setState(() {
+                                  _selectedSkills.clear();
+                                  _skillController.clear();
+                                });
+                              }
                             },
                           ),
                         ),

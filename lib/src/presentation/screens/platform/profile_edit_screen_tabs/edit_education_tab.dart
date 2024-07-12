@@ -184,7 +184,7 @@ class _EditEducationTabState extends State<EditEducationTab> {
                             child: ListTile(
                               title: Text(
                                 _selectedEducationLevel ??
-                                    'Eğitim Seviyesi Seçiniz',
+                                    'Eğitim Seviyesi Seçiniz*',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Theme.of(context).colorScheme.primary,
@@ -204,7 +204,7 @@ class _EditEducationTabState extends State<EditEducationTab> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TBTInputField(
-                            hintText: "Üniversite",
+                            hintText: "Üniversite*",
                             controller: _universityController,
                             onSaved: (p0) {},
                             keyboardType: TextInputType.name,
@@ -213,7 +213,7 @@ class _EditEducationTabState extends State<EditEducationTab> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TBTInputField(
-                            hintText: "Bölüm",
+                            hintText: "Bölüm*",
                             controller: _departmentController,
                             onSaved: (p0) {},
                             keyboardType: TextInputType.name,
@@ -231,7 +231,7 @@ class _EditEducationTabState extends State<EditEducationTab> {
                                       hintText: _selectedStartDate != null
                                           ? DateFormat('dd/MM/yyyy')
                                               .format(_selectedStartDate!)
-                                          : 'Başlangıç Tarihi',
+                                          : 'Başlangıç Tarihi*',
                                       controller: TextEditingController(
                                         text: _selectedStartDate != null
                                             ? DateFormat('dd/MM/yyyy')
@@ -258,7 +258,7 @@ class _EditEducationTabState extends State<EditEducationTab> {
                                           : _selectedEndDate != null
                                               ? DateFormat('dd/MM/yyyy')
                                                   .format(_selectedEndDate!)
-                                              : 'Bitiş Tarihi',
+                                              : 'Bitiş Tarihi*',
                                       controller: TextEditingController(
                                         text: _isCurrentlyStudied
                                             ? 'Devam Ediyor'
@@ -301,41 +301,30 @@ class _EditEducationTabState extends State<EditEducationTab> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TBTPurpleButton(
-                              buttonText: 'Kaydet',
-                              onPressed: () {
-                                if (_selectedEducationLevel == null) {
-                                  Utilities.showToast(
-                                      toastMessage:
-                                          'Eğitim Seviyesi Alanı Boş Kalamaz!');
-                                } else if (_universityController.text.isEmpty) {
-                                  Utilities.showToast(
-                                      toastMessage:
-                                          'Üniversite Alanı Boş Kalamaz!');
-                                } else if (_departmentController.text.isEmpty) {
-                                  Utilities.showToast(
-                                      toastMessage: 'Bölüm Alanı Boş Kalamaz!');
-                                } else if (_selectedStartDate == null) {
-                                  Utilities.showToast(
-                                      toastMessage:
-                                          'Başlangıç Tarihi Alanı Boş Kalamaz!');
-                                } else if (!_isCurrentlyStudied &&
-                                    _selectedEndDate == null) {
-                                  Utilities.showToast(
-                                      toastMessage:
-                                          'Bitiş Tarihi Alanı Boş Kalamaz!');
-                                } else {
-                                  _saveEducation(
-                                    schoolName: _universityController.text,
-                                    educationLevel: _selectedEducationLevel!,
-                                    schoolBranch: _departmentController.text,
-                                    schoolEndDate:
-                                        _selectedEndDate ?? DateTime.now(),
-                                    schoolStartDate:
-                                        _selectedStartDate ?? DateTime.now(),
-                                    isCurrentlyStuding: _isCurrentlyStudied,
-                                  );
-                                }
-                              }),
+                            buttonText: 'Kaydet',
+                            onPressed: () {
+                              if (_selectedEducationLevel == null ||
+                                  _universityController.text.isEmpty ||
+                                  _departmentController.text.isEmpty ||
+                                  _selectedStartDate == null ||
+                                  (!_isCurrentlyStudied &&
+                                      _selectedEndDate == null)) {
+                                Utilities.showToast(
+                                    toastMessage: 'Yıldızlı alanları doldurunuz!');
+                              } else {
+                                _saveEducation(
+                                  schoolName: _universityController.text,
+                                  educationLevel: _selectedEducationLevel!,
+                                  schoolBranch: _departmentController.text,
+                                  schoolEndDate:
+                                      _selectedEndDate ?? DateTime.now(),
+                                  schoolStartDate:
+                                      _selectedStartDate ?? DateTime.now(),
+                                  isCurrentlyStuding: _isCurrentlyStudied,
+                                );
+                              }
+                            },
+                          ),
                         ),
                       ],
                     ),

@@ -111,7 +111,7 @@ class _EditCertificatesTabState extends State<EditCertificatesTab> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: TBTInputField(
-                            hintText: "Sertifika Adı",
+                            hintText: "Sertifika Adı*",
                             controller: _certificateNameController,
                             onSaved: (p0) {},
                             keyboardType: TextInputType.name,
@@ -130,7 +130,7 @@ class _EditCertificatesTabState extends State<EditCertificatesTab> {
                             decoration: InputDecoration(
                               labelStyle: TextStyle(
                                   color: Theme.of(context).colorScheme.primary),
-                              labelText: 'Alınan Tarih',
+                              labelText: 'Alınan Tarih*',
                               hintText: 'Yıl Seçin',
                               contentPadding: const EdgeInsets.all(8),
                               suffixIcon: const Icon(Icons.calendar_today),
@@ -162,7 +162,7 @@ class _EditCertificatesTabState extends State<EditCertificatesTab> {
                                 backgroundColor:
                                     const Color.fromARGB(255, 116, 6, 6)),
                             child: Text(
-                              'PDF Yükle',
+                              'PDF Yükle*',
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary,
                                 fontFamily: "Poppins",
@@ -180,11 +180,21 @@ class _EditCertificatesTabState extends State<EditCertificatesTab> {
                           padding: const EdgeInsets.all(8.0),
                           child: TBTPurpleButton(
                             buttonText: 'Kaydet',
-                            onPressed: () => _saveCerteficate(
-                              certificateName: _certificateNameController.text,
-                              certificateYear: _selectedYear!,
-                              certificateFileUrl: _filePath!,
-                            ),
+                            onPressed: () {
+                              if (_certificateNameController.text.isEmpty ||
+                                  _selectedYear == null ||
+                                  _filePath == null) {
+                                Utilities.showToast(
+                                    toastMessage: 'Yıldızlı alanları doldurunuz!');
+                              } else {
+                                _saveCerteficate(
+                                  certificateName:
+                                      _certificateNameController.text,
+                                  certificateYear: _selectedYear!,
+                                  certificateFileUrl: _filePath!,
+                                );
+                              }
+                            },
                           ),
                         ),
                       ],

@@ -67,7 +67,12 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
       languageLevel: languageLevel,
     );
     String result = await LanguageRepository().addLanguage(newLanguage);
-    Utilities.showToast(toastMessage: result);
+
+    if (result == 'success' || result == 'İşlem Başarılı!') {
+      Utilities.showToast(toastMessage: 'İşlem Başarılı!');
+    } else {
+      Utilities.showToast(toastMessage: result);
+    }
   }
 
   void _deleteLanguage({
@@ -179,7 +184,7 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
                             },
                             child: ListTile(
                               title: Text(
-                                _selectedLanguage ?? 'Yabancı Dil Seçiniz',
+                                _selectedLanguage ?? 'Yabancı Dil Seçiniz*',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Theme.of(context).colorScheme.primary,
@@ -223,7 +228,7 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
                             },
                             child: ListTile(
                               title: Text(
-                                _selectedLevel ?? 'Seviye Seçiniz',
+                                _selectedLevel ?? 'Seviye Seçiniz*',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Theme.of(context).colorScheme.primary,
@@ -244,10 +249,18 @@ class _EditLanguagesTabState extends State<EditLanguagesTab> {
                           padding: const EdgeInsets.all(8.0),
                           child: TBTPurpleButton(
                             buttonText: 'Kaydet',
-                            onPressed: () => _saveLanguage(
-                              languageLevel: _selectedLevel!,
-                              languageName: _selectedLanguage!,
-                            ),
+                            onPressed: () {
+                              if (_selectedLevel == null ||
+                                  _selectedLanguage == null) {
+                                Utilities.showToast(
+                                    toastMessage: 'Bütün alanları doldurunuz!');
+                              } else {
+                                _saveLanguage(
+                                  languageLevel: _selectedLevel!,
+                                  languageName: _selectedLanguage!,
+                                );
+                              }
+                            },
                           ),
                         ),
                       ],
