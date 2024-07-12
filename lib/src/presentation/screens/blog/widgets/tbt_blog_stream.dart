@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tobeto/src/domain/export_domain.dart';
 
 import '../../../../common/constants/firebase_constants.dart';
 import '../../../../models/blog_model.dart';
@@ -16,7 +17,8 @@ class TBTBlogStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance
+      stream: FirebaseService()
+          .firebaseFirestore
           .collection(isBlog
               ? FirebaseConstants.blogsCollection
               : FirebaseConstants.inThePressCollection)

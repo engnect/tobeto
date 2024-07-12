@@ -2,10 +2,11 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tobeto/src/domain/export_domain.dart';
 import '../../common/export_common.dart';
 
 class FirebaseStorageRepository {
-  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  final FirebaseStorage _firebaseStorage = FirebaseService().firebaseStorage;
 
   Future<String> getDefaultAvatarUrl({
     required String userId,

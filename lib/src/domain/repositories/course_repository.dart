@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:tobeto/src/domain/export_domain.dart';
 import '../../common/export_common.dart';
 import '../../models/export_models.dart';
 
 class CourseRepository {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseFirestore _firestore = FirebaseService().firebaseFirestore;
+  final FirebaseStorage _storage = FirebaseService().firebaseStorage;
   CollectionReference get _courses =>
       _firestore.collection(FirebaseConstants.coursesCollection);
   CollectionReference get _videos =>
@@ -32,7 +32,8 @@ class CourseRepository {
   Future<List<CourseModel>> fetchAllCourses() async {
     List<DocumentSnapshot> coursesDocumentSnapshots = [];
     List<CourseModel> courses = [];
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    QuerySnapshot querySnapshot = await FirebaseService()
+        .firebaseFirestore
         .collection(FirebaseConstants.coursesCollection)
         .get();
 
@@ -58,7 +59,8 @@ class CourseRepository {
   Future<List<String>> fetchCourseNamesList() async {
     List<DocumentSnapshot> courseNamesDocumentSnapshots = [];
     List<String> courseNamesList = [];
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    QuerySnapshot querySnapshot = await FirebaseService()
+        .firebaseFirestore
         .collection(FirebaseConstants.coursesCollection)
         .get();
 
@@ -184,25 +186,25 @@ class CourseRepository {
 
   Future<void> saveWatchedPercentageToFirebase(
       String videoId, double percentage) async {
-    User? currentUser = FirebaseAuth.instance.currentUser;
+    UserModel? currentUser = await UserRepository().getCurrentUser();
 
     final videoDoc = _videos.doc(videoId);
     await videoDoc.set({
       'percentageOfWatchedVideosByUsers': {
-        currentUser!.uid: percentage,
+        currentUser!.userId: percentage,
       },
     }, SetOptions(merge: true));
   }
 
   Future<double> getWatchedPercentageFromFirebase(String videoId) async {
-    User? currentUser = FirebaseAuth.instance.currentUser;
+    UserModel? currentUser = await UserRepository().getCurrentUser();
 
     final videoDoc = await _videos.doc(videoId).get();
 
     if (videoDoc.exists) {
       final data = videoDoc.data() as Map<String, dynamic>?;
       if (data != null && data['percentageOfWatchedVideosByUsers'] != null) {
-        return (data['percentageOfWatchedVideosByUsers'][currentUser!.uid] ??
+        return (data['percentageOfWatchedVideosByUsers'][currentUser!.userId] ??
                 0.0)
             .toDouble();
       }

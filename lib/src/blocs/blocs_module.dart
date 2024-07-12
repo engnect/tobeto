@@ -3,4 +3,5 @@
 export 'auth/auth_module.dart';
 export 'language/language_module.dart';
 export 'onboarding/onboarding_module.dart';
-export 'theme/theme_cubit_module.dart';
+export 'theme/theme_module.dart';
+export 'net_connection/net_connection_cubit.dart';

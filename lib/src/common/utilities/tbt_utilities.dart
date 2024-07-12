@@ -93,8 +93,20 @@ class Utilities {
           : ToastificationType.success,
       style: ToastificationStyle.fillColored,
       description: toastMessage != 'İşlem Başarılı!'
-          ? Text(toastMessage)
-          : const Text('İşlem Başarılı!'),
+          ? Text(
+              toastMessage,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+          : const Text(
+              'İşlem Başarılı!',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
       alignment: Alignment.topCenter,
       autoCloseDuration: const Duration(seconds: 4),
       borderRadius: BorderRadius.circular(12.0),
@@ -123,6 +135,8 @@ class Utilities {
         return 'Yanlış şifre!';
       case 'user-not-found':
         return 'Böyle bir kullanıcı bulunamadı!';
+      case 'network-request-failed':
+        return 'Bağlantı hatası!';
       case 'password-not-match':
         return 'Girilen şifreler eşleşmiyor!';
       case 'requires-recent-login':

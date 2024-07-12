@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tobeto/src/common/export_common.dart';
+import 'package:tobeto/src/domain/export_domain.dart';
 
 import '../../../models/export_models.dart';
 
@@ -25,7 +26,8 @@ class _UserListScreenState extends State<UserListScreen> {
           title: const Text("Kullanıcılar"),
         ),
         body: StreamBuilder(
-          stream: FirebaseFirestore.instance
+          stream: FirebaseService()
+              .firebaseFirestore
               .collection(FirebaseConstants.usersCollection)
               .where(
                 'userRank',

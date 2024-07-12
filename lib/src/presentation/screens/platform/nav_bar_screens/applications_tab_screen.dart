@@ -185,7 +185,8 @@ class _ApplicationsTabScreenState extends State<ApplicationsTabScreen> {
                           if (state is Authenticated) {
                             UserModel currentUser = state.userModel;
                             return StreamBuilder(
-                              stream: FirebaseFirestore.instance
+                              stream: FirebaseService()
+                                  .firebaseFirestore
                                   .collection(
                                       FirebaseConstants.applicationsCollection)
                                   .where('userId',

@@ -251,7 +251,8 @@ class _AdminInThePressScreenState extends State<AdminInThePressScreen> {
                     ),
                   ),
                   StreamBuilder(
-                    stream: FirebaseFirestore.instance
+                    stream: FirebaseService()
+                        .firebaseFirestore
                         .collection(FirebaseConstants.inThePressCollection)
                         .snapshots(),
                     builder: (context, snapshot) {

@@ -202,7 +202,8 @@ class _PlatformTabScreenState extends State<PlatformTabScreen> {
                                       height: 200,
                                       width: 300,
                                       child: StreamBuilder(
-                                        stream: FirebaseFirestore.instance
+                                        stream: FirebaseService()
+                                            .firebaseFirestore
                                             .collection(FirebaseConstants
                                                 .announcementsCollection)
                                             .snapshots(),

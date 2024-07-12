@@ -5,8 +5,7 @@ import '../../models/export_models.dart';
 import '../export_domain.dart';
 
 class AuthRepository {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
+  final FirebaseAuth _firebaseAuth = FirebaseService().firebaseAuth;
   Future<String> registerUser({
     required String userName,
     required String userSurname,
