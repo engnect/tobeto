@@ -81,10 +81,25 @@ class _EditSettingsTabState extends State<EditSettingsTab> {
                         padding: const EdgeInsets.symmetric(vertical: 24.0),
                         child: TBTPurpleButton(
                           buttonText: 'Şifreyi Güncelle',
-                          onPressed: () => _updatePassword(
-                            confirmPassword: _confirmNewPasswordController.text,
-                            newPassword: _newPasswordController.text,
-                          ),
+                          onPressed: () {
+                            String newPassword = _newPasswordController.text;
+                            String confirmPassword =
+                                _confirmNewPasswordController.text;
+
+                            if (newPassword.isEmpty ||
+                                confirmPassword.isEmpty) {
+                              Utilities.showToast(
+                                  toastMessage: 'Bütün alanları doldurunuz!');
+                            } else if (newPassword != confirmPassword) {
+                              Utilities.showToast(
+                                  toastMessage: 'Şifreler eşleşmiyor!');
+                            } else {
+                              _updatePassword(
+                                newPassword: newPassword,
+                                confirmPassword: confirmPassword,
+                              );
+                            }
+                          },
                         ),
                       ),
                       Padding(
