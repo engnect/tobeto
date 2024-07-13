@@ -16,83 +16,70 @@ class TBTDrawer extends StatefulWidget {
   State<TBTDrawer> createState() => _TBTDrawerState();
 }
 
-class _TBTDrawerState extends State<TBTDrawer> {
+class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
       widthFactor: 0.70,
       child: Drawer(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            child: Column(
+        child: ListView(
+          children: [
+            _buildDrawerHeader(context),
+            _buildListTile(
+              context,
+              title: context.translate.who_we_are,
+              routeName: AppRouteNames.aboutUsScreenRoute,
+            ),
+            _buildExpansionTile(
+              context,
+              title: context.translate.what_we_offer,
               children: [
-                Column(
-                  children: [
-                    _buildDrawerHeader(context),
-                    _buildListTile(
-                      context,
-                      title: context.translate.who_we_are,
-                      routeName: AppRouteNames.aboutUsScreenRoute,
-                    ),
-                    _buildExpansionTile(
-                      context,
-                      title: context.translate.what_we_offer,
-                      children: [
-                        _buildButtonTile(
-                          context,
-                          text: context.translate.for_individuals,
-                          routeName: AppRouteNames.forIndividualsScreenRoute,
-                        ),
-                        _buildButtonTile(
-                          context,
-                          text: context.translate.for_companies,
-                          routeName: AppRouteNames.forCompaniesScreenRoute,
-                        ),
-                      ],
-                    ),
-                    _buildExpansionTile(
-                      context,
-                      title: context.translate.whats_happening_at_tobeto,
-                      children: [
-                        _buildButtonTile(
-                          context,
-                          text: context.translate.blog,
-                          arguments: true,
-                          routeName: AppRouteNames.blogScreenRoute,
-                        ),
-                        _buildButtonTile(
-                          context,
-                          text: context.translate.in_the_press,
-                          arguments: false,
-                          routeName: AppRouteNames.blogScreenRoute,
-                        ),
-                        _buildButtonTile(
-                          context,
-                          text: context.translate.calendar,
-                          routeName: AppRouteNames.calendarScreenRoute,
-                        ),
-                      ],
-                    ),
-                    _buildListTile(
-                      context,
-                      title: context.translate.contact_us,
-                      routeName: AppRouteNames.contactUsScreenRoute,
-                    ),
-                    _buildAuthSection(context),
-                  ],
+                _buildButtonTile(
+                  context,
+                  text: context.translate.for_individuals,
+                  routeName: AppRouteNames.forIndividualsScreenRoute,
                 ),
-                const Spacer(),
-                Column(
-                  children: [
-                    _buildThemeSwitch(context),
-                    _buildLanguageSwitch(context),
-                    _buildFooter(context),
-                  ],
+                _buildButtonTile(
+                  context,
+                  text: context.translate.for_companies,
+                  routeName: AppRouteNames.forCompaniesScreenRoute,
                 ),
               ],
             ),
-          ),
+            _buildExpansionTile(
+              context,
+              title: context.translate.whats_happening_at_tobeto,
+              children: [
+                _buildButtonTile(
+                  context,
+                  text: context.translate.blog,
+                  arguments: true,
+                  routeName: AppRouteNames.blogScreenRoute,
+                ),
+                _buildButtonTile(
+                  context,
+                  text: context.translate.in_the_press,
+                  arguments: false,
+                  routeName: AppRouteNames.blogScreenRoute,
+                ),
+                _buildButtonTile(
+                  context,
+                  text: context.translate.calendar,
+                  routeName: AppRouteNames.calendarScreenRoute,
+                ),
+              ],
+            ),
+            _buildListTile(
+              context,
+              title: context.translate.contact_us,
+              routeName: AppRouteNames.contactUsScreenRoute,
+            ),
+            _buildAuthSection(context),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.13),
+            _buildThemeSwitch(context),
+            _buildLanguageSwitch(context),
+            _buildFooter(context),
+          ],
         ),
       ),
     );
@@ -238,7 +225,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
           );
         } else if (state is Unauthenticated) {
           return Padding(
-            padding: const EdgeInsets.only(bottom: kToolbarHeight),
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 30),
             child: ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
@@ -269,7 +256,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
     return BlocBuilder<ThemeCubit, bool>(
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 85),
+          padding: const EdgeInsets.symmetric(horizontal: 70),
           child: AnimatedToggleSwitch<bool>.dual(
             current: state,
             first: false,
@@ -277,7 +264,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
             spacing: 10.0,
             animationDuration: const Duration(milliseconds: 600),
             style: const ToggleStyle(
-              indicatorColor: Colors.transparent,
+              indicatorColor: Colors.white,
               borderColor: Colors.transparent,
               backgroundGradient: LinearGradient(
                 colors: [
@@ -289,14 +276,14 @@ class _TBTDrawerState extends State<TBTDrawer> {
               ),
             ),
             borderWidth: 3.0,
-            height: 40,
+            height: 50,
             onChanged: (value) => context.read<ThemeCubit>().toggleTheme(),
             iconBuilder: (value) => value
                 ? const Icon(Icons.circle)
                 : const Icon(Icons.circle_rounded),
             textBuilder: (value) => value
-                ? const Center(child: Icon(Icons.dark_mode_outlined, size: 25))
-                : const Center(child: Icon(Icons.wb_sunny_outlined, size: 25)),
+                ? const Center(child: Icon(Icons.dark_mode_outlined, size: 40))
+                : const Center(child: Icon(Icons.wb_sunny_outlined, size: 40)),
           ),
         );
       },

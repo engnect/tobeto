@@ -93,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           AuthInput(
             assetImagePath: Assets.imagePassword,
-            hintText: 'Şifre',
+            hintText: 'Şifre Tekrarı',
             controller: _confirmPasswordController,
             isObscure: true,
             keyboardType: TextInputType.multiline,
