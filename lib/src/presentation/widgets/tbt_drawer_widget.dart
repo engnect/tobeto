@@ -26,7 +26,6 @@ class _TBTDrawerState extends State<TBTDrawer> {
           height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   children: [
@@ -83,6 +82,7 @@ class _TBTDrawerState extends State<TBTDrawer> {
                     _buildAuthSection(context),
                   ],
                 ),
+                const Spacer(),
                 Column(
                   children: [
                     _buildThemeSwitch(context),
