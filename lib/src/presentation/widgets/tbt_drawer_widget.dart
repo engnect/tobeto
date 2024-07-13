@@ -16,7 +16,7 @@ class TBTDrawer extends StatefulWidget {
   State<TBTDrawer> createState() => _TBTDrawerState();
 }
 
-class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
+class _TBTDrawerState extends State<TBTDrawer> {
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
