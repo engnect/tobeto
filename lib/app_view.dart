@@ -35,8 +35,10 @@ class _AppViewState extends State<AppView> {
           }
         } else if (authState is Unauthenticated) {
           _initialAuthCheckPerformed = false;
-          _navigatorKey.currentState!
-              .pushReplacementNamed(AppRouteNames.homeRoute);
+          final navigator = _navigatorKey.currentState;
+          if (navigator != null) {
+            navigator.pushReplacementNamed(AppRouteNames.homeRoute);
+          }
         }
       },
       child: ToastificationWrapper(
