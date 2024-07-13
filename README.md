@@ -2,7 +2,7 @@
 
 ![Tobeto](https://tobeto.com/_next/static/media/tobeto-logo.29b55e1c.svg)
 
-This application has been developed using Flutter based on the design from the [website](www.tobeto.com) for Tobeto Education Platform.
+This application has been developed using Flutter based on the design from the [website](https://tobeto.com/) for Tobeto Education Platform.
 
 ## Features
 
