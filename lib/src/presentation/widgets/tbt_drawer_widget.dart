@@ -75,7 +75,7 @@ class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
               routeName: AppRouteNames.contactUsScreenRoute,
             ),
             _buildAuthSection(context),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.13),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.10),
             _buildThemeSwitch(context),
             _buildLanguageSwitch(context),
             _buildFooter(context),
@@ -225,7 +225,7 @@ class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
           );
         } else if (state is Unauthenticated) {
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             child: ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
@@ -256,7 +256,7 @@ class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
     return BlocBuilder<ThemeCubit, bool>(
       builder: (context, state) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 70),
+          padding: const EdgeInsets.symmetric(horizontal: 80),
           child: AnimatedToggleSwitch<bool>.dual(
             current: state,
             first: false,
@@ -276,14 +276,14 @@ class _TBTDrawerState extends State<TBTDrawer> with TickerProviderStateMixin {
               ),
             ),
             borderWidth: 3.0,
-            height: 50,
+            height: 45,
             onChanged: (value) => context.read<ThemeCubit>().toggleTheme(),
             iconBuilder: (value) => value
                 ? const Icon(Icons.circle)
                 : const Icon(Icons.circle_rounded),
             textBuilder: (value) => value
-                ? const Center(child: Icon(Icons.dark_mode_outlined, size: 40))
-                : const Center(child: Icon(Icons.wb_sunny_outlined, size: 40)),
+                ? const Center(child: Icon(Icons.dark_mode_outlined, size: 33))
+                : const Center(child: Icon(Icons.wb_sunny_outlined, size: 33)),
           ),
         );
       },
