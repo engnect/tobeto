@@ -12,7 +12,7 @@ class LanguageRepository {
         userModel.languageList!.add(languageModel);
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -31,7 +31,7 @@ class LanguageRepository {
             languageModel;
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -50,7 +50,7 @@ class LanguageRepository {
         });
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();

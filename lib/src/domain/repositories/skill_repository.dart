@@ -12,7 +12,7 @@ class SkillRepository {
         userModel.skillsList!.add(skillModel);
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -30,7 +30,7 @@ class SkillRepository {
             (element) => element.skillId == skillModel.skillId)] = skillModel;
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -49,7 +49,7 @@ class SkillRepository {
         });
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();

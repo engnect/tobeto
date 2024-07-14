@@ -48,7 +48,7 @@ class AuthRepository {
             certeficatesList: [],
           );
 
-          await UserRepository().addOrUpdateUser(userModel);
+          await UserRepository().addUser(userModel);
           result = 'success';
         } else {
           result = 'password-not-match';
@@ -68,6 +68,7 @@ class AuthRepository {
     String result = '';
     String firstName = '';
     String lastName = '';
+    UserRepository userRepository = UserRepository();
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
@@ -78,7 +79,8 @@ class AuthRepository {
         accessToken: googleAuth?.accessToken,
       );
 
-      userCredential = await _firebaseAuth.signInWithCredential(credential);
+      userCredential =
+          await FirebaseService().firebaseAuth.signInWithCredential(credential);
 
       String? fullName = userCredential.user!.displayName!;
 
@@ -86,25 +88,34 @@ class AuthRepository {
       firstName = nameParts.isNotEmpty ? nameParts[0] : '';
       lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '';
 
-      UserModel userModel = UserModel(
-        userId: userCredential.user!.uid,
-        userName: firstName,
-        userSurname: lastName,
-        userEmail: userCredential.user!.email!,
-        userAvatarUrl: userCredential.user!.photoURL,
-        userRank: UserRank.student,
-        usertitle: 'Öğrenci',
-        userCreatedAt: DateTime.now(),
-        userBirthDate: DateTime.now(),
-        languageList: [],
-        socialMediaList: [],
-        skillsList: [],
-        experiencesList: [],
-        schoolsList: [],
-        certeficatesList: [],
-      );
+      String userId = userCredential.user!.uid;
 
-      await UserRepository().addOrUpdateUser(userModel);
+      UserModel? existingUser =
+          await userRepository.getSpecificUserById(userId);
+
+      if (existingUser == null) {
+        UserModel userModel = UserModel(
+          userId: userId,
+          userName: firstName,
+          userSurname: lastName,
+          userEmail: userCredential.user!.email!,
+          userAvatarUrl: userCredential.user!.photoURL,
+          userRank: UserRank.student,
+          usertitle: 'Öğrenci',
+          userCreatedAt: DateTime.now(),
+          userBirthDate: DateTime.now(),
+          languageList: [],
+          socialMediaList: [],
+          skillsList: [],
+          experiencesList: [],
+          schoolsList: [],
+          certeficatesList: [],
+        );
+        await userRepository.addUser(userModel);
+      } else {
+        await userRepository.updateUser(existingUser);
+      }
+
       result = 'success';
     } on FirebaseException catch (e) {
       result = e.code;
@@ -113,7 +124,7 @@ class AuthRepository {
     return Utilities.errorMessageChecker(result);
   }
 
-  Future<String> singInUser({
+  Future<String> signInUser({
     required String userEmail,
     required String userPassword,
     required bool isVerified,

@@ -33,13 +33,40 @@ class UserRepository {
 
   Future<UserModel?> getSpecificUserById(String userId) async {
     DocumentSnapshot documentSnapshot = await _users.doc(userId).get();
-    return UserModel.fromMap(documentSnapshot.data()! as Map<String, dynamic>);
+
+    if (documentSnapshot.exists) {
+      return UserModel.fromMap(
+          documentSnapshot.data()! as Map<String, dynamic>);
+    }
+    return null;
   }
 
-  Future<String> addOrUpdateUser(UserModel updatedUser) async {
+  // Future<String> addOrUpdateUser(UserModel updatedUser) async {
+  //   String result = '';
+  //   try {
+  //     await _users.doc(updatedUser.userId).set(updatedUser.toMap());
+  //     result = 'success';
+  //   } on FirebaseAuthException catch (e) {
+  //     result = e.toString();
+  //   }
+  //   return Utilities.errorMessageChecker(result);
+  // }
+
+  Future<String> addUser(UserModel usermodel) async {
     String result = '';
     try {
-      await _users.doc(updatedUser.userId).set(updatedUser.toMap());
+      await _users.doc(usermodel.userId).set(usermodel.toMap());
+      result = 'success';
+    } on FirebaseAuthException catch (e) {
+      result = e.toString();
+    }
+    return Utilities.errorMessageChecker(result);
+  }
+
+  Future<String> updateUser(UserModel usermodel) async {
+    String result = '';
+    try {
+      await _users.doc(usermodel.userId).update(usermodel.toMap());
       result = 'success';
     } on FirebaseAuthException catch (e) {
       result = e.toString();

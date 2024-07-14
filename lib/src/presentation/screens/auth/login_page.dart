@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }) async {
     String result = '';
     if (isConnected) {
-      result = await AuthRepository().singInUser(
+      result = await AuthRepository().signInUser(
         userEmail: userEmail,
         userPassword: userPassword,
         isVerified: isVerified,

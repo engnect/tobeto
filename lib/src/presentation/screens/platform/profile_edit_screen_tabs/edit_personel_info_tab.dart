@@ -140,7 +140,7 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
       userAvatarUrl: userAvatarUrl,
     );
 
-    return await UserRepository().addOrUpdateUser(updatedUser);
+    return await UserRepository().updateUser(updatedUser);
   }
 
   String _onCitySelected(String? newCityId, List<Map<String, String>> cities) {

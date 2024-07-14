@@ -11,7 +11,7 @@ class EducationRepository {
         userModel.schoolsList!.add(educaitonModel);
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -30,7 +30,7 @@ class EducationRepository {
             educationModel;
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -49,7 +49,7 @@ class EducationRepository {
         });
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();

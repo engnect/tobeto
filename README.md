@@ -54,6 +54,10 @@ This application has been developed using Flutter based on the design from the [
     - All privileges of Instructors.
     - Access to administrative tools for managing users, roles, and app settings.
 
+- Video Progress Tracking
+
+  When you watch a course video, your watched progress is saved to the database. This allows you to continue watching from where you left off the next time you access the video. The feature ensures a seamless learning experience by keeping track of your progress.
+
 - Light and Dark Theme Support
 
   This application offers users the flexibility to choose between light and dark themes according to their preference. Whether you prefer a brighter interface or a darker one for reduced eye strain in low-light environments, our app adapts to suit your needs.
@@ -95,7 +99,7 @@ Our team is committed to continuous improvement and expansion of our application
 ### Hasan Çavuşoğlu
 
 - [GitHub](https://github.com/hasancvsgl)
-- [LinkedIn](www.linkedin.com/in/hasan-cavsglu)
+- [LinkedIn](https://www.linkedin.com/in/hasan-cavsglu/)
 
 ### Muhammed Hocaoğlu
 
@@ -112,3 +116,7 @@ Our team is committed to continuous improvement and expansion of our application
 ### Backend
 
 - **Firebase**: Used Firebase for backend services, including database and authentication.
+
+## Screenshots
+
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)

@@ -20,9 +20,8 @@ class CertificateRepository {
           certificateModel.certificateFileUrl = pdfUrl;
           userModel.certeficatesList!.add(certificateModel);
 
-          // Update user document in Firestore
           UserModel updatedUser = userModel.copyWith();
-          await UserRepository().addOrUpdateUser(updatedUser);
+          await UserRepository().updateUser(updatedUser);
           result = 'success';
         } else {
           result = 'upload-pdf-failure';
@@ -45,7 +44,7 @@ class CertificateRepository {
             certificateModel;
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -64,7 +63,7 @@ class CertificateRepository {
         });
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();

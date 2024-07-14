@@ -12,7 +12,7 @@ class SocialMediaRepository {
         userModel.socialMediaList!.add(socialMediaModel);
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -32,7 +32,7 @@ class SocialMediaRepository {
             socialMediaModel;
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();
@@ -51,7 +51,7 @@ class SocialMediaRepository {
         });
 
         UserModel updatedUser = userModel.copyWith();
-        await UserRepository().addOrUpdateUser(updatedUser);
+        await UserRepository().updateUser(updatedUser);
         result = 'success';
       } catch (e) {
         result = e.toString();

@@ -43,7 +43,7 @@ void _approveApplication(
   String result = await ApplicationsRepository()
       .addOrUpdateApplication(applicationModel: updatedApplication);
 
-  await UserRepository().addOrUpdateUser(updatedUser);
+  await UserRepository().updateUser(updatedUser);
 
   Utilities.showToast(toastMessage: result);
 }
