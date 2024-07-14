@@ -122,12 +122,12 @@ Our team is committed to continuous improvement and expansion of our application
 ### Language Switch and Localized Pages
 
 ![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/1_drawer.png?raw=true)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/3_language.png?raw=true)
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/4_language.png?raw=true)
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/5_language.png?raw=true)
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/6_language.png?raw=true)
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/7_language.png?raw=true)
 ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
