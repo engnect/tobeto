@@ -128,7 +128,7 @@ Our team is committed to continuous improvement and expansion of our application
 
 ![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/3_loginregister.png?raw=true)
 
-### Corse and Course Details Screens
+### Course and Course Details Screens
 
 ![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/4_course.png?raw=true)
 
