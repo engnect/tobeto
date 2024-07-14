@@ -121,29 +121,29 @@ Our team is committed to continuous improvement and expansion of our application
 
 ### Language Switch and Localized Pages
 
-![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/1_drawer.png?raw=true)
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/1_language.png?raw=true)
 ![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
 
 ### Login and Register Screens
 
-![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/3_loginregister.png?raw=true)
 
 ### Corse and Course Details Screens
 
-![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/4_course.png?raw=true)
 
 ### Calendar and Blog Screens
 
-![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/5_calendarandblog.png?raw=true)
 
 ### Applications and Review Applications Screens
 
-![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/6_applications.png?raw=true)
 
 ### Profile and Profile Edit Screens
 
-![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/7_profileandeditprofile.png?raw=true)
 
 ### Admin Contact Forms View Screen and Admin Enddrawer
 
-![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/8_contactformsandadminenddrawer.png?raw=true)
