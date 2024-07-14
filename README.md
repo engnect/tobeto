@@ -123,15 +123,27 @@ Our team is committed to continuous improvement and expansion of our application
 
 ![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/1_drawer.png?raw=true)
 ![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
-![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/3_language.png?raw=true)
-![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/4_language.png?raw=true)
-![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/5_language.png?raw=true)
-![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/6_language.png?raw=true)
-![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/7_language.png?raw=true)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+
+### Login and Register Screens
+
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
+
+### Corse and Course Details Screens
+
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
+
+### Calendar and Blog Screens
+
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
+
+### Applications and Review Applications Screens
+
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
+
+### Profile and Profile Edit Screens
+
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
+
+### Admin Contact Forms View Screen and Admin Enddrawer
+
+![App Screenshot](https://github.com/engnect/tobeto/blob/main/projectScreenshots/2_language.png?raw=true)
