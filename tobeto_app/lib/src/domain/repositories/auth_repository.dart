@@ -6,6 +6,7 @@ import '../export_domain.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth = FirebaseService().firebaseAuth;
+
   Future<String> registerUser({
     required String userName,
     required String userSurname,
@@ -144,6 +145,20 @@ class AuthRepository {
       }
     } else {
       result = 'empty-field';
+    }
+
+    return Utilities.errorMessageChecker(result);
+  }
+
+  Future<String> updateEmail({
+    required String email,
+  }) async {
+    String result = '';
+    try {
+      await _firebaseAuth.currentUser!.verifyBeforeUpdateEmail(email);
+      result = 'success';
+    } on FirebaseAuthException catch (e) {
+      result = e.code;
     }
 
     return Utilities.errorMessageChecker(result);

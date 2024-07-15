@@ -108,6 +108,9 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
     required String? district,
     required File? image,
   }) async {
+    bool didEmailChanged = false;
+    String emailUpdateResult = '';
+
     final usermodel = await UserRepository().getCurrentUser();
     final githubRegex =
         RegExp(r'^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]+$');
@@ -122,10 +125,21 @@ class _EditPersonalInfoTabState extends State<EditPersonalInfoTab> {
         : await FirebaseStorageRepository()
             .updateUserAvatarAndGetUrl(userId: usermodel!.userId, image: image);
 
+    if (userEmail != null && userEmail != usermodel.userEmail) {
+      didEmailChanged = true;
+      emailUpdateResult = await AuthRepository().updateEmail(email: userEmail);
+      if (emailUpdateResult == 'İşlem Başarılı!') {
+        Utilities.showToast(
+            toastMessage: 'Email değişikliği için doğrulama maili gönderildi!');
+      } else {
+        Utilities.showToast(toastMessage: emailUpdateResult);
+      }
+    }
+
     final updatedUser = usermodel.copyWith(
       userName: userName,
       userSurname: userSurname,
-      userEmail: userEmail,
+      userEmail: didEmailChanged ? userEmail : usermodel.userEmail,
       github: github,
       userPhoneNumber: userPhoneNumber,
       userBirthDate: _selectedDate,
