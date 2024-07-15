@@ -18,7 +18,6 @@ class AboutUsOurTeamCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Container(
         width: MediaQuery.of(context).size.width - 50,
-        // height: MediaQuery.of(context).size.width - 50,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.background,
           borderRadius: const BorderRadius.all(
@@ -35,7 +34,7 @@ class AboutUsOurTeamCard extends StatelessWidget {
                 Colors.transparent,
               ],
               stops: [0.20, 0.5, 0.8],
-              tileMode: TileMode.mirror, // simetrik yansıtmak için
+              tileMode: TileMode.mirror,
             ),
           ),
         ),
@@ -53,8 +52,6 @@ class AboutUsOurTeamCard extends StatelessWidget {
               child: Text(
                 textAlign: TextAlign.center,
                 teamName,
-                // maxLines: 1,
-                // overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.bold,

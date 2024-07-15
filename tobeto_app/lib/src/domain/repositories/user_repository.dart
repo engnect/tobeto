@@ -41,17 +41,6 @@ class UserRepository {
     return null;
   }
 
-  // Future<String> addOrUpdateUser(UserModel updatedUser) async {
-  //   String result = '';
-  //   try {
-  //     await _users.doc(updatedUser.userId).set(updatedUser.toMap());
-  //     result = 'success';
-  //   } on FirebaseAuthException catch (e) {
-  //     result = e.toString();
-  //   }
-  //   return Utilities.errorMessageChecker(result);
-  // }
-
   Future<String> addUser(UserModel usermodel) async {
     String result = '';
     try {

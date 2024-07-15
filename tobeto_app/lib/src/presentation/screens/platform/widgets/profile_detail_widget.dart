@@ -35,11 +35,6 @@ class ProfileDetailCard extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
-          // Divider(
-          //   color: Theme.of(context).colorScheme.onSecondary,
-          //   thickness: 1,
-          //   endIndent: 10,
-          // ),
           content,
         ],
       ),

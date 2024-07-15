@@ -30,10 +30,6 @@ class OnBoardingScreen extends StatelessWidget {
             color: OnBoardingScreenStyles.primaryColor,
           ),
           onDone: () async {
-            // await _completeOnboarding();
-            // if (!context.mounted) return;
-            // Navigator.of(context).pushReplacementNamed(AppRouteNames.homeRoute);
-
             context.read<OnboardingCubit>().completeOnboarding();
             Navigator.of(context).pushReplacementNamed(AppRouteNames.homeRoute);
           },

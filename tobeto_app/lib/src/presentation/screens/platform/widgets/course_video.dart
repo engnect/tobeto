@@ -106,7 +106,7 @@ class CourseVideoState extends State<CourseVideo> {
       setState(() {
         _isVideoInitialized = false;
       });
-      // Handle the error
+
       if (kDebugMode) {
         print('Error initializing video player: $error');
       }
@@ -251,7 +251,6 @@ class CourseVideoState extends State<CourseVideo> {
                       ),
                     ),
                   if (_showControls)
-                    // Video current time
                     Positioned(
                       left: 16.0,
                       bottom: 16.0,
@@ -286,7 +285,6 @@ class CourseVideoState extends State<CourseVideo> {
                             ),
                     ),
                   if (_showControls)
-                    // Video total duration
                     Positioned(
                       bottom: 16.0,
                       right: 48.0,

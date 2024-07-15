@@ -14,7 +14,9 @@ class AboutUsVideoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(
-          horizontal: 5, vertical: 5), //Ekran ile card arasında ki mesafe için
+        horizontal: 5,
+        vertical: 5,
+      ),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.background,
@@ -31,8 +33,8 @@ class AboutUsVideoCard extends StatelessWidget {
               Color.fromRGBO(110, 37, 132, 1),
               Colors.transparent,
             ],
-            stops: [0.12, 0.5, 0.88], //renk dağılımını ayarlamak için
-            tileMode: TileMode.mirror, // simetrik yansıtmak için
+            stops: [0.12, 0.5, 0.88],
+            tileMode: TileMode.mirror,
           ),
         ),
       ),
